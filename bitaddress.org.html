@@ -4223,7 +4223,7 @@
     					document.getElementById("singlecommands").style.display = "none";
     				},
 
-					// If user has not moved the mouse or if they are on a mobile device
+    				// If user has not moved the mouse or if they are on a mobile device
     				// we will force the generation after a random period of time.
     				forceGenerate: function () {
     					// if the mouse has not moved enough
@@ -4321,8 +4321,8 @@
     					document.getElementById("main").setAttribute("class", ""); // remove 'paper' class from main div
     				},
 
-					remaining: null, // use to keep track of how many addresses are left to process when building the paper wallet
-					count: 0,
+    				remaining: null, // use to keep track of how many addresses are left to process when building the paper wallet
+    				count: 0,
 
     				build: function (numWallets) {
     					if (numWallets < 1) numWallets = 1;
@@ -4411,7 +4411,7 @@
     						key = key.toString();
     						return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
     					},
-						// 22 characters, always starts with an 'S'
+    					// 22 characters, always starts with an 'S'
     					isMiniFormat: function (key) {
     						key = key.toString();
     						var validChars = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{21}$/.test(key);
@@ -4425,14 +4425,20 @@
     					var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
     					document.getElementById("detailprivkey").value = key;
     					var keyFormat = ninja.wallets.detailwallet.privateKeyFormat;
-						// hide Private Key Mini Format
+    					// hide Private Key Mini Format
     					document.getElementById("detailmini").style.display = "none";
 
     					if (keyFormat.isSipaWalletImportFormat(key)) {
     						var bytes = Bitcoin.Base58.decode(key);
     						bytes.shift();
     						bytes = bytes.slice(0, bytes.length - 4);
-    						var btcKey = new Bitcoin.ECKey(bytes);
+    						if (bytes.length != 32) {
+    							alert("Not a valid Private Key");
+    							ninja.wallets.detailwallet.clear();
+    						}
+    						else {
+    							var btcKey = new Bitcoin.ECKey(bytes);
+    						}
     					}
     					else if (keyFormat.isHexFormat(key)) {
     						var bytes = Crypto.util.hexToBytes(key);
@@ -4440,21 +4446,23 @@
     					}
     					else if (keyFormat.isBase64Format(key)) {
     						var bytes = Crypto.util.base64ToBytes(key);
-    						var btcKey = new Bitcoin.ECKey(bytes);
+    						if (bytes.length != 32) {
+    							alert("Not a valid Private Key");
+    							ninja.wallets.detailwallet.clear();
+    						}
+    						else {
+    							var btcKey = new Bitcoin.ECKey(bytes);
+    						}
     					}
     					else if (keyFormat.isMiniFormat(key)) {
     						var bytes = Crypto.SHA256(key, { asBytes: true });
-    						var btcKey = new Bitcoin.ECKey(bytes);
+							var btcKey = new Bitcoin.ECKey(bytes);
     						document.getElementById("detailprivmini").innerHTML = key;
     						document.getElementById("detailmini").style.display = "block";
     					}
     					else {
     						alert("Not a valid Private Key");
-    						document.getElementById("detailaddress").innerHTML = "";
-    						document.getElementById("detailprivwif").innerHTML = "";
-    						document.getElementById("detailprivhex").innerHTML = "";
-    						document.getElementById("detailprivb64").innerHTML = "";
-    						document.getElementById("detailprivmini").innerHTML = "";
+    						ninja.wallets.detailwallet.clear();
     					}
 
     					if (btcKey != undefined) {
@@ -4463,6 +4471,14 @@
     						document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
     						document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
     					}
+    				},
+
+    				clear: function () {
+    					document.getElementById("detailaddress").innerHTML = "";
+    					document.getElementById("detailprivwif").innerHTML = "";
+    					document.getElementById("detailprivhex").innerHTML = "";
+    					document.getElementById("detailprivb64").innerHTML = "";
+    					document.getElementById("detailprivmini").innerHTML = "";
     				}
     			}
     		},
