@@ -3849,9 +3849,11 @@
 		    .menu { text-align: left; margin: auto; width: 700px; position: relative; left: -2px; }
 			.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #6C8C6C;
 			             border: 2px solid green; padding: 5px; margin: 0 2px 0 0; 
-			             position: relative; top: 2px; z-index: 110;
+			             position: relative; top: 2px; z-index: 110; cursor: pointer;
 			}
-			.menu .tab.selected { background-color: White; border-bottom: 2px solid white;  }
+			.menu .tab:hover { color: #FFF; }
+			.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
+			.menu .tab.selected:hover { color: #000; }
 			
 			.commands { width: 700px; margin: auto; padding: 10px; }
 			.commands span { padding: 0 20px; } 
@@ -4182,7 +4184,7 @@
     				var key = new Bitcoin.ECKey(false);
     				var bitcoinAddress = key.getBitcoinAddress().toString();
     				var privateKeyWif = key.getBitcoinWalletImportFormat();
-    				ninja.csv.push((ninja.csvRowLimit - ninja.csvRowsRemaining + ninja.csvStartIndex) + "," + key.getBitcoinAddress().toString() + "," + key.getBitcoinWalletImportFormat());
+    				ninja.csv.push((ninja.csvRowLimit - ninja.csvRowsRemaining + ninja.csvStartIndex) + ",\"" + key.getBitcoinAddress().toString() + "\",\"" + key.getBitcoinWalletImportFormat() + "\"");
 
     				document.getElementById("bulktextarea").value = "Generating addresses... " + ninja.csvRowsRemaining;
 
