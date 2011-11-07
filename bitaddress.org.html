@@ -3739,16 +3739,6 @@
         		return privWif;
         	};
 
-        	// Private Key Standard Format (added by bitaddress.org)
-        	ECKey.prototype.getBitcoinStandardFormat = function () {
-        		// Get a copy of private key as a byte array
-        		var bytes = this.priv.toByteArrayUnsigned();
-        		// zero pad if private key is less than 32 bytes 
-        		while (bytes.length < 32) bytes.unshift(0x00);
-
-        		return Bitcoin.Base58.encode(bytes);
-        	};
-
         	// Private Key Hex Format (added by bitaddress.org) 
         	ECKey.prototype.getBitcoinHexFormat = function () {
         		// Get a copy of private key as a byte array
@@ -3773,12 +3763,7 @@
         		else if (format.toString().toLowerCase() == "wif") {
         			return this.getBitcoinWalletImportFormat();
         		}
-        		// Standard Format
-        		else if (format.toString().toLowerCase() === "std" || format.toString().toLowerCase() === "standard") {
-        			return this.getBitcoinWalletImportFormat();
-        		}
         		else {
-        			//return Crypto.util.bytesToHex(this.priv.toByteArrayUnsigned());
         			return this.getBitcoinHexFormat();
         		}
         	};
@@ -4031,13 +4016,8 @@
 				</div>
 
 				<div class="item">
-					<span class="label">Private Key Hexidecimal Format (64 characters [0-9A-F]):</span>
+					<span class="label">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 					<span class="output" id="detailprivhex"></span>
-				</div>
-
-				<div class="item">
-					<span class="label">Private Key Standard Format (43 or 44 characters base58):</span>
-					<span class="output" id="detailprivstd"></span>
 				</div>
 
 				<div class="item">
@@ -4303,7 +4283,7 @@
 
     						bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
 								+ ",\"" + key.getBitcoinAddress() + "\",\"" + key.getBitcoinWalletImportFormat()
-    						//+ "\",\"" + key.getBitcoinHexFormat() + "\",\"" + key.getBitcoinStandardFormat() + "\",\"" + key.toString("base64") // uncomment this line to add different private key formats to the CSV
+    						//+ "\",\"" + key.getBitcoinHexFormat() + "\",\"" + key.toString("base64") // uncomment this line to add different private key formats to the CSV
 								+ "\"");
 
     						document.getElementById("bulktextarea").value = "Generating addresses... " + bulkWallet.csvRowsRemaining;
@@ -4426,11 +4406,6 @@
     						key = key.toString();
     						return /^[A-Fa-f0-9]{64}$/.test(key);
     					},
-    					// 43 or 44 characters base58
-    					isStandardFormat: function (key) {
-    						key = key.toString();
-    						return (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{43,44}$/.test(key));
-    					},
     					// 44 characters
     					isBase64Format: function (key) {
     						key = key.toString();
@@ -4463,10 +4438,6 @@
     						var bytes = Crypto.util.hexToBytes(key);
     						var btcKey = new Bitcoin.ECKey(bytes);
     					}
-    					else if (keyFormat.isStandardFormat(key)) {
-    						var bytes = Bitcoin.Base58.decode(key);
-    						var btcKey = new Bitcoin.ECKey(bytes);
-    					}
     					else if (keyFormat.isBase64Format(key)) {
     						var bytes = Crypto.util.base64ToBytes(key);
     						var btcKey = new Bitcoin.ECKey(bytes);
@@ -4482,7 +4453,6 @@
     						document.getElementById("detailaddress").innerHTML = "";
     						document.getElementById("detailprivwif").innerHTML = "";
     						document.getElementById("detailprivhex").innerHTML = "";
-    						document.getElementById("detailprivstd").innerHTML = "";
     						document.getElementById("detailprivb64").innerHTML = "";
     						document.getElementById("detailprivmini").innerHTML = "";
     					}
@@ -4491,7 +4461,6 @@
     						document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
     						document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
     						document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
-    						document.getElementById("detailprivstd").innerHTML = Bitcoin.Base58.encode(bytes);
     						document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
     					}
     				}
