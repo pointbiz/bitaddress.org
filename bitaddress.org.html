@@ -3896,9 +3896,20 @@
 		#bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
 		#detailarea { display: none; margin: 0; padding: 10px; border: 2px solid green; text-align: left; }
 		#detailarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#detailarea .item { margin: 10px 0;  }
+		#detailarea .item { margin: 10px 0; position: relative;  }
 		#detailarea .label { display: block; text-decoration: underline; }
 		#detailarea .output { display: block; min-height: 20px; }
+		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
+		#detailarea #detailqrcodeprivate { position: relative; float: right; margin: 0 0 0 10px; }
+		.right { text-align: right; }
+		
+		#bulkfaqs { display: none; }
+		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
+		.bulkquestion:hover { color: #77777A; }
+		.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
+		.bulkfaq { border: 2px solid green; border-top: 0; width: 696px; margin: auto; position: relative; }
+		#faqs ol { padding: 0 0 0 25px; }
+		#faqs li { padding: 3px 0; }
 		
 		.qrcode_table { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
 		.qrcode_tddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
@@ -3930,6 +3941,19 @@
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			.pagebreak { height: 50px; }
+		
+			.more  
+			{
+			    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAAB1UlEQVQ4jYWTS04bQRCGv3q0x8gMYJCwknCGLDgLVwiH4grhLFaUXdhkQ0A8pBg/FOLpnmbhMYzxRKlNS1Vdf/31V5XknGnb+eXJCBjzbzu9OLu+azu845Opysej4wHmshF4uJ2TUrb3CV0gIBAKRboC5C2vdkDE9fdty6/xDegvXz+NgDbFUejZ+PjDgExmtpxS9vYwMe5u5iyX8RRoa5Ic+C4qx9KUN1MGu4E618yqJ5axAp44KA7ZL3eYzp/HKdVIw7WK8d6BuDvcod9TQlBEIOXEdPlElSoUJabIIs4Z7h9yNDwgqOMayLXw7epHVIBggrsgspZPUBQyiCgugRQji7TAVDF1XB2TlQoOYCqovkmpopS9fcoiM3ue0rOCYf8IU8NklWxiiOQ3EPXtWagIqo6KYWYEc4IGvMViA6RrnCJKVS9B8ypRHG1YKNa0Ur+C+MPt/I2BKWVZUO4FgvQ47PcptEDF+T2Z8TiZUMWIyGtpd+Bze5VTSqP57O/4YG+AN/RXbSiPkwmL5z/be/L+mM4vT2JKeUW7EXD1erMz/Lo4u77f0K9DDhdA1XG11jh9vWBb99Z9gAg5QZ2hzpmUa0RSW4f/gqSY0s3Vz+tufEjvHS8Tg6BXC7qVbQAAAABJRU5ErkJggg==)
+					no-repeat left center; 
+				width: 17px; height: 17px; display: inline-block; float: right;		
+			}
+			.less  
+			{
+			    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
+					no-repeat left center; 
+				width: 17px; height: 17px; display: inline-block; float: right;
+			}
 			
 			.footer { font-family: Arial; font-size: 90%; clear: both; width: 700px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
 			.footer div span { padding: 10px; }
@@ -3950,6 +3974,7 @@
 			.footer { display: none; }
 			.commands { display: none; }
 			#tagline { display: none; }
+			#faqs { display: none; }
 		}
 	</style>
 </head>
@@ -3992,7 +4017,7 @@
 			</div>
 
 			<div id="detailcommands">
-				<span>Enter Private Key (any format): <input type="text" id="detailprivkey" value="" onfocus="this.select();" /></span>
+				<span>Enter Private Key (any format): <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 				<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 				<span class="print"><input type="button" name="print" value="Print" onclick="window.print();" /></span>
 			</div>
@@ -4032,36 +4057,90 @@
 			<div id="detailarea">
 				<div class="notes">
 				Your Bitcoin Private Key is a unique secret number that only you know. It can be be encoded	in a number of different formats.
-				Below we show the Bitcoin Address that corresponds to your Private Key as well as your Private Key in the most popular encoding formats.
+				Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).
 				</div>
 
 				<div class="item">
-					<span class="label">Bitcoin Address (33 or 34 characters, always starts with a '1'):</span>
+					<div id="detailqrcodepublic" class="qrcode_public"></div>
+					<span class="label">Bitcoin Address (33 or 34 characters, starts with a '1'):</span>
 					<span class="output" id="detailaddress"></span>
 				</div>
-
+				<br />
 				<div class="item">
-					<span class="label">Private Key Sipa Wallet Import Format (51 characters base58, always starts with a '5'):</span>
+					<span class="label">Public Key (130 characters [0-9A-F]):</span>
+					<span class="output" id="detailpubkey"></span>
+				</div>
+				<div class="item right">
+					<div id="detailqrcodeprivate" class="qrcode_private"></div>
+					<span class="label">Private Key Sipa Wallet Import Format (51 characters base58, starts with a '5'):</span>
 					<span class="output" id="detailprivwif"></span>
 				</div>
-
+				<br /><br />
 				<div class="item">
 					<span class="label">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 					<span class="output" id="detailprivhex"></span>
 				</div>
-
 				<div class="item">
 					<span class="label">Private Key Base64 (44 characters):</span>
 					<span class="output" id="detailprivb64"></span>
 				</div>
-
 				<div class="item" style="display: none;" id="detailmini">
-					<span class="label">Private Key Mini Format (22, 26 or 30 characters, always starts with an 'S'):</span>
+					<span class="label">Private Key Mini Format (22, 26 or 30 characters, starts with an 'S'):</span>
 					<span class="output" id="detailprivmini"></span>
 				</div>
 			</div>
 		</div>
 		
+		<div id="faqs">
+			<div id="bulkfaqs">
+				<div id="bulkfaq1" class="bulkfaq"> 
+					<div id="bulkq1" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(1);">
+						<span>Why should I use a Bulk Wallet to accept Bitcoins on my website?</span>
+						<div id="bulke1" class="more"></div>
+					</div>
+					<div id="bulka1" class="bulkanswer">
+						The traditional approach to accepting bitcoins on your website requires that
+						you install the official bitcoin client daeman ("bitcoind"). Many website hosting packages
+						don't support installing the bitcoin daeman. Also, running the bitcoin daeman on your
+						web server means your private keys are hosted on the server and could get stolen if your web 
+						server is hacked. When using a Bulk Wallet you can upload only the bitcoin addresses 
+						and not the private keys to your web server. Then you don't have to worry about your 
+						bitcoin wallet being stolen if your web server is hacked.
+					</div>
+				</div>
+
+				<div id="bulkfaq2" class="bulkfaq"> 
+					<div id="bulkq2" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
+						<span>How do I use a Bulk Wallet to accept Bitcoins on my website?</span>
+						<div id="bulke2" class="more"></div>
+					</div>
+					<div id="bulka2" class="bulkanswer">
+						<ol>
+							<li>Use the Bulk Wallet tab to pre-generate a large number of bitcoin addresses (10,000+). Copy and paste the generated 
+							comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
+							<li>Import the bitcoin addresses into a database table on your web server.  
+							(Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins.  
+							Just the bitcoin addresses as they will be shown to customers.)</li>
+							<li>Provide an option on your website's shopping cart for your customer to pay in Bitcoin. When the customer chooses to pay in Bitcoin you will 
+							then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
+							<li>You now need to be notified when the payment arrives. Google "bitcoin payment notification" and subscribe to at least
+							one bitcoin payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc.
+							Once you receive this notification, which could be programmatically automated, you can process the customer's order.
+							To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the bitcoin address
+							you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.
+							<br />
+							http://www.blockexplorer.com/address/THEADDRESSGOESHERE
+							<br /><br />
+							Unconfirmed transactions can be viewed at: http://blockchain.info/ <br />
+							You should see the transaction there within 30 seconds.
+							</li>
+							<li>Bitcoins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
+						</ol>
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 		<div id="footer" class="footer">
 			<div class="authorbtc">
@@ -4072,7 +4151,7 @@
 			</div>
 			<div class="authorpgp">
 				<span><a href="ninja_bitaddress.org.txt" target="_blank">PGP Public Key</a></span>
-				<span><a href="pgpsignedmsg.txt" target="_blank">Signed Version History</a></span>
+				<span><a href="pgpsignedmsg.txt" target="_blank">Signed Version History (v1.4)</a></span>
 			</div>
 			<div class="copyright">
 				<span>Copyright bitaddress.org.</span>
@@ -4272,6 +4351,7 @@
 						}
 						document.getElementById("bulkarea").style.display = "block";
 						document.getElementById("bulkcommands").style.display = "block";
+						document.getElementById("bulkfaqs").style.display = "block";
 
 						// show a default CSV list if the text area is empty
 						if (document.getElementById("bulktextarea").value == "") {
@@ -4283,6 +4363,7 @@
 					close: function () {
 						document.getElementById("bulkarea").style.display = "none";
 						document.getElementById("bulkcommands").style.display = "none";
+						document.getElementById("bulkfaqs").style.display = "none";
 					},
 
 					// use this function to bulk generate addresses
@@ -4324,6 +4405,19 @@
 						// processing is finished so put CSV in text area
 						else if (bulkWallet.csvRowsRemaining === 0) {
 							document.getElementById("bulktextarea").value = bulkWallet.csv.join("\n");
+						}
+					},
+
+					openCloseFaq: function (faqNum) {
+						// do close
+						if (document.getElementById("bulka" + faqNum).style.display == "block") {
+							document.getElementById("bulka" + faqNum).style.display = "none";
+							document.getElementById("bulke" + faqNum).setAttribute("class", "more");
+						}
+						// do open
+						else {
+							document.getElementById("bulka" + faqNum).style.display = "block";
+							document.getElementById("bulke" + faqNum).setAttribute("class", "less");
 						}
 					}
 				},
@@ -4465,7 +4559,7 @@
 							bytes.shift();
 							bytes = bytes.slice(0, bytes.length - 4);
 							if (bytes.length != 32) {
-								alert("Not a valid Private Key");
+								alert("The text you entered is not a valid Private Key");
 								ninja.wallets.detailwallet.clear();
 							}
 							else {
@@ -4479,7 +4573,7 @@
 						else if (keyFormat.isBase64Format(key)) {
 							var bytes = Crypto.util.base64ToBytes(key);
 							if (bytes.length != 32) {
-								alert("Not a valid Private Key");
+								alert("The text you entered is not a valid Private Key");
 								ninja.wallets.detailwallet.clear();
 							}
 							else {
@@ -4493,31 +4587,70 @@
 							document.getElementById("detailmini").style.display = "block";
 						}
 						else {
-							alert("Not a valid Private Key");
-							ninja.wallets.detailwallet.clear();
+
+							// enforce a minimum passphrase length
+							if (key.length > 11) {
+								// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
+								var usePassphrase = confirm("The text you entered is not a valid Private Key!\n\n"
+								+ "Would you like use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\n"
+								+ "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.");
+
+								if (usePassphrase) {
+									var bytes = Crypto.SHA256(key, { asBytes: true });
+									var btcKey = new Bitcoin.ECKey(bytes);
+								}
+								else {
+									ninja.wallets.detailwallet.clear();
+								}
+							}
+							else {
+								alert("The text you entered is not a valid Private Key");
+								ninja.wallets.detailwallet.clear();
+							}
 						}
 
 						if (btcKey != undefined) {
+							var pubKey = Crypto.util.bytesToHex(btcKey.getPub()).toUpperCase();
+							var halfWayIndex = Math.floor(pubKey.length / 2);
+							var pubKeyFirstHalf = pubKey.substr(0, halfWayIndex);
+							var pubKeySecondHalf = pubKey.substr(halfWayIndex, pubKey.length - halfWayIndex);
+							document.getElementById("detailpubkey").innerHTML = pubKeyFirstHalf + "<br />" + pubKeySecondHalf;
 							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
 							document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
 							document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 							document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
+							document.getElementById("detailqrcodepublic").innerHTML = "";
+							document.getElementById("detailqrcodeprivate").innerHTML = "";
+							// show QR codes
+							try {
+								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress()));
+								document.getElementById("detailqrcodeprivate").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat()));
+							}
+							catch (e) {
+								// for browsers that do not support canvas (IE8)
+								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress());
+								document.getElementById("detailqrcodeprivate").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat());
+							}
+
 						}
 					},
 
 					clear: function () {
+						document.getElementById("detailpubkey").innerHTML = "";
 						document.getElementById("detailaddress").innerHTML = "";
 						document.getElementById("detailprivwif").innerHTML = "";
 						document.getElementById("detailprivhex").innerHTML = "";
 						document.getElementById("detailprivb64").innerHTML = "";
 						document.getElementById("detailprivmini").innerHTML = "";
+						document.getElementById("detailqrcodepublic").innerHTML = "";
+						document.getElementById("detailqrcodeprivate").innerHTML = "";
 					}
 				}
 			},
 
 			walletType: { "singlewallet": "singlewallet", "bulkwallet": "bulkwallet", "paperwallet": "paperwallet", "detailwallet": "detailwallet" },
 
-			getQueryString: function() {
+			getQueryString: function () {
 				var result = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
 
 				while (m = re.exec(queryString)) {
