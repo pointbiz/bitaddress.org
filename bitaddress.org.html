@@ -3763,6 +3763,23 @@
 				return privWif;
 			};
 
+			// Compressed Sipa Private Key Wallet Import Format (added by coretechs)
+			ECKey.prototype.getBitcoinWalletImportFormatComp = function () {
+				// Get a copy of private key as a byte array
+				var bytes = this.priv.toByteArrayUnsigned();
+
+				// zero pad if private key is less than 32 bytes (thanks Casascius)
+				while (bytes.length < 32) bytes.unshift(0x00);
+
+				bytes.unshift(0x80); // prepend 0x80 byte
+				bytes.push(0x01);    // append 0x01 byte for compressed format
+				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
+				bytes = bytes.concat(checksum.slice(0, 4));
+
+				var privWif = Bitcoin.Base58.encode(bytes);
+				return privWif;
+			};
+
 			// Private Key Hex Format (added by bitaddress.org) 
 			ECKey.prototype.getBitcoinHexFormat = function () {
 				// Get a copy of private key as a byte array
@@ -3786,6 +3803,9 @@
 				// Wallet Import Format
 				else if (format.toString().toLowerCase() == "wif") {
 					return this.getBitcoinWalletImportFormat();
+				}
+				else if (format.toString().toLowerCase() == "wifcomp") {
+					return this.getBitcoinWalletImportFormatComp();
 				}
 				else {
 					return this.getBitcoinHexFormat();
@@ -4070,10 +4090,14 @@
 					<span class="label">Public Key (130 characters [0-9A-F]):</span>
 					<span class="output" id="detailpubkey"></span>
 				</div>
-				<div class="item right">
+				<div class="item left">
 					<div id="detailqrcodeprivate" class="qrcode_private"></div>
-					<span class="label">Private Key Sipa Wallet Import Format (51 characters base58, starts with a '5'):</span>
+					<span class="label">Private Key WIF (51 characters base58, starts with a '5'):</span>
 					<span class="output" id="detailprivwif"></span>
+				</div>
+				<div class="item left">
+					<span class="label">Private Key WIF (52 characters base58, compressed wallet format, bitcoin v0.6+):</span>
+					<span class="output" id="detailprivwifcomp"></span>
 				</div>
 				<br /><br />
 				<div class="item">
@@ -4525,6 +4549,11 @@
 							key = key.toString();
 							return (/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
 						},
+						// 52 characters base58
+						isCompSipaWalletImportFormat: function (key) {
+							key = key.toString();
+							return (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{52}$/.test(key));
+						},
 						// 64 characters [0-9A-F]
 						isHexFormat: function (key) {
 							key = key.toString();
@@ -4557,6 +4586,19 @@
 						if (keyFormat.isSipaWalletImportFormat(key)) {
 							var bytes = Bitcoin.Base58.decode(key);
 							bytes.shift();
+							bytes = bytes.slice(0, bytes.length - 4);
+							if (bytes.length != 32) {
+								alert("The text you entered is not a valid Private Key");
+								ninja.wallets.detailwallet.clear();
+							}
+							else {
+								var btcKey = new Bitcoin.ECKey(bytes);
+							}
+						}
+						else if (keyFormat.isCompSipaWalletImportFormat(key)) {
+							var bytes = Bitcoin.Base58.decode(key);
+							bytes.shift();
+							bytes.pop();
 							bytes = bytes.slice(0, bytes.length - 4);
 							if (bytes.length != 32) {
 								alert("The text you entered is not a valid Private Key");
@@ -4617,6 +4659,7 @@
 							document.getElementById("detailpubkey").innerHTML = pubKeyFirstHalf + "<br />" + pubKeySecondHalf;
 							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
 							document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
+							document.getElementById("detailprivwifcomp").innerHTML = btcKey.getBitcoinWalletImportFormatComp();
 							document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 							document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
 							document.getElementById("detailqrcodepublic").innerHTML = "";
@@ -4639,6 +4682,7 @@
 						document.getElementById("detailpubkey").innerHTML = "";
 						document.getElementById("detailaddress").innerHTML = "";
 						document.getElementById("detailprivwif").innerHTML = "";
+						document.getElementById("detailprivwifcomp").innerHTML = "";
 						document.getElementById("detailprivhex").innerHTML = "";
 						document.getElementById("detailprivb64").innerHTML = "";
 						document.getElementById("detailprivmini").innerHTML = "";
