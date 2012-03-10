@@ -948,13 +948,25 @@
 		};
 
 		// patched by bitaddress.org and Casascius for use with Bitcoin.ECKey
-		ec.PointFp.prototype.getEncoded = function () {
+		ec.PointFp.prototype.getEncoded = function (compressed) {
 			var x = this.getX().toBigInteger();
 			var y = this.getY().toBigInteger();
 			var len = 32; // integerToBytes will zero pad if integer is less than 32 bytes. 32 bytes length is required by the Bitcoin protocol.
 			var enc = ec.integerToBytes(x, len);
-			enc.unshift(0x04);
-			enc = enc.concat(ec.integerToBytes(y, len));
+
+			// modded from old code from forum post 
+			if (compressed) {
+				if (y.isEven()) {
+					enc.unshift(0x02);
+                }
+				else {
+					enc.unshift(0x03);
+                }
+            } 
+			else {
+				enc.unshift(0x04);
+				enc = enc.concat(ec.integerToBytes(y, len));
+			}
 			return enc;
 		};
 
@@ -3730,19 +3742,19 @@
 				}
 			};
 
-			ECKey.prototype.getPub = function () {
-				if (this.pub) return this.pub;
-				this.pub = ecparams.getG().multiply(this.priv).getEncoded();
+			ECKey.prototype.getPub = function (compressed) {
+				//if (this.pub) return this.pub;
+				this.pub = ecparams.getG().multiply(this.priv).getEncoded(compressed);
 				return this.pub;
 			};
 
-			ECKey.prototype.getPubKeyHash = function () {
-				if (this.pubKeyHash) return this.pubKeyHash;
-				return this.pubKeyHash = Bitcoin.Util.sha256ripe160(this.getPub());
+			ECKey.prototype.getPubKeyHash = function (compressed) {
+				//if (this.pubKeyHash) return this.pubKeyHash;
+				return this.pubKeyHash = Bitcoin.Util.sha256ripe160(this.getPub(compressed));
 			};
 
-			ECKey.prototype.getBitcoinAddress = function () {
-				var hash = this.getPubKeyHash();
+			ECKey.prototype.getBitcoinAddress = function (compressed) {
+				var hash = this.getPubKeyHash(compressed);
 				var addr = new Bitcoin.Address(hash);
 				return addr.toString();
 			};
@@ -3817,7 +3829,7 @@
 			};
 
 			ECKey.prototype.verify = function (hash, sig) {
-				return ECDSA.verify(hash, sig, this.getPub());
+				return ECDSA.verify(hash, sig, this.getPub(0));
 			};
 
 			return ECKey;
@@ -4070,7 +4082,7 @@
 			<div id="paperarea"></div>
 
 			<div id="bulkarea">
-				<span class="label">Comma Separated Values:</span> <span class="format">Index,Bitcoin Address,Private Key (Wallet Import Format)</span>
+				<span class="label">Comma Separated Values:</span> <span class="format">Index,Address,Private Key (WIF),Private Key (WIF compressed)</span>
 				<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 			</div>
 
@@ -4084,6 +4096,10 @@
 					<div id="detailqrcodepublic" class="qrcode_public"></div>
 					<span class="label">Bitcoin Address (33 or 34 characters, starts with a '1'):</span>
 					<span class="output" id="detailaddress"></span>
+				</div>
+				<div class="item">
+					<span class="label">Bitcoin Address (compressed 0.6+, 33 or 34 characters, starts with a '1'):</span>
+					<span class="output" id="detailaddresscomp"></span>
 				</div>
 				<br />
 				<div class="item">
@@ -4193,7 +4209,7 @@
 				idPostFix = idPostFix || "";
 				try {
 					var key = new Bitcoin.ECKey(false);
-					var bitcoinAddress = key.getBitcoinAddress();
+					var bitcoinAddress = key.getBitcoinAddress(0);
 					var privateKeyWif = key.getBitcoinWalletImportFormat();
 				}
 				catch (e) {
@@ -4417,7 +4433,7 @@
 							var key = new Bitcoin.ECKey(false);
 
 							bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
-								+ ",\"" + key.getBitcoinAddress() + "\",\"" + key.toString("wif") + "\",\"" + key.toString("wifcomp")
+								+ ",\"" + key.getBitcoinAddress(0) + "\",\"" + key.toString("wif") + "\",\"" + key.toString("wifcomp")
 							//+ "\",\"" + key.getBitcoinHexFormat() + "\",\"" + key.toString("base64") // uncomment this line to add different private key formats to the CSV
 								+ "\"");
 
@@ -4652,12 +4668,13 @@
 						}
 
 						if (btcKey != undefined) {
-							var pubKey = Crypto.util.bytesToHex(btcKey.getPub()).toUpperCase();
+							var pubKey = Crypto.util.bytesToHex(btcKey.getPub(0)).toUpperCase();
 							var halfWayIndex = Math.floor(pubKey.length / 2);
 							var pubKeyFirstHalf = pubKey.substr(0, halfWayIndex);
 							var pubKeySecondHalf = pubKey.substr(halfWayIndex, pubKey.length - halfWayIndex);
 							document.getElementById("detailpubkey").innerHTML = pubKeyFirstHalf + "<br />" + pubKeySecondHalf;
-							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
+							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress(0);
+							document.getElementById("detailaddresscomp").innerHTML = btcKey.getBitcoinAddress(1);
 							document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
 							document.getElementById("detailprivwifcomp").innerHTML = btcKey.getBitcoinWalletImportFormatComp();
 							document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
@@ -4666,12 +4683,12 @@
 							document.getElementById("detailqrcodeprivate").innerHTML = "";
 							// show QR codes
 							try {
-								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress()));
+								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress(0)));
 								document.getElementById("detailqrcodeprivate").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat()));
 							}
 							catch (e) {
 								// for browsers that do not support canvas (IE8)
-								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress());
+								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress(0));
 								document.getElementById("detailqrcodeprivate").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat());
 							}
 
@@ -4681,6 +4698,7 @@
 					clear: function () {
 						document.getElementById("detailpubkey").innerHTML = "";
 						document.getElementById("detailaddress").innerHTML = "";
+						document.getElementById("detailaddresscomp").innerHTML = "";
 						document.getElementById("detailprivwif").innerHTML = "";
 						document.getElementById("detailprivwifcomp").innerHTML = "";
 						document.getElementById("detailprivhex").innerHTML = "";
