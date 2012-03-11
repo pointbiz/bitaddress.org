@@ -3920,7 +3920,9 @@
 		#detailarea .label { display: block; text-decoration: underline; }
 		#detailarea .output { display: block; min-height: 20px; }
 		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
-		#detailarea #detailqrcodeprivate { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
+		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
 		.right { text-align: right; }
 		
 		#bulkfaqs { display: none; }
@@ -4070,7 +4072,7 @@
 			<div id="paperarea"></div>
 
 			<div id="bulkarea">
-				<span class="label">Comma Separated Values:</span> <span class="format">Index,Address,Private Key (WIF),Private Key (WIF compressed)</span>
+				<span class="label">Comma Separated Values:</span> <span class="format">Index,Address,Private Key (WIF)</span>
 				<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 			</div>
 
@@ -4078,7 +4080,8 @@
 				<div class="notes">
 				Your Bitcoin Private Key is a unique secret number that only you know. It can be be encoded	in a number of different formats.
 				Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).
-
+				<br />
+				<br />
 				Bitcoin v0.6+ stores public keys in compressed format.  The client now also supports import and export of private keys with importprivkey/dumpprivkey.  The format of the exported
 				private key is determined by whether the address was generated in an old or new wallet.
 				</div>
@@ -4088,8 +4091,10 @@
 					<span class="label">Bitcoin Address:</span>
 					<span class="output" id="detailaddress"></span>
 				</div>
-				<div class="item">
-					<span class="label">Bitcoin Address (compressed format):</span>
+				<br />
+				<div class="item right">
+					<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
+					<span class="label">Bitcoin Address (compressed):</span>
 					<span class="output" id="detailaddresscomp"></span>
 				</div>
 				<br />
@@ -4098,19 +4103,24 @@
 					<span class="output" id="detailpubkey"></span>
 				</div>
 				<div class="item">
-					<span class="label">Public Key (compressed format, 65 characters [0-9A-F]):</span>
+					<span class="label">Public Key (compressed, 65 characters [0-9A-F]):</span>
 					<span class="output" id="detailpubkeycomp"></span>
 				</div>
-				<div class="item left">
+				<hr />
+				<div class="item">
 					<div id="detailqrcodeprivate" class="qrcode_private"></div>
 					<span class="label">Private Key WIF (51 characters base58, starts with a '5'):</span>
 					<span class="output" id="detailprivwif"></span>
 				</div>
-				<div class="item left">
-					<span class="label">Private Key WIF (compressed format, 52 characters base58, starts with a 'K' or 'L'):</span>
+				<br />
+				<br />
+				<div class="item right">
+					<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
+					<span class="label">Private Key WIF (compressed, 52 characters base58, starts with a 'K' or 'L'):</span>
 					<span class="output" id="detailprivwifcomp"></span>
 				</div>
-				<br /><br />
+				<br />
+				<br />
 				<div class="item">
 					<span class="label">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 					<span class="output" id="detailprivhex"></span>
@@ -4428,8 +4438,10 @@
 							var key = new Bitcoin.ECKey(false);
 
 							bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
-								+ ",\"" + key.getBitcoinAddress(0) + "\",\"" + key.toString("wif") + "\",\"" + key.toString("wifcomp")
-							//+ "\",\"" + key.getBitcoinHexFormat() + "\",\"" + key.toString("base64") // uncomment this line to add different private key formats to the CSV
+								+ ",\"" + key.getBitcoinAddress(0) + "\",\"" + key.toString("wif")
+								//+	"\",\"" + key.toString("wifcomp")    // uncomment these lines to add different private key formats to the CSV
+								//+ "\",\"" + key.getBitcoinHexFormat() 
+								//+ "\",\"" + key.toString("base64") 
 								+ "\"");
 
 							document.getElementById("bulktextarea").value = "Generating addresses... " + bulkWallet.csvRowsRemaining;
@@ -4677,16 +4689,22 @@
 							document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 							document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
 							document.getElementById("detailqrcodepublic").innerHTML = "";
+							document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 							document.getElementById("detailqrcodeprivate").innerHTML = "";
+							document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
 							// show QR codes
 							try {
 								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress(0)));
+								document.getElementById("detailqrcodepubliccomp").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress(1)));
 								document.getElementById("detailqrcodeprivate").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat(0)));
+								document.getElementById("detailqrcodeprivatecomp").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat(1)));
 							}
 							catch (e) {
 								// for browsers that do not support canvas (IE8)
 								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress(0));
+								document.getElementById("detailqrcodepubliccomp").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress(1));
 								document.getElementById("detailqrcodeprivate").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat(0));
+								document.getElementById("detailqrcodeprivatecomp").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat(1));
 							}
 
 						}
@@ -4703,7 +4721,9 @@
 						document.getElementById("detailprivb64").innerHTML = "";
 						document.getElementById("detailprivmini").innerHTML = "";
 						document.getElementById("detailqrcodepublic").innerHTML = "";
+						document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 						document.getElementById("detailqrcodeprivate").innerHTML = "";
+						document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
 					}
 				}
 			},
