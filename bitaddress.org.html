@@ -3797,8 +3797,13 @@
 
 			ECKey.prototype.toString = function (format) {
 				format = format || "";
+				// Get a copy of private key as a byte array
+				var bytes = this.priv.toByteArrayUnsigned();
+				// zero pad if private key is less than 32 bytes 
+				while (bytes.length < 32) bytes.unshift(0x00);
+
 				if (format === "base64" || format === "b64") {
-					return Crypto.util.bytesToBase64(this.priv.toByteArrayUnsigned());
+					return Crypto.util.bytesToBase64(bytes);
 				}
 				// Wallet Import Format
 				else if (format.toString().toLowerCase() == "wif") {
