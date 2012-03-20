@@ -948,13 +948,25 @@
 		};
 
 		// patched by bitaddress.org and Casascius for use with Bitcoin.ECKey
-		ec.PointFp.prototype.getEncoded = function () {
+		ec.PointFp.prototype.getEncoded = function (compressed) {
 			var x = this.getX().toBigInteger();
 			var y = this.getY().toBigInteger();
 			var len = 32; // integerToBytes will zero pad if integer is less than 32 bytes. 32 bytes length is required by the Bitcoin protocol.
 			var enc = ec.integerToBytes(x, len);
-			enc.unshift(0x04);
-			enc = enc.concat(ec.integerToBytes(y, len));
+
+			// modded from old code from forum post 
+			if (compressed) {
+				if (y.isEven()) {
+					enc.unshift(0x02);
+                }
+				else {
+					enc.unshift(0x03);
+                }
+            } 
+			else {
+				enc.unshift(0x04);
+				enc = enc.concat(ec.integerToBytes(y, len));
+			}
 			return enc;
 		};
 
@@ -3730,25 +3742,25 @@
 				}
 			};
 
-			ECKey.prototype.getPub = function () {
-				if (this.pub) return this.pub;
-				this.pub = ecparams.getG().multiply(this.priv).getEncoded();
+			ECKey.prototype.getPub = function (compressed) {
+				//if (this.pub) return this.pub;
+				this.pub = ecparams.getG().multiply(this.priv).getEncoded(compressed);
 				return this.pub;
 			};
 
-			ECKey.prototype.getPubKeyHash = function () {
-				if (this.pubKeyHash) return this.pubKeyHash;
-				return this.pubKeyHash = Bitcoin.Util.sha256ripe160(this.getPub());
+			ECKey.prototype.getPubKeyHash = function (compressed) {
+				//if (this.pubKeyHash) return this.pubKeyHash;
+				return this.pubKeyHash = Bitcoin.Util.sha256ripe160(this.getPub(compressed));
 			};
 
-			ECKey.prototype.getBitcoinAddress = function () {
-				var hash = this.getPubKeyHash();
+			ECKey.prototype.getBitcoinAddress = function (compressed) {
+				var hash = this.getPubKeyHash(compressed);
 				var addr = new Bitcoin.Address(hash);
 				return addr.toString();
 			};
 
 			// Sipa Private Key Wallet Import Format (added by bitaddress.org)
-			ECKey.prototype.getBitcoinWalletImportFormat = function () {
+			ECKey.prototype.getBitcoinWalletImportFormat = function (compressed) {
 				// Get a copy of private key as a byte array
 				var bytes = this.priv.toByteArrayUnsigned();
 
@@ -3756,6 +3768,11 @@
 				while (bytes.length < 32) bytes.unshift(0x00);
 
 				bytes.unshift(0x80); // prepend 0x80 byte
+				
+				if (compressed)	{
+					bytes.push(0x01);    // append 0x01 byte for compressed format
+				}
+
 				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 				bytes = bytes.concat(checksum.slice(0, 4));
 
@@ -3780,12 +3797,20 @@
 
 			ECKey.prototype.toString = function (format) {
 				format = format || "";
+				// Get a copy of private key as a byte array
+				var bytes = this.priv.toByteArrayUnsigned();
+				// zero pad if private key is less than 32 bytes 
+				while (bytes.length < 32) bytes.unshift(0x00);
+
 				if (format === "base64" || format === "b64") {
-					return Crypto.util.bytesToBase64(this.priv.toByteArrayUnsigned());
+					return Crypto.util.bytesToBase64(bytes);
 				}
 				// Wallet Import Format
 				else if (format.toString().toLowerCase() == "wif") {
-					return this.getBitcoinWalletImportFormat();
+					return this.getBitcoinWalletImportFormat(0);
+				}
+				else if (format.toString().toLowerCase() == "wifcomp") {
+					return this.getBitcoinWalletImportFormat(1);
 				}
 				else {
 					return this.getBitcoinHexFormat();
@@ -3797,7 +3822,7 @@
 			};
 
 			ECKey.prototype.verify = function (hash, sig) {
-				return ECDSA.verify(hash, sig, this.getPub());
+				return ECDSA.verify(hash, sig, this.getPub(0));
 			};
 
 			return ECKey;
@@ -3900,7 +3925,9 @@
 		#detailarea .label { display: block; text-decoration: underline; }
 		#detailarea .output { display: block; min-height: 20px; }
 		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
-		#detailarea #detailqrcodeprivate { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
+		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
 		.right { text-align: right; }
 		
 		#bulkfaqs { display: none; }
@@ -4050,7 +4077,7 @@
 			<div id="paperarea"></div>
 
 			<div id="bulkarea">
-				<span class="label">Comma Separated Values:</span> <span class="format">Index,Bitcoin Address,Private Key (Wallet Import Format)</span>
+				<span class="label">Comma Separated Values:</span> <span class="format">Index,Address,Private Key (WIF)</span>
 				<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 			</div>
 
@@ -4058,24 +4085,47 @@
 				<div class="notes">
 				Your Bitcoin Private Key is a unique secret number that only you know. It can be be encoded	in a number of different formats.
 				Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).
+				<br />
+				<br />
+				Bitcoin v0.6+ stores public keys in compressed format.  The client now also supports import and export of private keys with importprivkey/dumpprivkey.  The format of the exported
+				private key is determined by whether the address was generated in an old or new wallet.
 				</div>
 
 				<div class="item">
 					<div id="detailqrcodepublic" class="qrcode_public"></div>
-					<span class="label">Bitcoin Address (33 or 34 characters, starts with a '1'):</span>
+					<span class="label">Bitcoin Address:</span>
 					<span class="output" id="detailaddress"></span>
+				</div>
+				<br />
+				<div class="item right">
+					<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
+					<span class="label">Bitcoin Address (compressed):</span>
+					<span class="output" id="detailaddresscomp"></span>
 				</div>
 				<br />
 				<div class="item">
 					<span class="label">Public Key (130 characters [0-9A-F]):</span>
 					<span class="output" id="detailpubkey"></span>
 				</div>
-				<div class="item right">
+				<div class="item">
+					<span class="label">Public Key (compressed, 65 characters [0-9A-F]):</span>
+					<span class="output" id="detailpubkeycomp"></span>
+				</div>
+				<hr />
+				<div class="item">
 					<div id="detailqrcodeprivate" class="qrcode_private"></div>
-					<span class="label">Private Key Sipa Wallet Import Format (51 characters base58, starts with a '5'):</span>
+					<span class="label">Private Key WIF (51 characters base58, starts with a '5'):</span>
 					<span class="output" id="detailprivwif"></span>
 				</div>
-				<br /><br />
+				<br />
+				<br />
+				<div class="item right">
+					<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
+					<span class="label">Private Key WIF (compressed, 52 characters base58, starts with a 'K' or 'L'):</span>
+					<span class="output" id="detailprivwifcomp"></span>
+				</div>
+				<br />
+				<br />
 				<div class="item">
 					<span class="label">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 					<span class="output" id="detailprivhex"></span>
@@ -4169,8 +4219,8 @@
 				idPostFix = idPostFix || "";
 				try {
 					var key = new Bitcoin.ECKey(false);
-					var bitcoinAddress = key.getBitcoinAddress();
-					var privateKeyWif = key.getBitcoinWalletImportFormat();
+					var bitcoinAddress = key.getBitcoinAddress(0);
+					var privateKeyWif = key.getBitcoinWalletImportFormat(0);
 				}
 				catch (e) {
 					alert(e);
@@ -4393,8 +4443,10 @@
 							var key = new Bitcoin.ECKey(false);
 
 							bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
-								+ ",\"" + key.getBitcoinAddress() + "\",\"" + key.getBitcoinWalletImportFormat()
-							//+ "\",\"" + key.getBitcoinHexFormat() + "\",\"" + key.toString("base64") // uncomment this line to add different private key formats to the CSV
+								+ ",\"" + key.getBitcoinAddress(0) + "\",\"" + key.toString("wif")
+								//+	"\",\"" + key.toString("wifcomp")    // uncomment these lines to add different private key formats to the CSV
+								//+ "\",\"" + key.getBitcoinHexFormat() 
+								//+ "\",\"" + key.toString("base64") 
 								+ "\"");
 
 							document.getElementById("bulktextarea").value = "Generating addresses... " + bulkWallet.csvRowsRemaining;
@@ -4525,6 +4577,11 @@
 							key = key.toString();
 							return (/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
 						},
+						// 52 characters base58
+						isCompSipaWalletImportFormat: function (key) {
+							key = key.toString();
+							return (/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+						},
 						// 64 characters [0-9A-F]
 						isHexFormat: function (key) {
 							key = key.toString();
@@ -4557,6 +4614,19 @@
 						if (keyFormat.isSipaWalletImportFormat(key)) {
 							var bytes = Bitcoin.Base58.decode(key);
 							bytes.shift();
+							bytes = bytes.slice(0, bytes.length - 4);
+							if (bytes.length != 32) {
+								alert("The text you entered is not a valid Private Key");
+								ninja.wallets.detailwallet.clear();
+							}
+							else {
+								var btcKey = new Bitcoin.ECKey(bytes);
+							}
+						}
+						else if (keyFormat.isCompSipaWalletImportFormat(key)) {
+							var bytes = Bitcoin.Base58.decode(key);
+							bytes.shift();
+							bytes.pop();
 							bytes = bytes.slice(0, bytes.length - 4);
 							if (bytes.length != 32) {
 								alert("The text you entered is not a valid Private Key");
@@ -4610,26 +4680,36 @@
 						}
 
 						if (btcKey != undefined) {
-							var pubKey = Crypto.util.bytesToHex(btcKey.getPub()).toUpperCase();
+							var pubKey = Crypto.util.bytesToHex(btcKey.getPub(0)).toUpperCase();
+							var pubKeyComp = Crypto.util.bytesToHex(btcKey.getPub(1)).toUpperCase();
 							var halfWayIndex = Math.floor(pubKey.length / 2);
 							var pubKeyFirstHalf = pubKey.substr(0, halfWayIndex);
 							var pubKeySecondHalf = pubKey.substr(halfWayIndex, pubKey.length - halfWayIndex);
 							document.getElementById("detailpubkey").innerHTML = pubKeyFirstHalf + "<br />" + pubKeySecondHalf;
-							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
-							document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
+							document.getElementById("detailpubkeycomp").innerHTML = pubKeyComp;
+							document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress(0);
+							document.getElementById("detailaddresscomp").innerHTML = btcKey.getBitcoinAddress(1);
+							document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat(0);
+							document.getElementById("detailprivwifcomp").innerHTML = btcKey.getBitcoinWalletImportFormat(1);
 							document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 							document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
 							document.getElementById("detailqrcodepublic").innerHTML = "";
+							document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 							document.getElementById("detailqrcodeprivate").innerHTML = "";
+							document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
 							// show QR codes
 							try {
-								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress()));
-								document.getElementById("detailqrcodeprivate").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat()));
+								document.getElementById("detailqrcodepublic").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress(0)));
+								document.getElementById("detailqrcodepubliccomp").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinAddress(1)));
+								document.getElementById("detailqrcodeprivate").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat(0)));
+								document.getElementById("detailqrcodeprivatecomp").appendChild(ninja.qrCode.createCanvas(btcKey.getBitcoinWalletImportFormat(1)));
 							}
 							catch (e) {
 								// for browsers that do not support canvas (IE8)
-								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress());
-								document.getElementById("detailqrcodeprivate").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat());
+								document.getElementById("detailqrcodepublic").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress(0));
+								document.getElementById("detailqrcodepubliccomp").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinAddress(1));
+								document.getElementById("detailqrcodeprivate").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat(0));
+								document.getElementById("detailqrcodeprivatecomp").innerHTML = ninja.qrCode.createTableHtml(btcKey.getBitcoinWalletImportFormat(1));
 							}
 
 						}
@@ -4637,13 +4717,18 @@
 
 					clear: function () {
 						document.getElementById("detailpubkey").innerHTML = "";
+						document.getElementById("detailpubkeycomp").innerHTML = "";
 						document.getElementById("detailaddress").innerHTML = "";
+						document.getElementById("detailaddresscomp").innerHTML = "";
 						document.getElementById("detailprivwif").innerHTML = "";
+						document.getElementById("detailprivwifcomp").innerHTML = "";
 						document.getElementById("detailprivhex").innerHTML = "";
 						document.getElementById("detailprivb64").innerHTML = "";
 						document.getElementById("detailprivmini").innerHTML = "";
 						document.getElementById("detailqrcodepublic").innerHTML = "";
+						document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 						document.getElementById("detailqrcodeprivate").innerHTML = "";
+						document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
 					}
 				}
 			},
