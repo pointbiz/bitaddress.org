@@ -27,6 +27,7 @@ END USER NOTES:
     Older devices timeout while executing JavaScript.
  5) DO NOT use Opera Mini it renders JavaScript output server side, therefore
     they might record the private key you generated.
+ 6) Art Wallet does not work properly in IE8 due to CSS limitations.
 
 
 Notice of Copyrights and Licenses:
