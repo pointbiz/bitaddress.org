@@ -5044,7 +5044,7 @@
 							
 							var n=EllipticCurve.getSECCurveByName("secp256k1").getN();
 							
-							var newPrivateKey=new Bitcoin.ECKey(privateKey.multiply(privatePoolKey).mod(n));
+							var newPrivateKey=new Bitcoin.ECKey(privateKey.add(privatePoolKey).mod(n));
 							
 							bitcoinAddress = newPrivateKey.getBitcoinAddress();
 							privateKeyWif = newPrivateKey.getBitcoinWalletImportFormat();
