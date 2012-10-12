@@ -3741,6 +3741,8 @@
 				}
 			};
 
+			ECKey.privateKeyPrefix = 0x80; // mainnet
+
 			ECKey.prototype.getPub = function () {
 				if (this.pub) return this.pub;
 				return this.pub = ecparams.getG().multiply(this.priv).getEncoded(0);
@@ -3776,7 +3778,7 @@
 			// Sipa Private Key Wallet Import Format 
 			ECKey.prototype.getBitcoinWalletImportFormat = function () {
 				var bytes = this.getBitcoinPrivateKeyByteArray();
-				bytes.unshift(0x80); // prepend 0x80 byte
+				bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
 				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 				bytes = bytes.concat(checksum.slice(0, 4));
 				var privWif = Bitcoin.Base58.encode(bytes);
@@ -3786,7 +3788,7 @@
 			// Sipa Private Key Wallet Import Format Compressed
 			ECKey.prototype.getBitcoinWalletImportFormatCompressed = function () {
 				var bytes = this.getBitcoinPrivateKeyByteArray();
-				bytes.unshift(0x80); // prepend 0x80 byte	
+				bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte	
 				bytes.push(0x01);    // append 0x01 byte for compressed format
 				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 				bytes = bytes.concat(checksum.slice(0, 4));
@@ -4184,13 +4186,13 @@
 				<hr />
 				<div class="item">
 					<div id="detailqrcodeprivate" class="qrcode_private"></div>
-					<span class="label">Private Key WIF (51 characters base58, starts with a '5'):</span>
+					<span class="label">Private Key WIF (51 characters base58, starts with a <span id="detailwifprefix">'5'</span>):</span>
 					<span class="output" id="detailprivwif"></span>
 				</div>
 				<br /><br />
 				<div class="item right">
 					<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
-					<span class="label">Private Key WIF (compressed, 52 characters base58, starts with a 'K' or 'L'):</span>
+					<span class="label">Private Key WIF (compressed, 52 characters base58, starts with a <span id="detailcompwifprefix">'K' or 'L'</span>):</span>
 					<span class="output" id="detailprivwifcomp"></span>
 				</div>
 				<br /><br />
@@ -4267,7 +4269,7 @@
 			</div>
 			<div class="authorpgp">
 				<span><a href="ninja_bitaddress.org.txt" target="_blank">PGP Public Key</a></span>
-				<span><a href="pgpsignedmsg.txt" target="_blank">Signed Version History (v1.8)</a></span>
+				<span><a href="pgpsignedmsg.txt" target="_blank">Signed Version History (v1.9)</a></span>
 				<span><a href="https://github.com/pointbiz/bitaddress.org" target="_blank">GitHub Repository</a></span>
 			</div>
 			<div class="copyright">
@@ -4786,12 +4788,16 @@
 						// 51 characters base58, always starts with a '5'
 						isSipaWalletImportFormat: function (key) {
 							key = key.toString();
-							return (/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+							return (ninja.testnetMode) ?
+							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
+							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
 						},
 						// 52 characters base58
 						isCompSipaWalletImportFormat: function (key) {
 							key = key.toString();
-							return (/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+							return (ninja.testnetMode) ?
+							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
+							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
 						},
 						// 64 characters [0-9A-F]
 						isHexFormat: function (key) {
@@ -4944,7 +4950,11 @@
 		if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
 			document.getElementById("testnet").innerHTML = "TESTNET EDITION ACTIVATED";
 			document.getElementById("testnet").style.display = "block";
-			Bitcoin.Address.networkVersion = 0x6f; // testnet
+			document.getElementById("detailwifprefix").innerHTML = "'9'";
+			document.getElementById("detailcompwifprefix").innerHTML = "'c'";
+			Bitcoin.Address.networkVersion = 0x6F; // testnet
+			Bitcoin.ECKey.privateKeyPrefix = 0xEF; // testnet
+			ninja.testnetMode = true;
 		}
 
 		// if users does not move mouse after random amount of time then generate the key anyway.
