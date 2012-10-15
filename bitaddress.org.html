@@ -3929,6 +3929,10 @@
 		.keyarea .output { display: block; }
 		.keyarea .qrcode_public { display: inline-block; float: left; }
 		.keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
+		.vankeyarea { font-family: Courier New; text-align: left; position: relative; padding: 5px; }
+		.vankeyarea .label { text-decoration: underline; }
+		.vankeyarea .output { display: block; }
+		
 		#faqs ol { padding: 0 0 0 25px; }
 		#faqs li { padding: 3px 0; }
 		
@@ -3980,7 +3984,11 @@
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
-		
+		#vanityarea { display: none; border: 2px solid green; min-height: 250px;}
+		#vanityarea .keyarea {display: none; }
+		#vanityaddareaoutput .keyarea {display: none; }
+		#vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
+				
 		#bulkfaqs { display: none; }
 		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
 		.bulkquestion:hover { color: #77777A; }
@@ -4020,6 +4028,11 @@
 			#brainpassphraseconfirm { width: 280px; }
 			#detailcommands { display: none; }
 			#detailcommands span { padding: 0 10px; }
+			#vanitykeycommands { display: none; }
+			#vanitykeycommands span { padding: 0 10px; }
+			
+			
+			
 			#detailprivkey { width: 250px; }
 			.paper .commands { border-bottom: 2px solid green; padding: 10px 0; margin-bottom: 0; }
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
@@ -4064,6 +4077,7 @@
 			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
+			<div class="tab" id="vanitykey" onclick="ninja.tabSwitch(this);">Vanity Private Key</div>
 		</div>
 
 		<div id="commands" class="commands">
@@ -4103,6 +4117,11 @@
 				<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 				<span class="print"><input type="button" name="print" value="Print" onclick="window.print();" /></span>
 			</div>
+			
+			<div id="vanitykeycommands">
+				<span><input type="button" id="newkey" value="Generate New Public/Private Key pair" onclick="ninja.generateKeyPair();" /></span>
+			</div>
+			
 		</div>
 
 		<div id="wallets" class="wallets">
@@ -4209,6 +4228,45 @@
 					<span class="output" id="detailprivmini"></span>
 				</div>
 			</div>
+			<div id="vanityarea">
+				<div id="vanitykeyarea" class="vankeyarea">
+					<div>
+						<span class="label">Public Key:</span>
+						<div class="output" id=vanitypubkey style="word-wrap:break-word;"></div>
+						<div class="notes"><br />Copy and paste the above into the Public Key field in the Vanity Pool Website.</div>
+					</div>
+					<div>
+						<span class="label">Private Key:</span>
+						<span class="output" id=vanityprivatekey></span>
+						<div class="notes"><br />Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive.
+						You will need this to retrieve the Bitcoin Private Key once the Pool has found your prefix.</div>
+					</div>
+				</div>
+				<hr />
+				<div id=vanityadditionarea class="vankeyarea">
+					<div class="label">Enter Private Key (previously saved):</div>
+					<div><input type="text" id="vanityprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
+					<div class="label">Enter Private Key (from Vanity Pool):</div>
+					<div><input type="text" id="vanitypoolprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
+					<div></div><input type="button" id="vanityadd" value="Calc Wallet Private Key" onclick="ninja.wallets.vanitykey.addKeys();" />
+				
+					<hr/>
+					<div id=vanityaddareaoutput class="vankeyarea">
+						<div>
+							<span class="label">Private Key (WIF):</span>
+							<span class="output" id=vanityprivatekeyWIF>-</span>
+							<div class="notes"><br />The above is the Private Key to load into your wallet. </div>
+						</div>
+						<hr/>
+						<div>
+							<span class="label">New Address:</span>
+							<span class="output" id=vanityAddress>-</span>
+							<div class="notes"><br />The above is your new address that should include your required prefix.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 
 		<div id="faqs">
@@ -4282,6 +4340,36 @@
 
 	<script type="text/javascript">
 		var ninja = {
+
+			generateKeyPair: function (idPostFix) {
+				idPostFix = idPostFix || "";
+				try {
+					var key = new Bitcoin.ECKey(false);
+					var publicKey = Crypto.util.bytesToHex(key.getPub()).toString().toUpperCase();
+					//var halfWayIndex = Math.floor(publicKey.length / 2);
+					//var pubKeyFirstHalf = publicKey.substr(0, halfWayIndex);
+					//var pubKeySecondHalf = publicKey.substr(halfWayIndex, publicKey.length - halfWayIndex);
+					//publicKey = pubKeyFirstHalf + "<br />" + pubKeySecondHalf;
+					var privateKey = Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray()).toString().toUpperCase();
+				}
+				catch (e) {
+					alert(e);
+					publicKey = false;
+				}
+
+				if (publicKey) {
+					document.getElementById("vanitypubkey" + idPostFix).innerHTML = publicKey;
+					document.getElementById("vanityprivatekey" + idPostFix).innerHTML = privateKey;
+
+				}
+				// browsers that failed to generate keys
+				else {
+					document.getElementById("vanitypubkey" + idPostFix).innerHTML = "error";
+					document.getElementById("vanityprivatekey" + idPostFix).innerHTML = "error";
+				}
+				document.getElementById("vanitykeyarea").style.display = "block";
+			},
+
 			qrCode: {
 				// determine which type number is big enough for the input text length
 				getTypeNumber: function (text) {
@@ -4434,7 +4522,7 @@
 							ninja.seed();
 						}
 					},
-
+			
 					// generate bitcoin address and private key and update information in the HTML
 					generateNewAddressAndKey: function () {
 						try {
@@ -4932,9 +5020,52 @@
 						document.getElementById("detailqrcodeprivate").innerHTML = "";
 						document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
 					}
-				}
+				},
+				vanitykey: {
+					open: function () {
+						for (var wType in ninja.walletType) {
+							ninja.wallets[wType].close();
+						}
+						document.getElementById("vanityarea").style.display = "block";
+						//document.getElementById("vanityadditionalarea").style.display = "block";
+						document.getElementById("vanitykeycommands").style.display = "block";
+						//document.getElementById("vanityadditionalarea").style.display = "block";
+					},
+
+					close: function () {
+						document.getElementById("vanityarea").style.display = "none";
+						document.getElementById("vanitykeyarea").style.display = "none";
+						document.getElementById("vanitykeycommands").style.display = "none";
+					},
+					addKeys: function () {
+						var privateKeyWif = false;
+						var bitcoinAddress = false;
+						//document.getElementById("vanityadditionalarea").style.display = "block";
+						try{
+							var privateKeyString=document.getElementById("vanityprivkey").value;
+							var privatePoolKeyString=document.getElementById("vanitypoolprivkey").value;
+							
+							var privateKey=BigInteger.fromByteArrayUnsigned(Crypto.util.hexToBytes(privateKeyString));
+							var privatePoolKey=BigInteger.fromByteArrayUnsigned(Crypto.util.hexToBytes(privatePoolKeyString));
+							
+							var n=EllipticCurve.getSECCurveByName("secp256k1").getN();
+							
+							var newPrivateKey=new Bitcoin.ECKey(privateKey.add(privatePoolKey).mod(n));
+							
+							bitcoinAddress = newPrivateKey.getBitcoinAddress();
+							privateKeyWif = newPrivateKey.getBitcoinWalletImportFormat();
+							
+						} catch (e) {
+							alert(e);
+						}
+						document.getElementById("vanityprivatekeyWIF").innerHTML = privateKeyWif;
+						document.getElementById("vanityAddress").innerHTML = bitcoinAddress;
+					},
+
+				},
 			},
 
+			walletType: { "singlewallet": "singlewallet", "paperwallet": "paperwallet", "bulkwallet": "bulkwallet", "brainwallet": "brainwallet", "detailwallet": "detailwallet","vanitykey":"vanitykey" },
 			getQueryString: function () {
 				var result = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
 				while (m = re.exec(queryString)) {
