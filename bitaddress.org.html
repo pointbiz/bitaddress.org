@@ -4016,7 +4016,7 @@
 			.commands { padding: 10px 0; border: 2px solid green; border-bottom: 0; }
 			.commands span { padding: 0 10px; } 
 			.commands span.print { float: right; } 
-			.commands span.right { float: right; } 
+			.commands span.right { float: right; }
 			#singlecommands { visibility: hidden; }
 			#bulkcommands { display: none; }
 			#papercommands { display: none; }
@@ -4113,7 +4113,7 @@
 				</div>
 			</div>
 			<div id="vanitycommands">
-				<span><input type="button" id="vanitynewkeypair" value="Generate New Public/Private Key Pair" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
+				<span>Step 1 - Generate Your-Part-Private-Key Pair:  <input type="button" id="vanitynewkeypair" value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
 			</div>
 			<div id="detailcommands">
 				<span>Enter Private Key (any format): <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
@@ -4175,22 +4175,23 @@
 			<div id="vanityarea">
 				<div id="vanitykeyarea">
 					<div>
-						<span class="label">Public Key:</span>
+						<span class="label">Your Part Public Key:</span>
 						<div class="output" id="vanitypubkey"></div>
-						<div class="notes"><br />Copy and paste the above into the Public Key field in the Vanity Pool Website.</div>
+						<div class="notes"><br />Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
 					</div>
 					<div>
-						<span class="label">Private Key:</span>
+						<span class="label">Your Part Private Key:</span>
 						<span class="output" id=vanityprivatekey></span>
 						<div class="notes"><br />Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive.
 						You will need this to retrieve the Bitcoin Private Key once the Pool has found your prefix.</div>
 					</div>
 				</div>
-				<hr />
+				<hr color=green style="color: solid green;"/>
+				<div>Step 2 - Calculate your Private-Key-Wallet-Import-Format.</div>		
 				<div id="vanityadditionarea">
-					<div class="label">Enter Private Key (previously saved):</div>
+					<div class="label">Enter Your Part Private Key (generated above and previously saved):</div>
 					<div><input type="text" id="vanityprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
-					<div class="label">Enter Private Key (from Vanity Pool):</div>
+					<div class="label">Enter Pool Part Private Key (from Vanity Pool):</div>
 					<div><input type="text" id="vanitypoolprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
 					<div></div><input type="button" id="vanityadd" value="Calc Wallet Private Key" onclick="ninja.wallets.vanitywallet.addKeys();" />
 				
