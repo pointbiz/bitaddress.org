@@ -4370,9 +4370,13 @@
 					var height = qrcode.getModuleCount() * sizeMultiplier;
 					// create canvas element
 					var canvas = document.createElement('canvas');
-					canvas.width = width;
-					canvas.height = height;
+					var scale = 10.0;
+					canvas.width = width * scale;
+					canvas.height = height * scale;
+					canvas.style.width = width + 'px';
+					canvas.style.height = height + 'px';
 					var ctx = canvas.getContext('2d');
+					ctx.scale(scale, scale);
 					// compute tileW/tileH based on width/height
 					var tileW = width / qrcode.getModuleCount();
 					var tileH = height / qrcode.getModuleCount();
