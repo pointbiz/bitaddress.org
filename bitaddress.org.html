@@ -3943,8 +3943,7 @@
 		#paperarea .artwallet .qrcode_public { top: 55px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                       padding: 5px 5px 2px 5px; } 
 		#paperarea .artwallet .qrcode_private { top: 108px; left: 360px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
-		                                        padding: 5px 5px 2px 5px; } 
-		
+		                                        padding: 5px 5px 2px 5px; }
 		#paperarea .artwallet .btcaddress  
 		{
 		    position: absolute; top: 240px; left: 139px; z-index: 100; font-size: 10px; background-color: transparent;
@@ -3980,19 +3979,21 @@
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
-
-		#vanityarea { display: none; border: 2px solid green; min-height: 250px; text-align: left; }
+		#vanityarea { display: none; border: 2px solid green; text-align: left; }
 		#vanityarea .label { text-decoration: underline; }
 		#vanityarea .output { display: block; }
-		#vanityaddareaoutput  { display: none; padding: 5px; }
 		#vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#vanitykeyarea { display: none; text-align: left; position: relative; padding: 5px; }
+		#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid green; }
+		#vanitystep1label { padding-left: 5px; }
+		#vanitystep2area { border-top: 2px solid green; display: block; padding: 15px; }
+		#vanitystep2inputs { padding: 0 15px 10px 15px; }
 		#vanitypubkey { word-wrap: break-word; }
-		#vanityadditionarea { padding: 5px; }
 		
 		#bulkfaqs { display: none; }
 		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
-		.bulkquestion:hover { color: #77777A; }
+		#commands .expandable { padding: 10px 15px; }
+		.expandable { padding: 15px 15px; text-align: left; cursor: pointer; }
+		.bulkquestion:hover, .expandable:hover { color: #77777A; }
 		.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 		.bulkfaq { border: 2px solid green; border-top: 0; }		
 		
@@ -4013,28 +4014,27 @@
 			.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
 			.menu .tab.selected:hover { color: #000; }
 			.pagebreak { height: 50px; }
-			.commands { padding: 10px 0; border: 2px solid green; border-bottom: 0; }
-			.commands span { padding: 0 10px; } 
-			.commands span.print { float: right; } 
-			.commands span.right { float: right; }
-			#singlecommands { visibility: hidden; }
-			#bulkcommands { display: none; }
-			#papercommands { display: none; }
-			#braincommands { display: none; }
+			#commands { padding: 0; border: 2px solid green; border-bottom: 0; }
+			#commands span { padding: 0 10px; } 
+			#commands span.print { float: right; } 
+			#commands span.right { float: right; }
+			#singlecommands { visibility: hidden; padding: 10px 0; }
+			#bulkcommands { display: none; padding: 10px 0; }
+			#papercommands { display: none; padding: 10px 0; }
+			#braincommands { display: none; padding: 10px 0; }
 			#braincommands .row { text-align: left; }
 			#braincommands .row .label { width: 150px; display: inline-block; }
 			#braincommands .row.extra { padding: 6px 0 0 0; }
 			#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
 			#brainpassphrase { width: 280px; }
 			#brainpassphraseconfirm { width: 280px; }
-			#detailcommands { display: none; }
+			#detailcommands { display: none; padding: 10px 0; }
 			#detailcommands span { padding: 0 10px; }
 			#detailprivkey { width: 250px; }
+			#vanitycommands { display: none; padding: 0; }
+			#vanitycommands span { padding: 0px; }
 
-			#vanitycommands { display: none; }
-			#vanitycommands span { padding: 0 10px; }
-
-			.paper .commands { border-bottom: 2px solid green; padding: 10px 0; margin-bottom: 0; }
+			.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			.more { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAAB1UlEQVQ4jYWTS04bQRCGv3q0x8gMYJCwknCGLDgLVwiH4grhLFaUXdhkQ0A8pBg/FOLpnmbhMYzxRKlNS1Vdf/31V5XknGnb+eXJCBjzbzu9OLu+azu845Opysej4wHmshF4uJ2TUrb3CV0gIBAKRboC5C2vdkDE9fdty6/xDegvXz+NgDbFUejZ+PjDgExmtpxS9vYwMe5u5iyX8RRoa5Ic+C4qx9KUN1MGu4E618yqJ5axAp44KA7ZL3eYzp/HKdVIw7WK8d6BuDvcod9TQlBEIOXEdPlElSoUJabIIs4Z7h9yNDwgqOMayLXw7epHVIBggrsgspZPUBQyiCgugRQji7TAVDF1XB2TlQoOYCqovkmpopS9fcoiM3ue0rOCYf8IU8NklWxiiOQ3EPXtWagIqo6KYWYEc4IGvMViA6RrnCJKVS9B8ypRHG1YKNa0Ur+C+MPt/I2BKWVZUO4FgvQ47PcptEDF+T2Z8TiZUMWIyGtpd+Bze5VTSqP57O/4YG+AN/RXbSiPkwmL5z/be/L+mM4vT2JKeUW7EXD1erMz/Lo4u77f0K9DDhdA1XG11jh9vWBb99Z9gAg5QZ2hzpmUa0RSW4f/gqSY0s3Vz+tufEjvHS8Tg6BXC7qVbQAAAABJRU5ErkJggg==)
@@ -4060,7 +4060,7 @@
 			.paper #logo { display: none; }
 			.menu { display: none; }
 			.footer { display: none; }
-			.commands { display: none; }
+			#commands { display: none; }
 			#tagline { display: none; }
 			#faqs { display: none; }
 		}
@@ -4080,7 +4080,7 @@
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
 		</div>
 
-		<div id="commands" class="commands">
+		<div id="commands">
 			<div id="singlecommands">
 				<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 				<span class="print"><input type="button" name="print" value="Print" onclick="window.print();" /></span>
@@ -4113,16 +4113,20 @@
 				</div>
 			</div>
 			<div id="vanitycommands">
-				<span>Step 1 - Generate Your-Part-Private-Key Pair:  <input type="button" id="vanitynewkeypair" value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
+				<div id="vanitystep1label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
+					<span>Step 1 - Generate your "Step1 Key Pair" <input type="button" id="vanitynewkeypair" 
+						value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
+					<div id="vanitystep1icon" class="more"></div>
+				</div>
 			</div>
 			<div id="detailcommands">
-				<span>Enter Private Key (any format): <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
+				<span>Enter Private Key (any format) <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 				<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 				<span class="print"><input type="button" name="print" value="Print" onclick="window.print();" /></span>
 			</div>
 		</div>
 
-		<div id="wallets" class="wallets">
+		<div id="wallets">
 			<div id="singlearea">
 				<div id="generate">
 					<span>Generating Bitcoin Address...<br /></span>
@@ -4173,41 +4177,40 @@
 			</div>
 			
 			<div id="vanityarea">
-				<div id="vanitykeyarea">
+				<div id="vanitystep1area">
 					<div>
-						<span class="label">Your Part Public Key:</span>
+						<span class="label">Step 1 Public Key:</span>
 						<div class="output" id="vanitypubkey"></div>
 						<div class="notes"><br />Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
 					</div>
 					<div>
-						<span class="label">Your Part Private Key:</span>
+						<span class="label">Step 1 Private Key:</span>
 						<span class="output" id=vanityprivatekey></span>
 						<div class="notes"><br />Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive.
 						You will need this to retrieve the Bitcoin Private Key once the Pool has found your prefix.</div>
 					</div>
 				</div>
-				<hr color=green style="color: solid green;"/>
-				<div>Step 2 - Calculate your Private-Key-Wallet-Import-Format.</div>		
-				<div id="vanityadditionarea">
-					<div class="label">Enter Your Part Private Key (generated above and previously saved):</div>
+				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
+					<span>Step 2 - Calculate your Vanity Wallet</span>
+					<div id="vanitystep2icon" class="more"></div>
+				</div>
+				<div id="vanitystep2inputs">
+					<div>Enter Your Part Private Key (generated in Step 1 above and previously saved):</div>
 					<div><input type="text" id="vanityprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
-					<div class="label">Enter Pool Part Private Key (from Vanity Pool):</div>
+					<div>Enter Pool Part Private Key (from Vanity Pool):</div>
 					<div><input type="text" id="vanitypoolprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
-					<div></div><input type="button" id="vanityadd" value="Calc Wallet Private Key" onclick="ninja.wallets.vanitywallet.addKeys();" />
-				
-					<hr/>
-					<div id=vanityaddareaoutput class="vankeyarea">
-						<div>
-							<span class="label">Private Key (WIF):</span>
-							<span class="output" id="vanityprivatekeywif"></span>
-							<div class="notes"><br />The above is the Private Key to load into your wallet. </div>
-						</div>
-						<hr/>
-						<div>
-							<span class="label">New Address:</span>
-							<span class="output" id="vanityaddress"></span>
-							<div class="notes"><br />The above is your new address that should include your required prefix.</div>
-						</div>
+					<div></div><input type="button" id="vanityadd" value="Calculate Vanity Wallet" onclick="ninja.wallets.vanitywallet.addKeys();" />
+				</div>
+				<div id="vanitystep2area">
+					<div>
+						<span class="label">Vanity Private Key (WIF):</span>
+						<span class="output" id="vanityprivatekeywif"></span>
+						<div class="notes"><br />The above is the Private Key to load into your wallet. </div>
+					</div>
+					<div>
+						<span class="label">Vanity Bitcoin Address:</span>
+						<span class="output" id="vanityaddress"></span>
+						<div class="notes"><br />The above is your new address that should include your required prefix.</div>
 					</div>
 				</div>
 			</div>
@@ -4875,8 +4878,10 @@
 					close: function () {
 						document.getElementById("vanityarea").style.display = "none";
 						document.getElementById("vanitycommands").style.display = "none";
-						document.getElementById("vanitykeyarea").style.display = "none";
-						document.getElementById("vanityaddareaoutput").style.display = "none";
+						document.getElementById("vanitystep1area").style.display = "none";
+						document.getElementById("vanitystep2area").style.display = "none";
+						document.getElementById("vanitystep1icon").setAttribute("class", "more");
+						document.getElementById("vanitystep2icon").setAttribute("class", "more");
 					},
 
 					generateKeyPair: function () {
@@ -4886,7 +4891,8 @@
 
 						document.getElementById("vanitypubkey").innerHTML = publicKey;
 						document.getElementById("vanityprivatekey").innerHTML = privateKey;
-						document.getElementById("vanitykeyarea").style.display = "block";
+						document.getElementById("vanityarea").style.display = "block";
+						document.getElementById("vanitystep1area").style.display = "none";
 					},
 
 					addKeys: function () {
@@ -4930,7 +4936,20 @@
 						}
 						document.getElementById("vanityprivatekeywif").innerHTML = privateKeyWif;
 						document.getElementById("vanityaddress").innerHTML = bitcoinAddress;
-						document.getElementById("vanityaddareaoutput").style.display = "block";
+						document.getElementById("vanitystep2area").style.display = "block";
+					},
+
+					openCloseStep: function (num) {
+						// do close
+						if (document.getElementById("vanitystep" + num + "area").style.display == "block") {
+							document.getElementById("vanitystep" + num + "area").style.display = "none";
+							document.getElementById("vanitystep" + num + "icon").setAttribute("class", "more");
+						}
+						// do open
+						else {
+							document.getElementById("vanitystep" + num + "area").style.display = "block";
+							document.getElementById("vanitystep" + num + "icon").setAttribute("class", "less");
+						}
 					}
 				},
 
