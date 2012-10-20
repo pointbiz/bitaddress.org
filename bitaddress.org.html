@@ -3940,14 +3940,14 @@
 		#paperarea .keyarea { border: 2px solid green; border-top: 0; }
 		#paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 		#paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
-		#paperarea .artwallet .qrcode_public { top: 55px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+		#paperarea .artwallet .qrcode_public { top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                       padding: 5px 5px 2px 5px; } 
-		#paperarea .artwallet .qrcode_private { top: 108px; left: 360px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+		#paperarea .artwallet .qrcode_private { top: 104px; left: 360px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                        padding: 5px 5px 2px 5px; }
 		#paperarea .artwallet .btcaddress  
 		{
 		    position: absolute; top: 240px; left: 139px; z-index: 100; font-size: 10px; background-color: transparent;
-		    font-weight:bold; color: #8e6502; margin: 0;
+		    font-weight:bold; color: #000000; margin: 0;
 				-webkit-transform-origin:top left; -webkit-transform:rotate(-90deg);
 				-moz-transform-origin:top left;    -moz-transform:rotate(-90deg);
 				-ms-transform-origin:top left;     -ms-transform:rotate(-90deg);
@@ -3957,7 +3957,7 @@
 		#paperarea .artwallet .btcprivwif  
 		{
 		    position: absolute; top: 236px; left: 346px; z-index: 100; font-size: 7px; background-color: transparent;
-		    font-weight:bold; color: #8e6502; margin: 0;  
+		    font-weight:bold; color: #000000; margin: 0;  
 				-webkit-transform-origin:top left; -webkit-transform:rotate(-90deg);
 				-moz-transform-origin:top left;    -moz-transform:rotate(-90deg);
 				-ms-transform-origin:top left;     -ms-transform:rotate(-90deg);
@@ -4775,7 +4775,7 @@
 						var keyValuePair = {};
 						keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
 						keyValuePair["qrcode_private" + idPostFix] = privateKeyWif;
-						ninja.qrCode.showQrCode(keyValuePair, 2.4);
+						ninja.qrCode.showQrCode(keyValuePair, 2.5);
 						document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 						document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKeyWif;
 
@@ -4941,6 +4941,7 @@
 						document.getElementById("vanityprivatekeywif").innerHTML = privateKeyWif;
 						document.getElementById("vanityaddress").innerHTML = bitcoinAddress;
 						document.getElementById("vanitystep2area").style.display = "block";
+						document.getElementById("vanitystep2icon").setAttribute("class", "less");
 					},
 
 					openCloseStep: function (num) {
