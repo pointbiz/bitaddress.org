@@ -4086,9 +4086,9 @@
 				<span class="print"><input type="button" name="print" value="Imprimir" onclick="window.print();" /></span>
 			</div>
 			<div id="papercommands">
-				<span>¿Ocultar dibujos? <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
+				<span>Ocultar diseño <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
 				<span>Direcciones por página: <input type="text" id="paperlimitperpage" /></span>
-				<span>Direcciones a generar: <input type="text" id="paperlimit" /></span>
+				<span>Direcciones en total: <input type="text" id="paperlimit" /></span>
 				<span><input type="button" id="papergenerate" value="Generar" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked);" /></span>
 				<span class="print"><input type="button" name="print" value="Imprimir" onclick="window.print();" /></span>
 			</div>
@@ -4102,7 +4102,7 @@
 				<div class="row">
 					<span class="label">Contraseña: </span>
 					<input tabindex="1" type="password" id="brainpassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
-					<span>¿Mostrar? <input type="checkbox" id="brainpassphraseshow" onchange="ninja.wallets.brainwallet.showToggle(this);" /></span>
+					<span>Mostrar <input type="checkbox" id="brainpassphraseshow" onchange="ninja.wallets.brainwallet.showToggle(this);" /></span>
 					<span class="print"><input type="button" name="print" value="Imprimir" onclick="window.print();" /></span>
 				</div>
 				<div class="row extra">
@@ -4114,7 +4114,7 @@
 			</div>
 			<div id="vanitycommands">
 				<div id="vanitystep1label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
-					<span>Paso 1 - Genera tu "Par de claves del paso 1" <input type="button" id="vanitynewkeypair" 
+					<span>Paso 1 - Genera tu par de claves <input type="button" id="vanitynewkeypair" 
 						value="Generar" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
 					<div id="vanitystep1icon" class="more"></div>
 				</div>
@@ -4153,7 +4153,7 @@
 			<div id="paperarea"></div>
 			
 			<div id="bulkarea">
-				<span class="label">Valores separados por coma:</span> <span class="format">Índice,Dirección,Clave privada (import.)</span>
+				<span class="label">Valores separados por coma:</span> <span class="format">Índice,Dirección,Clave privada (formato para importar)</span>
 				<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 			</div>
 			
@@ -4179,12 +4179,12 @@
 			<div id="vanityarea">
 				<div id="vanitystep1area">
 					<div>
-						<span class="label">Clave pública del paso 1:</span>
+						<span class="label">Clave pública:</span>
 						<div class="output" id="vanitypubkey"></div>
 						<div class="notes"><br />Copia y pega la línea de arriba en el campo "Your-Part-Public-Key" de la web de Vanity Pool.</div>
 					</div>
 					<div>
-						<span class="label">Clave privada del paso 1:</span>
+						<span class="label">Clave privada:</span>
 						<span class="output" id=vanityprivatekey></span>
 						<div class="notes"><br />Copia y pega la clave pública de arriba en un archivo de texto. Es mejor que lo almacenes en un volumen cifrado.
 						Lo necesitarás para recuperar la clave privada una vez Vanity Pool haya encontrado tu prefijo.</div>
@@ -4195,9 +4195,9 @@
 					<div id="vanitystep2icon" class="more"></div>
 				</div>
 				<div id="vanitystep2inputs">
-					<div>Introduce tu "Part Private Key" (generada en el paso 1, y que has guardado):</div>
+					<div>Introduce la clave privada generada en el paso 1, y que has guardado:</div>
 					<div><input type="text" id="vanityprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
-					<div>Introduce "Pool Part Private Key" (de la Vanity Pool):</div>
+					<div>Introduce la clave privada obtenida de la Vanity Pool:</div>
 					<div><input type="text" id="vanitypoolprivkey" value="" maxlength=64 size=80 onfocus="this.select();" /></div>
 					<div></div><input type="button" id="vanityadd" value="Calcular cartera personalizada" onclick="ninja.wallets.vanitywallet.addKeys();" />
 				</div>
@@ -4275,37 +4275,37 @@
 			<div id="bulkfaqs">
 				<div id="bulkfaq1" class="bulkfaq"> 
 					<div id="bulkq1" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(1);">
-						<span>¿Por qué debo usar esto para aceptar Bitcoins en mi web?</span>
+						<span>¿Por qué debo usar "Direcciones en masa" para aceptar Bitcoins en mi web?</span>
 						<div id="bulke1" class="more"></div>
 					</div>
 					<div id="bulka1" class="bulkanswer">
-						La forma traducional de aceptar bitcoins en tu web requiere tener instalado el cliente
-						oficial de bitcoin ("bitcoind"). Muchos de los servicios de hosting no permiten instalar
-						el cliente de bitcoin. Además, ejecutar el cliente en tu servidor supone que las claves
-						privadas están también en el servidor y podrían ser comprometidas en caso de hack.
-						Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin, y no las
+						La forma tradicional de aceptar bitcoins en tu web requiere tener instalado el cliente
+						oficial de bitcoin ("bitcoind"). Sin embargo muchos servicios de hosting no permiten
+						instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves
+						privadas están también en el servidor y podrían ser comprometidas en caso de intrusión.
+						Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin y no las
                         claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si
-                        hackean el servidor.
+                        se cuelan en el servidor.
 					</div>
 				</div>
 				<div id="bulkfaq2" class="bulkfaq"> 
 					<div id="bulkq2" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
-						<span>¿Cómo uso esto para aceptar bitcoins en mi web?</span>
+						<span>¿Cómo uso "Direcciones en masa" para aceptar bitcoins en mi web?</span>
 						<div id="bulke2" class="more"></div>
 					</div>
 					<div id="bulka2" class="bulkanswer">
 						<ol>
-							<li>Usa el tab "Direcciones en masa" para pre-generar muchas direcciones (más de 10000). Copia y pega la lista de valores
-							separados por comas (CSV) a un archivo de texto seguro en tu ordenador. Guarda una copia de seguridad en algún lugar seguro.</li>
+							<li>Usa el tab "Direcciones en masa" para generar por anticipado muchas direcciones (más de 10000). Copia y pega la lista de valores
+							separados por comas (CSV) a un archivo de texto seguro (cifrado) en tu ordenador. Guarda una copia de seguridad en algún lugar seguro.</li>
 							<li>Importa las direcciones en la base de datos de tu servidor.  
-							(No subas la cartera ni las claves públicas, o de lo contrario te lo pueden robar. Sube sólo las direcciones, ya que
-                            es lo que se va a mostrar a los clientes).</li>
+							No subas la cartera ni las claves públicas, o de lo contrario te lo pueden robar. Sube sólo las direcciones, ya que
+                            es lo que se va a mostrar a los clientes.</li>
 							<li>Ofrece una alternativa en el carro de la compra de tu web para que los clientes paguen con Bitcoin. Cuando el cliente elija pagar con Bitcoin,
 							les muestras una de las direcciones de la base de datos como su "dirección de pago" y guardas esto junto con el pedido.</li>
 							<li>Ahora te hace falta recibir una notificación del pago. Busca en google "notificación de pagos bitcoin" (o "bitcoin payment notification" en
                             inglés) y suscríbete a alguno de los servicios que aparezcan. Hay varios de ellos, que te pueden notificar vía Web services, API, SMS, email, etc.
 							Una vez te llegue la notificación, lo cual puede ser automatizado, entonces ya puedes procesar el pedido.
-							Para comprobar a mano si has recibido un pago, puedes usar Block Explorer. Reemplaza DIRECCION por la dirección que estés
+							Para comprobar a mano si has recibido un pago, puedes usar Block Explorer: reemplaza DIRECCION a continuación por la dirección que estés
 							comprobando. La transacción puede tardar entre 10 minutos y una hora en ser confirmada.
 							<br />
 							http://www.blockexplorer.com/address/DIRECCION
@@ -4313,7 +4313,7 @@
 							Puedes ver las transacciones sin confirmar en: http://blockchain.info/ <br />
 							Las transacciones sin confirmar suelen aparecer ahí en unos 30 segundos.
 							</li>
-							<li>Las bitcoins que recibas se acumularán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.</li>
+							<li>Las bitcoins que recibas se almacenarán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.</li>
 						</ol>
 					</div>
 				</div>
@@ -4330,7 +4330,7 @@
 			<div class="authorpgp">
 				<span><a href="https://www.bitaddress.org/ninja_bitaddress.org.txt" target="_blank">Clave pública PGP</a></span>
 				<span><a href="https://www.bitaddress.org/pgpsignedmsg.txt" target="_blank">Histórico de versiones (v2.0) (en inglés)</a></span>
-				<span><a href="https://github.com/pointbiz/bitaddress.org" target="_blank">Repositorio GitHub</a></span>
+				<span>Repositorios GitHub: <a href="https://github.com/pointbiz/bitaddress.org" target="_blank">aplicación</a><a href="https://github.com/dserrano5/bitaddress.org" target="_blank">traducción</a></span>
 			</div>
 			<div class="copyright">
 				<span>Copyright bitaddress.org.</span>
@@ -4844,13 +4844,13 @@
 								document.getElementById("brainkeyarea").style.display = "block";
 							}
 							else {
-								alert("The passphrase you entered is too short.\n\n"
-									+ "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.");
+								alert("La contraseña introducida es demasiado corta.\n\n"
+									+ "Aviso: Escoger una contraseña fuerte es importante para evitar ataques de fuerza bruta para adivinarla y robar tus bitcoins.");
 								ninja.wallets.brainwallet.clear();
 							}
 						}
 						else {
-							alert("The passphrase does not match the confirm passphrase.");
+							alert("Las contraseñas no coinciden.");
 							ninja.wallets.brainwallet.clear();
 						}
 					},
@@ -4982,7 +4982,7 @@
 							bytes.shift();
 							bytes = bytes.slice(0, bytes.length - 4);
 							if (bytes.length != 32) {
-								alert("The text you entered is not a valid Private Key");
+								alert("El texto que has introducido no es una clave privada válida");
 								ninja.wallets.detailwallet.clear();
 							}
 							else {
@@ -4995,7 +4995,7 @@
 							bytes.pop();
 							bytes = bytes.slice(0, bytes.length - 4);
 							if (bytes.length != 32) {
-								alert("The text you entered is not a valid Private Key");
+								alert("El texto que has introducido no es una clave privada válida");
 								ninja.wallets.detailwallet.clear();
 							}
 							else {
@@ -5009,7 +5009,7 @@
 						else if (keyFormat.isBase64Format(key)) {
 							var bytes = Crypto.util.base64ToBytes(key);
 							if (bytes.length != 32) {
-								alert("The text you entered is not a valid Private Key");
+								alert("El texto que has introducido no es una clave privada válida");
 								ninja.wallets.detailwallet.clear();
 							}
 							else {
@@ -5026,9 +5026,9 @@
 							// enforce a minimum passphrase length
 							if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
 								// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
-								var usePassphrase = confirm("The text you entered is not a valid Private Key!\n\n"
-								+ "Would you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\n"
-								+ "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.");
+								var usePassphrase = confirm("El texto que has introducido no es una clave privada válida\n\n"
+								+ "¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\n"
+								+ "Aviso: Es importante escoger una contraseña fuerte para evitar intentos de fuerza bruta para adivinar la contraseña y robar tus bitcoins.");
 								if (usePassphrase) {
 									var bytes = Crypto.SHA256(key, { asBytes: true });
 									var btcKey = new Bitcoin.ECKey(bytes);
@@ -5038,7 +5038,7 @@
 								}
 							}
 							else {
-								alert("The text you entered is not a valid Private Key");
+								alert("El texto que has introducido no es una clave privada válida");
 								ninja.wallets.detailwallet.clear();
 							}
 						}
