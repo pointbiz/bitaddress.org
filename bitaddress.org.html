@@ -4130,7 +4130,7 @@
 			<div id="singlearea">
 				<div id="generate">
 					<span>Generando dirección Bitcoin...<br /></span>
-					<span>Mueve el ratón un poco para crear entropía...<br /></span>
+					<span>Mueve un poco el ratón para crear entropía...<br /></span>
 				</div>
 				<div id="keyarea" class="keyarea">
 					<div class="public">
@@ -4330,7 +4330,7 @@
 			<div class="authorpgp">
 				<span><a href="https://www.bitaddress.org/ninja_bitaddress.org.txt" target="_blank">Clave pública PGP</a></span>
 				<span><a href="https://www.bitaddress.org/pgpsignedmsg.txt" target="_blank">Histórico de versiones (v2.0) (en inglés)</a></span>
-				<span>Repositorios GitHub: <a href="https://github.com/pointbiz/bitaddress.org" target="_blank">aplicación</a><a href="https://github.com/dserrano5/bitaddress.org" target="_blank">traducción</a></span>
+				<span>Repositorios GitHub: <a href="https://github.com/pointbiz/bitaddress.org" target="_blank">aplicación</a>, <a href="https://github.com/dserrano5/bitaddress.org" target="_blank">traducción</a></span>
 			</div>
 			<div class="copyright">
 				<span>Copyright bitaddress.org.</span>
@@ -4845,7 +4845,7 @@
 							}
 							else {
 								alert("La contraseña introducida es demasiado corta.\n\n"
-									+ "Aviso: Escoger una contraseña fuerte es importante para evitar ataques de fuerza bruta para adivinarla y robar tus bitcoins.");
+									+ "Aviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.");
 								ninja.wallets.brainwallet.clear();
 							}
 						}
@@ -5028,7 +5028,7 @@
 								// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
 								var usePassphrase = confirm("El texto que has introducido no es una clave privada válida\n\n"
 								+ "¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\n"
-								+ "Aviso: Es importante escoger una contraseña fuerte para evitar intentos de fuerza bruta para adivinar la contraseña y robar tus bitcoins.");
+								+ "Aviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.");
 								if (usePassphrase) {
 									var bytes = Crypto.SHA256(key, { asBytes: true });
 									var btcKey = new Bitcoin.ECKey(bytes);
