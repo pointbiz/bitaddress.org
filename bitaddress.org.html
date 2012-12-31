@@ -3454,11 +3454,30 @@
 	</script>
 
 	<script type="text/javascript">
-		var Bitcoin = {};
+		/*
+		Copyright (c) 2011 Stefan Thomas
 
-		(function () {
-			var B58 = Bitcoin.Base58 = {
+		Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+		The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		*/
+
+		//https://raw.github.com/bitcoinjs/bitcoinjs-lib/1a7fc9d063f864058809d06ef4542af40be3558f/src/bitcoin.js
+		(function (exports) {
+			var Bitcoin = exports;
+		})(
+			'object' === typeof module ? module.exports : (window.Bitcoin = {})
+		);
+	</script>
+
+	<script type="text/javascript">
+		//https: //raw.github.com/bitcoinjs/bitcoinjs-lib/c952aaeb3ee472e3776655b8ea07299ebed702c7/src/base58.js
+		(function (Bitcoin) {
+			Bitcoin.Base58 = {
 				alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+				validRegex: /^[1-9A-HJ-NP-Za-km-z]+$/,
 				base: BigInteger.valueOf(58),
 
 				/**
@@ -3487,8 +3506,7 @@
 						} else break;
 					}
 
-					s = chars.join('');
-					return s;
+					return chars.join('');
 				},
 
 				/**
@@ -3500,12 +3518,15 @@
 				* Ported to JavaScript by Stefan Thomas.
 				*/
 				decode: function (input) {
-					bi = BigInteger.valueOf(0);
+					var bi = BigInteger.valueOf(0);
 					var leadingZerosNum = 0;
 					for (var i = input.length - 1; i >= 0; i--) {
 						var alphaIndex = B58.alphabet.indexOf(input[i]);
+						if (alphaIndex < 0) {
+							throw "Invalid character";
+						}
 						bi = bi.add(BigInteger.valueOf(alphaIndex)
-						.multiply(B58.base.pow(input.length - 1 - i)));
+								.multiply(B58.base.pow(input.length - 1 - i)));
 
 						// This counts leading zero bytes
 						if (input[i] == "1") leadingZerosNum++;
@@ -3519,12 +3540,15 @@
 					return bytes;
 				}
 			};
-		})();
 
+			var B58 = Bitcoin.Base58;
+		})(
+		'undefined' != typeof Bitcoin ? Bitcoin : module.exports
+		);
+	</script>
 
-
-
-
+	<script type="text/javascript">
+		//https://raw.github.com/bitcoinjs/bitcoinjs-lib/09e8c6e184d6501a0c2c59d73ca64db5c0d3eb95/src/address.js
 		Bitcoin.Address = function (bytes) {
 			if ("string" == typeof bytes) {
 				bytes = Bitcoin.Address.decodeString(bytes);
@@ -3535,6 +3559,11 @@
 
 		Bitcoin.Address.networkVersion = 0x00; // mainnet
 
+		/**
+		* Serialize this object as a standard Bitcoin address.
+		*
+		* Returns the address as a base58-encoded string in the standardized format.
+		*/
 		Bitcoin.Address.prototype.toString = function () {
 			// Get a copy of the hash
 			var hash = this.hash.slice(0);
@@ -3550,6 +3579,9 @@
 			return Crypto.util.bytesToBase64(this.hash);
 		};
 
+		/**
+		* Parse a Bitcoin address contained in a string.
+		*/
 		Bitcoin.Address.decodeString = function (string) {
 			var bytes = Bitcoin.Base58.decode(string);
 			var hash = bytes.slice(0, 21);
@@ -3570,15 +3602,9 @@
 
 			return hash;
 		};
+	</script>
 
-
-
-
-
-
-
-
-
+	<script type="text/javascript">
 		Bitcoin.ECDSA = (function () {
 			var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
 			var rng = new SecureRandom();
@@ -4478,7 +4504,7 @@
 				var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
 				var curve = ecparams.getCurve();
 				var ecPoint = EllipticCurve.PointFp.decodeFrom(curve, EllipticCurve.fromHex(pubKeyHex).toByteArrayUnsigned());
-				var bigInt = new BigInteger(privKeyBytes);
+				var bigInt = BigInteger.fromByteArrayUnsigned(privKeyBytes);
 				var pubKey = ecPoint.multiply(bigInt).getEncoded(0);
 				return pubKey;
 			}
@@ -5415,7 +5441,17 @@
 					alert("fail testGetByteArrayFromMultiplying");
 				}
 			},
-
+			// confirms multiplication is working and BigInteger was created correctly
+			testGetPubHexFromMultiplying: function () {
+				var key1 = "04F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F98938020F36EBBDE6F1BEAF98E5BD0E425747E68B0F2FB7A2A59EDE93F43C0D78156FF";
+				var key2 = "B1202A137E917536B3B4C5010C3FF5DDD4784917B3EEF21D3A3BF21B2E03310C";
+				var privBytes = ninja.privateKey.anyPrivateKeyToByteArray(key2);
+				var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, privBytes);
+				var pubHex = ninja.publicKey.getHexFromByteArray(bytes);
+				if (pubHex != "04C6732006AF4AE571C7758DF7A7FB9E3689DFCF8B53D8724D3A15517D8AB1B4DBBE0CB8BB1C4525F8A3001771FC7E801D3C5986A555E2E9441F1AD6D181356076") {
+					alert("fail testGetPubHexFromMultiplying");
+				}
+			},
 
 			//ninja.privateKey tests
 			testBadKeyReturnsNullFromAnyPrivateKeyToECKey: function () {
