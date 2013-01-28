@@ -710,6 +710,7 @@
 	</script>
 
 	<script type="text/javascript">
+	//https://raw.github.com/bitcoinjs/bitcoinjs-lib/faa10f0f6a1fff0b9a99fffb9bc30cee33b17212/src/ecdsa.js
 	/*!
 	* Basic Javascript Elliptic Curve implementation
 	* Ported loosely from BouncyCastle's Java EC code
@@ -726,11 +727,13 @@
 
 		// ----------------
 		// ECFieldElementFp constructor
+		// q instanceof BigInteger
+		// x instanceof BigInteger
 		ec.FieldElementFp = function (q, x) {
 			this.x = x;
 			// TODO if(x.compareTo(q) >= 0) error
 			this.q = q;
-		}
+		};
 
 		ec.FieldElementFp.prototype.equals = function (other) {
 			if (other == this) return true;
@@ -769,9 +772,109 @@
 			return Math.floor((this.toBigInteger().bitLength() + 7) / 8);
 		};
 
+		// D.1.4 91
+		/**
+		* return a sqrt root - the routine verifies that the calculation
+		* returns the right value - if none exists it returns null.
+		* 
+		* Copyright (c) 2000 - 2011 The Legion Of The Bouncy Castle (http://www.bouncycastle.org)
+		* Ported to JavaScript by bitaddress.org
+		*/
+		ec.FieldElementFp.prototype.sqrt = function () {
+			if (!this.q.testBit(0)) throw new Error("even value of q");
+
+			// p mod 4 == 3
+			if (this.q.testBit(1)) {
+				// z = g^(u+1) + p, p = 4u + 3
+				var z = new ec.FieldElementFp(this.q, this.x.modPow(this.q.shiftRight(2).add(BigInteger.ONE), this.q));
+				return z.square().equals(this) ? z : null;
+			}
+
+			// p mod 4 == 1
+			var qMinusOne = this.q.subtract(BigInteger.ONE);
+			var legendreExponent = qMinusOne.shiftRight(1);
+			if (!(this.x.modPow(legendreExponent, this.q).equals(BigInteger.ONE))) return null;
+			var u = qMinusOne.shiftRight(2);
+			var k = u.shiftLeft(1).add(BigInteger.ONE);
+			var Q = this.x;
+			var fourQ = Q.shiftLeft(2).mod(this.q);
+			var U, V;
+
+			do {
+				var rand = new SecureRandom();
+				var P;
+				do {
+					P = new BigInteger(this.q.bitLength(), rand);
+				}
+				while (P.compareTo(this.q) >= 0 || !(P.multiply(P).subtract(fourQ).modPow(legendreExponent, this.q).equals(qMinusOne)));
+
+				var result = ec.FieldElementFp.fastLucasSequence(this.q, P, Q, k);
+
+				U = result[0];
+				V = result[1];
+				if (V.multiply(V).mod(this.q).equals(fourQ)) {
+					// Integer division by 2, mod q
+					if (V.testBit(0)) {
+						V = V.add(this.q);
+					}
+					V = V.shiftRight(1);
+					return new ec.FieldElementFp(this.q, V);
+				}
+			}
+			while (U.equals(BigInteger.ONE) || U.equals(qMinusOne));
+
+			return null;
+		};
+
+		/*
+		* Copyright (c) 2000 - 2011 The Legion Of The Bouncy Castle (http://www.bouncycastle.org)
+		* Ported to JavaScript by bitaddress.org
+		*/
+		ec.FieldElementFp.fastLucasSequence = function (p, P, Q, k) {
+			// TODO Research and apply "common-multiplicand multiplication here"
+
+			var n = k.bitLength();
+			var s = k.getLowestSetBit();
+			var Uh = BigInteger.ONE;
+			var Vl = BigInteger.TWO;
+			var Vh = P;
+			var Ql = BigInteger.ONE;
+			var Qh = BigInteger.ONE;
+
+			for (var j = n - 1; j >= s + 1; --j) {
+				Ql = Ql.multiply(Qh).mod(p);
+				if (k.testBit(j)) {
+					Qh = Ql.multiply(Q).mod(p);
+					Uh = Uh.multiply(Vh).mod(p);
+					Vl = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
+					Vh = Vh.multiply(Vh).subtract(Qh.shiftLeft(1)).mod(p);
+				}
+				else {
+					Qh = Ql;
+					Uh = Uh.multiply(Vl).subtract(Ql).mod(p);
+					Vh = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
+					Vl = Vl.multiply(Vl).subtract(Ql.shiftLeft(1)).mod(p);
+				}
+			}
+
+			Ql = Ql.multiply(Qh).mod(p);
+			Qh = Ql.multiply(Q).mod(p);
+			Uh = Uh.multiply(Vl).subtract(Ql).mod(p);
+			Vl = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
+			Ql = Ql.multiply(Qh).mod(p);
+
+			for (var j = 1; j <= s; ++j) {
+				Uh = Uh.multiply(Vl).mod(p);
+				Vl = Vl.multiply(Vl).subtract(Ql.shiftLeft(1)).mod(p);
+				Ql = Ql.multiply(Ql).mod(p);
+			}
+
+			return [Uh, Vl];
+		};
+
 		// ----------------
 		// ECPointFp constructor
-		ec.PointFp = function (curve, x, y, z) {
+		ec.PointFp = function (curve, x, y, z, compressed) {
 			this.curve = curve;
 			this.x = x;
 			this.y = y;
@@ -784,7 +887,8 @@
 				this.z = z;
 			}
 			this.zinv = null;
-			//TODO: compression flag
+			// compression flag
+			this.compressed = !!compressed;
 		};
 
 		ec.PointFp.prototype.getX = function () {
@@ -964,7 +1068,7 @@
 				else {
 					enc.unshift(0x03);
 				}
-			} 
+			}
 			else {
 				enc.unshift(0x04);
 				enc = enc.concat(ec.integerToBytes(y, len)); // uncompressed public key appends the bytes of the y point
@@ -1069,6 +1173,15 @@
 			return lhs.equals(rhs);
 		};
 
+		ec.PointFp.prototype.toString = function () {
+			return '(' + this.getX().toBigInteger().toString() + ',' + this.getY().toBigInteger().toString() + ')';
+		};
+
+		/**
+		* Validate an elliptic curve point.
+		*
+		* See SEC 1, section 3.2.2.1: Elliptic Curve Public Key Validation Primitive
+		*/
 		ec.PointFp.prototype.validate = function () {
 			var n = this.curve.getQ();
 
@@ -1139,17 +1252,21 @@
 		};
 
 		// for now, work with hex strings because they're easier in JS
+		// compressed support added by bitaddress.org
 		ec.CurveFp.prototype.decodePointHex = function (s) {
-			switch (parseInt(s.substr(0, 2), 16)) { // first byte
+			var firstByte = parseInt(s.substr(0, 2), 16);
+			switch (firstByte) { // first byte
 				case 0:
 					return this.infinity;
-				case 2:
-				case 3:
-					// point compression not supported yet
-					return null;
-				case 4:
-				case 6:
-				case 7:
+				case 2: // compressed
+				case 3: // compressed
+					var yTilde = firstByte & 1;
+					var xHex = s.substr(2, s.length - 2);
+					var X1 = new BigInteger(xHex, 16);
+					return this.decompressPoint(yTilde, X1);
+				case 4: // uncompressed
+				case 6: // hybrid
+				case 7: // hybrid
 					var len = (s.length - 2) / 2;
 					var xHex = s.substr(2, len);
 					var yHex = s.substr(len + 2, len);
@@ -1161,6 +1278,28 @@
 				default: // unsupported
 					return null;
 			}
+		};
+
+		/*
+		* Copyright (c) 2000 - 2011 The Legion Of The Bouncy Castle (http://www.bouncycastle.org)
+		* Ported to JavaScript by bitaddress.org
+		*
+		* Number yTilde
+		* BigInteger X1
+		*/
+		ec.CurveFp.prototype.decompressPoint = function (yTilde, X1) {
+			var x = this.fromBigInteger(X1);
+			var alpha = x.multiply(x.square().add(this.getA())).add(this.getB());
+			var beta = alpha.sqrt();
+			// if we can't find a sqrt we haven't got a point on the curve - run!
+			if (beta == null) throw new Error("Invalid point compression");
+			var betaValue = beta.toBigInteger();
+			var bit0 = betaValue.testBit(0) ? 1 : 0;
+			if (bit0 != yTilde) {
+				// Use the other root
+				beta = this.fromBigInteger(this.getQ().subtract(betaValue));
+			}
+			return new ec.PointFp(this, x, beta, null, true);
 		};
 
 
@@ -1219,7 +1358,7 @@
 
 	<script type="text/javascript">
 		/*!
-		* Basic JavaScript BN library - subset useful for RSA encryption.
+		* Basic JavaScript BN library - subset useful for RSA encryption. v1.3
 		* 
 		* Copyright (c) 2005  Tom Wu
 		* All Rights Reserved.
@@ -1678,7 +1817,7 @@
 				if (r != 0) return r;
 				var i = this.t;
 				r = i - a.t;
-				if (r != 0) return r;
+				if (r != 0) return (this.s < 0) ? -r : r;
 				while (--i >= 0) if ((r = this[i] - a[i]) != 0) return r;
 				return 0;
 			}
@@ -2272,10 +2411,18 @@
 
 
 			// Copyright Stephan Thomas (start) --- //
+			// https://raw.github.com/bitcoinjs/bitcoinjs-lib/07f9d55ccb6abd962efb6befdd37671f85ea4ff9/src/util.js
 			// BigInteger monkey patching
 			BigInteger.valueOf = nbv;
+
+			/**
+			* Returns a byte array representation of the big integer.
+			*
+			* This returns the absolute of the contained value in big endian
+			* form. A value of zero results in an empty array.
+			*/
 			BigInteger.prototype.toByteArrayUnsigned = function () {
-				var ba = this.toByteArray();
+				var ba = this.abs().toByteArray();
 				if (ba.length) {
 					if (ba[0] == 0) {
 						ba = ba.slice(1);
@@ -2288,6 +2435,13 @@
 					return ba;
 				}
 			};
+
+			/**
+			* Turns a byte array into a big integer.
+			*
+			* This function will interpret a byte array as a big integer in big
+			* endian notation and ignore leading zeros.
+			*/
 			BigInteger.fromByteArrayUnsigned = function (ba) {
 				if (!ba.length) {
 					return ba.valueOf(0);
@@ -2297,6 +2451,66 @@
 					return new BigInteger([0].concat(ba));
 				} else {
 					return new BigInteger(ba);
+				}
+			};
+
+			/**
+			* Converts big integer to signed byte representation.
+			*
+			* The format for this value uses a the most significant bit as a sign
+			* bit. If the most significant bit is already occupied by the
+			* absolute value, an extra byte is prepended and the sign bit is set
+			* there.
+			*
+			* Examples:
+			*
+			*      0 =>     0x00
+			*      1 =>     0x01
+			*     -1 =>     0x81
+			*    127 =>     0x7f
+			*   -127 =>     0xff
+			*    128 =>   0x0080
+			*   -128 =>   0x8080
+			*    255 =>   0x00ff
+			*   -255 =>   0x80ff
+			*  16300 =>   0x3fac
+			* -16300 =>   0xbfac
+			*  62300 => 0x00f35c
+			* -62300 => 0x80f35c
+			*/
+			BigInteger.prototype.toByteArraySigned = function () {
+				var val = this.abs().toByteArrayUnsigned();
+				var neg = this.compareTo(BigInteger.ZERO) < 0;
+
+				if (neg) {
+					if (val[0] & 0x80) {
+						val.unshift(0x80);
+					} else {
+						val[0] |= 0x80;
+					}
+				} else {
+					if (val[0] & 0x80) {
+						val.unshift(0x00);
+					}
+				}
+
+				return val;
+			};
+
+			/**
+			* Parse a signed big integer byte representation.
+			*
+			* For details on the format please see BigInteger.toByteArraySigned.
+			*/
+			BigInteger.fromByteArraySigned = function (ba) {
+				// Check for negative value
+				if (ba[0] & 0x80) {
+					// Remove sign bit
+					ba[0] &= 0x7f;
+
+					return BigInteger.fromByteArrayUnsigned(ba).negate();
+				} else {
+					return BigInteger.fromByteArrayUnsigned(ba);
 				}
 			};
 			// Copyright Stephan Thomas (end) --- //
@@ -3473,7 +3687,7 @@
 	</script>
 
 	<script type="text/javascript">
-		//https: //raw.github.com/bitcoinjs/bitcoinjs-lib/c952aaeb3ee472e3776655b8ea07299ebed702c7/src/base58.js
+		//https://raw.github.com/bitcoinjs/bitcoinjs-lib/c952aaeb3ee472e3776655b8ea07299ebed702c7/src/base58.js
 		(function (Bitcoin) {
 			Bitcoin.Base58 = {
 				alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
@@ -3605,9 +3819,12 @@
 	</script>
 
 	<script type="text/javascript">
+		//https://raw.github.com/bitcoinjs/bitcoinjs-lib/e90780d3d3b8fc0d027d2bcb38b80479902f223e/src/ecdsa.js
 		Bitcoin.ECDSA = (function () {
 			var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
 			var rng = new SecureRandom();
+
+			var P_OVER_FOUR = null;
 
 			function implShamirsTrick(P, k, Q, l) {
 				var m = Math.max(k.bitLength(), l.bitLength());
@@ -3658,9 +3875,68 @@
 					return ECDSA.serializeSig(r, s);
 				},
 
+				verify: function (hash, sig, pubkey) {
+					var r, s;
+					if (Bitcoin.Util.isArray(sig)) {
+						var obj = ECDSA.parseSig(sig);
+						r = obj.r;
+						s = obj.s;
+					} else if ("object" === typeof sig && sig.r && sig.s) {
+						r = sig.r;
+						s = sig.s;
+					} else {
+						throw "Invalid value for signature";
+					}
+
+					var Q;
+					if (pubkey instanceof ec.PointFp) {
+						Q = pubkey;
+					} else if (Bitcoin.Util.isArray(pubkey)) {
+						Q = EllipticCurve.PointFp.decodeFrom(ecparams.getCurve(), pubkey);
+					} else {
+						throw "Invalid format for pubkey value, must be byte array or ec.PointFp";
+					}
+					var e = BigInteger.fromByteArrayUnsigned(hash);
+
+					return ECDSA.verifyRaw(e, r, s, Q);
+				},
+
+				verifyRaw: function (e, r, s, Q) {
+					var n = ecparams.getN();
+					var G = ecparams.getG();
+
+					if (r.compareTo(BigInteger.ONE) < 0 ||
+          r.compareTo(n) >= 0)
+						return false;
+
+					if (s.compareTo(BigInteger.ONE) < 0 ||
+          s.compareTo(n) >= 0)
+						return false;
+
+					var c = s.modInverse(n);
+
+					var u1 = e.multiply(c).mod(n);
+					var u2 = r.multiply(c).mod(n);
+
+					// TODO(!!!): For some reason Shamir's trick isn't working with
+					// signed message verification!? Probably an implementation
+					// error!
+					//var point = implShamirsTrick(G, u1, Q, u2);
+					var point = G.multiply(u1).add(Q.multiply(u2));
+
+					var v = point.getX().toBigInteger().mod(n);
+
+					return v.equals(r);
+				},
+
+				/**
+				* Serialize a signature into DER format.
+				*
+				* Takes two BigIntegers representing r and s and returns a byte array.
+				*/
 				serializeSig: function (r, s) {
-					var rBa = r.toByteArrayUnsigned();
-					var sBa = s.toByteArrayUnsigned();
+					var rBa = r.toByteArraySigned();
+					var sBa = s.toByteArraySigned();
 
 					var sequence = [];
 					sequence.push(0x02); // INTEGER
@@ -3672,42 +3948,21 @@
 					sequence = sequence.concat(sBa);
 
 					sequence.unshift(sequence.length);
-					sequence.unshift(0x30) // SEQUENCE
+					sequence.unshift(0x30); // SEQUENCE
 
 					return sequence;
 				},
 
-				verify: function (hash, sig, pubkey) {
-					var obj = ECDSA.parseSig(sig);
-					var r = obj.r;
-					var s = obj.s;
-
-					var n = ecparams.getN();
-					var e = BigInteger.fromByteArrayUnsigned(hash);
-
-					if (r.compareTo(BigInteger.ONE) < 0 ||
-				r.compareTo(n) >= 0)
-						return false;
-
-					if (s.compareTo(BigInteger.ONE) < 0 ||
-				s.compareTo(n) >= 0)
-						return false;
-
-					var c = s.modInverse(n);
-
-					var u1 = e.multiply(c).mod(n);
-					var u2 = r.multiply(c).mod(n);
-
-					var G = ecparams.getG();
-					var Q = ECPointFp.decodeFrom(ecparams.getCurve(), pubkey);
-
-					var point = implShamirsTrick(G, u1, Q, u2);
-
-					var v = point.x.toBigInteger().mod(n);
-
-					return v.equals(r);
-				},
-
+				/**
+				* Parses a byte array containing a DER-encoded signature.
+				*
+				* This function will return an object of the form:
+				* 
+				* {
+				*   r: BigInteger,
+				*   s: BigInteger
+				* }
+				*/
 				parseSig: function (sig) {
 					var cursor;
 					if (sig[0] != 0x30)
@@ -3732,20 +3987,125 @@
 					var s = BigInteger.fromByteArrayUnsigned(sBa);
 
 					return { r: r, s: s };
+				},
+
+				parseSigCompact: function (sig) {
+					if (sig.length !== 65) {
+						throw "Signature has the wrong length";
+					}
+
+					// Signature is prefixed with a type byte storing three bits of
+					// information.
+					var i = sig[0] - 27;
+					if (i < 0 || i > 7) {
+						throw "Invalid signature type";
+					}
+
+					var n = ecparams.getN();
+					var r = BigInteger.fromByteArrayUnsigned(sig.slice(1, 33)).mod(n);
+					var s = BigInteger.fromByteArrayUnsigned(sig.slice(33, 65)).mod(n);
+
+					return { r: r, s: s, i: i };
+				},
+
+				/**
+				* Recover a public key from a signature.
+				*
+				* See SEC 1: Elliptic Curve Cryptography, section 4.1.6, "Public
+				* Key Recovery Operation".
+				*
+				* http://www.secg.org/download/aid-780/sec1-v2.pdf
+				*/
+				recoverPubKey: function (r, s, hash, i) {
+					// The recovery parameter i has two bits.
+					i = i & 3;
+
+					// The less significant bit specifies whether the y coordinate
+					// of the compressed point is even or not.
+					var isYEven = i & 1;
+
+					// The more significant bit specifies whether we should use the
+					// first or second candidate key.
+					var isSecondKey = i >> 1;
+
+					var n = ecparams.getN();
+					var G = ecparams.getG();
+					var curve = ecparams.getCurve();
+					var p = curve.getQ();
+					var a = curve.getA().toBigInteger();
+					var b = curve.getB().toBigInteger();
+
+					// We precalculate (p + 1) / 4 where p is if the field order
+					if (!P_OVER_FOUR) {
+						P_OVER_FOUR = p.add(BigInteger.ONE).divide(BigInteger.valueOf(4));
+					}
+
+					// 1.1 Compute x
+					var x = isSecondKey ? r.add(n) : r;
+
+					// 1.3 Convert x to point
+					var alpha = x.multiply(x).multiply(x).add(a.multiply(x)).add(b).mod(p);
+					var beta = alpha.modPow(P_OVER_FOUR, p);
+
+					var xorOdd = beta.isEven() ? (i % 2) : ((i + 1) % 2);
+					// If beta is even, but y isn't or vice versa, then convert it,
+					// otherwise we're done and y == beta.
+					var y = (beta.isEven() ? !isYEven : isYEven) ? beta : p.subtract(beta);
+
+					// 1.4 Check that nR is at infinity
+					var R = new EllipticCurve.PointFp(curve,
+                            curve.fromBigInteger(x),
+                            curve.fromBigInteger(y));
+					R.validate();
+
+					// 1.5 Compute e from M
+					var e = BigInteger.fromByteArrayUnsigned(hash);
+					var eNeg = BigInteger.ZERO.subtract(e).mod(n);
+
+					// 1.6 Compute Q = r^-1 (sR - eG)
+					var rInv = r.modInverse(n);
+					var Q = implShamirsTrick(R, s, G, eNeg).multiply(rInv);
+
+					Q.validate();
+					if (!ECDSA.verifyRaw(e, r, s, Q)) {
+						throw "Pubkey recovery unsuccessful";
+					}
+
+					var pubKey = new Bitcoin.ECKey();
+					pubKey.pub = Q;
+					return pubKey;
+				},
+
+				/**
+				* Calculate pubkey extraction parameter.
+				*
+				* When extracting a pubkey from a signature, we have to
+				* distinguish four different cases. Rather than putting this
+				* burden on the verifier, Bitcoin includes a 2-bit value with the
+				* signature.
+				*
+				* This function simply tries all four cases and returns the value
+				* that resulted in a successful pubkey recovery.
+				*/
+				calcPubkeyRecoveryParam: function (address, r, s, hash) {
+					for (var i = 0; i < 4; i++) {
+						try {
+							var pubkey = Bitcoin.ECDSA.recoverPubKey(r, s, hash, i);
+							if (pubkey.getBitcoinAddress().toString() == address) {
+								return i;
+							}
+						} catch (e) { }
+					}
+					throw "Unable to find valid recovery factor";
 				}
 			};
 
 			return ECDSA;
 		})();
+	</script>
 
-
-
-
-
-
-
-
-
+	<script type="text/javascript">
+		//https://raw.github.com/pointbiz/bitcoinjs-lib/9b2f94a028a7bc9bed94e0722563e9ff1d8e8db8/src/eckey.js
 		Bitcoin.ECKey = (function () {
 			var ECDSA = Bitcoin.ECDSA;
 			var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
@@ -3763,41 +4123,94 @@
 					// Prepend zero byte to prevent interpretation as negative integer
 					this.priv = BigInteger.fromByteArrayUnsigned(input);
 				} else if ("string" == typeof input) {
-					// Prepend zero byte to prevent interpretation as negative integer
-					this.priv = BigInteger.fromByteArrayUnsigned(Crypto.util.base64ToBytes(input));
+					var bytes = null;
+					if (ECKey.isWalletImportFormat(input)) {
+						bytes = ECKey.decodeWalletImportFormat(input);
+					} else if (ECKey.isCompressedWalletImportFormat(input)) {
+						bytes = ECKey.decodeCompressedWalletImportFormat(input);
+						this.compressed = true;
+					} else if (ECKey.isMiniFormat(input)) {
+						bytes = Crypto.SHA256(input, { asBytes: true });
+					} else if (ECKey.isHexFormat(input)) {
+						bytes = Crypto.util.hexToBytes(input);
+					} else if (ECKey.isBase64Format(input)) {
+						bytes = Crypto.util.base64ToBytes(input);
+					}
+
+					if (bytes == null || bytes.length != 32) {
+						this.priv = null;
+					} else {
+						// Prepend zero byte to prevent interpretation as negative integer
+						this.priv = BigInteger.fromByteArrayUnsigned(bytes);
+					}
+				}
+
+				this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
+			};
+
+			ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
+
+			/**
+			* Whether public keys should be returned compressed by default.
+			*/
+			ECKey.compressByDefault = false;
+
+			/**
+			* Set whether the public key should be returned compressed or not.
+			*/
+			ECKey.prototype.setCompressed = function (v) {
+				this.compressed = !!v;
+				if (this.pubPoint) this.pubPoint.compressed = this.compressed;
+			};
+
+			/*
+			* Return public key as a byte array in DER encoding
+			*/
+			ECKey.prototype.getPub = function () {
+				if (this.compressed) {
+					if (this.pubComp) return this.pubComp;
+					return this.pubComp = this.getPubPoint().getEncoded(1);
+				} else {
+					if (this.pubUncomp) return this.pubUncomp;
+					return this.pubUncomp = this.getPubPoint().getEncoded(0);
 				}
 			};
 
-			ECKey.privateKeyPrefix = 0x80; // mainnet
-
-			ECKey.prototype.getPub = function () {
-				if (this.pub) return this.pub;
-				return this.pub = ecparams.getG().multiply(this.priv).getEncoded(0);
+			/**
+			* Return public point as ECPoint object.
+			*/
+			ECKey.prototype.getPubPoint = function () {
+				if (!this.pubPoint) {
+					this.pubPoint = ecparams.getG().multiply(this.priv);
+					this.pubPoint.compressed = this.compressed;
+				}
+				return this.pubPoint;
 			};
 
 			ECKey.prototype.getPubKeyHex = function () {
-				if (this.pubKeyHex) return this.pubKeyHex;
-				return this.pubKeyHex = Crypto.util.bytesToHex(this.getPub()).toString().toUpperCase();
+				if (this.compressed) {
+					if (this.pubKeyHexComp) return this.pubKeyHexComp;
+					return this.pubKeyHexComp = Crypto.util.bytesToHex(this.getPub()).toString().toUpperCase();
+				} else {
+					if (this.pubKeyHexUncomp) return this.pubKeyHexUncomp;
+					return this.pubKeyHexUncomp = Crypto.util.bytesToHex(this.getPub()).toString().toUpperCase();
+				}
 			};
 
-			ECKey.prototype.getPubKeyHexCompressed = function () {
-				if (this.pubKeyHexCompressed) return this.pubKeyHexCompressed;
-				return this.pubKeyHexCompressed = Crypto.util.bytesToHex(this.getPubCompressed()).toString().toUpperCase();
-			};
-
-			ECKey.prototype.getPubCompressed = function () {
-				if (this.pubCompressed) return this.pubCompressed;
-				return this.pubCompressed = ecparams.getG().multiply(this.priv).getEncoded(1);
-			};
-
+			/**
+			* Get the pubKeyHash for this key.
+			*
+			* This is calculated as RIPE160(SHA256([encoded pubkey])) and returned as
+			* a byte array.
+			*/
 			ECKey.prototype.getPubKeyHash = function () {
-				if (this.pubKeyHash) return this.pubKeyHash;
-				return this.pubKeyHash = Bitcoin.Util.sha256ripe160(this.getPub());
-			};
-
-			ECKey.prototype.getPubKeyHashCompressed = function () {
-				if (this.pubKeyHashCompressed) return this.pubKeyHashCompressed;
-				return this.pubKeyHashCompressed = Bitcoin.Util.sha256ripe160(this.getPubCompressed());
+				if (this.compressed) {
+					if (this.pubKeyHashComp) return this.pubKeyHashComp;
+					return this.pubKeyHashComp = Bitcoin.Util.sha256ripe160(this.getPub());
+				} else {
+					if (this.pubKeyHashUncomp) return this.pubKeyHashUncomp;
+					return this.pubKeyHashUncomp = Bitcoin.Util.sha256ripe160(this.getPub());
+				}
 			};
 
 			ECKey.prototype.getBitcoinAddress = function () {
@@ -3806,31 +4219,28 @@
 				return addr.toString();
 			};
 
-			ECKey.prototype.getBitcoinAddressCompressed = function () {
-				var hash = this.getPubKeyHashCompressed();
-				var addr = new Bitcoin.Address(hash);
-				return addr.toString();
+			/*
+			* Takes a public point as a hex string or byte array
+			*/
+			ECKey.prototype.setPub = function (pub) {
+				// byte array
+				if (Bitcoin.Util.isArray(pub)) {
+					pub = Crypto.util.bytesToHex(pub).toString().toUpperCase();
+				}
+				var ecPoint = ecparams.getCurve().decodePointHex(pub);
+				this.setCompressed(ecPoint.compressed);
+				this.pubPoint = ecPoint;
 			};
 
 			// Sipa Private Key Wallet Import Format 
 			ECKey.prototype.getBitcoinWalletImportFormat = function () {
 				var bytes = this.getBitcoinPrivateKeyByteArray();
 				bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
+				if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 				bytes = bytes.concat(checksum.slice(0, 4));
 				var privWif = Bitcoin.Base58.encode(bytes);
 				return privWif;
-			};
-
-			// Sipa Private Key Wallet Import Format Compressed
-			ECKey.prototype.getBitcoinWalletImportFormatCompressed = function () {
-				var bytes = this.getBitcoinPrivateKeyByteArray();
-				bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte	
-				bytes.push(0x01);    // append 0x01 byte for compressed format
-				var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
-				bytes = bytes.concat(checksum.slice(0, 4));
-				var privWifComp = Bitcoin.Base58.encode(bytes);
-				return privWifComp;
 			};
 
 			// Private Key Hex Format 
@@ -3851,26 +4261,14 @@
 				return bytes;
 			};
 
-			ECKey.prototype.setPub = function (pub) {
-				this.pub = pub;
-			};
-
-			ECKey.prototype.setPubCompressed = function (pubCompressed) {
-				this.pubCompressed = pubCompressed;
-			};
-
 			ECKey.prototype.toString = function (format) {
 				format = format || "";
-
 				if (format.toString().toLowerCase() == "base64" || format.toString().toLowerCase() == "b64") {
 					return this.getBitcoinBase64Format();
 				}
 				// Wallet Import Format
 				else if (format.toString().toLowerCase() == "wif") {
 					return this.getBitcoinWalletImportFormat();
-				}
-				else if (format.toString().toLowerCase() == "wifcomp") {
-					return this.getBitcoinWalletImportFormatCompressed();
 				}
 				else {
 					return this.getBitcoinHexFormat();
@@ -3885,19 +4283,103 @@
 				return ECDSA.verify(hash, sig, this.getPub());
 			};
 
+			/**
+			* Parse a wallet import format private key contained in a string.
+			*/
+			ECKey.decodeWalletImportFormat = function (privStr) {
+				var bytes = Bitcoin.Base58.decode(privStr);
+				var hash = bytes.slice(0, 33);
+				var checksum = Crypto.SHA256(Crypto.SHA256(hash, { asBytes: true }), { asBytes: true });
+				if (checksum[0] != bytes[33] ||
+					checksum[1] != bytes[34] ||
+					checksum[2] != bytes[35] ||
+					checksum[3] != bytes[36]) {
+					throw "Checksum validation failed!";
+				}
+				var version = hash.shift();
+				if (version != ECKey.privateKeyPrefix) {
+					throw "Version " + version + " not supported!";
+				}
+				return hash;
+			};
+
+			/**
+			* Parse a compressed wallet import format private key contained in a string.
+			*/
+			ECKey.decodeCompressedWalletImportFormat = function (privStr) {
+				var bytes = Bitcoin.Base58.decode(privStr);
+				var hash = bytes.slice(0, 34);
+				var checksum = Crypto.SHA256(Crypto.SHA256(hash, { asBytes: true }), { asBytes: true });
+				if (checksum[0] != bytes[34] ||
+					checksum[1] != bytes[35] ||
+					checksum[2] != bytes[36] ||
+					checksum[3] != bytes[37]) {
+					throw "Checksum validation failed!";
+				}
+				var version = hash.shift();
+				if (version != ECKey.privateKeyPrefix) {
+					throw "Version " + version + " not supported!";
+				}
+				hash.pop();
+				return hash;
+			};
+
+			// 64 characters [0-9A-F]
+			ECKey.isHexFormat = function (key) {
+				key = key.toString();
+				return /^[A-Fa-f0-9]{64}$/.test(key);
+			};
+
+			// 51 characters base58, always starts with a '5'
+			ECKey.isWalletImportFormat = function (key) {
+				key = key.toString();
+				return (ECKey.privateKeyPrefix == 0x80) ?
+							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
+							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+			};
+
+			// 52 characters base58
+			ECKey.isCompressedWalletImportFormat = function (key) {
+				key = key.toString();
+				return (ECKey.privateKeyPrefix == 0x80) ?
+							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
+							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+			};
+
+			// 44 characters
+			ECKey.isBase64Format = function (key) {
+				key = key.toString();
+				return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
+			};
+
+			// 22, 26 or 30 characters, always starts with an 'S'
+			ECKey.isMiniFormat = function (key) {
+				key = key.toString();
+				var validChars22 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{21}$/.test(key);
+				var validChars26 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25}$/.test(key);
+				var validChars30 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{29}$/.test(key);
+				var testBytes = Crypto.SHA256(key + "?", { asBytes: true });
+
+				return ((testBytes[0] === 0x00 || testBytes[0] === 0x01) && (validChars22 || validChars26 || validChars30));
+			};
+
 			return ECKey;
 		})();
+	</script>
 
-
-
-
-
-
+	<script type="text/javascript">
+		//https://raw.github.com/bitcoinjs/bitcoinjs-lib/09e8c6e184d6501a0c2c59d73ca64db5c0d3eb95/src/util.js
 		// Bitcoin utility functions
 		Bitcoin.Util = {
+			/**
+			* Cross-browser compatibility version of Array.isArray.
+			*/
 			isArray: Array.isArray || function (o) {
 				return Object.prototype.toString.call(o) === '[object Array]';
 			},
+			/**
+			* Create an array of a certain length filled with a specific value.
+			*/
 			makeFilledArray: function (len, val) {
 				var array = [];
 				var i = 0;
@@ -3906,6 +4388,13 @@
 				}
 				return array;
 			},
+			/**
+			* Turn an integer into a "var_int".
+			*
+			* "var_int" is a variable length integer used by Bitcoin's binary format.
+			*
+			* Returns a byte array.
+			*/
 			numToVarInt: function (i) {
 				if (i < 0xfd) {
 					// unsigned char
@@ -3921,12 +4410,27 @@
 					return [0xff].concat(Crypto.util.wordsToBytes([i >>> 32, i]));
 				}
 			},
+			/**
+			* Parse a Bitcoin value byte array, returning a BigInteger.
+			*/
 			valueToBigInt: function (valueBuffer) {
 				if (valueBuffer instanceof BigInteger) return valueBuffer;
 
 				// Prepend zero byte to prevent interpretation as negative integer
 				return BigInteger.fromByteArrayUnsigned(valueBuffer);
 			},
+			/**
+			* Format a Bitcoin value as a string.
+			*
+			* Takes a BigInteger or byte-array and returns that amount of Bitcoins in a
+			* nice standard formatting.
+			*
+			* Examples:
+			* 12.3555
+			* 0.1234
+			* 900.99998888
+			* 34.00
+			*/
 			formatValue: function (valueBuffer) {
 				var value = this.valueToBigInt(valueBuffer).toString();
 				var integerPart = value.length > 8 ? value.substr(0, value.length - 8) : '0';
@@ -3936,7 +4440,15 @@
 				while (decimalPart.length < 2) decimalPart += "0";
 				return integerPart + "." + decimalPart;
 			},
+			/**
+			* Parse a floating point string as a Bitcoin value.
+			*
+			* Keep in mind that parsing user input is messy. You should always display
+			* the parsed value back to the user to make sure we understood his input
+			* correctly.
+			*/
 			parseValue: function (valueString) {
+				// TODO: Detect other number formats (e.g. comma as decimal separator)
 				var valueComp = valueString.split('.');
 				var integralPart = valueComp[0];
 				var fractionalPart = valueComp[1] || "0";
@@ -3947,6 +4459,12 @@
 				value = value.add(BigInteger.valueOf(parseInt(fractionalPart)));
 				return value;
 			},
+			/**
+			* Calculate RIPEMD160(SHA256(data)).
+			*
+			* Takes an arbitrary byte array as inputs and returns the hash as a byte
+			* array.
+			*/
 			sha256ripe160: function (data) {
 				return Crypto.RIPEMD160(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
 			}
@@ -3971,7 +4489,8 @@
 		.pubkeyhex { word-wrap: break-word; }
 		.faqs ol { padding: 0 0 0 25px; }
 		.faqs li { padding: 3px 0; }
-		#main { font-family: Arial; position: relative; text-align: center; margin: 0px auto; width: 945px;/*795px;*/ }
+		body { font-family: Arial; }
+		#main { position: relative; text-align: center; margin: 0px auto; width: 945px; }
 		#logo { width: 578px; height: 80px; }
 		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 		#generate span { padding: 5px 5px 0 5px; }
@@ -4011,7 +4530,10 @@
 		#bulkarea .body { padding: 5px 0 0 0; }
 		#bulkarea .format { font-style: italic; font-size: 90%; }
 		#bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
-		
+		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
+		.bulkquestion:hover, .expandable:hover { color: #77777A; }
+		.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
+		.bulkfaq { border: 0; border-top: 2px solid green; }
 		#brainarea .keyarea { visibility: hidden; min-height: 110px; }
 		#detailkeyarea { padding: 10px; }
 		#detailarea { margin: 0; text-align: left; }
@@ -4023,7 +4545,6 @@
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
-		
 		#vanityarea { text-align: left; }
 		#vanityarea .label { text-decoration: underline; }
 		#vanityarea .output { display: block; }
@@ -4034,11 +4555,9 @@
 		#vanitystep2inputs { padding: 0 15px 10px 15px; }
 		#vanitycalc { margin-top: 5px; }
 		
-		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
-		.bulkquestion:hover, .expandable:hover { color: #77777A; }
-		.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-		.bulkfaq { border: 0; border-top: 2px solid green; }		
-		
+		.englishjson { text-align: center; padding: 40px 0 20px 0; }
+		.unittests { text-align: center; }
+		.unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
 		#testnet { font-family: Tahoma; display: none; background-color: Orange; color: #000000; border-radius: 5px; font-weight: bold; padding: 10px 0; margin: 0 auto 20px auto; }
 		
 		/* IE8 */
@@ -4388,7 +4907,7 @@
 			</div>
 			<div class="authorpgp">
 				<span class="item"><a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP Public Key</a></span>
-				<span class="item"><a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Signed Version History</span> (v2.2)</a></span>
+				<span class="item"><a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Signed Version History</span> (v2.3)</a></span>
 				<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
 			</div>
 			<div class="copyright">
@@ -4403,92 +4922,60 @@
 		var ninja = { wallets: {} };
 
 		ninja.privateKey = {
-			// 51 characters base58, always starts with a '5'
-			isWalletImportFormat: function (key) {
-				key = key.toString();
-				return (ninja.testnetMode) ?
-							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+			isPrivateKey: function (key) {
+				return (
+					Bitcoin.ECKey.isWalletImportFormat(key) ||
+					Bitcoin.ECKey.isCompressedWalletImportFormat(key) ||
+					Bitcoin.ECKey.isHexFormat(key) ||
+					Bitcoin.ECKey.isBase64Format(key) ||
+					Bitcoin.ECKey.isMiniFormat(key)
+				);
 			},
-			// 52 characters base58
-			isCompressedWalletImportFormat: function (key) {
-				key = key.toString();
-				return (ninja.testnetMode) ?
-							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+			getECKeyFromAdding: function (privKey1, privKey2) {
+				var n = EllipticCurve.getSECCurveByName("secp256k1").getN();
+				var ecKey1 = new Bitcoin.ECKey(privKey1);
+				var ecKey2 = new Bitcoin.ECKey(privKey2);
+				// if both keys are the same return null
+				if (ecKey1.getBitcoinHexFormat() == ecKey2.getBitcoinHexFormat()) return null;
+				if (ecKey1 == null || ecKey2 == null) return null;
+				var combinedPrivateKey = new Bitcoin.ECKey(ecKey1.priv.add(ecKey2.priv).mod(n));
+				// compressed when both keys are compressed
+				if (ecKey1.compressed && ecKey2.compressed) combinedPrivateKey.setCompressed(true);
+				return combinedPrivateKey;
 			},
-			// 64 characters [0-9A-F]
-			isHexFormat: function (key) {
-				key = key.toString();
-				return /^[A-Fa-f0-9]{64}$/.test(key);
-			},
-			// 44 characters
-			isBase64Format: function (key) {
-				key = key.toString();
-				return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
-			},
-			// 22, 26 or 30 characters, always starts with an 'S'
-			isMiniFormat: function (key) {
-				key = key.toString();
-				var validChars22 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{21}$/.test(key);
-				var validChars26 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25}$/.test(key);
-				var validChars30 = /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{29}$/.test(key);
-				var testBytes = Crypto.SHA256(key + "?", { asBytes: true });
-
-				return ((testBytes[0] === 0x00 || testBytes[0] === 0x01) && (validChars22 || validChars26 || validChars30));
-			},
-			anyPrivateKeyToByteArray: function (privKey) {
-				var keyFormat = ninja.privateKey;
-				var bytes = null;
-				if (keyFormat.isWalletImportFormat(privKey)) {
-					bytes = Bitcoin.Base58.decode(privKey);
-					bytes.shift();
-					bytes = bytes.slice(0, bytes.length - 4);
-				}
-				else if (keyFormat.isCompressedWalletImportFormat(privKey)) {
-					bytes = Bitcoin.Base58.decode(privKey);
-					bytes.shift();
-					bytes.pop();
-					bytes = bytes.slice(0, bytes.length - 4);
-				}
-				else if (keyFormat.isHexFormat(privKey)) {
-					bytes = Crypto.util.hexToBytes(privKey);
-				}
-				else if (keyFormat.isBase64Format(privKey)) {
-					bytes = Crypto.util.base64ToBytes(privKey);
-				}
-				else if (keyFormat.isMiniFormat(privKey)) {
-					bytes = Crypto.SHA256(privKey, { asBytes: true });
-				}
-
-				if (bytes != null && bytes.length != 32) {
-					bytes = null;
-				}
-				return bytes;
-			},
-			anyPrivateKeyToECKey: function (privKey) {
-				var bytes = ninja.privateKey.anyPrivateKeyToByteArray(privKey);
-				return (bytes == null)? null : new Bitcoin.ECKey(bytes);
+			getECKeyFromMultiplying: function (privKey1, privKey2) {
+				var n = EllipticCurve.getSECCurveByName("secp256k1").getN();
+				var ecKey1 = new Bitcoin.ECKey(privKey1);
+				var ecKey2 = new Bitcoin.ECKey(privKey2);
+				// if both keys are the same return null
+				if (ecKey1.getBitcoinHexFormat() == ecKey2.getBitcoinHexFormat()) return null;
+				if (ecKey1 == null || ecKey2 == null) return null;
+				var combinedPrivateKey = new Bitcoin.ECKey(ecKey1.priv.multiply(ecKey2.priv).mod(n));
+				// compressed when both keys are compressed
+				if (ecKey1.compressed && ecKey2.compressed) combinedPrivateKey.setCompressed(true);
+				return combinedPrivateKey;
 			}
 		};
 
 		ninja.publicKey = {
-			// 130 characters [0-9A-F]
 			isPublicKeyHexFormat: function (key) {
 				key = key.toString();
-				return /^[A-Fa-f0-9]{130}$/.test(key);
+				return ninja.publicKey.isUncompressedPublicKeyHexFormat(key) || ninja.publicKey.isCompressedPublicKeyHexFormat(key);
+			},
+			// 130 characters [0-9A-F] starts with 04
+			isUncompressedPublicKeyHexFormat: function (key) {
+				key = key.toString();
+				return /^04[A-Fa-f0-9]{128}$/.test(key);
+			},
+			// 66 characters [0-9A-F] starts with 02 or 03
+			isCompressedPublicKeyHexFormat: function (key) {
+				key = key.toString();
+				return /^0[2-3][A-Fa-f0-9]{64}$/.test(key);
 			},
 			getBitcoinAddressFromByteArray: function (pubKeyByteArray) {
 				var pubKeyHash = Bitcoin.Util.sha256ripe160(pubKeyByteArray);
 				var addr = new Bitcoin.Address(pubKeyHash);
 				return addr.toString();
-			},
-			getByteArrayFromHex: function (pubKeyHex) {
-				var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
-				var curve = ecparams.getCurve();
-				var ecPoint = EllipticCurve.PointFp.decodeFrom(curve, EllipticCurve.fromHex(pubKeyHex).toByteArrayUnsigned());
-				var pubKeyByteArray = ecPoint.getEncoded(0);
-				return pubKeyByteArray;
 			},
 			getHexFromByteArray: function (pubKeyByteArray) {
 				return Crypto.util.bytesToHex(pubKeyByteArray).toString().toUpperCase();
@@ -4496,18 +4983,34 @@
 			getByteArrayFromAdding: function (pubKeyHex1, pubKeyHex2) {
 				var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
 				var curve = ecparams.getCurve();
-				var ecPoint1 = EllipticCurve.PointFp.decodeFrom(curve, EllipticCurve.fromHex(pubKeyHex1).toByteArrayUnsigned());
-				var ecPoint2 = EllipticCurve.PointFp.decodeFrom(curve, EllipticCurve.fromHex(pubKeyHex2).toByteArrayUnsigned());
-				var pubKey = ecPoint1.add(ecPoint2).getEncoded(0);
+				var ecPoint1 = curve.decodePointHex(pubKeyHex1);
+				var ecPoint2 = curve.decodePointHex(pubKeyHex2);
+				// if both points are the same return null
+				if (ecPoint1.equals(ecPoint2)) return null;
+				var compressed = (ecPoint1.compressed && ecPoint2.compressed);
+				var pubKey = ecPoint1.add(ecPoint2).getEncoded(compressed);
 				return pubKey;
 			},
-			getByteArrayFromMultiplying: function (pubKeyHex, privKeyBytes) {
+			getByteArrayFromMultiplying: function (pubKeyHex, ecKey) {
 				var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
-				var curve = ecparams.getCurve();
-				var ecPoint = EllipticCurve.PointFp.decodeFrom(curve, EllipticCurve.fromHex(pubKeyHex).toByteArrayUnsigned());
-				var bigInt = BigInteger.fromByteArrayUnsigned(privKeyBytes);
-				var pubKey = ecPoint.multiply(bigInt).getEncoded(0);
+				var ecPoint = ecparams.getCurve().decodePointHex(pubKeyHex);
+				var compressed = (ecPoint.compressed && ecKey.compressed);
+				// if both points are the same return null
+				ecKey.setCompressed(false);
+				if(ecPoint.equals(ecKey.getPubPoint())) {
+					return null;
+				}
+				var bigInt = ecKey.priv;
+				var pubKey = ecPoint.multiply(bigInt).getEncoded(compressed);
 				return pubKey;
+			},
+			// used by unit test
+			getDecompressedPubKeyHex: function (pubKeyHexComp) {
+				var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
+				var ecPoint = ecparams.getCurve().decodePointHex(pubKeyHexComp);
+				var pubByteArray = ecPoint.getEncoded(0);
+				var pubHexUncompressed = ninja.publicKey.getHexFromByteArray(pubByteArray);
+				return pubHexUncompressed;
 			}
 		};
 	</script>
@@ -4712,7 +5215,7 @@
 					"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
 					"vanityalertinvalidinputcompressedprivatekeys": "Invalid input. Compressed Private Keys not supported.",
 					"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
-					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiple two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
+					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
 					"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
 					"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
 				},
@@ -4834,6 +5337,45 @@
 					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):"
 				}
 			}
+		};
+
+		ninja.translator.showEnglishJson = function () {
+			var english = ninja.translator.translations["en"];
+			var spanish = ninja.translator.translations["es"];
+			var spanishClone = {};
+			for (var key in spanish) {
+				spanishClone[key] = spanish[key];
+			}
+			var newLang = {};
+			for (var key in english) {
+				newLang[key] = english[key];
+				delete spanishClone[key];
+			}
+			for (var key in spanishClone) {
+				if (document.getElementById(key)) {
+					if (document.getElementById(key).value) {
+						newLang[key] = document.getElementById(key).value;
+					}
+					else {
+						newLang[key] = document.getElementById(key).innerHTML;
+					}
+				}
+			}
+			var div = document.createElement("div");
+			div.setAttribute("class", "englishjson");
+			div.innerHTML = "<h3>English Json</h3>";
+			var elem = document.createElement("textarea");
+			elem.setAttribute("rows", "35");
+			elem.setAttribute("cols", "110");
+			var langJson = "{\n";
+			for (var key in newLang) {
+				langJson += "  \"" + key + "\"" + " = " + "\"" + newLang[key] + "\",\n";
+			}
+			langJson = langJson.substr(0, langJson.length - 2);
+			langJson += "\n}\n";
+			elem.innerHTML = langJson;
+			div.appendChild(elem);
+			document.body.appendChild(div);
 		};
 	</script>
 
@@ -5217,77 +5759,64 @@
 					var input1KeyString = document.getElementById("vanityinput1").value;
 					var input2KeyString = document.getElementById("vanityinput2").value;
 
-					// do not allow compressed private key
-					if (ninja.privateKey.isCompressedWalletImportFormat(input1KeyString) || ninja.privateKey.isCompressedWalletImportFormat(input2KeyString)) {
-						alert(ninja.translator.get("vanityalertinvalidinputcompressedprivatekeys"));
-					}
 					// both inputs are public keys
-					else if (ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.publicKey.isPublicKeyHexFormat(input2KeyString)) {
-						if (input1KeyString == input2KeyString) {
-							alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
-						}
-						else {
-							// add both public keys together
-							if (document.getElementById("vanityradioadd").checked) {
+					if (ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.publicKey.isPublicKeyHexFormat(input2KeyString)) {
+						// add both public keys together
+						if (document.getElementById("vanityradioadd").checked) {
+							var pubKeyByteArray = ninja.publicKey.getByteArrayFromAdding(input1KeyString, input2KeyString);
+							if (pubKeyByteArray == null) {
+								alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
+							}
+							else {
 								privateKeyWif = ninja.translator.get("vanityprivatekeyonlyavailable");
-								var pubKeyByteArray = ninja.publicKey.getByteArrayFromAdding(input1KeyString, input2KeyString);
 								bitcoinAddress = ninja.publicKey.getBitcoinAddressFromByteArray(pubKeyByteArray);
 								publicKeyHex = ninja.publicKey.getHexFromByteArray(pubKeyByteArray);
 							}
-							else {
-								alert(ninja.translator.get("vanityalertinvalidinputcannotmultiple"));
-							}
+						}
+						else {
+							alert(ninja.translator.get("vanityalertinvalidinputcannotmultiple"));
 						}
 					}
 					// one public key and one private key
-					else if ((ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.privateKey.anyPrivateKeyToByteArray(input2KeyString) != null)
-							|| (ninja.publicKey.isPublicKeyHexFormat(input2KeyString) && ninja.privateKey.anyPrivateKeyToByteArray(input1KeyString) != null)
+					else if ((ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.privateKey.isPrivateKey(input2KeyString))
+							|| (ninja.publicKey.isPublicKeyHexFormat(input2KeyString) && ninja.privateKey.isPrivateKey(input1KeyString))
 						) {
 						privateKeyWif = ninja.translator.get("vanityprivatekeyonlyavailable");
 						var pubKeyHex = (ninja.publicKey.isPublicKeyHexFormat(input1KeyString)) ? input1KeyString : input2KeyString;
-						var privKeyBytes = (ninja.privateKey.anyPrivateKeyToByteArray(input2KeyString) == null) ? ninja.privateKey.anyPrivateKeyToByteArray(input1KeyString)
-							: ninja.privateKey.anyPrivateKeyToByteArray(input2KeyString);
-						if (pubKeyHex == new Bitcoin.ECKey(privKeyBytes).getPubKeyHex()) {
-							alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
+						var ecKey = (ninja.privateKey.isPrivateKey(input1KeyString)) ? new Bitcoin.ECKey(input1KeyString) : new Bitcoin.ECKey(input2KeyString);
+						// add 
+						if (document.getElementById("vanityradioadd").checked) {
+							var pubKeyCombined = ninja.publicKey.getByteArrayFromAdding(pubKeyHex, ecKey.getPubKeyHex());
 						}
+						// multiply
 						else {
-							// add 
-							if (document.getElementById("vanityradioadd").checked) {
-								var keyPair = new Bitcoin.ECKey(privKeyBytes);
-								var pubKeyCombined = ninja.publicKey.getByteArrayFromAdding(pubKeyHex, keyPair.getPubKeyHex());
-							}
-							// multiply
-							else {
-								var pubKeyCombined = ninja.publicKey.getByteArrayFromMultiplying(pubKeyHex, privKeyBytes);
-							}
+							var pubKeyCombined = ninja.publicKey.getByteArrayFromMultiplying(pubKeyHex, ecKey);
+						}
+						if (pubKeyCombined == null) {
+							alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
+						} else {
 							bitcoinAddress = ninja.publicKey.getBitcoinAddressFromByteArray(pubKeyCombined);
 							publicKeyHex = ninja.publicKey.getHexFromByteArray(pubKeyCombined);
 						}
 					}
 					// both inputs are private keys
-					else {
-						var privateBytes1 = ninja.privateKey.anyPrivateKeyToByteArray(input1KeyString);
-						var privateBytes2 = ninja.privateKey.anyPrivateKeyToByteArray(input2KeyString);
-						if (privateBytes1 != null && privateBytes2 != null) {
-							var privateKey1 = BigInteger.fromByteArrayUnsigned(privateBytes1);
-							var privateKey2 = BigInteger.fromByteArrayUnsigned(privateBytes2);
-							if (privateBytes1.toString() == privateBytes2.toString()) {
-								alert(ninja.translator.get("vanityalertinvalidinputprivatekeysmatch"));
-							}
-							else {
-								var n = EllipticCurve.getSECCurveByName("secp256k1").getN();
-								// add both private keys together
-								if (document.getElementById("vanityradioadd").checked) {
-									var combinedPrivateKey = new Bitcoin.ECKey(privateKey1.add(privateKey2).mod(n));
-								}
-								// multiply both private keys together
-								else {
-									var combinedPrivateKey = new Bitcoin.ECKey(privateKey1.multiply(privateKey2).mod(n));
-								}
-								bitcoinAddress = combinedPrivateKey.getBitcoinAddress();
-								privateKeyWif = combinedPrivateKey.getBitcoinWalletImportFormat();
-								publicKeyHex = combinedPrivateKey.getPubKeyHex();
-							}
+					else if (ninja.privateKey.isPrivateKey(input1KeyString) && ninja.privateKey.isPrivateKey(input2KeyString)) {
+						var combinedPrivateKey;
+						// add both private keys together
+						if (document.getElementById("vanityradioadd").checked) {
+							combinedPrivateKey = ninja.privateKey.getECKeyFromAdding(input1KeyString, input2KeyString);
+						}
+						// multiply both private keys together
+						else {
+							combinedPrivateKey = ninja.privateKey.getECKeyFromMultiplying(input1KeyString, input2KeyString);
+						}
+						if (combinedPrivateKey == null) {
+							alert(ninja.translator.get("vanityalertinvalidinputprivatekeysmatch"));
+						}
+						else {
+							bitcoinAddress = combinedPrivateKey.getBitcoinAddress();
+							privateKeyWif = combinedPrivateKey.getBitcoinWalletImportFormat();
+							publicKeyHex = combinedPrivateKey.getPubKeyHex();
 						}
 					}
 				} catch (e) {
@@ -5329,8 +5858,7 @@
 			viewDetails: function () {
 				var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 				document.getElementById("detailprivkey").value = key;
-				var keyFormat = ninja.privateKey;
-				if (keyFormat.isMiniFormat(key)) {
+				if (Bitcoin.ECKey.isMiniFormat(key)) {
 					// show Private Key Mini Format
 					document.getElementById("detailprivmini").innerHTML = key;
 					document.getElementById("detailmini").style.display = "block";
@@ -5339,8 +5867,8 @@
 					// hide Private Key Mini Format
 					document.getElementById("detailmini").style.display = "none";
 				}
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey == null) {
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.priv == null) {
 					// enforce a minimum passphrase length
 					if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
 						// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
@@ -5358,20 +5886,27 @@
 						ninja.wallets.detailwallet.clear();
 					}
 				}
-				if (btcKey != undefined) {
-					document.getElementById("detailpubkey").innerHTML = btcKey.getPubKeyHex();
-					document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHexCompressed();
-					document.getElementById("detailaddress").innerHTML = btcKey.getBitcoinAddress();
-					document.getElementById("detailaddresscomp").innerHTML = btcKey.getBitcoinAddressCompressed();
-					document.getElementById("detailprivwif").innerHTML = btcKey.getBitcoinWalletImportFormat();
-					document.getElementById("detailprivwifcomp").innerHTML = btcKey.getBitcoinWalletImportFormatCompressed();
+				if (btcKey.priv != null) {
+					btcKey.setCompressed(false);
 					document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 					document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
+					var bitcoinAddress = btcKey.getBitcoinAddress();
+					var wif = btcKey.getBitcoinWalletImportFormat();
+					document.getElementById("detailpubkey").innerHTML = btcKey.getPubKeyHex();
+					document.getElementById("detailaddress").innerHTML = bitcoinAddress;
+					document.getElementById("detailprivwif").innerHTML = wif;
+					btcKey.setCompressed(true);
+					var bitcoinAddressComp = btcKey.getBitcoinAddress();
+					var wifComp = btcKey.getBitcoinWalletImportFormat();
+					document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
+					document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
+					document.getElementById("detailprivwifcomp").innerHTML = wifComp;
+
 					ninja.qrCode.showQrCode({
-						"detailqrcodepublic": btcKey.getBitcoinAddress(),
-						"detailqrcodepubliccomp": btcKey.getBitcoinAddressCompressed(),
-						"detailqrcodeprivate": btcKey.getBitcoinWalletImportFormat(),
-						"detailqrcodeprivatecomp": btcKey.getBitcoinWalletImportFormatCompressed()
+						"detailqrcodepublic": bitcoinAddress,
+						"detailqrcodepubliccomp": bitcoinAddressComp,
+						"detailqrcodeprivate": wif,
+						"detailqrcodeprivatecomp": wifComp
 					});
 				}
 			},
@@ -5395,155 +5930,447 @@
 	</script>
 
 	<script type="text/javascript">
-		ninja.unitTests = {
-			//ninja.publicKey tests
-			testIsPublicKeyHexFormat: function () {
-				var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
-				var bool = ninja.publicKey.isPublicKeyHexFormat(key);
-				if (bool != true) {
-					alert("fail testIsPublicKeyHexFormat");
+	(function (ninja) {
+		var ut = ninja.unitTests = {
+			runTests: function () {
+				var div = document.createElement("div");
+				div.setAttribute("class", "unittests");
+				var testResults = "";
+				var passCount = 0;
+				var testCount = 0;
+				for (var test in ut.tests) {
+					var exceptionMsg = "";
+					var resultBool = false;
+					try {
+						resultBool = ut.tests[test]();
+					} catch (ex) {
+						exceptionMsg = ex.toString();
+						resultBool = false;
+					}
+					if (resultBool == true) {
+						var passFailStr = "pass";
+						passCount++;
+					}
+					else {
+						var passFailStr = "<b>FAIL " + exceptionMsg + "</b>";
+					}
+					testCount++;
+					testResults += test + ": " + passFailStr + "<br/>";
 				}
-			},
-			testGetHexFromByteArray: function () {
-				var bytes = [4, 120, 152, 47, 64, 250, 12, 11, 122, 85, 113, 117, 131, 175, 201, 154, 78, 223, 211, 1, 162, 114, 157, 197, 155, 11, 142, 185, 225, 134, 146, 188, 181, 33, 240, 84, 250, 217, 130, 175, 76, 193, 147, 58, 253, 31, 27, 86, 62, 167, 121, 166, 170, 108, 206, 54, 163, 11, 148, 125, 214, 83, 230, 62, 68];
-				var key = ninja.publicKey.getHexFromByteArray(bytes);
-				if (key != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44") {
-					alert("fail testGetHexFromByteArray");
-				}
-			},
-			testGetByteArrayFromHex: function () {
-				var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
-				var bytes = ninja.publicKey.getByteArrayFromHex(key);
-				if (bytes.toString() != "4,120,152,47,64,250,12,11,122,85,113,117,131,175,201,154,78,223,211,1,162,114,157,197,155,11,142,185,225,134,146,188,181,33,240,84,250,217,130,175,76,193,147,58,253,31,27,86,62,167,121,166,170,108,206,54,163,11,148,125,214,83,230,62,68") {
-					alert("fail testGetByteArrayFromHex");
-				}
-			},
-			testGetBitcoinAddressFromByteArray: function () {
-				var bytes = [4, 120, 152, 47, 64, 250, 12, 11, 122, 85, 113, 117, 131, 175, 201, 154, 78, 223, 211, 1, 162, 114, 157, 197, 155, 11, 142, 185, 225, 134, 146, 188, 181, 33, 240, 84, 250, 217, 130, 175, 76, 193, 147, 58, 253, 31, 27, 86, 62, 167, 121, 166, 170, 108, 206, 54, 163, 11, 148, 125, 214, 83, 230, 62, 68];
-				var address = ninja.publicKey.getBitcoinAddressFromByteArray(bytes);
-				if (address != "1Cnz9ULjzBPYhDw1J8bpczDWCEXnC9HuU1") {
-					alert("fail testGetBitcoinAddressFromByteArray");
-				}
-			},
-			testGetByteArrayFromAdding: function () {
-				var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
-				var key2 = "0419153E53FECAD7FF07FEC26F7DDEB1EDD66957711AA4554B8475F10AFBBCD81C0159DC0099AD54F733812892EB9A11A8C816A201B3BAF0D97117EBA2033C9AB2";
-				var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
-				if (bytes.toString() != "4,151,19,227,152,54,37,184,255,4,83,115,216,102,189,76,82,170,57,4,196,253,2,41,74,6,226,33,167,199,250,74,235,223,128,233,99,150,147,92,57,39,208,84,196,71,68,248,166,106,138,95,172,253,224,70,187,65,62,92,81,38,253,79,0") {
-					alert("fail testGetByteArrayFromAdding");
-				}
-			},
-			testGetByteArrayFromMultiplying: function () {
-				var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
-				var key2 = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
-				var privBytes = ninja.privateKey.anyPrivateKeyToByteArray(key2);
-				var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, privBytes);
-				if (bytes.toString() != "4,102,230,163,180,107,9,21,17,48,35,245,227,110,199,119,144,57,41,112,64,245,182,40,224,41,230,41,5,26,206,138,57,115,35,54,105,7,180,5,106,217,57,229,127,174,145,215,79,121,163,191,211,143,215,50,48,156,211,178,72,226,68,150,52") {
-					alert("fail testGetByteArrayFromMultiplying");
-				}
-			},
-			// confirms multiplication is working and BigInteger was created correctly
-			testGetPubHexFromMultiplying: function () {
-				var key1 = "04F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F98938020F36EBBDE6F1BEAF98E5BD0E425747E68B0F2FB7A2A59EDE93F43C0D78156FF";
-				var key2 = "B1202A137E917536B3B4C5010C3FF5DDD4784917B3EEF21D3A3BF21B2E03310C";
-				var privBytes = ninja.privateKey.anyPrivateKeyToByteArray(key2);
-				var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, privBytes);
-				var pubHex = ninja.publicKey.getHexFromByteArray(bytes);
-				if (pubHex != "04C6732006AF4AE571C7758DF7A7FB9E3689DFCF8B53D8724D3A15517D8AB1B4DBBE0CB8BB1C4525F8A3001771FC7E801D3C5986A555E2E9441F1AD6D181356076") {
-					alert("fail testGetPubHexFromMultiplying");
+				testResults += passCount + " of " + testCount + " tests passed";
+				div.innerHTML = "<h3>Unit Tests</h3><div>" + testResults + "</div>";
+				document.body.appendChild(div);
+				if (passCount < testCount) {
+					alert((testCount - passCount) + " unit test(s) failed");
 				}
 			},
 
-			//ninja.privateKey tests
-			testBadKeyReturnsNullFromAnyPrivateKeyToECKey: function () {
-				var key = "bad key";
-				var bytes = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (bytes != null) {
-					alert("fail testBadKeyReturnsNullFromAnyPrivateKeyToECKey");
-				}
-			},
-			testBadKeyReturnsNullFromAnyPrivateKeyToByteArray: function () {
-				var key = "bad key";
-				var bytes = ninja.privateKey.anyPrivateKeyToByteArray(key);
-				if (bytes != null) {
-					alert("fail testBadKeyReturnsNullFromAnyPrivateKeyToByteArray");
-				}
-			},
-			testAnyPrivateKeyToByteArrayMatchesGetBitcoinPrivateKeyByteArray: function () {
-				var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
-				var bytes = ninja.privateKey.anyPrivateKeyToByteArray(key);
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinPrivateKeyByteArray().toString() != bytes.toString()) {
-					alert("fail testAnyPrivateKeyToByteArrayMatchesGetBitcoinPrivateKeyByteArray");
-				}
-			},
-			testWifToPubKeyHex: function () {
-				var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getPubKeyHex() != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44") {
-					alert("fail testWifToPubKeyHex");
-				}
-			},
-			testWifToPubKeyHexCompressed: function () {
-				var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getPubKeyHexCompressed() != "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5") {
-					alert("fail testWifToPubKeyHexCompressed");
-				}
-			},
-			testBase64ToECKey: function () {
-				var key = "KSZlw4ckGK3x2n/6OmRvLwYCJG2mCYqR0inDIVDycYs=";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinBase64Format() != "KSZlw4ckGK3x2n/6OmRvLwYCJG2mCYqR0inDIVDycYs=") {
-					alert("fail testBase64ToECKey");
-				}
-			},
-			testHexToECKey: function () {
-				var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinHexFormat() != "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B") {
-					alert("fail testHexToECKey");
-				}
-			},
-			testCompressedWifToECKey: function () {
-				var key = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinWalletImportFormatCompressed() != "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S") {
-					alert("fail testCompressedWifToECKey");
-				}
-			},
-			testWifToECKey: function () {
-				var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb") {
-					alert("fail testWifToECKey");
-				}
-			},
-			testBrainToECKey: function () {
-				var key = "bitaddress.org unit test";
-				var bytes = Crypto.SHA256(key, { asBytes: true });
-				var btcKey = new Bitcoin.ECKey(bytes);
-				if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb") {
-					alert("fail testBrainToECKey");
-				}
-			},
-			testMini30CharsToECKey: function () {
-				var key = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
-				var btcKey = ninja.privateKey.anyPrivateKeyToECKey(key);
-				if (btcKey.getBitcoinWalletImportFormat() != "5JrBLQseeZdYw4jWEAHmNxGMr5fxh9NJU3fUwnv4khfKcg2rJVh") {
-					alert("fail testMini30CharsToECKey");
+			tests: {
+				//ninja.publicKey tests
+				testIsPublicKeyHexFormat: function () {
+					var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var bool = ninja.publicKey.isPublicKeyHexFormat(key);
+					if (bool != true) {
+						return false;
+					}
+					return true;
+				},
+				testGetHexFromByteArray: function () {
+					var bytes = [4, 120, 152, 47, 64, 250, 12, 11, 122, 85, 113, 117, 131, 175, 201, 154, 78, 223, 211, 1, 162, 114, 157, 197, 155, 11, 142, 185, 225, 134, 146, 188, 181, 33, 240, 84, 250, 217, 130, 175, 76, 193, 147, 58, 253, 31, 27, 86, 62, 167, 121, 166, 170, 108, 206, 54, 163, 11, 148, 125, 214, 83, 230, 62, 68];
+					var key = ninja.publicKey.getHexFromByteArray(bytes);
+					if (key != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44") {
+						return false;
+					}
+					return true;
+				},
+				testHexToBytes: function () {
+					var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var bytes = Crypto.util.hexToBytes(key);
+					if (bytes.toString() != "4,120,152,47,64,250,12,11,122,85,113,117,131,175,201,154,78,223,211,1,162,114,157,197,155,11,142,185,225,134,146,188,181,33,240,84,250,217,130,175,76,193,147,58,253,31,27,86,62,167,121,166,170,108,206,54,163,11,148,125,214,83,230,62,68") {
+						return false;
+					}
+					return true;
+				},
+				testGetBitcoinAddressFromByteArray: function () {
+					var bytes = [4, 120, 152, 47, 64, 250, 12, 11, 122, 85, 113, 117, 131, 175, 201, 154, 78, 223, 211, 1, 162, 114, 157, 197, 155, 11, 142, 185, 225, 134, 146, 188, 181, 33, 240, 84, 250, 217, 130, 175, 76, 193, 147, 58, 253, 31, 27, 86, 62, 167, 121, 166, 170, 108, 206, 54, 163, 11, 148, 125, 214, 83, 230, 62, 68];
+					var address = ninja.publicKey.getBitcoinAddressFromByteArray(bytes);
+					if (address != "1Cnz9ULjzBPYhDw1J8bpczDWCEXnC9HuU1") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromAdding: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "0419153E53FECAD7FF07FEC26F7DDEB1EDD66957711AA4554B8475F10AFBBCD81C0159DC0099AD54F733812892EB9A11A8C816A201B3BAF0D97117EBA2033C9AB2";
+					var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
+					if (bytes.toString() != "4,151,19,227,152,54,37,184,255,4,83,115,216,102,189,76,82,170,57,4,196,253,2,41,74,6,226,33,167,199,250,74,235,223,128,233,99,150,147,92,57,39,208,84,196,71,68,248,166,106,138,95,172,253,224,70,187,65,62,92,81,38,253,79,0") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromAddingCompressed: function () {
+					var key1 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
+					var key2 = "0219153E53FECAD7FF07FEC26F7DDEB1EDD66957711AA4554B8475F10AFBBCD81C";
+					var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
+					var hex = ninja.publicKey.getHexFromByteArray(bytes);
+					if (hex != "029713E3983625B8FF045373D866BD4C52AA3904C4FD02294A06E221A7C7FA4AEB") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromAddingUncompressedAndCompressed: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "0219153E53FECAD7FF07FEC26F7DDEB1EDD66957711AA4554B8475F10AFBBCD81C";
+					var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
+					if (bytes.toString() != "4,151,19,227,152,54,37,184,255,4,83,115,216,102,189,76,82,170,57,4,196,253,2,41,74,6,226,33,167,199,250,74,235,223,128,233,99,150,147,92,57,39,208,84,196,71,68,248,166,106,138,95,172,253,224,70,187,65,62,92,81,38,253,79,0") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromAddingShouldReturnNullWhenSameKey1: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
+					if (bytes != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromAddingShouldReturnNullWhenSameKey2: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
+					var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
+					if (bytes != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromMultiplying: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
+					if (bytes.toString() != "4,102,230,163,180,107,9,21,17,48,35,245,227,110,199,119,144,57,41,112,64,245,182,40,224,41,230,41,5,26,206,138,57,115,35,54,105,7,180,5,106,217,57,229,127,174,145,215,79,121,163,191,211,143,215,50,48,156,211,178,72,226,68,150,52") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromMultiplyingCompressedOutputsUncompressed: function () {
+					var key1 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
+					var key2 = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
+					if (bytes.toString() != "4,102,230,163,180,107,9,21,17,48,35,245,227,110,199,119,144,57,41,112,64,245,182,40,224,41,230,41,5,26,206,138,57,115,35,54,105,7,180,5,106,217,57,229,127,174,145,215,79,121,163,191,211,143,215,50,48,156,211,178,72,226,68,150,52") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromMultiplyingCompressedOutputsCompressed: function () {
+					var key1 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
+					var key2 = "L1n4cgNZAo2KwdUc15zzstvo1dcxpBw26NkrLqfDZtU9AEbPkLWu";
+					var ecKey = new Bitcoin.ECKey(key2);
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, ecKey);
+					if (bytes.toString() != "2,102,230,163,180,107,9,21,17,48,35,245,227,110,199,119,144,57,41,112,64,245,182,40,224,41,230,41,5,26,206,138,57") {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromMultiplyingShouldReturnNullWhenSameKey1: function () {
+					var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
+					var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
+					if (bytes != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetByteArrayFromMultiplyingShouldReturnNullWhenSameKey2: function () {
+					var key1 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
+					var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
+					if (bytes != null) {
+						return false;
+					}
+					return true;
+				},
+				// confirms multiplication is working and BigInteger was created correctly (Pub Key B vs Priv Key A)
+				testGetPubHexFromMultiplyingPrivAPubB: function () {
+					var keyPub = "04F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F98938020F36EBBDE6F1BEAF98E5BD0E425747E68B0F2FB7A2A59EDE93F43C0D78156FF";
+					var keyPriv = "B1202A137E917536B3B4C5010C3FF5DDD4784917B3EEF21D3A3BF21B2E03310C";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(keyPub, new Bitcoin.ECKey(keyPriv));
+					var pubHex = ninja.publicKey.getHexFromByteArray(bytes);
+					if (pubHex != "04C6732006AF4AE571C7758DF7A7FB9E3689DFCF8B53D8724D3A15517D8AB1B4DBBE0CB8BB1C4525F8A3001771FC7E801D3C5986A555E2E9441F1AD6D181356076") {
+						return false;
+					}
+					return true;
+				},
+				// confirms multiplication is working and BigInteger was created correctly (Pub Key A vs Priv Key B)
+				testGetPubHexFromMultiplyingPrivBPubA: function () {
+					var keyPub = "0429BF26C0AF7D31D608474CEBD49DA6E7C541B8FAD95404B897643476CE621CFD05E24F7AE8DE8033AADE5857DB837E0B704A31FDDFE574F6ECA879643A0D3709";
+					var keyPriv = "7DE52819F1553C2BFEDE6A2628B6FDDF03C2A07EB21CF77ACA6C2C3D252E1FD9";
+					var bytes = ninja.publicKey.getByteArrayFromMultiplying(keyPub, new Bitcoin.ECKey(keyPriv));
+					var pubHex = ninja.publicKey.getHexFromByteArray(bytes);
+					if (pubHex != "04C6732006AF4AE571C7758DF7A7FB9E3689DFCF8B53D8724D3A15517D8AB1B4DBBE0CB8BB1C4525F8A3001771FC7E801D3C5986A555E2E9441F1AD6D181356076") {
+						return false;
+					}
+					return true;
+				},
+
+				// Private Key tests
+				testBadKeyIsNotWif: function () {
+					return !(Bitcoin.ECKey.isWalletImportFormat("bad key"));
+				},
+				testBadKeyIsNotWifCompressed: function () {
+					return !(Bitcoin.ECKey.isCompressedWalletImportFormat("bad key"));
+				},
+				testBadKeyIsNotHex: function () {
+					return !(Bitcoin.ECKey.isHexFormat("bad key"));
+				},
+				testBadKeyIsNotBase64: function () {
+					return !(Bitcoin.ECKey.isBase64Format("bad key"));
+				},
+				testBadKeyIsNotMini: function () {
+					return !(Bitcoin.ECKey.isMiniFormat("bad key"));
+				},
+				testBadKeyReturnsNullPrivFromECKey: function () {
+					var key = "bad key";
+					var ecKey = new Bitcoin.ECKey(key);
+					if (ecKey.priv != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetBitcoinPrivateKeyByteArray: function () {
+					var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var bytes = [41, 38, 101, 195, 135, 36, 24, 173, 241, 218, 127, 250, 58, 100, 111, 47, 6, 2, 36, 109, 166, 9, 138, 145, 210, 41, 195, 33, 80, 242, 113, 139];
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinPrivateKeyByteArray().toString() != bytes.toString()) {
+						return false;
+					}
+					return true;
+				},
+				testECKeyDecodeWalletImportFormat: function () {
+					var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var bytes1 = [41, 38, 101, 195, 135, 36, 24, 173, 241, 218, 127, 250, 58, 100, 111, 47, 6, 2, 36, 109, 166, 9, 138, 145, 210, 41, 195, 33, 80, 242, 113, 139];
+					var bytes2 = Bitcoin.ECKey.decodeWalletImportFormat(key);
+					if (bytes1.toString() != bytes2.toString()) {
+						return false;
+					}
+					return true;
+				},
+				testECKeyDecodeCompressedWalletImportFormat: function () {
+					var key = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var bytes1 = [41, 38, 101, 195, 135, 36, 24, 173, 241, 218, 127, 250, 58, 100, 111, 47, 6, 2, 36, 109, 166, 9, 138, 145, 210, 41, 195, 33, 80, 242, 113, 139];
+					var bytes2 = Bitcoin.ECKey.decodeCompressedWalletImportFormat(key);
+					if (bytes1.toString() != bytes2.toString()) {
+						return false;
+					}
+					return true;
+				},
+				testWifToPubKeyHex: function () {
+					var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getPubKeyHex() != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44"
+						|| btcKey.getPubPoint().compressed != false) {
+						return false;
+					}
+					return true;
+				},
+				testWifToPubKeyHexCompressed: function () {
+					var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var btcKey = new Bitcoin.ECKey(key);
+					btcKey.setCompressed(true);
+					if (btcKey.getPubKeyHex() != "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5"
+						|| btcKey.getPubPoint().compressed != true) {
+						return false;
+					}
+					return true;
+				},
+				testBase64ToECKey: function () {
+					var key = "KSZlw4ckGK3x2n/6OmRvLwYCJG2mCYqR0inDIVDycYs=";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinBase64Format() != "KSZlw4ckGK3x2n/6OmRvLwYCJG2mCYqR0inDIVDycYs=") {
+						return false;
+					}
+					return true;
+				},
+				testHexToECKey: function () {
+					var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinHexFormat() != "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B") {
+						return false;
+					}
+					return true;
+				},
+				testCompressedWifToECKey: function () {
+					var key = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinWalletImportFormat() != "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S"
+						|| btcKey.getPubPoint().compressed != true) {
+						return false;
+					}
+					return true;
+				},
+				testWifToECKey: function () {
+					var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb") {
+						return false;
+					}
+					return true;
+				},
+				testBrainToECKey: function () {
+					var key = "bitaddress.org unit test";
+					var bytes = Crypto.SHA256(key, { asBytes: true });
+					var btcKey = new Bitcoin.ECKey(bytes);
+					if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb") {
+						return false;
+					}
+					return true;
+				},
+				testMini30CharsToECKey: function () {
+					var key = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinWalletImportFormat() != "5JrBLQseeZdYw4jWEAHmNxGMr5fxh9NJU3fUwnv4khfKcg2rJVh") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromAdding: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
+					var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "5KAJTSqSjpsZ11KyEE3qu5PrJVjR4ZCbNxK3Nb1F637oe41m1c2") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromAddingCompressed: function () {
+					var key1 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var key2 = "L1n4cgNZAo2KwdUc15zzstvo1dcxpBw26NkrLqfDZtU9AEbPkLWu";
+					var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "L3A43j2pc2J8F2SjBNbYprPrcDpDCh8Aju8dUH65BEM2r7RFSLv4") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromAddingUncompressedAndCompressed: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "L1n4cgNZAo2KwdUc15zzstvo1dcxpBw26NkrLqfDZtU9AEbPkLWu";
+					var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "5KAJTSqSjpsZ11KyEE3qu5PrJVjR4ZCbNxK3Nb1F637oe41m1c2") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromAddingShouldReturnNullWhenSameKey1: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
+					if (ecKey != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromAddingShouldReturnNullWhenSameKey2: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
+					if (ecKey != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromMultiplying: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "SQE6yipP5oW8RBaStWoB47xsRQ8pat";
+					var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "5KetpZ5mCGagCeJnMmvo18n4iVrtPSqrpnW5RP92Gv2BQy7GPCk") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromMultiplyingCompressed: function () {
+					var key1 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var key2 = "L1n4cgNZAo2KwdUc15zzstvo1dcxpBw26NkrLqfDZtU9AEbPkLWu";
+					var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "L5LFitc24jme2PfVChJS3bKuQAPBp54euuqLWciQdF2CxnaU3M8t") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromMultiplyingUncompressedAndCompressed: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "L1n4cgNZAo2KwdUc15zzstvo1dcxpBw26NkrLqfDZtU9AEbPkLWu";
+					var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
+					if (ecKey.getBitcoinWalletImportFormat() != "5KetpZ5mCGagCeJnMmvo18n4iVrtPSqrpnW5RP92Gv2BQy7GPCk") {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromMultiplyingShouldReturnNullWhenSameKey1: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
+					if (ecKey != null) {
+						return false;
+					}
+					return true;
+				},
+				testGetECKeyFromMultiplyingShouldReturnNullWhenSameKey2: function () {
+					var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+					var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+					var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
+					if (ecKey != null) {
+						return false;
+					}
+					return true;
+				},
+
+				// EllipticCurve tests
+				testDecodePointEqualsDecodeFrom: function () {
+					var key = "04F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F98938020F36EBBDE6F1BEAF98E5BD0E425747E68B0F2FB7A2A59EDE93F43C0D78156FF";
+					var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
+					var ecPoint1 = EllipticCurve.PointFp.decodeFrom(ecparams.getCurve(), Crypto.util.hexToBytes(key));
+					var ecPoint2 = ecparams.getCurve().decodePointHex(key);
+					if (!ecPoint1.equals(ecPoint2)) {
+						return false;
+					}
+					return true;
+				},
+				testDecodePointHexForCompressedPublicKey: function () {
+					var key = "03F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F989380";
+					var pubHexUncompressed = ninja.publicKey.getDecompressedPubKeyHex(key);
+					if (pubHexUncompressed != "04F04BF260DCCC46061B5868F60FE962C77B5379698658C98A93C3129F5F98938020F36EBBDE6F1BEAF98E5BD0E425747E68B0F2FB7A2A59EDE93F43C0D78156FF") {
+						return false;
+					}
+					return true;
+				},
+				// old bugs
+				testBugWithLeadingZeroBytePublicKey: function () {
+					var key = "5Je7CkWTzgdo1RpwjYhwnVKxQXt8EPRq17WZFtWcq5umQdsDtTP";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinAddress() != "1M6dsMZUjFxjdwsyVk8nJytWcfr9tfUa9E") {
+						return false;
+					}
+					return true;
+				},
+				testBugWithLeadingZeroBytePrivateKey: function () {
+					var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da";
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.getBitcoinAddress() != "1NAjZjF81YGfiJ3rTKc7jf1nmZ26KN7Gkn") {
+						return false;
+					}
+					return true;
 				}
 			}
 		};
+	})(ninja);
 	</script>
 
 	<script type="text/javascript">
 		// run unit tests
 		if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-			for (var name in ninja.unitTests) {
-				ninja.unitTests[name]();
-			}
-			alert("running of unit tests complete");
+			ninja.unitTests.runTests();
+			ninja.translator.showEnglishJson();
 		}
 
 		// change language
