@@ -6317,6 +6317,31 @@
 			</div>
 		</div>
 
+                <div id="splitarea" class="walletarea">
+                  <div id="splitcommands" class="left commands">
+		    <span><label id="splitlabelenterprivatekey">Enter Private Key (Wallet Import Format)</label> 
+                      <input type="text" id="splitprivkey" value="" size="60" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.splitwallet.splitKey();"> <br/>
+                      <label id="splitlabelshares">Number of shares</label> 
+                      <input type="text" id="splitshares" value="4" size="4"/><br/>
+                      <label id="splitlabelthreshhold">Minimum share threshhold needed to combine</label>
+                      <input type="text" id="splitthreshhold" value="2" size="4"/>
+                    </span>
+                    
+		    <span><input type="button" id="splitview" value="Split Key" onclick="ninja.wallets.splitwallet.splitKey();"></span>
+		  </div>
+                  <div id="combinecommands" class="left commands">
+		    <span>
+                      <label id="combinelabelentershares">Enter Available Shares (whitespace separated)</label> 
+                      <textarea id="combineinput" cols="60" rows="10"/></textarea><br/>
+                    </span>
+                    
+		    <span>
+                      <input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();">
+                    </span>
+		  </div> 
+                </div>
+
+
 		<div id="footer" class="footer">
 			<div class="authorbtc">
 				<div>
@@ -7454,25 +7479,51 @@
 					ninja.wallets.singlewallet.generateNewAddressAndKey();
 				} */
 				document.getElementById("splitarea").style.display = "block";
+                                secrets.setRNG();
+                                secrets.init(3);
 			},
 
 			close: function () {
 				document.getElementById("splitarea").style.display = "none";
 			},
 
+                        mkOutputRow: function(s,n) {
+                                var row = document.createElement("span");
+                                var label = document.createElement("label");
+                                label.innerHTML="Share " + (n+1);
+                                var txt = document.createElement("input");
+                                txt.setAttribute("readOnly", true);
+                                txt.setAttribute("value", s);
+                                txt.setAttribute("size", 60);
+                                row.appendChild(label);
+                                row.appendChild(txt);
+                                row.appendChild(document.createElement("br"));
+                                return row;
+                                
+                        },
+
 			// Split a private key and update information in the HTML
 			splitKey: function () {
 				try {
-					var key = new Bitcoin.ECKey(false);
-					var bitcoinAddress = key.getBitcoinAddress();
-					var privateKeyWif = key.getBitcoinWalletImportFormat();
-					document.getElementById("btcaddress").innerHTML = bitcoinAddress;
-					document.getElementById("btcprivwif").innerHTML = privateKeyWif;
-					var keyValuePair = {
-						"qrcode_public": bitcoinAddress,
-						"qrcode_private": privateKeyWif
-					};
-					ninja.qrCode.showQrCode(keyValuePair);
+                                    var element = document.getElementById("splitoutput");
+                                    if (element != null) element.parentNode.removeChild(element);
+                                    
+                                    var privkeyBase58 = document.getElementById('splitprivkey').value;
+                                    var numshares = parseInt(document.getElementById('splitshares').value);
+                                    var threshhold =  parseInt(document.getElementById('splitthreshhold').value);
+                                    //alert(numshares)
+                                    //alert(threshhold)
+                                    var shares = secrets.share(ninja.publicKey.getHexFromByteArray(Bitcoin.Base58.decode(privkeyBase58)),
+                                                               numshares, threshhold).map(Crypto.util.hexToBytes).map(Bitcoin.Base58.encode);=
+                                    //alert(shares);
+                                    var output = document.createElement("div");
+				    output.setAttribute("id", "splitoutput");
+                                    for (var i=0; i < shares.length; i++) { 
+                                      output.appendChild(this.mkOutputRow(shares[i], i));
+                                    }
+                                    
+                                    document.getElementById("splitcommands").appendChild(output);
+
 				}
 				catch (e) {
 					// browser does not have sufficient JavaScript support to generate a bitcoin address
@@ -7485,7 +7536,30 @@
 			},
 
                         // Combine shares of a private key to retrieve the key
-                        combineKey: function () {
+                        combineShares: function () {
+                                try{
+                                    var element = document.getElementById("combineoutput");
+                                    if (element != null) element.parentNode.removeChild(element);
+
+                                    var shares = document.getElementById("combineinput").value.split(/\W+/);
+                                    alert(shares);
+                                    var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).
+                                                                          map(ninja.publicKey.getHexFromByteArray));
+                                    alert(combined);
+                                    var privkeyBase58 = Bitcoin.Base58.encode(Crypto.util.hexToBytes(combined));
+                                    var output = document.createElement("div");
+                                    output.setAttribute("id", "combineoutput");
+                                    var txt = document.createElement("input");
+                                    txt.setAttribute("id","combineoutputtext");
+                                    txt.setAttribute("value",privkeyBase58);
+                                    txt.setAttribute("size",55);
+                                    output.appendChild(txt);
+                                    document.getElementById("combinecommands").appendChild(output);
+                                 }
+                                 catch (e) {
+                                    alert(e);
+                                 }
+
                         }
 		};
 	</script>
