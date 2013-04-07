@@ -707,7 +707,7 @@
 						hex.push((bytes[i] >>> 4).toString(16));
 						hex.push((bytes[i] & 0xF).toString(16));
 					}
-					return hex.join("").split(/^0+/).slice(-1)[0]; //drop leading 0
+					return hex.join("");
 				},
 
 				// Convert a hex string to a byte array
@@ -7505,6 +7505,8 @@
                                 
                         },
 
+                        stripLeadZeros: function(hex) { return hex.split(/^0+/).slice(-1)[0]; },
+
 			// Split a private key and update information in the HTML
 			splitKey: function () {
 				try {
@@ -7547,7 +7549,8 @@
                                     var shares = document.getElementById("combineinput").value.split(/\W+/);
                                     
                                     var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).
-                                                                          map(Crypto.util.bytesToHex));
+                                                                          map(Crypto.util.bytesToHex).
+                                                                          map(this.stripLeadZeros));
                                     
                                     var privkeyBase58 = Bitcoin.Base58.encode(Crypto.util.hexToBytes(combined));
                                     var output = document.createElement("div");
