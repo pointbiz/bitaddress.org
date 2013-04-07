@@ -707,12 +707,15 @@
 						hex.push((bytes[i] >>> 4).toString(16));
 						hex.push((bytes[i] & 0xF).toString(16));
 					}
-					return hex.join("");
+					return hex.join("").split(/^0+/).slice(-1)[0]; //drop leading 0
 				},
 
 				// Convert a hex string to a byte array
 				hexToBytes: function (hex) {
-					for (var bytes = [], c = 0; c < hex.length; c += 2)
+                                        //if input has odd number of digits, pad it
+                                        if (hex.length % 2 == 1)
+                                                hex = "0" + hex;
+  					for (var bytes = [], c = 0; c < hex.length; c += 2)
 						bytes.push(parseInt(hex.substr(c, 2), 16));
 					return bytes;
 				},
@@ -7513,8 +7516,8 @@
                                     var threshhold =  parseInt(document.getElementById('splitthreshhold').value);
                                     //alert(numshares)
                                     //alert(threshhold)
-                                    var shares = secrets.share(ninja.publicKey.getHexFromByteArray(Bitcoin.Base58.decode(privkeyBase58)),
-                                                               numshares, threshhold).map(Crypto.util.hexToBytes).map(Bitcoin.Base58.encode);=
+                                    var shares = secrets.share(Crypto.util.bytesToHex(Bitcoin.Base58.decode(privkeyBase58)),
+                                                               numshares, threshhold).map(Crypto.util.hexToBytes).map(Bitcoin.Base58.encode);
                                     //alert(shares);
                                     var output = document.createElement("div");
 				    output.setAttribute("id", "splitoutput");
@@ -7542,10 +7545,10 @@
                                     if (element != null) element.parentNode.removeChild(element);
 
                                     var shares = document.getElementById("combineinput").value.split(/\W+/);
-                                    alert(shares);
+                                    
                                     var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).
-                                                                          map(ninja.publicKey.getHexFromByteArray));
-                                    alert(combined);
+                                                                          map(Crypto.util.bytesToHex));
+                                    
                                     var privkeyBase58 = Bitcoin.Base58.encode(Crypto.util.hexToBytes(combined));
                                     var output = document.createElement("div");
                                     output.setAttribute("id", "combineoutput");
@@ -7553,6 +7556,9 @@
                                     txt.setAttribute("id","combineoutputtext");
                                     txt.setAttribute("value",privkeyBase58);
                                     txt.setAttribute("size",55);
+                                    var lbl = document.createElement("label");
+                                    lbl.innerHTML="Private key";
+                                    output.appendChild(lbl);
                                     output.appendChild(txt);
                                     document.getElementById("combinecommands").appendChild(output);
                                  }
