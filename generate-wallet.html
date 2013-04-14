@@ -3,12 +3,29 @@
 <head>
 	<meta charset="iso-8859-1">
 	<!--
-	Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
+    
+    generate-wallet.html (from https://bitcoinpaperwallet.com)
+    
+    Wallet design and portions of this code are © Copyright 2013 Canton Becker
+    Other portions of this code are copyrighted by their respective authors - see below.
+    
+
+    ****************************************************************************************
+    ****************************************************************************************
+    * Contributions to offset bitcoinpaperwallet.com expenses are generously accepted.
+    * Bitcoin Donation Address: 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG
+	* GitHub Repository: 	https://github.com/cantonbecker/bitcoinpaperwallet
+    ****************************************************************************************
+	* The starting point for this code was the excellent single-file bitaddress.org project.
+    * Bitcoin Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
+	* GitHub Repository:	https://github.com/pointbiz/bitaddress.org
+    ****************************************************************************************
+    ****************************************************************************************
+
 
 	Notice of Copyrights and Licenses:
 	***********************************
 	The bitaddress.org project, software and embedded resources are copyright bitaddress.org. 
-	The bitaddress.org name and logo are not part of the open source license.
 
 	Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others. 
 	The individual copyrights are included throughout the document along with their licenses.
@@ -24,9 +41,10 @@
 	window.BigInteger		BSD License
 	window.QRCode			MIT License
 	window.Bitcoin			MIT License
-
-	The bitaddress.org software is available under The MIT License (MIT)
-	Copyright (c) 2011-2012 bitaddress.org
+	ninja.(*)				MIT License			// lots of code from bitaddress.org
+	parser.setUA			GPLv2 & MIT			// UAParser.js
+    
+	This HTML file and the graphics required to make it work are available under The MIT License (MIT)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 	associated documentation files (the "Software"), to deal in the Software without restriction, including 
@@ -43,7 +61,7 @@
 	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	GitHub Repository: https://github.com/pointbiz/bitaddress.org
+	GitHub Repository: https://github.com/cantonbecker/bitcoinpaperwallet
 	-->
 
 	<title>Bitcoin Paper Wallet</title>
@@ -5944,7 +5962,7 @@
 		.less { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
 					no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 		.right { text-align: right; }
-		.walletarea { display: none; border-top: 2px solid green; }
+		.walletarea { display: none; border-top: 2px solid #e2f9bd; }
 		.keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 		.keyarea .public { float: left; }
 		.keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
@@ -5956,13 +5974,13 @@
 		.pubkeyhex { word-wrap: break-word; }
 		.faqs ol { padding: 0 0 0 25px; }
 		.faqs li { padding: 3px 0; }
-		body { font-family: Arial; }
-		#main { position: relative; margin: 0px auto; width: 1005px; } /* removed text-align: center; */
-		#logo { width: 578px; height: 80px; }
+		body { font-family: Arial; background-image:url(images/bgtile.png); background-repeat: repeat-y; background-position: center; background-color: #e2f9bd;}
+		#main { position: relative; margin: 0px auto; width: 1010px; color: #444; } /* removed text-align: center; */
+		#logoback { height: 143px; margin-bottom: 10px; background-image:url(images/logo.png); background-position: top left; background-repeat: no-repeat; }
 		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 		#generate span { padding: 5px 5px 0 5px; }
 		#menu { visibility: hidden; font-size: 90%; }
-		#culturemenu { text-align: right; padding: 0 20px; }
+		#culturemenu { text-align: right; padding: 10px 20px; font-size: 12px; }
 		#culturemenu span { padding: 3px; }
 		#culturemenu .selected { text-decoration: none; color: #000000; }
 
@@ -5970,11 +5988,11 @@
 		#calibratearea #calibrationinfo { clear: both; text-align: center; color: #990000; padding: 10px 0;}
 		#backarea .backsvg { width: 1010px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
 
-		
-		#printeradjust span { background-color: #CCCCCC; padding: 2px 3px; border: 1px solid #009900; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 12px;}
+		#printeradjust { color: #060; font-size: 12px; }
+		#printeradjust span { background-color: #e2f9bd; padding: 2px 3px; border: 1px solid #009900; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 12px;}
 		#printeradjust a:hover span { background-color: #CCFFCC; }
 		#printeradjust a, #printeradjust a:hover {text-decoration: none;}
-		#printeradjust input { text-align: center; }
+		#printeradjust input { text-align: center; margin: 0 2px;}
 		
 		
 		#paperarea { min-height: 120px; display: none; }
@@ -6050,33 +6068,7 @@
 		}
 
 
-		#bulkarea .body { padding: 5px 0 0 0; }
-		#bulkarea .format { font-style: italic; font-size: 90%; }
-		#bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
-		.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
-		.bulkquestion:hover, .expandable:hover { color: #77777A; }
-		.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-		.bulkfaq { border: 0; border-top: 2px solid green; }
-		#brainarea .keyarea { visibility: hidden; min-height: 110px; }
 		#instructionsarea { padding: 10px; }
-		#detailarea { margin: 0; text-align: left; }
-		#detailarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#detailarea .item { margin: 10px 0; position: relative;  }
-		#detailarea .label { display: block; text-decoration: underline; }
-		#detailarea .output { display: block; min-height: 20px; }
-		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
-		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
-		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
-		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
-		#vanityarea { text-align: left; }
-		#vanityarea .label { text-decoration: underline; }
-		#vanityarea .output { display: block; }
-		#vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid green; }
-		#vanitystep1label { padding-left: 5px; }
-		#vanitystep2area { border-top: 2px solid green; display: block; padding: 15px; }
-		#vanitystep2inputs { padding: 0 15px 10px 15px; }
-		#vanitycalc { margin-top: 5px; }
 		
 		.englishjson { text-align: center; padding: 40px 0 20px 0; }
 		.unittests { text-align: center; }
@@ -6090,13 +6082,13 @@
 		
 		@media screen 	
 		{
-			#tagline { margin: 0 0 15px 0; font-style: italic; }
+			#tagline { margin: 25px 0 0 250px; font-style: italic; font-size: 18px; color: #333333; }
 			.menu { text-align: left; }
-			.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #6C8C6C;
-						 border: 2px solid green; padding: 5px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
-			.menu .tab:hover { color: #FFF; }
-			.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
-			.menu .tab.selected:hover { color: #000; }
+			.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #e2f9bd; color: #060;
+						 border: 3px solid #e2f9bd; padding: 8px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
+			.menu .tab:hover { color: #090; }
+			.menu .tab.selected { background-color: #FFF; border-bottom: 3px solid #FFF; cursor: default; }
+			.menu .tab.selected:hover { color: #090; }
 			
 			
 			.menu #printeradjust { float: right; width: 340px; text-align: right; margin-top: 5px; } /* zoom & shift */
@@ -6110,7 +6102,7 @@
 			
 			.commands p.instructions { width: 700px; float: left; font-size: 13px; }
 			
-			#papercommands { padding: 10px 0; border-top: 2px solid green; }
+			#papercommands { padding: 10px 0; border-top: 3px solid #e2f9bd; }
 			#braincommands .row { text-align: left; }
 			#braincommands .row .label { width: 200px; display: inline-block; }
 			#braincommands .row.extra { padding: 6px 0 0 0; }
@@ -6120,7 +6112,7 @@
 			#detailcommands { padding: 10px 0; }
 			#detailcommands span { padding: 0 10px; }
 			#detailprivkey { width: 250px; }
-			.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
+			.paper #commands { border-bottom: 3px solid green; padding: 0; margin-bottom: 0; }
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			
@@ -6137,11 +6129,11 @@
 		@media print
 		{
 			#wallets .walletarea { border-top: none; }
-			body { width: 1000px; padding: 30px;}
+			body { width: 1000px; padding: 30px; background-image: none; background-color: #FFFFFF;}
 			#main { width: auto; position: absolute; left: 25px;}
 			#culturemenu { display: none; }
 			.pagebreak { height: 1px; }
-			#logo { display: none; }
+			#logoback { display: none; }
 			.menu { display: none; }
 			.footer { display: none; }
 			.commands { display: none; }
@@ -6152,15 +6144,16 @@
 </head>
 <body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
 	<div id="main">
-		<div id="culturemenu">
-			<span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
-			<span><a href="?culture=es" id="culturees">Español</a></span> | 
-			<span><a href="?culture=fr" id="culturefr">Français</a></span> &bull;
-            <span><small><a href="?unittests=1">RUN UNIT TESTS</a></small></span>
-		</div>
-		<img alt="Bitcoin Paper Wallet" title="Bitcoin Paper Wallet" id="logo" src="./images/logo.png" />
+    	<div id="logoback">
+          <div id="culturemenu">
+              <span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
+              <span><a href="?culture=es" id="culturees">Español</a></span> | 
+              <span><a href="?culture=fr" id="culturefr">Français</a></span>
+          </div>
 		<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator
         <br /><small style="color: red;">*** WARNING *** Still in early beta. Don't dump loads of coins into one of these wallets yet!</small></div>
+
+		</div>
 		<div id="testnet"></div>
         
         
@@ -6220,8 +6213,8 @@
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint();">print out this page</a> in LANDSCAPE (wide) format. Adjust the "zoom" and "horizontal shift" until the printed ruler is properly sized and has exactly equal margins on the left and right sides of the page.</p>
-						<span class="print"><input type="button" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint();" /></span>
+						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('alert-landscape');">print out this page</a> in LANDSCAPE (wide) format. Adjust the "zoom" and "horizontal shift" until the printed ruler is properly sized and has exactly equal margins on the left and right sides of the page.</p>
+						<span class="print"><input type="button" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('alert-landscape');" /></span>
 					</div>
 				</div>
 
@@ -6294,7 +6287,8 @@
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
+				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub">GitHub Repository &raquo;</a></span>
+                <span class="item"><a href="?unittests=1">Run Local Unit Tests</a></span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright Canton Becker</span>
@@ -6305,6 +6299,11 @@
 	</div>
 
 	<script type="text/javascript">
+	
+		// bitaddress.org code -- though significantly modified for this implementation.
+		// For the original unmolested version of this code see
+		// https://github.com/pointbiz/bitaddress.org
+
 		var ninja = { wallets: {} };
 
 		ninja.privateKey = {
@@ -6593,16 +6592,6 @@
 					"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 					"paperlabelbitcoinaddress": "Bitcoin Address:",
 					"paperlabelprivatekey": "Private Key (Wallet Import Format):",
-					"bulkgeneratingaddresses": "Generating addresses... ",
-					"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
-					"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
-					"detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
-					"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
-					"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
-					"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
-					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
-					"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
-					"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
 				},
 
 				"es": {
@@ -6610,16 +6599,6 @@
 					"testneteditionactivated": "Testnet se activa",
 					"paperlabelbitcoinaddress": "Dirección Bitcoin:",
 					"paperlabelprivatekey": "Clave privada (formato para importar):",
-					"bulkgeneratingaddresses": "Generación de direcciones... ",
-					"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
-					"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
-					"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
-					"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
-					"vanityinvalidinputcouldnotcombinekeys": "Entrada no válida. No se puede combinar llaves.",
-					"vanityalertinvalidinputpublickeysmatch": "Entrada no válida. La clave pública de ambos coincidan entradas. Debe introducir dos claves diferentes.",
-					"vanityalertinvalidinputcannotmultiple": "Entrada no válida. No se puede multiplicar dos claves públicas. Seleccione 'Añadir' para agregar dos claves públicas para obtener una dirección bitcoin.",
-					"vanityprivatekeyonlyavailable": "Sólo está disponible cuando se combinan dos claves privadas",
-					"vanityalertinvalidinputprivatekeysmatch": "Entrada no válida. La clave privada de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 
 					// header and menu html
 					"tagline": "Generador de carteras Bitcoin de código abierto en lado de cliente con Javascript",
@@ -6627,9 +6606,6 @@
 					"generatelabelmovemouse": "Mueve un poco el ratón para crear entropía...",
 					"calibratewallet": "Calibrate Printer (es)",
 					"paperwallet": "Cartera en papel",
-					"bulkwallet": "Direcciones en masa",
-					"brainwallet": "Cartera mental",
-					"vanitywallet": "Cartera personalizada",
 					"landwallet": "Welcome (Es)",
 
 					// footer html
@@ -6638,186 +6614,47 @@
 					"footerlabelpgp": "Clave pública PGP",
 					"footerlabelversion": "Histórico de versiones",
 					"footerlabelgithub": "Repositorio GitHub",
-					"footerlabelcopyright1": "Copyright bitaddress.org.",
+					"footerlabelcopyright1": "Copyright Canton Becker.",
 					"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 					"footerlabelnowarranty": "Sin garantía.",
 
-					// single wallet html
-					"newaddress": "Generar dirección",
-					"singleprint": "Imprimir",
-					"singlelabelbitcoinaddress": "Dirección Bitcoin",
-					"singlelabelprivatekey": "Clave privada (formato para importar):",
-
 					// paper wallet html
-					"paperlabelhideart": "Ocultar diseño",
 					"paperlabeladdressesperpage": "Direcciones por página:",
 					"paperlabeladdressestogenerate": "Direcciones en total:",
 					"papergenerate": "Generar",
-					"paperprint": "Imprimir",
-
-					// bulk wallet html
-					"bulklabelstartindex": "Empezar en:",
-					"bulklabelrowstogenerate": "Filas a generar:",
-					"bulkgenerate": "Generar",
-					"bulkprint": "Imprimir",
-					"bulklabelcsv": "Valores separados por coma:",
-					"bulklabelformat": "Índice,Dirección,Clave privada (formato para importar)",
-					"bulklabelq1": "¿Por qué debo usar \"Direcciones en masa\" para aceptar Bitcoins en mi web?",
-					"bulka1": "La forma tradicional de aceptar bitcoins en tu web requiere tener instalado el cliente oficial de bitcoin (\"bitcoind\"). Sin embargo muchos servicios de hosting no permiten instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves privadas están también en el servidor y podrían ser comprometidas en caso de intrusión. Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin y no las claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si se cuelan en el servidor.",
-					"bulklabelq2": "¿Cómo uso \"Direcciones en masa\" para aceptar bitcoins en mi web?",
-					"bulklabela2li1": "Usa el tab \"Direcciones en masa\" para generar por anticipado muchas direcciones (más de 10000). Copia y pega la lista de valores separados por comas (CSV) a un archivo de texto seguro (cifrado) en tu ordenador. Guarda una copia de seguridad en algún lugar seguro.",
-					"bulklabela2li2": "Importa las direcciones en la base de datos de tu servidor. No subas la cartera ni las claves públicas, o de lo contrario te lo pueden robar. Sube sólo las direcciones, ya que es lo que se va a mostrar a los clientes.",
-					"bulklabela2li3": "Ofrece una alternativa en el carro de la compra de tu web para que los clientes paguen con Bitcoin. Cuando el cliente elija pagar con Bitcoin, les muestras una de las direcciones de la base de datos como su \"dirección de pago\" y guardas esto junto con el pedido.",
-					"bulklabela2li4": "Ahora te hace falta recibir una notificación del pago. Busca en google \"notificación de pagos bitcoin\" (o \"bitcoin payment notification\" en inglés) y suscríbete a alguno de los servicios que aparezcan. Hay varios de ellos, que te pueden notificar vía Web services, API, SMS, email, etc. Una vez te llegue la notificación, lo cual puede ser automatizado, entonces ya puedes procesar el pedido. Para comprobar a mano si has recibido un pago, puedes usar Block Explorer: reemplaza DIRECCION a continuación por la dirección que estés comprobando. La transacción puede tardar entre 10 minutos y una hora en ser confirmada. <br />http://www.blockexplorer.com/address/DIRECCION<br /><br />Puedes ver las transacciones sin confirmar en: http://blockchain.info/ <br />Las transacciones sin confirmar suelen aparecer ahí en unos 30 segundos.",
-					"bulklabela2li5": "Las bitcoins que recibas se almacenarán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.",
-
-					// brain wallet html
-					"brainlabelenterpassphrase": "Contraseña:",
-					"brainlabelshow": "Mostrar",
-					"brainprint": "Imprimir",
-					"brainlabelconfirm": "Confirmar contraseña:",
-					"brainview": "Ver",
-					"brainalgorithm": "Algoritmo: SHA256(contraseña)",
-					"brainlabelbitcoinaddress": "Dirección Bitcoin:",
-					"brainlabelprivatekey": "Clave privada (formato para importar):",
-
-					// vanity wallet html
-					"vanitylabelstep1": "Paso 1 - Genera tu par de claves",
-					"vanitynewkeypair": "Generar",
-					"vanitylabelstep1publickey": "Clave pública:",
-					"vanitylabelstep1pubnotes": "Copia y pega la línea de arriba en el campo \"Your-Part-Public-Key\" de la web de Vanity Pool.",
-					"vanitylabelstep1privatekey": "Clave privada:",
-					"vanitylabelstep1privnotes": "Copia y pega la clave pública de arriba en un archivo de texto. Es mejor que lo almacenes en un volumen cifrado. Lo necesitarás para recuperar la clave privada una vez Vanity Pool haya encontrado tu prefijo.",
-					"vanitylabelstep2calculateyourvanitywallet": "Paso 2 - Calcula tu cartera personalizada",
-					"vanitylabelenteryourpart": "Introduce la clave privada generada en el paso 1, y que has guardado:",
-					"vanitylabelenteryourpoolpart": "Introduce la clave privada obtenida de la Vanity Pool:",
-					"vanitylabelnote1": "[NOTA: esta casilla de entrada puede aceptar una clave pública o clave privada]",
-					"vanitylabelnote2": "[NOTA: esta casilla de entrada puede aceptar una clave pública o clave privada]",
-					"vanitylabelradioadd": "Añadir",
-					"vanitylabelradiomultiply": "Multiplicar",
-					"vanitycalc": "Calcular cartera personalizada",
-					"vanitylabelbitcoinaddress": "Dirección Bitcoin personalizada:",
-					"vanitylabelnotesbitcoinaddress": "Esta es tu nueva dirección, que debería tener el prefijo deseado.",
-					"vanitylabelpublickeyhex": "Clave pública personalizada (HEX):",
-					"vanitylabelnotespublickeyhex": "Lo anterior es la clave pública en formato hexadecimal.",
-					"vanitylabelprivatekey": "Clave privada personalizada (formato para importar):",
-					"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
-
-					// detail wallet html
-					"detaillabelenterprivatekey": "Introduce la clave privada (en cualquier formato)",
-					"detailview": "Ver detalles",
-					"detailprint": "Imprimir",
-					"detaillabelnote1": "Tu clave privada es un número secreto, único, que sólo tú conoces. Se puede expresar en varios formatos. Aquí abajo mostramos la dirección y la clave pública que se corresponden con tu clave privada, así como la clave privada en los formatos más conocidos (para importar, hex, base64 y mini).",
-					"detaillabelnote2": "Bitcoin v0.6+ almacena las claves públicas comprimidas. El cliente también soporta importar/exportar claves privadas usando importprivkey/dumpprivkey. El formato de las claves privadas exportadas depende de si la dirección se generó en una cartera antigua o nueva.",
-					"detaillabelbitcoinaddress": "Dirección Bitcoin:",
-					"detaillabelbitcoinaddresscomp": "Dirección Bitcoin (comprimida):",
-					"detaillabelpublickey": "Clave pública (130 caracteres [0-9A-F]):",
-					"detaillabelpublickeycomp": "Clave pública (comprimida, 66 caracteres [0-9A-F]):",
-					"detaillabelprivwif": "Clave privada para importar (51 caracteres en base58, empieza con un",
-					"detaillabelprivwifcomp": "Clave privada para importar (comprimida, 52 caracteres en base58, empieza con",
-					"detailcompwifprefix": "'K' o 'L'",
-					"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
-					"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
-					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):"
+					"paperprint": "Imprimir"
 				},
 					
 				"fr": {
+					// javascript alerts or messages
 					"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 					"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 					"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
-					"bulkgeneratingaddresses": "Création de l'adresse... ",
-					"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
-					"brainalertpassphrasedoesnotmatch": "Le mot de passe ne correspond pas au mot de passe de vérification.",
-					"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
-					"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
-					"vanityinvalidinputcouldnotcombinekeys": "Entrée non valide. Impossible de combiner les clés.",
-					"vanityalertinvalidinputpublickeysmatch": "Entrée non valide. La clé publique des deux entrées est identique. Vous devez entrer deux clés différentes.",
-					"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Bitcoin.",
-					"vanityprivatekeyonlyavailable": "Seulement disponible si vos combinez deux clés privées",
-					"vanityalertinvalidinputprivatekeysmatch": "Entrée non valide. La clé Privée des deux entrées est identique. Vous devez entrer deux clés différentes.",
+
+					// header and menu html
 					"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 					"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 					"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
 					"calibratewallet": "Calibrate Printer (fr)",
 					"paperwallet": "Porte-Monnaie Papier",
-					"bulkwallet": "Porte-Monnaie En Vrac",
-					"brainwallet": "Porte-Monnaie Cerveau",
-					"vanitywallet": "Porte-Monnaie Vanité",
 					"landwallet": "Welcome (Fr)",
+
+					// footer html
 					"footerlabeldonations": "Dons:",
 					"footerlabeltranslatedby": "Traduction: 1Gy7NYSJNUYqUdXTBow5d7bCUEJkUFDFSq",
 					"footerlabelpgp": "Clé Publique PGP",
 					"footerlabelversion": "Historique De Version Signé",
 					"footerlabelgithub": "Dépôt GitHub",
-					"footerlabelcopyright1": "Copyright bitaddress.org.",
+					"footerlabelcopyright1": "Copyright Canton Becker.",
 					"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 					"footerlabelnowarranty": "Aucune garantie.",
 					"newaddress": "Générer Une Nouvelle Adresse",
-					"singleprint": "Imprimer",
-					"singlelabelbitcoinaddress": "Adresse Bitcoin:",
-					"singlelabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
-					"paperlabelhideart": "Retirer Le Style?",
+
+					// paper wallet html
 					"paperlabeladdressesperpage": "Adresses par page:",
 					"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
 					"papergenerate": "Générer",
-					"paperprint": "Imprimer",
-					"bulklabelstartindex": "Commencer à l'index:",
-					"bulklabelrowstogenerate": "Colonnes à générer:",
-					"bulkgenerate": "Générer",
-					"bulkprint": "Imprimer",
-					"bulklabelcsv": "Valeurs Séparées Par Des Virgules (CSV):",
-					"bulklabelformat": "Index,Adresse,Clé Privée (WIF)",
-					"bulklabelq1": "Pourquoi utiliserais-je un Porte-monnaie en vrac pour accepter les Bitcoins sur mon site web?",
-					"bulka1": "L'approche traditionnelle pour accepter des Bitcoins sur votre site web requière l'installation du logiciel Bitcoin officiel (\"bitcoind\"). Plusieurs hébergeurs ne supportent pas l'installation du logiciel Bitcoin. De plus, faire fonctionner le logiciel Bitcoin sur votre serveur web signifie que vos clés privées sont hébergées sur le serveur et pourraient donc être volées si votre serveur web était compromis. En utilisant un Porte-monnaie en vrac, vous pouvez publiquer seulement les adresses Bitcoin sur votre serveur et non les clés privées. Vous n'avez alors pas à vous inquiéter du risque de vous faire voler votre porte-monnaie si votre serveur était compromis.",
-					"bulklabelq2": "Comment utiliser le Porte-monnaie en vrac pour utiliser le Bitcoin sur mon site web?",
-					"bulklabela2li1": "Utilisez le Porte-monnaie en vrac pour pré-générer une large quantité d'adresses Bitcoin (10,000+). Copiez collez les données séparées par des virgules (CSV) dans un fichier texte sécurisé dans votre ordinateur. Sauvegardez ce fichier dans un endroit sécurisé.",
-					"bulklabela2li2": "Importez les adresses Bitcoin dans une base de donnée sur votre serveur web. (N'ajoutez pas le porte-monnaie ou les clés privées sur votre serveur web, sinon vous courrez le risque de vous faire voler si votre serveur est compromis. Ajoutez seulement les adresses Bitcoin qui seront visibles à vos visiteurs.)",
-					"bulklabela2li3": "Ajoutez une option dans votre panier en ligne pour que vos clients puissent vous payer en Bitcoin. Quand un client choisi de vous payer en Bitcoin, vous pouvez afficher une des adresses de votre base de donnée comme \"adresse de paiment\" pour votre client et sauvegarder cette adresse avec sa commande.",
-					"bulklabela2li4": "Vous avez maintenant besoin d'être avisé quand le paiement est reçu. Cherchez \"bitcoin payment notification\" sur Google et inscrivez-vous à un service de notification de paiement Bitcoin. Il y a plusieurs services qui vous avertiront via des services Web, API, SMS, Email, etc. Une fois que vous avez reçu la notification, qui devrait être programmée automatiquement, vous pouvez traiter la commande de votre client. Pour vérifier manuellement si un paiement est arrivé, vous pouvez utiliser Block Explorer. Remplacez ADRESSE par l'adresse Bitcoin que vous souhaitez vérifier. La confirmation de la transaction pourrait prendre de 10 à 60 minutes pour être confirmée.<br />http://www.blockexplorer.com/address/ADRESSE<br /><br />Les transactions non confirmées peuvent être visualisées ici: http://blockchain.info/ <br />Vous devriez voir la transaction à l'intérieur de 30 secondes.",
-					"bulklabela2li5": "Les Bitcoins vos s'accumuler de façon sécuritaire dans la chaîne de blocs. Utilisez le porte-monnaie original que vous avez généré à l'étape 1 pour les dépenser.",
-					"brainlabelenterpassphrase": "Entrez votre mot de passe: ",
-					"brainlabelshow": "Afficher?",
-					"brainprint": "Imprimer",
-					"brainlabelconfirm": "Confirmer le mot de passe: ",
-					"brainview": "Visualiser",
-					"brainalgorithm": "Algorithme: SHA256(mot de passe)",
-					"brainlabelbitcoinaddress": "Adresse Bitcoin:",
-					"brainlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
-					"vanitylabelstep1": "Étape 1 - Générer votre \"Étape 1 Paire De Clés\"",
-					"vanitynewkeypair": "Générer",
-					"vanitylabelstep1publickey": "Étape 1 Clé Publique:",
-					"vanitylabelstep1pubnotes": "Copiez celle-ci dans la case Votre-Clé-Publique du site de Vanity Pool.",
-					"vanitylabelstep1privatekey": "Step 1 Clé Privée:",
-					"vanitylabelstep1privnotes": "Copiez la cette Clé Privée dans un fichier texte. Idéalement, sauvegardez la dans un fichier encrypté. Vous en aurez besoin pour récupérer la Clé Privée lors que Vanity Pool aura trouvé votre préfixe.",
-					"vanitylabelstep2calculateyourvanitywallet": "Étape 2 - Calculer votre Porte-monnaie Vanité",
-					"vanitylabelenteryourpart": "Entrez votre Clé Privée (générée à l'étape 1 plus haut et précédemment sauvegardée):",
-					"vanitylabelenteryourpoolpart": "Entrez la Clé Privée (provenant de Vanity Pool):",
-					"vanitylabelnote1": "[NOTE: cette case peut accepter une clé publique ou un clé privée]",
-					"vanitylabelnote2": "[NOTE: cette case peut accepter une clé publique ou un clé privée]",
-					"vanitylabelradioadd": "Ajouter",
-					"vanitylabelradiomultiply": "Multiplier",
-					"vanitycalc": "Calculer Le Porte-monnaie Vanité",
-					"vanitylabelbitcoinaddress": "Adresse Bitcoin Vanité:",
-					"vanitylabelnotesbitcoinaddress": "Ci-haut est votre nouvelle adresse qui devrait inclure le préfix requis.",
-					"vanitylabelpublickeyhex": "Clé Public Vanité (HEX):",
-					"vanitylabelnotespublickeyhex": "Celle-ci est la Clé Publique dans le format hexadécimal. ",
-					"vanitylabelprivatekey": "Clé Privée Vanité (WIF):",
-					"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
-					"detaillabelenterprivatekey": "Entrez la Clé Privée (quel que soit son format)",
-					"detailview": "Voir les détails",
-					"detailprint": "Imprimer",
-					"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, HEX, B64, MINI).",
-					"detaillabelnote2": "Bitcoin v0.6+ conserve les clés publiques dans un format compressé. Le logiciel supporte maintenant aussi l'importation et l'exportation de clés privées avec importprivkey/dumpprivkey. Le format de la clé privée exportée est déterminé selon la version du porte-monnaie Bitcoin.",
-					"detaillabelbitcoinaddress": "Adresse Bitcoin:",
-					"detaillabelbitcoinaddresscomp": "Adresse Bitcoin (compressée):",
-					"detaillabelpublickey": "Clé Publique (130 caractères [0-9A-F]):",
-					"detaillabelpublickeycomp": "Clé Publique (compressée, 66 caractères [0-9A-F]):",
-					"detaillabelprivwif": "Clé Privée WIF (51 caractères base58, débute avec un a",
-					"detaillabelprivwifcomp": "Clé Privée WIF (compressée, 52 caractères base58, débute avec un a",
-					"detailcompwifprefix": "'K' ou 'L'",
-					"detaillabelprivhex": "Clé Privée Format Hexadecimal (64 caractères [0-9A-F]):",
-					"detaillabelprivb64": "Clé Privée Base64 (44 caractères):",
-					"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):"
+					"paperprint": "Imprimer"
 				}
 			}
 		};
@@ -6863,6 +6700,21 @@
 		};
 	</script>
 
+
+<!-- UX controls for switching tabs -->
+
+	<script type="text/javascript">
+		ninja.wallets.landwallet = {
+			open: function () {
+				document.getElementById("landarea").style.display = "block";
+			},
+
+			close: function () {
+				document.getElementById("landarea").style.display = "none";
+			}
+		};
+	</script>
+
 	<script type="text/javascript">
 		ninja.wallets.calibratewallet = {
 			open: function () {
@@ -6886,7 +6738,6 @@
 			}
 		};
 	</script>
-
 
 
 	<script type="text/javascript">
@@ -6949,7 +6800,7 @@
 					}
 					if (paperArea.innerHTML != "") {
 						// page break
-						if (i % pageBreakAt == 1 && ninja.wallets.paperwallet.count >= pageBreakAt) {
+			           if ((i-1) % pageBreakAt == 0 && i >= pageBreakAt) {
 							var pBreak = document.createElement("div");
 							pBreak.setAttribute("class", "pagebreak");
 							document.getElementById("paperkeyarea").appendChild(pBreak);
@@ -7068,20 +6919,6 @@
 		};
 	</script>
 
-
-
-
-	<script type="text/javascript">
-		ninja.wallets.landwallet = {
-			open: function () {
-				document.getElementById("landarea").style.display = "block";
-			},
-
-			close: function () {
-				document.getElementById("landarea").style.display = "none";
-			}
-		};
-	</script>
 
 	<script type="text/javascript">
 	(function (ninja) {
@@ -7548,15 +7385,20 @@
 	</script>
 
 	<script type="text/javascript">
+	
+		/****************************************************
+		 Brand new JS functions added for bitcionpaperwallet 
+		 ****************************************************/
+	
     	var inlineMediaStyle = null;
 
-		function printZoom (changeBy) {
+		function printZoom (changeBy) { /* handle +/- buttons for print zoom */
 			var currentZoom = document.getElementById("printerzoom").value * 1;
 			document.getElementById("printerzoom").value = currentZoom + changeBy;
 			updateCalibrationInfo();
 		}
 
-		function printShift (changeBy) {
+		function printShift (changeBy) { /* handle +/- buttons for print shift */
 			var currentShift = document.getElementById("printershift").value * 1;
 			document.getElementById("printershift").value = currentShift + changeBy;
 			updateCalibrationInfo();
@@ -7585,8 +7427,11 @@
 			inlineMediaStyle = printerStyle;
 		}
 		
-		function doPrint() {
+		function doPrint(alertmessage) { /* What to do anytime a print button is clicked */
 			updateCalibrationInfo();
+			if (alertmessage  == 'alert-landscape') {
+				alert ('Remember to print in LANDSCAPE (wide) format!');	
+			}
 			window.print();	
 		}
 	</script>
