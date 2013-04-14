@@ -1,9 +1,22 @@
-bitcoinpaperwallet
+*** bitcoinpaperwallet ***
 
-is a fork of 
+is a fork of bitaddress.org, the JavaScript Client-Side Bitcoin Wallet Generator
 
-bitaddress.org
-JavaScript Client-Side Bitcoin Wallet Generator
+This removes much of the (albeit excellent) functionality from
+bitaddress.org to create a streamined step-by-step paper wallet printer
+for novices. Includes a tool to help users "calibrate" their printer
+for more consistent output between different browsers. Renamed main
+.html file to avoid confusion with bitaddress.org. Moved images into
+their own directory since they are quite large and might not do
+well encoded into the JS anymore.
+
+
+
+- Canton Becker
+http://cantonbecker.com
+canton@gmail.com
+
+--- original bitaddress.org README continues below ---
 
 Now Bitcoin addresses and their corresponding private key can be conveniently 
 generated in a web browser.
