@@ -6467,7 +6467,7 @@
 					}
 					if (paperArea.innerHTML != "") {
 						// page break
-						if (i % pageBreakAt == 1 && ninja.wallets.paperwallet.count >= pageBreakAt) {
+						if ((i-1) % pageBreakAt == 0 && i >= pageBreakAt) {
 							var pBreak = document.createElement("div");
 							pBreak.setAttribute("class", "pagebreak");
 							document.getElementById("paperkeyarea").appendChild(pBreak);
