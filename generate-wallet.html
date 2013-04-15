@@ -5962,7 +5962,7 @@
 		.less { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
 					no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 		.right { text-align: right; }
-		.walletarea { display: none; border-top: 2px solid #e2f9bd; }
+		.walletarea { display: none; border-top: 2px solid #f7931a; }
 		.keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 		.keyarea .public { float: left; }
 		.keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
@@ -5974,12 +5974,19 @@
 		.pubkeyhex { word-wrap: break-word; }
 		.faqs ol { padding: 0 0 0 25px; }
 		.faqs li { padding: 3px 0; }
-		body { font-family: Arial; background-image:url(images/bgtile.png); background-repeat: repeat-y; background-position: center; background-color: #e2f9bd;}
+		body { margin-top: 0; font-family: Arial; background-image:url(images/bgtile2.png); background-repeat: repeat-y; background-position: center; background-color: #e2f9bd;}
+		
+		h1 { font-size: 24px; font-weight: 100; color: #090; margin:0 0 10px 0; padding:0; }
+		
+		a, a:visited { text-decoration: none; color: #ff6c00; }
+		a:hover {color: #0000FF; text-decoration: underline;}
+		
+		
 		#main { position: relative; margin: 0px auto; width: 1010px; color: #444; } /* removed text-align: center; */
-		#logoback { height: 143px; margin-bottom: 10px; background-image:url(images/logo.png); background-position: top left; background-repeat: no-repeat; }
-		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
+		#logoback {  background-image:url(images/logo.png); background-position: top left; background-repeat: no-repeat; }
+		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid #f7931a; }
 		#generate span { padding: 5px 5px 0 5px; }
-		#menu { visibility: hidden; font-size: 90%; }
+		#menu { visibility: hidden; font-size: 90%; padding: 0 12px;}
 		#culturemenu { text-align: right; padding: 10px 20px; font-size: 12px; }
 		#culturemenu span { padding: 3px; }
 		#culturemenu .selected { text-decoration: none; color: #000000; }
@@ -5996,7 +6003,7 @@
 		
 		
 		#paperarea { min-height: 120px; display: none; }
-		#paperarea .keyarea { border: 2px solid green; border-top: 0; }
+		#paperarea .keyarea { border: 2px solid #f7931a; border-top: 0; }
 		#paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 		#paperarea .artwallet .papersvg { width: 1010px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
 		#paperarea .artwallet .qrcode_public { top: 120px; left: 41px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
@@ -6068,12 +6075,14 @@
 		}
 
 
-		#instructionsarea { padding: 10px; }
+		.instructionsarea { padding: 0 25px; }
 		
+		.highlighted { font-size: 14px; padding: 8px; background-color: #ebfdbf;}
+		
+		#browserinfo { text-align: center; } 
 		.englishjson { text-align: center; padding: 40px 0 20px 0; }
 		.unittests { text-align: center; }
 		.unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
-		#testnet { font-family: Tahoma; display: none; background-color: Orange; color: #000000; border-radius: 5px; font-weight: bold; padding: 10px 0; margin: 0 auto 20px auto; }
 		
 		/* IE8 */
 		.qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
@@ -6082,19 +6091,24 @@
 		
 		@media screen 	
 		{
-			#tagline { margin: 25px 0 0 250px; font-style: italic; font-size: 18px; color: #333333; }
+			#tagline { margin: 20px 0 30px 250px; font-style: italic; font-size: 18px; color: #333333; }
+			#tagwarning { position: absolute; left: 250px; top: 25px; font-size: 12px; color: red; }
 			.menu { text-align: left; }
-			.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #e2f9bd; color: #060;
-						 border: 3px solid #e2f9bd; padding: 8px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
+			.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #e2f9bd; 
+						 color: #060; font-size: 12px;
+						 border-top: 2px solid #f7931a; 
+						 border-left: 2px solid #f7931a; 
+						 border-right: 2px solid #f7931a; 
+						 border-bottom: 2px solid #e2f9bd; 
+						 padding: 4px 8px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
 			.menu .tab:hover { color: #090; }
-			.menu .tab.selected { background-color: #FFF; border-bottom: 3px solid #FFF; cursor: default; }
+			.menu .tab.selected { background-color: #FFF; border-bottom: 4px solid #FFF; cursor: default; font-weight: bold; }
 			.menu .tab.selected:hover { color: #090; }
 			
-			
-			.menu #printeradjust { float: right; width: 340px; text-align: right; margin-top: 5px; } /* zoom & shift */
+			.menu #printeradjust { float: right; text-align: right; margin-top: 5px; } /* zoom & shift */
 			
 			.pagebreak { height: 50px; }
-			.commands { padding: 10px 0 20px 10px; margin-bottom: 0; }
+			.commands { padding: 10px 0 20px 10px; margin-bottom: 0; } 
 			.commands span { padding: 0 10px; } 
 			.commands span.print { float: right; } 
 			.commands span.right { float: right; }
@@ -6102,29 +6116,21 @@
 			
 			.commands p.instructions { width: 700px; float: left; font-size: 13px; }
 			
-			#papercommands { padding: 10px 0; border-top: 3px solid #e2f9bd; }
-			#braincommands .row { text-align: left; }
-			#braincommands .row .label { width: 200px; display: inline-block; }
-			#braincommands .row.extra { padding: 6px 0 0 0; }
-			#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
-			#brainpassphrase { width: 280px; }
-			#brainpassphraseconfirm { width: 280px; }
-			#detailcommands { padding: 10px 0; }
-			#detailcommands span { padding: 0 10px; }
-			#detailprivkey { width: 250px; }
-			.paper #commands { border-bottom: 3px solid green; padding: 0; margin-bottom: 0; }
+
+
+
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			
-			.footer { font-family: Arial; font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
+			.footer { font-family: Arial; font-size: 90%; clear: both; padding: 10px 0 10px 0; margin: 50px 20px; }
 			.footer div span.item { padding: 10px; }
 			.footer .authorbtc { float: left; width: 470px; }
-			.footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
+			.footer .authorbtc span.item { text-align: left; display: block; padding-right: 20px; }
 			.footer .authorbtc div { position: relative; z-index: 100; }
 			.footer .authorpgp { position: relative; }
 			.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
 			.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
-			.footer .copyright span { padding: 10px 2px; }
+			.footer .copyright span { padding: 10px 10px; }
 		}
 		@media print
 		{
@@ -6145,18 +6151,13 @@
 <body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
 	<div id="main">
     	<div id="logoback">
-          <div id="culturemenu">
+          	<div id="culturemenu">
               <span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
               <span><a href="?culture=es" id="culturees">Español</a></span> | 
               <span><a href="?culture=fr" id="culturefr">Français</a></span>
-          </div>
-		<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator
-        <br /><small style="color: red;">*** WARNING *** Still in early beta. Don't dump loads of coins into one of these wallets yet!</small></div>
-
-		</div>
-		<div id="testnet"></div>
-        
-        
+          	</div>
+			<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator</div>
+            <div id="tagwarning">*** WARNING *** Still in early beta. Don't dump loads of coins into one of these wallets yet!</div>
         
 		<div class="menu" id="menu">
         	<div id="printeradjust">
@@ -6167,11 +6168,15 @@
                 <a href="#" onClick="printShift(-1); return(false);"><span>-</span></a><input name="printershift" id="printershift" size="2" value="5" onChange="updateCalibrationInfo();" /><a href="#" onClick="printShift(1); return(false);"><span>+</span></a> 
             </div>
             
-			<div class="tab selected" id="landwallet" onClick="ninja.tabSwitch(this);">Instructions:</div>
+			<div class="tab selected" id="landwallet" onClick="ninja.tabSwitch(this);">Instructions</div>
 			<div class="tab" id="calibratewallet" onClick="ninja.tabSwitch(this);">1. Calibrate Printer</div>
 			<div class="tab" id="paperwallet" onClick="ninja.tabSwitch(this);">2. Print Front</div>
 			<div class="tab" id="backwallet" onClick="ninja.tabSwitch(this);">3. Print Back</div>
+			<div class="tab" id="foldwallet" onClick="ninja.tabSwitch(this);">4. Cut, Fold, Seal &amp; Fund</div>
 		</div>
+
+
+		</div><!-- end logoback -->
 		
 		<div id="generate">
 			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
@@ -6186,23 +6191,25 @@
 				<div id="landcommands" class="commands">
 					&nbsp;
 				</div>
-				<div id="instructionsarea">
+				<div class="instructionsarea">
 					<div class="notes">
-						<span id="instructions1"><strong>Welcome! Let's print out a beautiful and secure wallet for your bitcoins.</strong></span>
+						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your bitcoins.</span></h1>
+
+						<span id="instructions1">Here's an overview of what will happen, step by step.</span>
 						<br /><br />
-						<span id="instructions2">Here's an overview of what will happen, step by step.</span>
+
+
+						<span id="instructions2" class="highlighted"><a href="http://www.youtube.com/watch?v=V4H1VE3EAtI" target="_blank">Prefer a 90 second video? Watch a quick demonstration on YouTube &raquo;</a></span>
+						<br /><br />	
+
+
+						<span id="instructions3"><b>1. Calibrate Printer:</b> Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b>. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side. Don't forget to write down the zoom/shift values for the next time you need them.</span>
 						<br /><br />
-						<span id="instructions3">1) Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b>. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side. Don't forget to write down the zoom/shift values for the next time you need them.</span>
-						<br /><br />
-						<span id="instructions4">2) Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
+						<span id="instructions4"><b>2. Print Front:</b> Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
 						<br /><br />	
-						<span id="instructions5">3) Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the backside design includes additional tamper-proof safeguards.</span>
+						<span id="instructions5"><b>3. Print Back:</b> Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-proof safeguards.</span>
 						<br /><br />	
-						<span id="instructions5">4) Find your scissors! Time to cut out your wallet, fold it, and seal it (preferably with tamper-proof tape.)</span>
-						<br /><br />	
-						<span id="instructions6">5) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
-                        <br /><br />
-						<span id="instructions7"><a href="http://www.youtube.com/watch?v=V4H1VE3EAtI" target="_blank">Watch a quick demonstration on YouTube &raquo;</a></span>
+						<span id="instructions6"><b>4. Cut, Fold, Seal &amp; Fund:</b> Find your scissors! Time to cut out your wallet, fold it, and seal it (preferably with tamper-proof tape.) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
                         
 					</div>
 				</div>
@@ -6213,13 +6220,13 @@
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('alert-landscape');">print out this page</a> in LANDSCAPE (wide) format. Adjust the "zoom" and "horizontal shift" until the printed ruler is properly sized and has exactly equal margins on the left and right sides of the page.</p>
+						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('alert-landscape');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.</p>
 						<span class="print"><input type="button" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('alert-landscape');" /></span>
 					</div>
 				</div>
 
 
-				<div id="calibrationinfo"></div>
+				<div id="calibrationinfo">Zoom / Shift : Default</div>
 				<img id="calibratesvg" class="calibratesvg" src="./images/calibrate-300dpi.jpg">
 				<div id="browserinfo"></div>
 
@@ -6243,7 +6250,7 @@
             
             
 
-			<div id="paperarea">
+			<div id="paperarea" class="walletarea">
 				<div id="papercommands" class="commands">
 					<div style="display: none;"><!-- no need to reveal these -->
                     	<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onChange="ninja.wallets.paperwallet.toggleArt(this); " /></span>
@@ -6272,6 +6279,45 @@
                 
 			</div><!-- end backarea -->
 
+
+
+			<div id="foldarea" class="walletarea">	
+				<div id="foldcommands" class="commands">
+					&nbsp;
+				</div>
+				<div class="instructionsarea">
+					<div class="notes">
+					  <h1><span id="instructions21">How to cut &amp; fold your 2-sided wallet:</span></h1>
+
+						<span id="instructions22">Cut out your wallet <em>(use the front as a guide, not the back!)</em>
+                        <br />
+                        <br />
+                        Now fold the more narrow private key area in half, and then over again as indicated by the dotted lines in this diagram:</span><br />
+                        <img src="./images/finished-folds.png" width="355" height="144" alt="Folding Diagram">
+                        <br />
+                        <br />
+						<span id="instructions23">The final wallet will be a rectangle shape with the more narrow private key area folded over it, like this:</span>
+						<br />
+                        
+                        <img src="images/finished-sample.jpg" width="400" height="203" alt="Sample Wallet">
+                        
+                        <br />	
+                        <br />
+						<span id="instructions13">Finally seal your wallet by placing two strips of sturdy tape over the top and bottom edges of the private (folded) area:</span>
+						<br /><br />	
+
+                        <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet">
+
+						<br /><br />	
+						<span id="instructions15" class="highlighted"><a href="#" target="_blank">Click here to order some holographic tamper-proof tape &raquo;</a></span>
+						<br /><br />	
+
+						<h1><span id="instructions16">How to add funds to your wallet:</span></h1>
+                        
+					</div>
+				</div>
+			</div><!-- end landarea -->
+
             
             
 		</div><!-- *** end wallets *** -->
@@ -6291,7 +6337,7 @@
                 <span class="item"><a href="?unittests=1">Run Local Unit Tests</a></span>
 			</div>
 			<div class="copyright">
-				<span id="footerlabelcopyright1">Copyright Canton Becker</span>
+				<span id="footerlabelcopyright1">&copy; Copyright 2013 Canton Becker</span>
 				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
 				<span id="footerlabelnowarranty">No warranty.</span>
 			</div>
@@ -6589,14 +6635,12 @@
 			translations: {
 				"en": {
 					// javascript alerts or messages
-					"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 					"paperlabelbitcoinaddress": "Bitcoin Address:",
 					"paperlabelprivatekey": "Private Key (Wallet Import Format):",
 				},
 
 				"es": {
 					// javascript alerts or messages
-					"testneteditionactivated": "Testnet se activa",
 					"paperlabelbitcoinaddress": "Dirección Bitcoin:",
 					"paperlabelprivatekey": "Clave privada (formato para importar):",
 
@@ -6614,7 +6658,7 @@
 					"footerlabelpgp": "Clave pública PGP",
 					"footerlabelversion": "Histórico de versiones",
 					"footerlabelgithub": "Repositorio GitHub",
-					"footerlabelcopyright1": "Copyright Canton Becker.",
+					"footerlabelcopyright1": "&copy; Copyright 2013 Canton Becker.",
 					"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 					"footerlabelnowarranty": "Sin garantía.",
 
@@ -6627,7 +6671,6 @@
 					
 				"fr": {
 					// javascript alerts or messages
-					"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 					"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 					"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
 
@@ -6645,7 +6688,7 @@
 					"footerlabelpgp": "Clé Publique PGP",
 					"footerlabelversion": "Historique De Version Signé",
 					"footerlabelgithub": "Dépôt GitHub",
-					"footerlabelcopyright1": "Copyright Canton Becker.",
+					"footerlabelcopyright1": "&copy; Copyright 2013 Canton Becker.",
 					"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 					"footerlabelnowarranty": "Aucune garantie.",
 					"newaddress": "Générer Une Nouvelle Adresse",
@@ -6735,6 +6778,20 @@
 
 			close: function () {
 				document.getElementById("backarea").style.display = "none";
+			}
+		};
+	</script>
+
+
+
+	<script type="text/javascript">
+		ninja.wallets.foldwallet = {
+			open: function () {
+				document.getElementById("foldarea").style.display = "block";
+			},
+
+			close: function () {
+				document.getElementById("foldarea").style.display = "none";
 			}
 		};
 	</script>
@@ -7367,17 +7424,6 @@
 		// change language
 		if (ninja.getQueryString()["culture"] != undefined) {
 			ninja.translator.translate(ninja.getQueryString()["culture"]);
-		}
-
-		// testnet, check if testnet edition should be activated
-		if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
-			document.getElementById("testnet").innerHTML = ninja.translator.get("testneteditionactivated");
-			document.getElementById("testnet").style.display = "block";
-			document.getElementById("detailwifprefix").innerHTML = "'9'";
-			document.getElementById("detailcompwifprefix").innerHTML = "'c'";
-			Bitcoin.Address.networkVersion = 0x6F; // testnet
-			Bitcoin.ECKey.privateKeyPrefix = 0xEF; // testnet
-			ninja.testnetMode = true;
 		}
 
 		// if users does not move mouse after random amount of time then generate the key anyway.
