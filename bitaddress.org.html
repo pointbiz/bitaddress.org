@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="iso-8859-1">
 	<!--
 	Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
 
@@ -24,6 +23,7 @@
 	window.BigInteger		BSD License
 	window.QRCode			MIT License
 	window.Bitcoin			MIT License
+	window.Crypto_scrypt		MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
 	Copyright (c) 2011-2012 bitaddress.org
@@ -47,6 +47,7 @@
 	-->
 
 	<title>bitaddress.org</title>
+	<meta charset="iso-8859-1">
 
 	<script type="text/javascript">
 	// Array.prototype.map function is in the public domain.
@@ -5076,6 +5077,7 @@
 			ECKey.prototype.setCompressed = function (v) {
 				this.compressed = !!v;
 				if (this.pubPoint) this.pubPoint.compressed = this.compressed;
+				return this;
 			};
 
 			/*
@@ -5145,6 +5147,7 @@
 				var ecPoint = ecparams.getCurve().decodePointHex(pub);
 				this.setCompressed(ecPoint.compressed);
 				this.pubPoint = ecPoint;
+				return this;
 			};
 
 			// Sipa Private Key Wallet Import Format 
@@ -5382,8 +5385,310 @@
 			*/
 			sha256ripe160: function (data) {
 				return Crypto.RIPEMD160(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
+			},
+			// double sha256
+			dsha256: function (data) {
+				return Crypto.SHA256(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
 			}
 		};
+	</script>
+
+	<script type="text/javascript">
+	/*
+	* Copyright (c) 2010-2011 Intalio Pte, All Rights Reserved
+	* 
+	* Permission is hereby granted, free of charge, to any person obtaining a copy
+	* of this software and associated documentation files (the "Software"), to deal
+	* in the Software without restriction, including without limitation the rights
+	* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	* copies of the Software, and to permit persons to whom the Software is
+	* furnished to do so, subject to the following conditions:
+	* 
+	* The above copyright notice and this permission notice shall be included in
+	* all copies or substantial portions of the Software.
+	* 
+	* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	* THE SOFTWARE.
+	*/
+	// https://github.com/cheongwy/node-scrypt-js
+	(function () {
+
+		var MAX_VALUE = 2147483647;
+		var workerUrl = null;
+
+		//function scrypt(byte[] passwd, byte[] salt, int N, int r, int p, int dkLen)
+		/*
+		* N = Cpu cost
+		* r = Memory cost
+		* p = parallelization cost
+		* 
+		*/
+		window.Crypto_scrypt = function (passwd, salt, N, r, p, dkLen, callback) {
+			if (N == 0 || (N & (N - 1)) != 0) throw Error("N must be > 0 and a power of 2");
+
+			if (N > MAX_VALUE / 128 / r) throw Error("Parameter N is too large");
+			if (r > MAX_VALUE / 128 / p) throw Error("Parameter r is too large");
+
+			var PBKDF2_opts = { iterations: 1, hasher: Crypto.SHA256, asBytes: true };
+
+			var B = Crypto.PBKDF2(passwd, salt, p * 128 * r, PBKDF2_opts);
+
+			try {
+				var i = 0;
+				var worksDone = 0;
+				var makeWorker = function () {
+					if (!workerUrl) {
+						var code = '(' + scryptCore.toString() + ')()';
+						var blob;
+						try {
+							blob = new Blob([code], { type: "text/javascript" });
+						} catch (e) {
+							window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+							blob = new BlobBuilder();
+							blob.append(code);
+							blob = blob.getBlob("text/javascript");
+						}
+						workerUrl = URL.createObjectURL(blob);
+					}
+					var worker = new Worker(workerUrl);
+					worker.onmessage = function (event) {
+						var Bi = event.data[0], Bslice = event.data[1];
+						worksDone++;
+
+						if (i < p) {
+							worker.postMessage([N, r, p, B, i++]);
+						}
+
+						var length = Bslice.length, destPos = Bi * 128 * r, srcPos = 0;
+						while (length--) {
+							B[destPos++] = Bslice[srcPos++];
+						}
+
+						if (worksDone == p) {
+							callback(Crypto.PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+						}
+					};
+					return worker;
+				};
+				var workers = [makeWorker(), makeWorker()];
+				workers[0].postMessage([N, r, p, B, i++]);
+				if (p > 1) {
+					workers[1].postMessage([N, r, p, B, i++]);
+				}
+			} catch (e) {
+				window.setTimeout(function () {
+					scryptCore();
+					callback(Crypto.PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+				}, 0);
+			}
+
+			// using this function to enclose everything needed to create a worker (but also invokable directly for synchronous use)
+			function scryptCore() {
+				var XY = [], V = [];
+
+				if (typeof B === 'undefined') {
+					onmessage = function (event) {
+						var data = event.data;
+						var N = data[0], r = data[1], p = data[2], B = data[3], i = data[4];
+
+						var Bslice = [];
+						arraycopy32(B, i * 128 * r, Bslice, 0, 128 * r);
+						smix(Bslice, 0, r, N, V, XY);
+
+						postMessage([i, Bslice]);
+					};
+				} else {
+					for (var i = 0; i < p; i++) {
+						smix(B, i * 128 * r, r, N, V, XY);
+					}
+				}
+
+				function smix(B, Bi, r, N, V, XY) {
+					var Xi = 0;
+					var Yi = 128 * r;
+					var i;
+
+					arraycopy32(B, Bi, XY, Xi, Yi);
+
+					for (i = 0; i < N; i++) {
+						arraycopy32(XY, Xi, V, i * Yi, Yi);
+						blockmix_salsa8(XY, Xi, Yi, r);
+					}
+
+					for (i = 0; i < N; i++) {
+						var j = integerify(XY, Xi, r) & (N - 1);
+						blockxor(V, j * Yi, XY, Xi, Yi);
+						blockmix_salsa8(XY, Xi, Yi, r);
+					}
+
+					arraycopy32(XY, Xi, B, Bi, Yi);
+				}
+
+				function blockmix_salsa8(BY, Bi, Yi, r) {
+					var X = [];
+					var i;
+
+					arraycopy32(BY, Bi + (2 * r - 1) * 64, X, 0, 64);
+
+					for (i = 0; i < 2 * r; i++) {
+						blockxor(BY, i * 64, X, 0, 64);
+						salsa20_8(X);
+						arraycopy32(X, 0, BY, Yi + (i * 64), 64);
+					}
+
+					for (i = 0; i < r; i++) {
+						arraycopy32(BY, Yi + (i * 2) * 64, BY, Bi + (i * 64), 64);
+					}
+
+					for (i = 0; i < r; i++) {
+						arraycopy32(BY, Yi + (i * 2 + 1) * 64, BY, Bi + (i + r) * 64, 64);
+					}
+				}
+
+				function R(a, b) {
+					return (a << b) | (a >>> (32 - b));
+				}
+
+				function salsa20_8(B) {
+					var B32 = new Array(32);
+					var x = new Array(32);
+					var i;
+
+					for (i = 0; i < 16; i++) {
+						B32[i] = (B[i * 4 + 0] & 0xff) << 0;
+						B32[i] |= (B[i * 4 + 1] & 0xff) << 8;
+						B32[i] |= (B[i * 4 + 2] & 0xff) << 16;
+						B32[i] |= (B[i * 4 + 3] & 0xff) << 24;
+					}
+
+					arraycopy(B32, 0, x, 0, 16);
+
+					for (i = 8; i > 0; i -= 2) {
+						x[4] ^= R(x[0] + x[12], 7); x[8] ^= R(x[4] + x[0], 9);
+						x[12] ^= R(x[8] + x[4], 13); x[0] ^= R(x[12] + x[8], 18);
+						x[9] ^= R(x[5] + x[1], 7); x[13] ^= R(x[9] + x[5], 9);
+						x[1] ^= R(x[13] + x[9], 13); x[5] ^= R(x[1] + x[13], 18);
+						x[14] ^= R(x[10] + x[6], 7); x[2] ^= R(x[14] + x[10], 9);
+						x[6] ^= R(x[2] + x[14], 13); x[10] ^= R(x[6] + x[2], 18);
+						x[3] ^= R(x[15] + x[11], 7); x[7] ^= R(x[3] + x[15], 9);
+						x[11] ^= R(x[7] + x[3], 13); x[15] ^= R(x[11] + x[7], 18);
+						x[1] ^= R(x[0] + x[3], 7); x[2] ^= R(x[1] + x[0], 9);
+						x[3] ^= R(x[2] + x[1], 13); x[0] ^= R(x[3] + x[2], 18);
+						x[6] ^= R(x[5] + x[4], 7); x[7] ^= R(x[6] + x[5], 9);
+						x[4] ^= R(x[7] + x[6], 13); x[5] ^= R(x[4] + x[7], 18);
+						x[11] ^= R(x[10] + x[9], 7); x[8] ^= R(x[11] + x[10], 9);
+						x[9] ^= R(x[8] + x[11], 13); x[10] ^= R(x[9] + x[8], 18);
+						x[12] ^= R(x[15] + x[14], 7); x[13] ^= R(x[12] + x[15], 9);
+						x[14] ^= R(x[13] + x[12], 13); x[15] ^= R(x[14] + x[13], 18);
+					}
+
+					for (i = 0; i < 16; ++i) B32[i] = x[i] + B32[i];
+
+					for (i = 0; i < 16; i++) {
+						var bi = i * 4;
+						B[bi + 0] = (B32[i] >> 0 & 0xff);
+						B[bi + 1] = (B32[i] >> 8 & 0xff);
+						B[bi + 2] = (B32[i] >> 16 & 0xff);
+						B[bi + 3] = (B32[i] >> 24 & 0xff);
+					}
+				}
+
+				function blockxor(S, Si, D, Di, len) {
+					var i = len >> 6;
+					while (i--) {
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+					}
+				}
+
+				function integerify(B, bi, r) {
+					var n;
+
+					bi += (2 * r - 1) * 64;
+
+					n = (B[bi + 0] & 0xff) << 0;
+					n |= (B[bi + 1] & 0xff) << 8;
+					n |= (B[bi + 2] & 0xff) << 16;
+					n |= (B[bi + 3] & 0xff) << 24;
+
+					return n;
+				}
+
+				function arraycopy(src, srcPos, dest, destPos, length) {
+					while (length--) {
+						dest[destPos++] = src[srcPos++];
+					}
+				}
+
+				function arraycopy32(src, srcPos, dest, destPos, length) {
+					var i = length >> 5;
+					while (i--) {
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+					}
+				}
+			} // scryptCore
+		}; // window.Crypto_scrypt
+	})();
 	</script>
 
 	<style type="text/css">
@@ -5396,7 +5701,7 @@
 		.keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 		.keyarea .public { float: left; }
 		.keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
-		.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 10px 0 0; position: relative; }
+		.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
 		.keyarea .label { text-decoration: underline; }
 		.keyarea .output { display: block; }
 		.keyarea .qrcode_public { display: inline-block; float: left; }
@@ -5460,6 +5765,7 @@
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailbip38commands { display: none; padding-top: 5px; }
 		#vanityarea { text-align: left; }
 		#vanityarea .label { text-decoration: underline; }
 		#vanityarea .output { display: block; }
@@ -5474,7 +5780,9 @@
 		.unittests { text-align: center; }
 		.unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
 		#testnet { font-family: Tahoma; display: none; background-color: Orange; color: #000000; border-radius: 5px; font-weight: bold; padding: 10px 0; margin: 0 auto 20px auto; }
-		
+		#busyblock { position: fixed; display: none; background: url("data:image/gif;base64,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") #ccc no-repeat center; opacity: 0.4; width: 100%; height: 100%; top: 0; left: 0; z-index: 5000; }
+		#busyblock.busy { display: block; }
+	
 		/* IE8 */
 		.qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
 		.qrcodetddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
@@ -5506,6 +5814,7 @@
 			#detailcommands { padding: 10px 0; }
 			#detailcommands span { padding: 0 10px; }
 			#detailprivkey { width: 250px; }
+			#detailprivkeypassphrase { width: 250px; }
 			.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
@@ -5537,6 +5846,7 @@
 	</style>
 </head>
 <body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
+	<div id="busyblock"></div>
 	<div id="main">
 		<div id="culturemenu">
 			<span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
@@ -5732,6 +6042,10 @@
 					<span><label id="detaillabelenterprivatekey">Enter Private Key (any format)</label> <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
+					<div id="detailbip38commands">
+						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
+						<span><input type="button" id="detaildecrypt" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+					</div>
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
@@ -5845,6 +6159,132 @@
 				// compressed when both keys are compressed
 				if (ecKey1.compressed && ecKey2.compressed) combinedPrivateKey.setCompressed(true);
 				return combinedPrivateKey;
+			},
+			// 58 base58 characters starting with 6P
+			isBIP38Format: function (key) {
+				return (/^6P[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{56}$/.test(key));
+			},
+			BIP38EncryptedKeyToByteArrayAsync: function (base58Encrypted, passphrase, callback) {
+				var hex;
+				try {
+					hex = Bitcoin.Base58.decode(base58Encrypted);
+				} catch (e) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				// 43 bytes: 2 bytes prefix, 37 bytes payload, 4 bytes checksum
+				if (hex.length != 43) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+				// first byte is always 0x01 
+				else if (hex[0] != 0x01) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var expChecksum = hex.slice(-4);
+				hex = hex.slice(0, -4);
+				var checksum = Bitcoin.Util.dsha256(hex);
+				if (checksum[0] != expChecksum[0] || checksum[1] != expChecksum[1] || checksum[2] != expChecksum[2] || checksum[3] != expChecksum[3]) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var isCompPoint = false;
+				var isECMult = false;
+				var hasLotSeq = false;
+				// second byte for non-EC-multiplied key
+				if (hex[1] == 0x42) {
+					// key should use compression
+					if (hex[2] == 0xe0) {
+						isCompPoint = true;
+					}
+					// key should NOT use compression
+					else if (hex[2] != 0xc0) {
+						callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+						return;
+					}
+				}
+				// second byte for EC-multiplied key 
+				else if (hex[1] == 0x43) {
+					isECMult = true;
+					isCompPoint = (hex[2] & 0x20) != 0;
+					hasLotSeq = (hex[2] & 0x04) != 0;
+					if ((hex[2] & 0x24) != hex[2]) {
+						callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+						return;
+					}
+				} 
+				else {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var decrypted;
+				var AES_opts = { mode: new Crypto.mode.ECB(Crypto.pad.NoPadding), asBytes: true };
+
+				var verifyHashAndReturn = function () {
+					var tmpkey = new Bitcoin.ECKey(decrypted); // decrypted using closure
+					var base58AddrText = tmpkey.setCompressed(isCompPoint).getBitcoinAddress(); // isCompPoint using closure
+					checksum = Bitcoin.Util.dsha256(base58AddrText); // checksum using closure
+
+					if (checksum[0] != hex[3] || checksum[1] != hex[4] || checksum[2] != hex[5] || checksum[3] != hex[6]) {
+						callback(new Error(ninja.translator.get("bip38alertincorrectpassphrase"))); // callback using closure
+						return;
+					}
+					callback(tmpkey.getBitcoinPrivateKeyByteArray()); // callback using closure
+				};
+
+				if (!isECMult) {
+					var addresshash = hex.slice(3, 7);
+					Crypto_scrypt(passphrase, addresshash, 16384, 8, 8, 64, function (derivedBytes) {
+						var k = derivedBytes.slice(32, 32 + 32);
+						decrypted = Crypto.AES.decrypt(hex.slice(7, 7 + 32), k, AES_opts);
+						for (var x = 0; x < 32; x++) decrypted[x] ^= derivedBytes[x];
+						verifyHashAndReturn(); //TODO: pass in 'decrypted' as a param
+					});
+				} 
+				else {
+					var ownerentropy = hex.slice(7, 7 + 8);
+					var ownersalt = !hasLotSeq ? ownerentropy : ownerentropy.slice(0, 4);
+					Crypto_scrypt(passphrase, ownersalt, 16384, 8, 8, 32, function (prefactorA) {
+						var passfactor;
+						if (!hasLotSeq) { // hasLotSeq using closure
+							passfactor = prefactorA;
+						} else {
+							var prefactorB = prefactorA.concat(ownerentropy); // ownerentropy using closure
+							passfactor = Bitcoin.Util.dsha256(prefactorB);
+						}
+						var kp = new Bitcoin.ECKey(passfactor);
+						var passpoint = kp.setCompressed(true).getPub();
+
+						var encryptedpart2 = hex.slice(23, 23 + 16);
+
+						var addresshashplusownerentropy = hex.slice(3, 3 + 12);
+						Crypto_scrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64, function (derived) {
+							var k = derived.slice(32);
+
+							var unencryptedpart2 = Crypto.AES.decrypt(encryptedpart2, k, AES_opts);
+							for (var i = 0; i < 16; i++) { unencryptedpart2[i] ^= derived[i + 16]; }
+
+							var encryptedpart1 = hex.slice(15, 15 + 8).concat(unencryptedpart2.slice(0, 0 + 8));
+							var unencryptedpart1 = Crypto.AES.decrypt(encryptedpart1, k, AES_opts);
+							for (var i = 0; i < 16; i++) { unencryptedpart1[i] ^= derived[i]; }
+
+							var seedb = unencryptedpart1.slice(0, 0 + 16).concat(unencryptedpart2.slice(8, 8 + 8));
+
+							var factorb = Bitcoin.Util.dsha256(seedb);
+
+							var ps = EllipticCurve.getSECCurveByName("secp256k1");
+							var privateKey = BigInteger.fromByteArrayUnsigned(passfactor).multiply(BigInteger.fromByteArrayUnsigned(factorb)).remainder(ps.getN());
+
+							decrypted = privateKey.toByteArrayUnsigned();
+							verifyHashAndReturn();
+						});
+					});
+				}
 			}
 		};
 
@@ -6059,6 +6499,40 @@
 			}
 			return result;
 		};
+
+		// use when passing an Array of Functions
+		ninja.runSerialized = function (functions, onComplete) {
+			onComplete = onComplete || function () { };
+
+			if (functions.length === 0) onComplete();
+			else {
+				// run the first function, and make it call this
+				// function when finished with the rest of the list
+				var f = functions.shift();
+				f(function () { ninja.runSerialized(functions, onComplete); });
+			}
+		};
+
+		ninja.forSerialized = function (initial, max, whatToDo, onComplete) {
+			onComplete = onComplete || function () { };
+
+			if (initial === max) { onComplete(); }
+			else {
+				// same idea as runSerialized
+				whatToDo(initial, function () { ninja.forSerialized(++initial, max, whatToDo, onComplete); });
+			}
+		};
+
+		// use when passing an Object (dictionary) of Functions
+		ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
+			var keys = [];
+			for (var name in collection) {
+				keys.push(name);
+			}
+			ninja.forSerialized(0, keys.length, function (i, callback) {
+				whatToDo(keys[i], callback);
+			}, onComplete);
+		};
 	</script>
 
 	<script type="text/javascript">
@@ -6103,6 +6577,8 @@
 					"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
 					"detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
 					"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.",
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key",
 					"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
 					"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
 					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
@@ -6120,6 +6596,8 @@
 					"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
 					"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
 					"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
 					"vanityinvalidinputcouldnotcombinekeys": "Entrada no válida. No se puede combinar llaves.",
 					"vanityalertinvalidinputpublickeysmatch": "Entrada no válida. La clave pública de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 					"vanityalertinvalidinputcannotmultiple": "Entrada no válida. No se puede multiplicar dos claves públicas. Seleccione 'Añadir' para agregar dos claves públicas para obtener una dirección bitcoin.",
@@ -6223,7 +6701,9 @@
 					"detailcompwifprefix": "'K' o 'L'",
 					"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
 					"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
-					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):"
+					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
+					"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
+					"detaildecrypt": "Decrypt BIP38" //TODO: please translate
 				},
 					
 				"fr": {
@@ -6235,6 +6715,8 @@
 					"brainalertpassphrasedoesnotmatch": "Le mot de passe ne correspond pas au mot de passe de vérification.",
 					"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
 					"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
 					"vanityinvalidinputcouldnotcombinekeys": "Entrée non valide. Impossible de combiner les clés.",
 					"vanityalertinvalidinputpublickeysmatch": "Entrée non valide. La clé publique des deux entrées est identique. Vous devez entrer deux clés différentes.",
 					"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Bitcoin.",
@@ -6322,7 +6804,9 @@
 					"detailcompwifprefix": "'K' ou 'L'",
 					"detaillabelprivhex": "Clé Privée Format Hexadecimal (64 caractères [0-9A-F]):",
 					"detaillabelprivb64": "Clé Privée Base64 (44 caractères):",
-					"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):"
+					"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):",
+					"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
+					"detaildecrypt": "Decrypt BIP38" //TODO: please translate
 				}
 			}
 		};
@@ -6441,6 +6925,7 @@
 
 			build: function (numWallets, pageBreakAt, useArtisticWallet) {
 				if (numWallets < 1) numWallets = 1;
+				if (pageBreakAt < 1) pageBreakAt = 1;
 				ninja.wallets.paperwallet.remaining = numWallets;
 				ninja.wallets.paperwallet.count = 0;
 				ninja.wallets.paperwallet.useArtisticWallet = useArtisticWallet;
@@ -6467,7 +6952,7 @@
 					}
 					if (paperArea.innerHTML != "") {
 						// page break
-						if ((i-1) % pageBreakAt == 0 && i >= pageBreakAt) {
+						if ((i - 1) % pageBreakAt == 0 && i >= pageBreakAt) {
 							var pBreak = document.createElement("div");
 							pBreak.setAttribute("class", "pagebreak");
 							document.getElementById("paperkeyarea").appendChild(pBreak);
@@ -6845,36 +7330,77 @@
 			},
 
 			viewDetails: function () {
+				var bip38 = false;
 				var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+				if (key == "") {
+					ninja.wallets.detailwallet.clear();
+					return;
+				}
 				document.getElementById("detailprivkey").value = key;
 				if (Bitcoin.ECKey.isMiniFormat(key)) {
 					// show Private Key Mini Format
 					document.getElementById("detailprivmini").innerHTML = key;
 					document.getElementById("detailmini").style.display = "block";
+					document.getElementById("detailbip38commands").style.display = "none";
+				}
+				else if (ninja.privateKey.isBIP38Format(key)) {
+					if (document.getElementById("detailbip38commands").style.display != "block") {
+						document.getElementById("detailbip38commands").style.display = "block";
+						document.getElementById("detailprivkeypassphrase").focus();
+						return;
+					}
+					else {
+						bip38 = true;
+					}
 				}
 				else {
 					// hide Private Key Mini Format
 					document.getElementById("detailmini").style.display = "none";
+					document.getElementById("detailbip38commands").style.display = "none";
 				}
-				var btcKey = new Bitcoin.ECKey(key);
-				if (btcKey.priv == null) {
-					// enforce a minimum passphrase length
-					if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-						// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
-						var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
-						if (usePassphrase) {
-							var bytes = Crypto.SHA256(key, { asBytes: true });
-							var btcKey = new Bitcoin.ECKey(bytes);
+
+				if (bip38) {
+					var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+					if (passphrase == "") {
+						alert(ninja.translator.get("bip38alertpassphraserequired"));
+						return;
+					}
+					ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
+						document.getElementById("busyblock").className = "";
+						if (btcKeyOrError.message) {
+							alert(btcKeyOrError.message);
+							ninja.wallets.detailwallet.clear();
+						} else {
+							ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
+						}
+					});
+					document.getElementById("busyblock").className = "busy";
+				}
+				else {
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.priv == null) {
+						// enforce a minimum passphrase length
+						if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
+							// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
+							var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
+							if (usePassphrase) {
+								var bytes = Crypto.SHA256(key, { asBytes: true });
+								var btcKey = new Bitcoin.ECKey(bytes);
+							}
+							else {
+								ninja.wallets.detailwallet.clear();
+							}
 						}
 						else {
+							alert(ninja.translator.get("detailalertnotvalidprivatekey"));
 							ninja.wallets.detailwallet.clear();
 						}
 					}
-					else {
-						alert(ninja.translator.get("detailalertnotvalidprivatekey"));
-						ninja.wallets.detailwallet.clear();
-					}
+					ninja.wallets.detailwallet.populateKeyDetails(btcKey);
 				}
+			},
+
+			populateKeyDetails: function (btcKey) {
 				if (btcKey.priv != null) {
 					btcKey.setCompressed(false);
 					document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
@@ -6914,6 +7440,7 @@
 				document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 				document.getElementById("detailqrcodeprivate").innerHTML = "";
 				document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
+				document.getElementById("detailbip38commands").style.display = "none";
 			}
 		};
 	</script>
@@ -6921,17 +7448,19 @@
 	<script type="text/javascript">
 	(function (ninja) {
 		var ut = ninja.unitTests = {
-			runTests: function () {
+			runSynchronousTests: function () {
+				document.getElementById("busyblock").className = "busy";
 				var div = document.createElement("div");
 				div.setAttribute("class", "unittests");
+				div.setAttribute("id", "unittests");
 				var testResults = "";
 				var passCount = 0;
 				var testCount = 0;
-				for (var test in ut.tests) {
+				for (var test in ut.synchronousTests) {
 					var exceptionMsg = "";
 					var resultBool = false;
 					try {
-						resultBool = ut.tests[test]();
+						resultBool = ut.synchronousTests[test]();
 					} catch (ex) {
 						exceptionMsg = ex.toString();
 						resultBool = false;
@@ -6946,15 +7475,28 @@
 					testCount++;
 					testResults += test + ": " + passFailStr + "<br/>";
 				}
-				testResults += passCount + " of " + testCount + " tests passed";
-				div.innerHTML = "<h3>Unit Tests</h3><div>" + testResults + "</div>";
-				document.body.appendChild(div);
+				testResults += passCount + " of " + testCount + " synchronous tests passed";
 				if (passCount < testCount) {
-					alert((testCount - passCount) + " unit test(s) failed");
+					testResults += "<b>" + (testCount - passCount) + " unit test(s) failed</b>";
 				}
+				div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
+				document.body.appendChild(div);
+				document.getElementById("busyblock").className = "";
+				
 			},
 
-			tests: {
+			runAsynchronousTests: function () {
+				document.getElementById("busyblock").className = "busy";
+				// run the asynchronous tests one after another so we don't crash the browser
+				ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
+					ninja.unitTests.asynchronousTests[name](cb);
+				}, function () {
+					document.getElementById("unittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
+					document.getElementById("busyblock").className = "";
+				});
+			},
+
+			synchronousTests: {
 				//ninja.publicKey tests
 				testIsPublicKeyHexFormat: function () {
 					var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
@@ -7313,6 +7855,17 @@
 					}
 					return true;
 				},
+				testGetECKeyFromBase6Key: function () {
+					var base = 6;
+					var baseKey = "100531114202410255230521444145414341221420541210522412225005202300434134213212540304311321323051431";
+					var hexKey = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
+					var bigInt = new BigInteger(baseKey, base);
+					var ecKey = new Bitcoin.ECKey(bigInt);
+					if (ecKey.getBitcoinHexFormat() != hexKey) {
+						return false;
+					}
+					return true;
+				},
 
 				// EllipticCurve tests
 				testDecodePointEqualsDecodeFrom: function () {
@@ -7350,6 +7903,48 @@
 					}
 					return true;
 				}
+			},
+
+			asynchronousTests: {
+				testBip38: function (done) {
+					var tests = [["6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", "TestingOneTwoThree", "5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR"],
+								["6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq", "Satoshi", "5HtasZ6ofTHP6HCwTqTkLDuLQisYPah7aUnSKfC7h4hMUVw2gi5"],
+								["6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo", "TestingOneTwoThree", "L44B5gGEpqEDRS9vVPz7QT35jcBG2r3CZwSwQ4fCewXAhAhqGVpP"],
+								["6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7", "Satoshi", "KwYgW8gcxj1JWJXhPSu4Fqwzfhp5Yfi42mdYmMa4XqK7NJxXUSK7"],
+								["6PfQu77ygVyJLZjfvMLyhLMQbYnu5uguoJJ4kMCLqWwPEdfpwANVS76gTX", "TestingOneTwoThree", "5K4caxezwjGCGfnoPTZ8tMcJBLB7Jvyjv4xxeacadhq8nLisLR2"],
+								["6PfLGnQs6VZnrNpmVKfjotbnQuaJK4KZoPFrAjx1JMJUa1Ft8gnf5WxfKd", "Satoshi", "5KJ51SgxWaAYR13zd9ReMhJpwrcX47xTJh2D3fGPG9CM8vkv5sH"],
+								["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
+								["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
+					// running each test uses a lot of memory, which isn't freed
+					// immediately, so give the VM a little time to reclaim memory
+					function waitThenCall(callback) {
+						return function () { setTimeout(callback, 6000); }
+					}
+
+					var decryptTest = function (test, i, onComplete) {
+						ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(test[0], test[1], function (privBytes) {
+							if (privBytes.constructor == Error) {
+								document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + ", error: " + privBytes.message + "<br/>";
+							} else {
+								var btcKey = new Bitcoin.ECKey(privBytes);
+								var wif = !test[2].substr(0, 1).match(/[LK]/) ? btcKey.setCompressed(false).getBitcoinWalletImportFormat() : btcKey.setCompressed(true).getBitcoinWalletImportFormat();
+								if (wif != test[2]) {
+									document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + "<br/>";
+								} else {
+									document.getElementById("unittestresults").innerHTML += "pass testDecryptBip38 #" + i + "<br/>";
+								}
+							}
+							onComplete();
+						});
+					}
+
+					document.getElementById("unittestresults").innerHTML += "running " + tests.length + " tests named testDecryptBip38<br/>";
+					ninja.runSerialized([function (cb) {
+						ninja.forSerialized(0, tests.length, function (i, callback) {
+							decryptTest(tests[i], i, waitThenCall(callback));
+						}, waitThenCall(cb));
+					} ], done);
+				}
 			}
 		};
 	})(ninja);
@@ -7358,8 +7953,12 @@
 	<script type="text/javascript">
 		// run unit tests
 		if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-			ninja.unitTests.runTests();
+			ninja.unitTests.runSynchronousTests();
 			ninja.translator.showEnglishJson();
+		}
+		// run async unit tests
+		if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
+			ninja.unitTests.runAsynchronousTests();
 		}
 
 		// change language
