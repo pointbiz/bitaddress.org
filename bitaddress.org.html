@@ -5758,14 +5758,22 @@
 		#detailkeyarea { padding: 10px; }
 		#detailarea { margin: 0; text-align: left; }
 		#detailarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#detailarea .item { margin: 10px 0; position: relative;  }
+		#detailarea .pubqr .item .label { text-decoration: none; }
+		#detailarea .pubqr .item { float: left; margin: 10px 0; position: relative; }
+		#detailarea .pubqr .item.right { float: right; position: relative; top: 0; } 
+		#detailarea .privqr .item .label { text-decoration: none; }
+		#detailarea .privqr .item { float: left; margin: 0; position: relative; }
+		#detailarea .privqr .item.right { float: right; position: relative; } 
+		#detailarea .item { margin: 10px 0; position: relative; font-size: 90%; }
+		#detailarea .item.clear { clear: both; padding-top: 10px; }
 		#detailarea .label { display: block; text-decoration: underline; }
 		#detailarea .output { display: block; min-height: 20px; }
 		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
-		#detailbip38commands { display: none; padding-top: 5px; }
+		#detailpubkey { width: 566px; }
+		#detailbip38commands { display: none; padding-top: 5px; }	
 		#vanityarea { text-align: left; }
 		#vanityarea .label { text-decoration: underline; }
 		#vanityarea .output { display: block; }
@@ -5842,6 +5850,9 @@
 			.commands { display: none; }
 			#tagline { display: none; }
 			#faqs { display: none; }
+			#detailprivwif { width: 285px; word-wrap: break-word; }
+			#detailprivwifcomp { width: 285px; word-wrap: break-word; text-align: right; }
+			#detailarea .privqr .item { width: 285px; }
 		}
 	</style>
 </head>
@@ -6053,19 +6064,20 @@
 						<br /><br />
 						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
-					<div class="item">
-						<div id="detailqrcodepublic" class="qrcode_public"></div>
-						<span class="label" id="detaillabelbitcoinaddress">Bitcoin Address:</span>
-						<span class="output" id="detailaddress"></span>
+					<div class="pubqr">
+						<div class="item">
+							<span class="label" id="detaillabelbitcoinaddress">Bitcoin Address</span>
+							<div id="detailqrcodepublic" class="qrcode_public"></div>
+							<span class="output" id="detailaddress"></span>
+						</div>					
+						<div class="item right">
+							<span class="label" id="detaillabelbitcoinaddresscomp">Bitcoin Address Compressed</span>
+							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
+							<span class="output" id="detailaddresscomp"></span>
+						</div>
 					</div>
-					<br />
-					<div class="item right">
-						<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
-						<span class="label" id="detaillabelbitcoinaddresscomp">Bitcoin Address (compressed):</span>
-						<span class="output" id="detailaddresscomp"></span>
-					</div>
-					<br />
-					<div class="item">
+					<br /><br />
+					<div class="item clear">
 						<span class="label" id="detaillabelpublickey">Public Key (130 characters [0-9A-F]):</span>
 						<span class="output pubkeyhex" id="detailpubkey"></span>
 					</div>
@@ -6074,19 +6086,20 @@
 						<span class="output" id="detailpubkeycomp"></span>
 					</div>
 					<hr />
-					<div class="item">
-					<div id="detailqrcodeprivate" class="qrcode_private"></div>
-						<span class="label"><span id="detaillabelprivwif">Private Key WIF (51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span>):</span>
-						<span class="output" id="detailprivwif"></span>
+					<div class="privqr">
+						<div class="item">
+							<span class="label"><span id="detaillabelprivwif">Private Key WIF<br />51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span></span>
+							<div id="detailqrcodeprivate" class="qrcode_private"></div>
+							<span class="output" id="detailprivwif"></span>
+						</div>
+						<div class="item right">
+							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span></span>
+							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
+							<span class="output" id="detailprivwifcomp"></span>
+						</div>
 					</div>
 					<br /><br />
-					<div class="item right">
-						<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
-						<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF (compressed, 52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span>):</span>
-						<span class="output" id="detailprivwifcomp"></span>
-					</div>
-					<br /><br />
-					<div class="item">
+					<div class="item clear">
 						<span class="label" id="detaillabelprivhex">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 						<span class="output" id="detailprivhex"></span>
 					</div>
@@ -7422,7 +7435,7 @@
 						"detailqrcodepubliccomp": bitcoinAddressComp,
 						"detailqrcodeprivate": wif,
 						"detailqrcodeprivatecomp": wifComp
-					});
+					}, 4);
 				}
 			},
 
