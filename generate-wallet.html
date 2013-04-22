@@ -5974,7 +5974,7 @@
 		.pubkeyhex { word-wrap: break-word; }
 		.faqs ol { padding: 0 0 0 25px; }
 		.faqs li { padding: 3px 0; }
-		body { margin-top: 0; font-family: Arial; background-image:url(images/bgtile2.png); background-repeat: repeat-y; background-position: center; background-color: #e2f9bd;}
+		body { margin-top: 0; font-family: Arial; background-image:url(images/webpage-background.png); background-repeat: repeat-y; background-position: center; background-color: #e2f9bd;}
 		
 		h1 { font-size: 24px; font-weight: 100; color: #090; margin:0 0 10px 0; padding:0; }
 		
@@ -6075,6 +6075,20 @@
 		}
 
 
+		.nicerButton
+		{
+			border-top:		2px solid #FDB162;
+			border-left:		2px solid #FDB162;
+			border-right:		2px solid #FC902E;
+			border-bottom:		2px solid #FC902E;
+			padding:		10px 20px !important;
+			font-size:		12px !important;
+			background-color:	#EDFED4;
+			font-weight:		bold;
+			color:			#333333;
+		}
+
+
 		.instructionsarea { padding: 0 25px; }
 		
 		.highlighted { font-size: 14px; padding: 8px; background-color: #ebfdbf;}
@@ -6122,7 +6136,7 @@
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			
-			.footer { font-family: Arial; font-size: 90%; clear: both; padding: 10px 0 10px 0; margin: 50px 20px; }
+			.footer { font-family: Arial; font-size: 90%; clear: both; padding: 10px 0 10px 0; margin: 50px 20px; color: #999;}
 			.footer div span.item { padding: 10px; }
 			.footer .authorbtc { float: left; width: 470px; }
 			.footer .authorbtc span.item { text-align: left; display: block; padding-right: 20px; }
@@ -6156,8 +6170,8 @@
               <span><a href="?culture=es" id="culturees">Español</a></span> | 
               <span><a href="?culture=fr" id="culturefr">Français</a></span>
           	</div>
-			<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator</div>
-            <div id="tagwarning">*** WARNING *** Still in early beta. Don't dump loads of coins into one of these wallets yet!</div>
+			<div id="tagline">Open Source Client-Side JavaScript Bitcoin Wallet Generator</div>
+            <div id="tagwarning"></div>
         
 		<div class="menu" id="menu">
         	<div id="printeradjust">
@@ -6203,13 +6217,13 @@
 						<br /><br />	
 
 
-						<span id="instructions3"><b>1. Calibrate Printer:</b> Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b>. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side. Don't forget to write down the zoom/shift values for the next time you need them.</span>
+						<span id="instructions3"><b>Step 1: Calibrate Printer</b> Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b>. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side. Don't forget to write down the zoom/shift values for the next time you need them.</span>
 						<br /><br />
-						<span id="instructions4"><b>2. Print Front:</b> Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
+						<span id="instructions4"><b>Step 2: Print Front</b> Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
 						<br /><br />	
-						<span id="instructions5"><b>3. Print Back:</b> Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-proof safeguards.</span>
+						<span id="instructions5"><b>Step 3: Print Back</b> Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-proof safeguards.</span>
 						<br /><br />	
-						<span id="instructions6"><b>4. Cut, Fold, Seal &amp; Fund:</b> Find your scissors! Time to cut out your wallet, fold it, and seal it (preferably with tamper-proof tape.) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b> Find your scissors! Time to cut out your wallet, fold it, and seal it (use <a href="https://bitcoinpaperwallet.com/index.html#purchase" target="_blank">tamper-proof holographic tape</a>!) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
                         
 					</div>
 				</div>
@@ -6221,7 +6235,7 @@
 				<div class="commands">
 					<div id="calibratecommands">
 						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('alert-landscape');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.</p>
-						<span class="print"><input type="button" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('alert-landscape');" /></span>
+						<span class="print"><input type="button" class="nicerButton" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('alert-landscape');" /></span>
 					</div>
 				</div>
 
@@ -6258,7 +6272,7 @@
 						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
                     </div>
 					<span><input type="button" id="papergenerate" value="Generate a new set of codes..." onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked);" /></span>
-					<span class="print"><input type="button" name="print" value="Print Wallet Front" id="paperprint" onClick="doPrint();" /></span>
+					<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Front" id="paperprint" onClick="doPrint();" /></span>
 				</div>
 				<div id="paperkeyarea"></div>
 			</div><!-- end paperarea -->
@@ -6270,8 +6284,8 @@
 			<div id="backarea" class="walletarea">
 				<div class="commands">
 					<div id="backcommands">
-						<p id="backinstructions" class="instructions">Print out the back here.</p>
-						<span class="print"><input type="button" name="print" value="Print Wallet Back" id="singleprint" onClick="doPrint();" /></span>
+						<p id="backinstructions" class="instructions">Reload the front page into your printer first.</p>
+						<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Back" id="singleprint" onClick="doPrint();" /></span>
 					</div>
 				</div>
                 
@@ -6309,7 +6323,7 @@
                         <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet">
 
 						<br /><br />	
-						<span id="instructions15" class="highlighted"><a href="#" target="_blank">Click here to order some holographic tamper-proof tape &raquo;</a></span>
+						<span id="instructions15" class="highlighted"><a href="https://bitcoinpaperwallet.com/index.html#purchase" target="_blank">Click here to order some holographic tamper-proof tape &raquo;</a></span>
 						<br /><br />	
 
 						<h1><span id="instructions16">How to add funds to your wallet:</span></h1>
@@ -6328,7 +6342,7 @@
 					<span class="item">
                     <span id="footerlabeldonations">Donations:</span><br />
                     <strong>Folding Design:</strong> 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG<br />
-                    <strong>Original Code:</strong> 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
+                    <strong>bitaddress.org code:</strong> 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 				</div>
 			</div>
