@@ -9,8 +9,9 @@ Then just look for the button that says ZIP. It's right above the "FILES" tab.
 is a fork of bitaddress.org, the JavaScript Client-Side Bitcoin Wallet Generator
 
 This removes much of the (albeit excellent) functionality from
-bitaddress.org to create a streamined step-by-step paper wallet printer
-for novices. Includes a tool to help users "calibrate" their printer
+bitaddress.org to create a streamined step-by-step 2 sided tri-fold
+paper wallet printer for novices. (Tamper-resistant features abound.)
+Includes a tool to help users "calibrate" their printer
 for more consistent output between different browsers. Renamed main
 .html file to avoid confusion with bitaddress.org. Moved images into
 their own directory since they are quite large and might not do
