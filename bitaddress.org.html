@@ -3,7 +3,7 @@
 <head>
 	<!--
 	This is a fork of bitaddress.org for Litecoin.
-	GitHub Repository: https://github.com/litecoin-project/bitaddress.org
+	GitHub Repository: https://github.com/litecoin-project/liteaddress.org
 	Here's the bitaddress.org info:
 
 	Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
@@ -27,6 +27,7 @@
 	window.BigInteger		BSD License
 	window.QRCode			MIT License
 	window.Bitcoin			MIT License
+	window.Crypto_scrypt		MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
 	Copyright (c) 2011-2012 bitaddress.org
@@ -50,6 +51,7 @@
 	-->
 
 	<title>liteaddress.org</title>
+	<meta charset="iso-8859-1">
 
 	<script type="text/javascript">
 	// Array.prototype.map function is in the public domain.
@@ -113,309 +115,1223 @@
 	
 	<script type="text/javascript">
 	/*!
-	* Crypto-JS v2.0.0
+	* Crypto-JS v2.5.4	Crypto.js
 	* http://code.google.com/p/crypto-js/
-	* Copyright (c) 2009, Jeff Mott. All rights reserved.
+	* Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
+	* http://code.google.com/p/crypto-js/wiki/License
+	*/
+	if (typeof Crypto == "undefined" || !Crypto.util) {
+		(function () {
+
+			var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+			// Global Crypto object
+			var Crypto = window.Crypto = {};
+
+			// Crypto utilities
+			var util = Crypto.util = {
+
+				// Bit-wise rotate left
+				rotl: function (n, b) {
+					return (n << b) | (n >>> (32 - b));
+				},
+
+				// Bit-wise rotate right
+				rotr: function (n, b) {
+					return (n << (32 - b)) | (n >>> b);
+				},
+
+				// Swap big-endian to little-endian and vice versa
+				endian: function (n) {
+
+					// If number given, swap endian
+					if (n.constructor == Number) {
+						return util.rotl(n, 8) & 0x00FF00FF |
+			    util.rotl(n, 24) & 0xFF00FF00;
+					}
+
+					// Else, assume array and swap all items
+					for (var i = 0; i < n.length; i++)
+						n[i] = util.endian(n[i]);
+					return n;
+
+				},
+
+				// Generate an array of any length of random bytes
+				randomBytes: function (n) {
+					for (var bytes = []; n > 0; n--)
+						bytes.push(Math.floor(Math.random() * 256));
+					return bytes;
+				},
+
+				// Convert a byte array to big-endian 32-bit words
+				bytesToWords: function (bytes) {
+					for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
+						words[b >>> 5] |= (bytes[i] & 0xFF) << (24 - b % 32);
+					return words;
+				},
+
+				// Convert big-endian 32-bit words to a byte array
+				wordsToBytes: function (words) {
+					for (var bytes = [], b = 0; b < words.length * 32; b += 8)
+						bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
+					return bytes;
+				},
+
+				// Convert a byte array to a hex string
+				bytesToHex: function (bytes) {
+					for (var hex = [], i = 0; i < bytes.length; i++) {
+						hex.push((bytes[i] >>> 4).toString(16));
+						hex.push((bytes[i] & 0xF).toString(16));
+					}
+					return hex.join("");
+				},
+
+				// Convert a hex string to a byte array
+				hexToBytes: function (hex) {
+					for (var bytes = [], c = 0; c < hex.length; c += 2)
+						bytes.push(parseInt(hex.substr(c, 2), 16));
+					return bytes;
+				},
+
+				// Convert a byte array to a base-64 string
+				bytesToBase64: function (bytes) {
+					for (var base64 = [], i = 0; i < bytes.length; i += 3) {
+						var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+						for (var j = 0; j < 4; j++) {
+							if (i * 8 + j * 6 <= bytes.length * 8)
+								base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
+							else base64.push("=");
+						}
+					}
+
+					return base64.join("");
+				},
+
+				// Convert a base-64 string to a byte array
+				base64ToBytes: function (base64) {
+					// Remove non-base-64 characters
+					base64 = base64.replace(/[^A-Z0-9+\/]/ig, "");
+
+					for (var bytes = [], i = 0, imod4 = 0; i < base64.length; imod4 = ++i % 4) {
+						if (imod4 == 0) continue;
+						bytes.push(((base64map.indexOf(base64.charAt(i - 1)) & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2)) |
+			        (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
+					}
+
+					return bytes;
+				}
+
+			};
+
+			// Crypto character encodings
+			var charenc = Crypto.charenc = {};
+
+			// UTF-8 encoding
+			var UTF8 = charenc.UTF8 = {
+
+				// Convert a string to a byte array
+				stringToBytes: function (str) {
+					return Binary.stringToBytes(unescape(encodeURIComponent(str)));
+				},
+
+				// Convert a byte array to a string
+				bytesToString: function (bytes) {
+					return decodeURIComponent(escape(Binary.bytesToString(bytes)));
+				}
+
+			};
+
+			// Binary encoding
+			var Binary = charenc.Binary = {
+
+				// Convert a string to a byte array
+				stringToBytes: function (str) {
+					for (var bytes = [], i = 0; i < str.length; i++)
+						bytes.push(str.charCodeAt(i) & 0xFF);
+					return bytes;
+				},
+
+				// Convert a byte array to a string
+				bytesToString: function (bytes) {
+					for (var str = [], i = 0; i < bytes.length; i++)
+						str.push(String.fromCharCode(bytes[i]));
+					return str.join("");
+				}
+
+			};
+
+		})();
+	}
+	</script>
+	
+	<script type="text/javascript">
+	/*!
+	* Crypto-JS v2.5.4	SHA256.js
+	* http://code.google.com/p/crypto-js/
+	* Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
 	* http://code.google.com/p/crypto-js/wiki/License
 	*/
 	(function () {
 
-		var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+		// Shortcuts
+		var C = Crypto,
+		util = C.util,
+		charenc = C.charenc,
+		UTF8 = charenc.UTF8,
+		Binary = charenc.Binary;
 
-		// Global Crypto object
-		var Crypto = window.Crypto = {};
+		// Constants
+		var K = [0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
+        0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
+        0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
+        0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
+        0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
+        0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
+        0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
+        0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
+        0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
+        0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
+        0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
+        0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
+        0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
+        0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
+        0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
+        0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2];
 
-		// Crypto utilities
-		var util = Crypto.util = {
+		// Public API
+		var SHA256 = C.SHA256 = function (message, options) {
+			var digestbytes = util.wordsToBytes(SHA256._sha256(message));
+			return options && options.asBytes ? digestbytes :
+	    options && options.asString ? Binary.bytesToString(digestbytes) :
+	    util.bytesToHex(digestbytes);
+		};
 
-			// Bit-wise rotate left
-			rotl: function (n, b) {
-				return (n << b) | (n >>> (32 - b));
-			},
+		// The core
+		SHA256._sha256 = function (message) {
 
-			// Bit-wise rotate right
-			rotr: function (n, b) {
-				return (n << (32 - b)) | (n >>> b);
-			},
+			// Convert to byte array
+			if (message.constructor == String) message = UTF8.stringToBytes(message);
+			/* else, assume byte array already */
 
-			// Swap big-endian to little-endian and vice versa
-			endian: function (n) {
+			var m = util.bytesToWords(message),
+		l = message.length * 8,
+		H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+				0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19],
+		w = [],
+		a, b, c, d, e, f, g, h, i, j,
+		t1, t2;
 
-				// If number given, swap endian
-				if (n.constructor == Number) {
-					return util.rotl(n, 8) & 0x00FF00FF |
-			util.rotl(n, 24) & 0xFF00FF00;
-				}
+			// Padding
+			m[l >> 5] |= 0x80 << (24 - l % 32);
+			m[((l + 64 >> 9) << 4) + 15] = l;
 
-				// Else, assume array and swap all items
-				for (var i = 0; i < n.length; i++)
-					n[i] = util.endian(n[i]);
-				return n;
+			for (var i = 0; i < m.length; i += 16) {
 
-			},
+				a = H[0];
+				b = H[1];
+				c = H[2];
+				d = H[3];
+				e = H[4];
+				f = H[5];
+				g = H[6];
+				h = H[7];
 
-			// Generate an array of any length of random bytes
-			randomBytes: function (n) {
-				for (var bytes = []; n > 0; n--)
-					bytes.push(Math.floor(Math.random() * 256));
-				return bytes;
-			},
+				for (var j = 0; j < 64; j++) {
 
-			// Convert a byte array to big-endian 32-bit words
-			bytesToWords: function (bytes) {
-				for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-					words[b >>> 5] |= bytes[i] << (24 - b % 32);
-				return words;
-			},
+					if (j < 16) w[j] = m[j + i];
+					else {
 
-			// Convert big-endian 32-bit words to a byte array
-			wordsToBytes: function (words) {
-				for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-					bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
-				return bytes;
-			},
+						var gamma0x = w[j - 15],
+				gamma1x = w[j - 2],
+				gamma0 = ((gamma0x << 25) | (gamma0x >>> 7)) ^
+				            ((gamma0x << 14) | (gamma0x >>> 18)) ^
+				            (gamma0x >>> 3),
+				gamma1 = ((gamma1x << 15) | (gamma1x >>> 17)) ^
+				            ((gamma1x << 13) | (gamma1x >>> 19)) ^
+				            (gamma1x >>> 10);
 
-			// Convert a byte array to a hex string
-			bytesToHex: function (bytes) {
-				for (var hex = [], i = 0; i < bytes.length; i++) {
-					hex.push((bytes[i] >>> 4).toString(16));
-					hex.push((bytes[i] & 0xF).toString(16));
-				}
-				return hex.join("");
-			},
+						w[j] = gamma0 + (w[j - 7] >>> 0) +
+				    gamma1 + (w[j - 16] >>> 0);
 
-			// Convert a hex string to a byte array
-			hexToBytes: function (hex) {
-				for (var bytes = [], c = 0; c < hex.length; c += 2)
-					bytes.push(parseInt(hex.substr(c, 2), 16));
-				return bytes;
-			},
-
-			// Convert a byte array to a base-64 string
-			bytesToBase64: function (bytes) {
-
-				// Use browser-native function if it exists
-				if (typeof btoa == "function") return btoa(Binary.bytesToString(bytes));
-
-				for (var base64 = [], i = 0; i < bytes.length; i += 3) {
-					var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
-					for (var j = 0; j < 4; j++) {
-						if (i * 8 + j * 6 <= bytes.length * 8)
-							base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
-						else base64.push("=");
 					}
+
+					var ch = e & f ^ ~e & g,
+			maj = a & b ^ a & c ^ b & c,
+			sigma0 = ((a << 30) | (a >>> 2)) ^
+			            ((a << 19) | (a >>> 13)) ^
+			            ((a << 10) | (a >>> 22)),
+			sigma1 = ((e << 26) | (e >>> 6)) ^
+			            ((e << 21) | (e >>> 11)) ^
+			            ((e << 7) | (e >>> 25));
+
+
+					t1 = (h >>> 0) + sigma1 + ch + (K[j]) + (w[j] >>> 0);
+					t2 = sigma0 + maj;
+
+					h = g;
+					g = f;
+					f = e;
+					e = (d + t1) >>> 0;
+					d = c;
+					c = b;
+					b = a;
+					a = (t1 + t2) >>> 0;
+
 				}
 
-				return base64.join("");
-
-			},
-
-			// Convert a base-64 string to a byte array
-			base64ToBytes: function (base64) {
-
-				// Use browser-native function if it exists
-				if (typeof atob == "function") return Binary.stringToBytes(atob(base64));
-
-				// Remove non-base-64 characters
-				base64 = base64.replace(/[^A-Z0-9+\/]/ig, "");
-
-				for (var bytes = [], i = 0, imod4 = 0; i < base64.length; imod4 = ++i % 4) {
-					if (imod4 == 0) continue;
-					bytes.push(((base64map.indexOf(base64.charAt(i - 1)) & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2)) |
-				(base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
-				}
-
-				return bytes;
+				H[0] += a;
+				H[1] += b;
+				H[2] += c;
+				H[3] += d;
+				H[4] += e;
+				H[5] += f;
+				H[6] += g;
+				H[7] += h;
 
 			}
 
+			return H;
+
 		};
 
-		// Crypto mode namespace
-		Crypto.mode = {};
+		// Package private blocksize
+		SHA256._blocksize = 16;
 
-		// Crypto character encodings
-		var charenc = Crypto.charenc = {};
+		SHA256._digestsize = 32;
 
-		// UTF-8 encoding
-		var UTF8 = charenc.UTF8 = {
+	})();
+	</script>
 
-			// Convert a string to a byte array
-			stringToBytes: function (str) {
-				return Binary.stringToBytes(unescape(encodeURIComponent(str)));
-			},
+	<script type="text/javascript">
+	/*!
+	* Crypto-JS v2.5.4	PBKDF2.js
+	* http://code.google.com/p/crypto-js/
+	* Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
+	* http://code.google.com/p/crypto-js/wiki/License
+	*/
+	(function () {
 
-			// Convert a byte array to a string
-			bytesToString: function (bytes) {
-				return decodeURIComponent(escape(Binary.bytesToString(bytes)));
+		// Shortcuts
+		var C = Crypto,
+		util = C.util,
+		charenc = C.charenc,
+		UTF8 = charenc.UTF8,
+		Binary = charenc.Binary;
+
+		C.PBKDF2 = function (password, salt, keylen, options) {
+
+			// Convert to byte arrays
+			if (password.constructor == String) password = UTF8.stringToBytes(password);
+			if (salt.constructor == String) salt = UTF8.stringToBytes(salt);
+			/* else, assume byte arrays already */
+
+			// Defaults
+			var hasher = options && options.hasher || C.SHA1,
+			iterations = options && options.iterations || 1;
+
+			// Pseudo-random function
+			function PRF(password, salt) {
+				return C.HMAC(hasher, salt, password, { asBytes: true });
 			}
 
+			// Generate key
+			var derivedKeyBytes = [],
+			blockindex = 1;
+			while (derivedKeyBytes.length < keylen) {
+				var block = PRF(password, salt.concat(util.wordsToBytes([blockindex])));
+				for (var u = block, i = 1; i < iterations; i++) {
+					u = PRF(password, u);
+					for (var j = 0; j < block.length; j++) block[j] ^= u[j];
+				}
+				derivedKeyBytes = derivedKeyBytes.concat(block);
+				blockindex++;
+			}
+
+			// Truncate excess bytes
+			derivedKeyBytes.length = keylen;
+
+			return options && options.asBytes ? derivedKeyBytes :
+	    options && options.asString ? Binary.bytesToString(derivedKeyBytes) :
+	    util.bytesToHex(derivedKeyBytes);
+
 		};
 
-		// Binary encoding
-		var Binary = charenc.Binary = {
+	})();
+	</script>
 
-			// Convert a string to a byte array
-			stringToBytes: function (str) {
-				for (var bytes = [], i = 0; i < str.length; i++)
-					bytes.push(str.charCodeAt(i));
-				return bytes;
+	<script type="text/javascript">
+	/*!
+	* Crypto-JS v2.5.4	HMAC.js
+	* http://code.google.com/p/crypto-js/
+	* Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
+	* http://code.google.com/p/crypto-js/wiki/License
+	*/
+	(function () {
+
+		// Shortcuts
+		var C = Crypto,
+		util = C.util,
+		charenc = C.charenc,
+		UTF8 = charenc.UTF8,
+		Binary = charenc.Binary;
+
+		C.HMAC = function (hasher, message, key, options) {
+
+			// Convert to byte arrays
+			if (message.constructor == String) message = UTF8.stringToBytes(message);
+			if (key.constructor == String) key = UTF8.stringToBytes(key);
+			/* else, assume byte arrays already */
+
+			// Allow arbitrary length keys
+			if (key.length > hasher._blocksize * 4)
+				key = hasher(key, { asBytes: true });
+
+			// XOR keys with pad constants
+			var okey = key.slice(0),
+			ikey = key.slice(0);
+			for (var i = 0; i < hasher._blocksize * 4; i++) {
+				okey[i] ^= 0x5C;
+				ikey[i] ^= 0x36;
+			}
+
+			var hmacbytes = hasher(okey.concat(hasher(ikey.concat(message), { asBytes: true })), { asBytes: true });
+
+			return options && options.asBytes ? hmacbytes :
+	    options && options.asString ? Binary.bytesToString(hmacbytes) :
+	    util.bytesToHex(hmacbytes);
+
+		};
+
+	})();
+	</script>
+
+	<script type="text/javascript">
+	/*!
+	* Crypto-JS v2.5.4	AES.js
+	* http://code.google.com/p/crypto-js/
+	* Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
+	* http://code.google.com/p/crypto-js/wiki/License
+	*/
+	(function () {
+
+		// Shortcuts
+		var C = Crypto,
+		util = C.util,
+		charenc = C.charenc,
+		UTF8 = charenc.UTF8;
+
+		// Precomputed SBOX
+		var SBOX = [0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
+            0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
+            0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0,
+            0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+            0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc,
+            0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
+            0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a,
+            0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+            0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0,
+            0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
+            0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b,
+            0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+            0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85,
+            0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
+            0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5,
+            0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
+            0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17,
+            0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
+            0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88,
+            0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
+            0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c,
+            0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
+            0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9,
+            0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
+            0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6,
+            0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
+            0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e,
+            0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
+            0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94,
+            0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
+            0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68,
+            0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16];
+
+		// Compute inverse SBOX lookup table
+		for (var INVSBOX = [], i = 0; i < 256; i++) INVSBOX[SBOX[i]] = i;
+
+		// Compute multiplication in GF(2^8) lookup tables
+		var MULT2 = [],
+		MULT3 = [],
+		MULT9 = [],
+		MULTB = [],
+		MULTD = [],
+		MULTE = [];
+
+		function xtime(a, b) {
+			for (var result = 0, i = 0; i < 8; i++) {
+				if (b & 1) result ^= a;
+				var hiBitSet = a & 0x80;
+				a = (a << 1) & 0xFF;
+				if (hiBitSet) a ^= 0x1b;
+				b >>>= 1;
+			}
+			return result;
+		}
+
+		for (var i = 0; i < 256; i++) {
+			MULT2[i] = xtime(i, 2);
+			MULT3[i] = xtime(i, 3);
+			MULT9[i] = xtime(i, 9);
+			MULTB[i] = xtime(i, 0xB);
+			MULTD[i] = xtime(i, 0xD);
+			MULTE[i] = xtime(i, 0xE);
+		}
+
+		// Precomputed RCon lookup
+		var RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
+
+		// Inner state
+		var state = [[], [], [], []],
+		keylength,
+		nrounds,
+		keyschedule;
+
+		var AES = C.AES = {
+
+			/**
+			* Public API
+			*/
+
+			encrypt: function (message, password, options) {
+
+				options = options || {};
+
+				// Determine mode
+				var mode = options.mode || new C.mode.OFB;
+
+				// Allow mode to override options
+				if (mode.fixOptions) mode.fixOptions(options);
+
+				var 
+
+				// Convert to bytes if message is a string
+		m = (
+			message.constructor == String ?
+			UTF8.stringToBytes(message) :
+			message
+		),
+
+				// Generate random IV
+		iv = options.iv || util.randomBytes(AES._blocksize * 4),
+
+				// Generate key
+		k = (
+			password.constructor == String ?
+				// Derive key from pass-phrase
+			C.PBKDF2(password, iv, 32, { asBytes: true }) :
+				// else, assume byte array representing cryptographic key
+			password
+		);
+
+				// Encrypt
+				AES._init(k);
+				mode.encrypt(AES, m, iv);
+
+				// Return ciphertext
+				m = options.iv ? m : iv.concat(m);
+				return (options && options.asBytes) ? m : util.bytesToBase64(m);
+
 			},
 
-			// Convert a byte array to a string
-			bytesToString: function (bytes) {
-				for (var str = [], i = 0; i < bytes.length; i++)
-					str.push(String.fromCharCode(bytes[i]));
-				return str.join("");
+			decrypt: function (ciphertext, password, options) {
+
+				options = options || {};
+
+				// Determine mode
+				var mode = options.mode || new C.mode.OFB;
+
+				// Allow mode to override options
+				if (mode.fixOptions) mode.fixOptions(options);
+
+				var 
+
+				// Convert to bytes if ciphertext is a string
+		c = (
+			ciphertext.constructor == String ?
+			util.base64ToBytes(ciphertext) :
+			ciphertext
+		),
+
+				// Separate IV and message
+		iv = options.iv || c.splice(0, AES._blocksize * 4),
+
+				// Generate key
+		k = (
+			password.constructor == String ?
+				// Derive key from pass-phrase
+			C.PBKDF2(password, iv, 32, { asBytes: true }) :
+				// else, assume byte array representing cryptographic key
+			password
+		);
+
+				// Decrypt
+				AES._init(k);
+				mode.decrypt(AES, c, iv);
+
+				// Return plaintext
+				return (options && options.asBytes) ? c : UTF8.bytesToString(c);
+
+			},
+
+
+			/**
+			* Package private methods and properties
+			*/
+
+			_blocksize: 4,
+
+			_encryptblock: function (m, offset) {
+
+				// Set input
+				for (var row = 0; row < AES._blocksize; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] = m[offset + col * 4 + row];
+				}
+
+				// Add round key
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] ^= keyschedule[col][row];
+				}
+
+				for (var round = 1; round < nrounds; round++) {
+
+					// Sub bytes
+					for (var row = 0; row < 4; row++) {
+						for (var col = 0; col < 4; col++)
+							state[row][col] = SBOX[state[row][col]];
+					}
+
+					// Shift rows
+					state[1].push(state[1].shift());
+					state[2].push(state[2].shift());
+					state[2].push(state[2].shift());
+					state[3].unshift(state[3].pop());
+
+					// Mix columns
+					for (var col = 0; col < 4; col++) {
+
+						var s0 = state[0][col],
+				s1 = state[1][col],
+				s2 = state[2][col],
+				s3 = state[3][col];
+
+						state[0][col] = MULT2[s0] ^ MULT3[s1] ^ s2 ^ s3;
+						state[1][col] = s0 ^ MULT2[s1] ^ MULT3[s2] ^ s3;
+						state[2][col] = s0 ^ s1 ^ MULT2[s2] ^ MULT3[s3];
+						state[3][col] = MULT3[s0] ^ s1 ^ s2 ^ MULT2[s3];
+
+					}
+
+					// Add round key
+					for (var row = 0; row < 4; row++) {
+						for (var col = 0; col < 4; col++)
+							state[row][col] ^= keyschedule[round * 4 + col][row];
+					}
+
+				}
+
+				// Sub bytes
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] = SBOX[state[row][col]];
+				}
+
+				// Shift rows
+				state[1].push(state[1].shift());
+				state[2].push(state[2].shift());
+				state[2].push(state[2].shift());
+				state[3].unshift(state[3].pop());
+
+				// Add round key
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] ^= keyschedule[nrounds * 4 + col][row];
+				}
+
+				// Set output
+				for (var row = 0; row < AES._blocksize; row++) {
+					for (var col = 0; col < 4; col++)
+						m[offset + col * 4 + row] = state[row][col];
+				}
+
+			},
+
+			_decryptblock: function (c, offset) {
+
+				// Set input
+				for (var row = 0; row < AES._blocksize; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] = c[offset + col * 4 + row];
+				}
+
+				// Add round key
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] ^= keyschedule[nrounds * 4 + col][row];
+				}
+
+				for (var round = 1; round < nrounds; round++) {
+
+					// Inv shift rows
+					state[1].unshift(state[1].pop());
+					state[2].push(state[2].shift());
+					state[2].push(state[2].shift());
+					state[3].push(state[3].shift());
+
+					// Inv sub bytes
+					for (var row = 0; row < 4; row++) {
+						for (var col = 0; col < 4; col++)
+							state[row][col] = INVSBOX[state[row][col]];
+					}
+
+					// Add round key
+					for (var row = 0; row < 4; row++) {
+						for (var col = 0; col < 4; col++)
+							state[row][col] ^= keyschedule[(nrounds - round) * 4 + col][row];
+					}
+
+					// Inv mix columns
+					for (var col = 0; col < 4; col++) {
+
+						var s0 = state[0][col],
+				s1 = state[1][col],
+				s2 = state[2][col],
+				s3 = state[3][col];
+
+						state[0][col] = MULTE[s0] ^ MULTB[s1] ^ MULTD[s2] ^ MULT9[s3];
+						state[1][col] = MULT9[s0] ^ MULTE[s1] ^ MULTB[s2] ^ MULTD[s3];
+						state[2][col] = MULTD[s0] ^ MULT9[s1] ^ MULTE[s2] ^ MULTB[s3];
+						state[3][col] = MULTB[s0] ^ MULTD[s1] ^ MULT9[s2] ^ MULTE[s3];
+
+					}
+
+				}
+
+				// Inv shift rows
+				state[1].unshift(state[1].pop());
+				state[2].push(state[2].shift());
+				state[2].push(state[2].shift());
+				state[3].push(state[3].shift());
+
+				// Inv sub bytes
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] = INVSBOX[state[row][col]];
+				}
+
+				// Add round key
+				for (var row = 0; row < 4; row++) {
+					for (var col = 0; col < 4; col++)
+						state[row][col] ^= keyschedule[col][row];
+				}
+
+				// Set output
+				for (var row = 0; row < AES._blocksize; row++) {
+					for (var col = 0; col < 4; col++)
+						c[offset + col * 4 + row] = state[row][col];
+				}
+
+			},
+
+
+			/**
+			* Private methods
+			*/
+
+			_init: function (k) {
+				keylength = k.length / 4;
+				nrounds = keylength + 6;
+				AES._keyexpansion(k);
+			},
+
+			// Generate a key schedule
+			_keyexpansion: function (k) {
+
+				keyschedule = [];
+
+				for (var row = 0; row < keylength; row++) {
+					keyschedule[row] = [
+			k[row * 4],
+			k[row * 4 + 1],
+			k[row * 4 + 2],
+			k[row * 4 + 3]
+		];
+				}
+
+				for (var row = keylength; row < AES._blocksize * (nrounds + 1); row++) {
+
+					var temp = [
+			keyschedule[row - 1][0],
+			keyschedule[row - 1][1],
+			keyschedule[row - 1][2],
+			keyschedule[row - 1][3]
+		];
+
+					if (row % keylength == 0) {
+
+						// Rot word
+						temp.push(temp.shift());
+
+						// Sub word
+						temp[0] = SBOX[temp[0]];
+						temp[1] = SBOX[temp[1]];
+						temp[2] = SBOX[temp[2]];
+						temp[3] = SBOX[temp[3]];
+
+						temp[0] ^= RCON[row / keylength];
+
+					} else if (keylength > 6 && row % keylength == 4) {
+
+						// Sub word
+						temp[0] = SBOX[temp[0]];
+						temp[1] = SBOX[temp[1]];
+						temp[2] = SBOX[temp[2]];
+						temp[3] = SBOX[temp[3]];
+
+					}
+
+					keyschedule[row] = [
+			keyschedule[row - keylength][0] ^ temp[0],
+			keyschedule[row - keylength][1] ^ temp[1],
+			keyschedule[row - keylength][2] ^ temp[2],
+			keyschedule[row - keylength][3] ^ temp[3]
+		];
+
+				}
+
 			}
 
 		};
 
 	})();
+	</script>
 
+	<script type="text/javascript">
+	/*!
+	* Crypto-JS 2.5.4 BlockModes.js
+	* contribution from Simon Greatrix
+	*/
 
+	(function (C) {
 
-		/*!
-		* Crypto-JS v2.0.0
-		* http://code.google.com/p/crypto-js/
-		* Copyright (c) 2009, Jeff Mott. All rights reserved.
-		* http://code.google.com/p/crypto-js/wiki/License
-		*/
-		(function () {
+		// Create pad namespace
+		var C_pad = C.pad = {};
 
-			// Shortcuts
-			var C = Crypto,
-	util = C.util,
-	charenc = C.charenc,
-	UTF8 = charenc.UTF8,
-	Binary = charenc.Binary;
+		// Calculate the number of padding bytes required.
+		function _requiredPadding(cipher, message) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+			var reqd = blockSizeInBytes - message.length % blockSizeInBytes;
+			return reqd;
+		}
 
-			// Constants
-			var K = [0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
-		  0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
-		  0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
-		  0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
-		  0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
-		  0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
-		  0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
-		  0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
-		  0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
-		  0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
-		  0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
-		  0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
-		  0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
-		  0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
-		  0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
-		  0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2];
+		// Remove padding when the final byte gives the number of padding bytes.
+		var _unpadLength = function (cipher, message, alg, padding) {
+			var pad = message.pop();
+			if (pad == 0) {
+				throw new Error("Invalid zero-length padding specified for " + alg
+			+ ". Wrong cipher specification or key used?");
+			}
+			var maxPad = cipher._blocksize * 4;
+			if (pad > maxPad) {
+				throw new Error("Invalid padding length of " + pad
+			+ " specified for " + alg
+			+ ". Wrong cipher specification or key used?");
+			}
+			for (var i = 1; i < pad; i++) {
+				var b = message.pop();
+				if (padding != undefined && padding != b) {
+					throw new Error("Invalid padding byte of 0x" + b.toString(16)
+				+ " specified for " + alg
+				+ ". Wrong cipher specification or key used?");
+				}
+			}
+		};
 
-			// Public API
-			var SHA256 = C.SHA256 = function (message, options) {
-				var digestbytes = util.wordsToBytes(SHA256._sha256(message));
-				return options && options.asBytes ? digestbytes :
-		   options && options.asString ? Binary.bytesToString(digestbytes) :
-		   util.bytesToHex(digestbytes);
-			};
+		// No-operation padding, used for stream ciphers
+		C_pad.NoPadding = {
+			pad: function (cipher, message) { },
+			unpad: function (cipher, message) { }
+		};
 
-			// The core
-			SHA256._sha256 = function (message) {
-
-				// Convert to byte array
-				if (message.constructor == String) message = UTF8.stringToBytes(message);
-				/* else, assume byte array already */
-
-				var m = util.bytesToWords(message),
-		l = message.length * 8,
-		H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-			  0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19],
-		w = [],
-		a, b, c, d, e, f, g, h, i, j,
-		t1, t2;
-
-				// Padding
-				m[l >> 5] |= 0x80 << (24 - l % 32);
-				m[((l + 64 >> 9) << 4) + 15] = l;
-
-				for (var i = 0; i < m.length; i += 16) {
-
-					a = H[0];
-					b = H[1];
-					c = H[2];
-					d = H[3];
-					e = H[4];
-					f = H[5];
-					g = H[6];
-					h = H[7];
-
-					for (var j = 0; j < 64; j++) {
-
-						if (j < 16) w[j] = m[j + i];
-						else {
-
-							var gamma0x = w[j - 15],
-					gamma1x = w[j - 2],
-					gamma0 = ((gamma0x << 25) | (gamma0x >>> 7)) ^
-							  ((gamma0x << 14) | (gamma0x >>> 18)) ^
-							   (gamma0x >>> 3),
-					gamma1 = ((gamma1x << 15) | (gamma1x >>> 17)) ^
-							  ((gamma1x << 13) | (gamma1x >>> 19)) ^
-							   (gamma1x >>> 10);
-
-							w[j] = gamma0 + (w[j - 7] >>> 0) +
-					   gamma1 + (w[j - 16] >>> 0);
-
-						}
-
-						var ch = e & f ^ ~e & g,
-				maj = a & b ^ a & c ^ b & c,
-				sigma0 = ((a << 30) | (a >>> 2)) ^
-						 ((a << 19) | (a >>> 13)) ^
-						 ((a << 10) | (a >>> 22)),
-				sigma1 = ((e << 26) | (e >>> 6)) ^
-						 ((e << 21) | (e >>> 11)) ^
-						 ((e << 7) | (e >>> 25));
-
-
-						t1 = (h >>> 0) + sigma1 + ch + (K[j]) + (w[j] >>> 0);
-						t2 = sigma0 + maj;
-
-						h = g;
-						g = f;
-						f = e;
-						e = d + t1;
-						d = c;
-						c = b;
-						b = a;
-						a = t1 + t2;
-
+		// Zero Padding.
+		//
+		// If the message is not an exact number of blocks, the final block is
+		// completed with 0x00 bytes. There is no unpadding.
+		C_pad.ZeroPadding = {
+			pad: function (cipher, message) {
+				var blockSizeInBytes = cipher._blocksize * 4;
+				var reqd = message.length % blockSizeInBytes;
+				if (reqd != 0) {
+					for (reqd = blockSizeInBytes - reqd; reqd > 0; reqd--) {
+						message.push(0x00);
 					}
+				}
+			},
 
-					H[0] += a;
-					H[1] += b;
-					H[2] += c;
-					H[3] += d;
-					H[4] += e;
-					H[5] += f;
-					H[6] += g;
-					H[7] += h;
+			unpad: function (cipher, message) {
+				while (message[message.length - 1] == 0) {
+					message.pop();
+				}
+			}
+		};
 
+		// ISO/IEC 7816-4 padding.
+		//
+		// Pads the plain text with an 0x80 byte followed by as many 0x00
+		// bytes are required to complete the block.
+		C_pad.iso7816 = {
+			pad: function (cipher, message) {
+				var reqd = _requiredPadding(cipher, message);
+				message.push(0x80);
+				for (; reqd > 1; reqd--) {
+					message.push(0x00);
+				}
+			},
+
+			unpad: function (cipher, message) {
+				var padLength;
+				for (padLength = cipher._blocksize * 4; padLength > 0; padLength--) {
+					var b = message.pop();
+					if (b == 0x80) return;
+					if (b != 0x00) {
+						throw new Error("ISO-7816 padding byte must be 0, not 0x" + b.toString(16) + ". Wrong cipher specification or key used?");
+					}
+				}
+				throw new Error("ISO-7816 padded beyond cipher block size. Wrong cipher specification or key used?");
+			}
+		};
+
+		// ANSI X.923 padding
+		//
+		// The final block is padded with zeros except for the last byte of the
+		// last block which contains the number of padding bytes.
+		C_pad.ansix923 = {
+			pad: function (cipher, message) {
+				var reqd = _requiredPadding(cipher, message);
+				for (var i = 1; i < reqd; i++) {
+					message.push(0x00);
+				}
+				message.push(reqd);
+			},
+
+			unpad: function (cipher, message) {
+				_unpadLength(cipher, message, "ANSI X.923", 0);
+			}
+		};
+
+		// ISO 10126
+		//
+		// The final block is padded with random bytes except for the last
+		// byte of the last block which contains the number of padding bytes.
+		C_pad.iso10126 = {
+			pad: function (cipher, message) {
+				var reqd = _requiredPadding(cipher, message);
+				for (var i = 1; i < reqd; i++) {
+					message.push(Math.floor(Math.random() * 256));
+				}
+				message.push(reqd);
+			},
+
+			unpad: function (cipher, message) {
+				_unpadLength(cipher, message, "ISO 10126", undefined);
+			}
+		};
+
+		// PKCS7 padding
+		//
+		// PKCS7 is described in RFC 5652. Padding is in whole bytes. The
+		// value of each added byte is the number of bytes that are added,
+		// i.e. N bytes, each of value N are added.
+		C_pad.pkcs7 = {
+			pad: function (cipher, message) {
+				var reqd = _requiredPadding(cipher, message);
+				for (var i = 0; i < reqd; i++) {
+					message.push(reqd);
+				}
+			},
+
+			unpad: function (cipher, message) {
+				_unpadLength(cipher, message, "PKCS 7", message[message.length - 1]);
+			}
+		};
+
+		// Create mode namespace
+		var C_mode = C.mode = {};
+
+		/**
+		* Mode base "class".
+		*/
+		var Mode = C_mode.Mode = function (padding) {
+			if (padding) {
+				this._padding = padding;
+			}
+		};
+
+		Mode.prototype = {
+			encrypt: function (cipher, m, iv) {
+				this._padding.pad(cipher, m);
+				this._doEncrypt(cipher, m, iv);
+			},
+
+			decrypt: function (cipher, m, iv) {
+				this._doDecrypt(cipher, m, iv);
+				this._padding.unpad(cipher, m);
+			},
+
+			// Default padding
+			_padding: C_pad.iso7816
+		};
+
+
+		/**
+		* Electronic Code Book mode.
+		* 
+		* ECB applies the cipher directly against each block of the input.
+		* 
+		* ECB does not require an initialization vector.
+		*/
+		var ECB = C_mode.ECB = function () {
+			// Call parent constructor
+			Mode.apply(this, arguments);
+		};
+
+		// Inherit from Mode
+		var ECB_prototype = ECB.prototype = new Mode;
+
+		// Concrete steps for Mode template
+		ECB_prototype._doEncrypt = function (cipher, m, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+			// Encrypt each block
+			for (var offset = 0; offset < m.length; offset += blockSizeInBytes) {
+				cipher._encryptblock(m, offset);
+			}
+		};
+		ECB_prototype._doDecrypt = function (cipher, c, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+			// Decrypt each block
+			for (var offset = 0; offset < c.length; offset += blockSizeInBytes) {
+				cipher._decryptblock(c, offset);
+			}
+		};
+
+		// ECB never uses an IV
+		ECB_prototype.fixOptions = function (options) {
+			options.iv = [];
+		};
+
+
+		/**
+		* Cipher block chaining
+		* 
+		* The first block is XORed with the IV. Subsequent blocks are XOR with the
+		* previous cipher output.
+		*/
+		var CBC = C_mode.CBC = function () {
+			// Call parent constructor
+			Mode.apply(this, arguments);
+		};
+
+		// Inherit from Mode
+		var CBC_prototype = CBC.prototype = new Mode;
+
+		// Concrete steps for Mode template
+		CBC_prototype._doEncrypt = function (cipher, m, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+
+			// Encrypt each block
+			for (var offset = 0; offset < m.length; offset += blockSizeInBytes) {
+				if (offset == 0) {
+					// XOR first block using IV
+					for (var i = 0; i < blockSizeInBytes; i++)
+						m[i] ^= iv[i];
+				} else {
+					// XOR this block using previous crypted block
+					for (var i = 0; i < blockSizeInBytes; i++)
+						m[offset + i] ^= m[offset + i - blockSizeInBytes];
+				}
+				// Encrypt block
+				cipher._encryptblock(m, offset);
+			}
+		};
+		CBC_prototype._doDecrypt = function (cipher, c, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+
+			// At the start, the previously crypted block is the IV
+			var prevCryptedBlock = iv;
+
+			// Decrypt each block
+			for (var offset = 0; offset < c.length; offset += blockSizeInBytes) {
+				// Save this crypted block
+				var thisCryptedBlock = c.slice(offset, offset + blockSizeInBytes);
+				// Decrypt block
+				cipher._decryptblock(c, offset);
+				// XOR decrypted block using previous crypted block
+				for (var i = 0; i < blockSizeInBytes; i++) {
+					c[offset + i] ^= prevCryptedBlock[i];
+				}
+				prevCryptedBlock = thisCryptedBlock;
+			}
+		};
+
+
+		/**
+		* Cipher feed back
+		* 
+		* The cipher output is XORed with the plain text to produce the cipher output,
+		* which is then fed back into the cipher to produce a bit pattern to XOR the
+		* next block with.
+		* 
+		* This is a stream cipher mode and does not require padding.
+		*/
+		var CFB = C_mode.CFB = function () {
+			// Call parent constructor
+			Mode.apply(this, arguments);
+		};
+
+		// Inherit from Mode
+		var CFB_prototype = CFB.prototype = new Mode;
+
+		// Override padding
+		CFB_prototype._padding = C_pad.NoPadding;
+
+		// Concrete steps for Mode template
+		CFB_prototype._doEncrypt = function (cipher, m, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4,
+    keystream = iv.slice(0);
+
+			// Encrypt each byte
+			for (var i = 0; i < m.length; i++) {
+
+				var j = i % blockSizeInBytes;
+				if (j == 0) cipher._encryptblock(keystream, 0);
+
+				m[i] ^= keystream[j];
+				keystream[j] = m[i];
+			}
+		};
+		CFB_prototype._doDecrypt = function (cipher, c, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4,
+			keystream = iv.slice(0);
+
+			// Encrypt each byte
+			for (var i = 0; i < c.length; i++) {
+
+				var j = i % blockSizeInBytes;
+				if (j == 0) cipher._encryptblock(keystream, 0);
+
+				var b = c[i];
+				c[i] ^= keystream[j];
+				keystream[j] = b;
+			}
+		};
+
+
+		/**
+		* Output feed back
+		* 
+		* The cipher repeatedly encrypts its own output. The output is XORed with the
+		* plain text to produce the cipher text.
+		* 
+		* This is a stream cipher mode and does not require padding.
+		*/
+		var OFB = C_mode.OFB = function () {
+			// Call parent constructor
+			Mode.apply(this, arguments);
+		};
+
+		// Inherit from Mode
+		var OFB_prototype = OFB.prototype = new Mode;
+
+		// Override padding
+		OFB_prototype._padding = C_pad.NoPadding;
+
+		// Concrete steps for Mode template
+		OFB_prototype._doEncrypt = function (cipher, m, iv) {
+
+			var blockSizeInBytes = cipher._blocksize * 4,
+			keystream = iv.slice(0);
+
+			// Encrypt each byte
+			for (var i = 0; i < m.length; i++) {
+
+				// Generate keystream
+				if (i % blockSizeInBytes == 0)
+					cipher._encryptblock(keystream, 0);
+
+				// Encrypt byte
+				m[i] ^= keystream[i % blockSizeInBytes];
+
+			}
+		};
+		OFB_prototype._doDecrypt = OFB_prototype._doEncrypt;
+
+		/**
+		* Counter
+		* @author Gergely Risko
+		*
+		* After every block the last 4 bytes of the IV is increased by one
+		* with carry and that IV is used for the next block.
+		*
+		* This is a stream cipher mode and does not require padding.
+		*/
+		var CTR = C_mode.CTR = function () {
+			// Call parent constructor
+			Mode.apply(this, arguments);
+		};
+
+		// Inherit from Mode
+		var CTR_prototype = CTR.prototype = new Mode;
+
+		// Override padding
+		CTR_prototype._padding = C_pad.NoPadding;
+
+		CTR_prototype._doEncrypt = function (cipher, m, iv) {
+			var blockSizeInBytes = cipher._blocksize * 4;
+			var counter = iv.slice(0);
+
+			for (var i = 0; i < m.length; ) {
+				// do not lose iv
+				var keystream = counter.slice(0);
+
+				// Generate keystream for next block
+				cipher._encryptblock(keystream, 0);
+
+				// XOR keystream with block
+				for (var j = 0; i < m.length && j < blockSizeInBytes; j++, i++) {
+					m[i] ^= keystream[j];
 				}
 
-				return H;
+				// Increase counter
+				if (++(counter[blockSizeInBytes - 1]) == 256) {
+					counter[blockSizeInBytes - 1] = 0;
+					if (++(counter[blockSizeInBytes - 2]) == 256) {
+						counter[blockSizeInBytes - 2] = 0;
+						if (++(counter[blockSizeInBytes - 3]) == 256) {
+							counter[blockSizeInBytes - 3] = 0;
+							++(counter[blockSizeInBytes - 4]);
+						}
+					}
+				}
+			}
+		};
+		CTR_prototype._doDecrypt = CTR_prototype._doEncrypt;
 
-			};
+	})(Crypto);
+	</script>
 
-			// Package private blocksize
-			SHA256._blocksize = 16;
-
-		})();
-
-
-
-
-
-
+	<script type="text/javascript">
 		/*!
-		* Crypto-JS v2.0.0
+		* Crypto-JS v2.0.0  RIPEMD-160
 		* http://code.google.com/p/crypto-js/
 		* Copyright (c) 2009, Jeff Mott. All rights reserved.
 		* http://code.google.com/p/crypto-js/wiki/License
@@ -4165,6 +5081,7 @@
 			ECKey.prototype.setCompressed = function (v) {
 				this.compressed = !!v;
 				if (this.pubPoint) this.pubPoint.compressed = this.compressed;
+				return this;
 			};
 
 			/*
@@ -4234,6 +5151,7 @@
 				var ecPoint = ecparams.getCurve().decodePointHex(pub);
 				this.setCompressed(ecPoint.compressed);
 				this.pubPoint = ecPoint;
+				return this;
 			};
 
 			// Sipa Private Key Wallet Import Format 
@@ -4471,8 +5389,310 @@
 			*/
 			sha256ripe160: function (data) {
 				return Crypto.RIPEMD160(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
+			},
+			// double sha256
+			dsha256: function (data) {
+				return Crypto.SHA256(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
 			}
 		};
+	</script>
+
+	<script type="text/javascript">
+	/*
+	* Copyright (c) 2010-2011 Intalio Pte, All Rights Reserved
+	* 
+	* Permission is hereby granted, free of charge, to any person obtaining a copy
+	* of this software and associated documentation files (the "Software"), to deal
+	* in the Software without restriction, including without limitation the rights
+	* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	* copies of the Software, and to permit persons to whom the Software is
+	* furnished to do so, subject to the following conditions:
+	* 
+	* The above copyright notice and this permission notice shall be included in
+	* all copies or substantial portions of the Software.
+	* 
+	* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	* THE SOFTWARE.
+	*/
+	// https://github.com/cheongwy/node-scrypt-js
+	(function () {
+
+		var MAX_VALUE = 2147483647;
+		var workerUrl = null;
+
+		//function scrypt(byte[] passwd, byte[] salt, int N, int r, int p, int dkLen)
+		/*
+		* N = Cpu cost
+		* r = Memory cost
+		* p = parallelization cost
+		* 
+		*/
+		window.Crypto_scrypt = function (passwd, salt, N, r, p, dkLen, callback) {
+			if (N == 0 || (N & (N - 1)) != 0) throw Error("N must be > 0 and a power of 2");
+
+			if (N > MAX_VALUE / 128 / r) throw Error("Parameter N is too large");
+			if (r > MAX_VALUE / 128 / p) throw Error("Parameter r is too large");
+
+			var PBKDF2_opts = { iterations: 1, hasher: Crypto.SHA256, asBytes: true };
+
+			var B = Crypto.PBKDF2(passwd, salt, p * 128 * r, PBKDF2_opts);
+
+			try {
+				var i = 0;
+				var worksDone = 0;
+				var makeWorker = function () {
+					if (!workerUrl) {
+						var code = '(' + scryptCore.toString() + ')()';
+						var blob;
+						try {
+							blob = new Blob([code], { type: "text/javascript" });
+						} catch (e) {
+							window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+							blob = new BlobBuilder();
+							blob.append(code);
+							blob = blob.getBlob("text/javascript");
+						}
+						workerUrl = URL.createObjectURL(blob);
+					}
+					var worker = new Worker(workerUrl);
+					worker.onmessage = function (event) {
+						var Bi = event.data[0], Bslice = event.data[1];
+						worksDone++;
+
+						if (i < p) {
+							worker.postMessage([N, r, p, B, i++]);
+						}
+
+						var length = Bslice.length, destPos = Bi * 128 * r, srcPos = 0;
+						while (length--) {
+							B[destPos++] = Bslice[srcPos++];
+						}
+
+						if (worksDone == p) {
+							callback(Crypto.PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+						}
+					};
+					return worker;
+				};
+				var workers = [makeWorker(), makeWorker()];
+				workers[0].postMessage([N, r, p, B, i++]);
+				if (p > 1) {
+					workers[1].postMessage([N, r, p, B, i++]);
+				}
+			} catch (e) {
+				window.setTimeout(function () {
+					scryptCore();
+					callback(Crypto.PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+				}, 0);
+			}
+
+			// using this function to enclose everything needed to create a worker (but also invokable directly for synchronous use)
+			function scryptCore() {
+				var XY = [], V = [];
+
+				if (typeof B === 'undefined') {
+					onmessage = function (event) {
+						var data = event.data;
+						var N = data[0], r = data[1], p = data[2], B = data[3], i = data[4];
+
+						var Bslice = [];
+						arraycopy32(B, i * 128 * r, Bslice, 0, 128 * r);
+						smix(Bslice, 0, r, N, V, XY);
+
+						postMessage([i, Bslice]);
+					};
+				} else {
+					for (var i = 0; i < p; i++) {
+						smix(B, i * 128 * r, r, N, V, XY);
+					}
+				}
+
+				function smix(B, Bi, r, N, V, XY) {
+					var Xi = 0;
+					var Yi = 128 * r;
+					var i;
+
+					arraycopy32(B, Bi, XY, Xi, Yi);
+
+					for (i = 0; i < N; i++) {
+						arraycopy32(XY, Xi, V, i * Yi, Yi);
+						blockmix_salsa8(XY, Xi, Yi, r);
+					}
+
+					for (i = 0; i < N; i++) {
+						var j = integerify(XY, Xi, r) & (N - 1);
+						blockxor(V, j * Yi, XY, Xi, Yi);
+						blockmix_salsa8(XY, Xi, Yi, r);
+					}
+
+					arraycopy32(XY, Xi, B, Bi, Yi);
+				}
+
+				function blockmix_salsa8(BY, Bi, Yi, r) {
+					var X = [];
+					var i;
+
+					arraycopy32(BY, Bi + (2 * r - 1) * 64, X, 0, 64);
+
+					for (i = 0; i < 2 * r; i++) {
+						blockxor(BY, i * 64, X, 0, 64);
+						salsa20_8(X);
+						arraycopy32(X, 0, BY, Yi + (i * 64), 64);
+					}
+
+					for (i = 0; i < r; i++) {
+						arraycopy32(BY, Yi + (i * 2) * 64, BY, Bi + (i * 64), 64);
+					}
+
+					for (i = 0; i < r; i++) {
+						arraycopy32(BY, Yi + (i * 2 + 1) * 64, BY, Bi + (i + r) * 64, 64);
+					}
+				}
+
+				function R(a, b) {
+					return (a << b) | (a >>> (32 - b));
+				}
+
+				function salsa20_8(B) {
+					var B32 = new Array(32);
+					var x = new Array(32);
+					var i;
+
+					for (i = 0; i < 16; i++) {
+						B32[i] = (B[i * 4 + 0] & 0xff) << 0;
+						B32[i] |= (B[i * 4 + 1] & 0xff) << 8;
+						B32[i] |= (B[i * 4 + 2] & 0xff) << 16;
+						B32[i] |= (B[i * 4 + 3] & 0xff) << 24;
+					}
+
+					arraycopy(B32, 0, x, 0, 16);
+
+					for (i = 8; i > 0; i -= 2) {
+						x[4] ^= R(x[0] + x[12], 7); x[8] ^= R(x[4] + x[0], 9);
+						x[12] ^= R(x[8] + x[4], 13); x[0] ^= R(x[12] + x[8], 18);
+						x[9] ^= R(x[5] + x[1], 7); x[13] ^= R(x[9] + x[5], 9);
+						x[1] ^= R(x[13] + x[9], 13); x[5] ^= R(x[1] + x[13], 18);
+						x[14] ^= R(x[10] + x[6], 7); x[2] ^= R(x[14] + x[10], 9);
+						x[6] ^= R(x[2] + x[14], 13); x[10] ^= R(x[6] + x[2], 18);
+						x[3] ^= R(x[15] + x[11], 7); x[7] ^= R(x[3] + x[15], 9);
+						x[11] ^= R(x[7] + x[3], 13); x[15] ^= R(x[11] + x[7], 18);
+						x[1] ^= R(x[0] + x[3], 7); x[2] ^= R(x[1] + x[0], 9);
+						x[3] ^= R(x[2] + x[1], 13); x[0] ^= R(x[3] + x[2], 18);
+						x[6] ^= R(x[5] + x[4], 7); x[7] ^= R(x[6] + x[5], 9);
+						x[4] ^= R(x[7] + x[6], 13); x[5] ^= R(x[4] + x[7], 18);
+						x[11] ^= R(x[10] + x[9], 7); x[8] ^= R(x[11] + x[10], 9);
+						x[9] ^= R(x[8] + x[11], 13); x[10] ^= R(x[9] + x[8], 18);
+						x[12] ^= R(x[15] + x[14], 7); x[13] ^= R(x[12] + x[15], 9);
+						x[14] ^= R(x[13] + x[12], 13); x[15] ^= R(x[14] + x[13], 18);
+					}
+
+					for (i = 0; i < 16; ++i) B32[i] = x[i] + B32[i];
+
+					for (i = 0; i < 16; i++) {
+						var bi = i * 4;
+						B[bi + 0] = (B32[i] >> 0 & 0xff);
+						B[bi + 1] = (B32[i] >> 8 & 0xff);
+						B[bi + 2] = (B32[i] >> 16 & 0xff);
+						B[bi + 3] = (B32[i] >> 24 & 0xff);
+					}
+				}
+
+				function blockxor(S, Si, D, Di, len) {
+					var i = len >> 6;
+					while (i--) {
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+						D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+					}
+				}
+
+				function integerify(B, bi, r) {
+					var n;
+
+					bi += (2 * r - 1) * 64;
+
+					n = (B[bi + 0] & 0xff) << 0;
+					n |= (B[bi + 1] & 0xff) << 8;
+					n |= (B[bi + 2] & 0xff) << 16;
+					n |= (B[bi + 3] & 0xff) << 24;
+
+					return n;
+				}
+
+				function arraycopy(src, srcPos, dest, destPos, length) {
+					while (length--) {
+						dest[destPos++] = src[srcPos++];
+					}
+				}
+
+				function arraycopy32(src, srcPos, dest, destPos, length) {
+					var i = length >> 5;
+					while (i--) {
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+						dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+					}
+				}
+			} // scryptCore
+		}; // window.Crypto_scrypt
+	})();
 	</script>
 
 	<style type="text/css">
@@ -4485,7 +5705,7 @@
 		.keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 		.keyarea .public { float: left; }
 		.keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
-		.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 10px 0 0; position: relative; }
+		.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
 		.keyarea .label { text-decoration: underline; }
 		.keyarea .output { display: block; }
 		.keyarea .qrcode_public { display: inline-block; float: left; }
@@ -4494,11 +5714,11 @@
 		.faqs ol { padding: 0 0 0 25px; }
 		.faqs li { padding: 3px 0; }
 		body { font-family: Arial; }
-		#main { position: relative; text-align: center; margin: 0px auto; width: 945px; }
+		#main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 		#logo { width: 578px; height: 80px; }
 		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 		#generate span { padding: 5px 5px 0 5px; }
-		#menu { visibility: hidden; }
+		#menu { visibility: hidden; font-size: 90%; }
 		#culturemenu { text-align: right; padding: 0 20px; }
 		#culturemenu span { padding: 3px; }
 		#culturemenu .selected { text-decoration: none; color: #000000; }
@@ -4542,13 +5762,22 @@
 		#detailkeyarea { padding: 10px; }
 		#detailarea { margin: 0; text-align: left; }
 		#detailarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-		#detailarea .item { margin: 10px 0; position: relative;  }
+		#detailarea .pubqr .item .label { text-decoration: none; }
+		#detailarea .pubqr .item { float: left; margin: 10px 0; position: relative; }
+		#detailarea .pubqr .item.right { float: right; position: relative; top: 0; } 
+		#detailarea .privqr .item .label { text-decoration: none; }
+		#detailarea .privqr .item { float: left; margin: 0; position: relative; }
+		#detailarea .privqr .item.right { float: right; position: relative; } 
+		#detailarea .item { margin: 10px 0; position: relative; font-size: 90%; }
+		#detailarea .item.clear { clear: both; padding-top: 10px; }
 		#detailarea .label { display: block; text-decoration: underline; }
 		#detailarea .output { display: block; min-height: 20px; }
 		#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
 		#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
 		#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
+		#detailpubkey { width: 566px; }
+		#detailbip38commands { display: none; padding-top: 5px; }	
 		#vanityarea { text-align: left; }
 		#vanityarea .label { text-decoration: underline; }
 		#vanityarea .output { display: block; }
@@ -4563,7 +5792,9 @@
 		.unittests { text-align: center; }
 		.unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
 		#testnet { font-family: Tahoma; display: none; background-color: Orange; color: #000000; border-radius: 5px; font-weight: bold; padding: 10px 0; margin: 0 auto 20px auto; }
-		
+		#busyblock { position: fixed; display: none; background: url("data:image/gif;base64,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") #ccc no-repeat center; opacity: 0.4; width: 100%; height: 100%; top: 0; left: 0; z-index: 5000; }
+		#busyblock.busy { display: block; }
+	
 		/* IE8 */
 		.qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
 		.qrcodetddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
@@ -4587,7 +5818,7 @@
 			
 			#papercommands { padding: 10px 0; border: 2px solid green; }
 			#braincommands .row { text-align: left; }
-			#braincommands .row .label { width: 150px; display: inline-block; }
+			#braincommands .row .label { width: 200px; display: inline-block; }
 			#braincommands .row.extra { padding: 6px 0 0 0; }
 			#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
 			#brainpassphrase { width: 280px; }
@@ -4595,11 +5826,12 @@
 			#detailcommands { padding: 10px 0; }
 			#detailcommands span { padding: 0 10px; }
 			#detailprivkey { width: 250px; }
+			#detailprivkeypassphrase { width: 250px; }
 			.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			
-			.footer { font-family: Arial; font-size: 90%; clear: both; width: 700px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
+			.footer { font-family: Arial; font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
 			.footer div span.item { padding: 10px; }
 			.footer .authorbtc { float: left; width: 470px; }
 			.footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
@@ -4622,14 +5854,19 @@
 			.commands { display: none; }
 			#tagline { display: none; }
 			#faqs { display: none; }
+			#detailprivwif { width: 285px; word-wrap: break-word; }
+			#detailprivwifcomp { width: 285px; word-wrap: break-word; text-align: right; }
+			#detailarea .privqr .item { width: 285px; }
 		}
 	</style>
 </head>
 <body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
+	<div id="busyblock"></div>
 	<div id="main">
 		<div id="culturemenu">
 			<span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
-			<span><a href="?culture=es" id="culturees" class="">Español</a></span>
+			<span><a href="?culture=es" id="culturees">Español</a></span> | 
+			<span><a href="?culture=fr" id="culturefr">Français</a></span>
 		</div>
 		<img alt="liteaddress.org" title="liteaddress.org" id="logo" src="data:image/png;base64,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" />
 		<div id="tagline">Open Source JavaScript Client-Side Litecoin Wallet Generator</div>
@@ -4702,15 +5939,7 @@
 							<span id="bulklabelq1">Why should I use a Bulk Wallet to accept Litecoins on my website?</span>
 							<div id="bulke1" class="more"></div>
 						</div>
-						<div id="bulka1" class="bulkanswer">
-							The traditional approach to accepting litecoins on your website requires that
-							you install the official litecoin client daemon ("litecoind"). Many website hosting packages
-							don't support installing the litecoin daemon. Also, running the litecoin daemon on your
-							web server means your private keys are hosted on the server and could get stolen if your web 
-							server is hacked. When using a Bulk Wallet you can upload only the litecoin addresses 
-							and not the private keys to your web server. Then you don't have to worry about your 
-							litecoin wallet being stolen if your web server is hacked.
-						</div>
+						<div id="bulka1" class="bulkanswer">The traditional approach to accepting litecoins on your website requires that you install the official litecoin client daemon ("litecoind"). Many website hosting packages don't support installing the litecoin daemon. Also, running the litecoin daemon on your web server means your private keys are hosted on the server and could get stolen if your web server is hacked. When using a Bulk Wallet you can upload only the litecoin addresses and not the private keys to your web server. Then you don't have to worry about your litecoin wallet being stolen if your web server is hacked. </div>
 					</div>
 					<div id="bulkfaq2" class="bulkfaq"> 
 						<div id="bulkq2" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
@@ -4719,24 +5948,10 @@
 						</div>
 						<div id="bulka2" class="bulkanswer">
 							<ol>
-							<li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of litecoin addresses (10,000+). Copy and paste the generated 
-							comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
-							<li id="bulklabela2li2">Import the litecoin addresses into a database table on your web server.  
-							(Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins.  
-							Just the litecoin addresses as they will be shown to customers.)</li>
-							<li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in Litecoin. When the customer chooses to pay in Litecoin you will 
-							then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
-							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "litecoin payment notification" and subscribe to at least
-							one litecoin payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc.
-							Once you receive this notification, which could be programmatically automated, you can process the customer's order.
-							To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the litecoin address
-							you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.
-							<br />
-							http://www.blockexplorer.com/address/THEADDRESSGOESHERE
-							<br /><br />
-							Unconfirmed transactions can be viewed at: http://blockchain.info/ <br />
-							You should see the transaction there within 30 seconds.
-							</li>
+							<li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of litecoin addresses (10,000+). Copy and paste the generated comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
+							<li id="bulklabela2li2">Import the litecoin addresses into a database table on your web server. (Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins. Just the litecoin addresses as they will be shown to customers.)</li>
+							<li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in Litecoin. When the customer chooses to pay in Litecoin you will then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
+							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "litecoin payment notification" and subscribe to at least one litecoine payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the litecoin address you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.<br />http://explorer.litecoin.net/address/THEADDRESSGOESHERE<br /><br />Unconfirmed transactions can be viewed at: http://explorer.litecoin.net/ <br />You should see the transaction there within 30 seconds.</li>
 							<li id="bulklabela2li5">Litecoins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
 							</ol>
 						</div>
@@ -4792,8 +6007,7 @@
 					<div>
 						<span class="label" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
 						<span class="output" id="vanityprivatekey"></span>
-						<br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive.
-						You will need this to retrieve the Litecoin Private Key once the Pool has found your prefix.</div>
+						<br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Litecoin Private Key once the Pool has found your prefix.</div>
 					</div>
 				</div>
 				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
@@ -4843,28 +6057,31 @@
 					<span><label id="detaillabelenterprivatekey">Enter Private Key (any format)</label> <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
+					<div id="detailbip38commands">
+						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
+						<span><input type="button" id="detaildecrypt" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+					</div>
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Litecoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats.
-						Below we show the Litecoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).</span>
+						<span id="detaillabelnote1">Your Litecoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Litecoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).</span>
 						<br /><br />
-						<span id="detaillabelnote2">Litecoin v0.6+ stores public keys in compressed format.  The client now also supports import and export of private keys with importprivkey/dumpprivkey.  The format of the exported
-						private key is determined by whether the address was generated in an old or new wallet.</span>
+						<span id="detaillabelnote2"> Litecoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
-					<div class="item">
-						<div id="detailqrcodepublic" class="qrcode_public"></div>
-						<span class="label" id="detaillabelbitcoinaddress">Litecoin Address:</span>
-						<span class="output" id="detailaddress"></span>
+					<div class="pubqr">
+						<div class="item">
+							<span class="label" id="detaillabelbitcoinaddress"> Litecoin Address</span>
+							<div id="detailqrcodepublic" class="qrcode_public"></div>
+							<span class="output" id="detailaddress"></span>
+						</div>					
+						<div class="item right">
+							<span class="label" id="detaillabelbitcoinaddresscomp"> Litecoin Address Compressed</span>
+							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
+							<span class="output" id="detailaddresscomp"></span>
+						</div>
 					</div>
-					<br />
-					<div class="item right">
-						<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
-						<span class="label" id="detaillabelbitcoinaddresscomp">Litecoin Address (compressed):</span>
-						<span class="output" id="detailaddresscomp"></span>
-					</div>
-					<br />
-					<div class="item">
+					<br /><br />
+					<div class="item clear">
 						<span class="label" id="detaillabelpublickey">Public Key (130 characters [0-9A-F]):</span>
 						<span class="output pubkeyhex" id="detailpubkey"></span>
 					</div>
@@ -4873,19 +6090,20 @@
 						<span class="output" id="detailpubkeycomp"></span>
 					</div>
 					<hr />
-					<div class="item">
-					<div id="detailqrcodeprivate" class="qrcode_private"></div>
-						<span class="label"><span id="detaillabelprivwif">Private Key WIF (51 characters base58, starts with a</span> <span id="detailwifprefix">'6'</span>):</span>
-						<span class="output" id="detailprivwif"></span>
+					<div class="privqr">
+						<div class="item">
+							<span class="label"><span id="detaillabelprivwif">Private Key WIF<br />51 characters base58, starts with a</span> <span id="detailwifprefix">'6'</span></span>
+							<div id="detailqrcodeprivate" class="qrcode_private"></div>
+							<span class="output" id="detailprivwif"></span>
+						</div>
+						<div class="item right">
+							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> <span id="detailcompwifprefix">'T'</span></span>
+							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
+							<span class="output" id="detailprivwifcomp"></span>
+						</div>
 					</div>
 					<br /><br />
-					<div class="item right">
-						<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
-						<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF (compressed, 52 characters base58, starts with a</span> <span id="detailcompwifprefix">'T'</span>):</span>
-						<span class="output" id="detailprivwifcomp"></span>
-					</div>
-					<br /><br />
-					<div class="item">
+					<div class="item clear">
 						<span class="label" id="detaillabelprivhex">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 						<span class="output" id="detailprivhex"></span>
 					</div>
@@ -4910,9 +6128,9 @@
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item"><a href="https://www.bitaddress.org/ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP Public Key</a></span>
-				<span class="item"><a href="https://www.bitaddress.org/pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Signed Version History</span> (v2.3)</a></span>
-				<span class="item"><a href="https://github.com/litecoin-project/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
+				<span class="item"><a href="nhttps://www.bitaddress.org/inja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP Public Key</a></span>
+				<span class="item"><a href="https://www.bitaddress.org/pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Signed Version History</span> (v2.5)</a></span>
+				<span class="item"><a href="https://github.com/litecoin-project/liteaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright bitaddress.org.</span>
@@ -4958,6 +6176,132 @@
 				// compressed when both keys are compressed
 				if (ecKey1.compressed && ecKey2.compressed) combinedPrivateKey.setCompressed(true);
 				return combinedPrivateKey;
+			},
+			// 58 base58 characters starting with 6P
+			isBIP38Format: function (key) {
+				return (/^6P[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{56}$/.test(key));
+			},
+			BIP38EncryptedKeyToByteArrayAsync: function (base58Encrypted, passphrase, callback) {
+				var hex;
+				try {
+					hex = Bitcoin.Base58.decode(base58Encrypted);
+				} catch (e) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				// 43 bytes: 2 bytes prefix, 37 bytes payload, 4 bytes checksum
+				if (hex.length != 43) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+				// first byte is always 0x01 
+				else if (hex[0] != 0x01) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var expChecksum = hex.slice(-4);
+				hex = hex.slice(0, -4);
+				var checksum = Bitcoin.Util.dsha256(hex);
+				if (checksum[0] != expChecksum[0] || checksum[1] != expChecksum[1] || checksum[2] != expChecksum[2] || checksum[3] != expChecksum[3]) {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var isCompPoint = false;
+				var isECMult = false;
+				var hasLotSeq = false;
+				// second byte for non-EC-multiplied key
+				if (hex[1] == 0x42) {
+					// key should use compression
+					if (hex[2] == 0xe0) {
+						isCompPoint = true;
+					}
+					// key should NOT use compression
+					else if (hex[2] != 0xc0) {
+						callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+						return;
+					}
+				}
+				// second byte for EC-multiplied key 
+				else if (hex[1] == 0x43) {
+					isECMult = true;
+					isCompPoint = (hex[2] & 0x20) != 0;
+					hasLotSeq = (hex[2] & 0x04) != 0;
+					if ((hex[2] & 0x24) != hex[2]) {
+						callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+						return;
+					}
+				} 
+				else {
+					callback(new Error(ninja.translator.get("detailalertnotvalidprivatekey")));
+					return;
+				}
+
+				var decrypted;
+				var AES_opts = { mode: new Crypto.mode.ECB(Crypto.pad.NoPadding), asBytes: true };
+
+				var verifyHashAndReturn = function () {
+					var tmpkey = new Bitcoin.ECKey(decrypted); // decrypted using closure
+					var base58AddrText = tmpkey.setCompressed(isCompPoint).getBitcoinAddress(); // isCompPoint using closure
+					checksum = Bitcoin.Util.dsha256(base58AddrText); // checksum using closure
+
+					if (checksum[0] != hex[3] || checksum[1] != hex[4] || checksum[2] != hex[5] || checksum[3] != hex[6]) {
+						callback(new Error(ninja.translator.get("bip38alertincorrectpassphrase"))); // callback using closure
+						return;
+					}
+					callback(tmpkey.getBitcoinPrivateKeyByteArray()); // callback using closure
+				};
+
+				if (!isECMult) {
+					var addresshash = hex.slice(3, 7);
+					Crypto_scrypt(passphrase, addresshash, 16384, 8, 8, 64, function (derivedBytes) {
+						var k = derivedBytes.slice(32, 32 + 32);
+						decrypted = Crypto.AES.decrypt(hex.slice(7, 7 + 32), k, AES_opts);
+						for (var x = 0; x < 32; x++) decrypted[x] ^= derivedBytes[x];
+						verifyHashAndReturn(); //TODO: pass in 'decrypted' as a param
+					});
+				} 
+				else {
+					var ownerentropy = hex.slice(7, 7 + 8);
+					var ownersalt = !hasLotSeq ? ownerentropy : ownerentropy.slice(0, 4);
+					Crypto_scrypt(passphrase, ownersalt, 16384, 8, 8, 32, function (prefactorA) {
+						var passfactor;
+						if (!hasLotSeq) { // hasLotSeq using closure
+							passfactor = prefactorA;
+						} else {
+							var prefactorB = prefactorA.concat(ownerentropy); // ownerentropy using closure
+							passfactor = Bitcoin.Util.dsha256(prefactorB);
+						}
+						var kp = new Bitcoin.ECKey(passfactor);
+						var passpoint = kp.setCompressed(true).getPub();
+
+						var encryptedpart2 = hex.slice(23, 23 + 16);
+
+						var addresshashplusownerentropy = hex.slice(3, 3 + 12);
+						Crypto_scrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64, function (derived) {
+							var k = derived.slice(32);
+
+							var unencryptedpart2 = Crypto.AES.decrypt(encryptedpart2, k, AES_opts);
+							for (var i = 0; i < 16; i++) { unencryptedpart2[i] ^= derived[i + 16]; }
+
+							var encryptedpart1 = hex.slice(15, 15 + 8).concat(unencryptedpart2.slice(0, 0 + 8));
+							var unencryptedpart1 = Crypto.AES.decrypt(encryptedpart1, k, AES_opts);
+							for (var i = 0; i < 16; i++) { unencryptedpart1[i] ^= derived[i]; }
+
+							var seedb = unencryptedpart1.slice(0, 0 + 16).concat(unencryptedpart2.slice(8, 8 + 8));
+
+							var factorb = Bitcoin.Util.dsha256(seedb);
+
+							var ps = EllipticCurve.getSECCurveByName("secp256k1");
+							var privateKey = BigInteger.fromByteArrayUnsigned(passfactor).multiply(BigInteger.fromByteArrayUnsigned(factorb)).remainder(ps.getN());
+
+							decrypted = privateKey.toByteArrayUnsigned();
+							verifyHashAndReturn();
+						});
+					});
+				}
 			}
 		};
 
@@ -5172,6 +6516,40 @@
 			}
 			return result;
 		};
+
+		// use when passing an Array of Functions
+		ninja.runSerialized = function (functions, onComplete) {
+			onComplete = onComplete || function () { };
+
+			if (functions.length === 0) onComplete();
+			else {
+				// run the first function, and make it call this
+				// function when finished with the rest of the list
+				var f = functions.shift();
+				f(function () { ninja.runSerialized(functions, onComplete); });
+			}
+		};
+
+		ninja.forSerialized = function (initial, max, whatToDo, onComplete) {
+			onComplete = onComplete || function () { };
+
+			if (initial === max) { onComplete(); }
+			else {
+				// same idea as runSerialized
+				whatToDo(initial, function () { ninja.forSerialized(++initial, max, whatToDo, onComplete); });
+			}
+		};
+
+		// use when passing an Object (dictionary) of Functions
+		ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
+			var keys = [];
+			for (var name in collection) {
+				keys.push(name);
+			}
+			ninja.forSerialized(0, keys.length, function (i, callback) {
+				whatToDo(keys[i], callback);
+			}, onComplete);
+		};
 	</script>
 
 	<script type="text/javascript">
@@ -5212,34 +6590,36 @@
 					"paperlabelbitcoinaddress": "Litecoin Address:",
 					"paperlabelprivatekey": "Private Key (Wallet Import Format):",
 					"bulkgeneratingaddresses": "Generating addresses... ",
-					"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+					"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your litecoins.",
 					"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
 					"detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
-					"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+					"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your litecoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.",
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key",
 					"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
-					"vanityalertinvalidinputcompressedprivatekeys": "Invalid input. Compressed Private Keys not supported.",
 					"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
-					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
+					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a litecoin address.",
 					"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
 					"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
 				},
 
 				"es": {
 					// javascript alerts or messages
-					"testneteditionactivated": "TESTNET EDITION ACTIVATED", //TODO: please translate
+					"testneteditionactivated": "Testnet se activa",
 					"paperlabelbitcoinaddress": "Dirección Litecoin:",
 					"paperlabelprivatekey": "Clave privada (formato para importar):",
-					"bulkgeneratingaddresses": "Generating addresses... ", //TODO: please translate
-					"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
+					"bulkgeneratingaddresses": "Generación de direcciones... ",
+					"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus litecoins.",
 					"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
 					"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
-					"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
-					"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.", //TODO: please translate
-					"vanityalertinvalidinputcompressedprivatekeys": "Invalid input. Compressed Private Keys not supported.", //TODO: please translate
-					"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.", //TODO: please translate
-					"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiple two public keys. Select 'Add' to add two public keys to get a bitcoin address.", //TODO: please translate
-					"vanityprivatekeyonlyavailable": "Only available when combining two private keys", //TODO: please translate
-					"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys.", //TODO: please translate
+					"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus litecoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
+					"vanityinvalidinputcouldnotcombinekeys": "Entrada no válida. No se puede combinar llaves.",
+					"vanityalertinvalidinputpublickeysmatch": "Entrada no válida. La clave pública de ambos coincidan entradas. Debe introducir dos claves diferentes.",
+					"vanityalertinvalidinputcannotmultiple": "Entrada no válida. No se puede multiplicar dos claves públicas. Seleccione 'Añadir' para agregar dos claves públicas para obtener una dirección litecoin.",
+					"vanityprivatekeyonlyavailable": "Sólo está disponible cuando se combinan dos claves privadas",
+					"vanityalertinvalidinputprivatekeysmatch": "Entrada no válida. La clave privada de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 
 					// header and menu html
 					"tagline": "Generador de carteras Litecoin de código abierto en lado de cliente con Javascript",
@@ -5283,13 +6663,13 @@
 					"bulklabelcsv": "Valores separados por coma:",
 					"bulklabelformat": "Índice,Dirección,Clave privada (formato para importar)",
 					"bulklabelq1": "¿Por qué debo usar \"Direcciones en masa\" para aceptar Litecoins en mi web?",
-					"bulka1": "La forma tradicional de aceptar bitcoins en tu web requiere tener instalado el cliente oficial de bitcoin (\"bitcoind\"). Sin embargo muchos servicios de hosting no permiten instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves privadas están también en el servidor y podrían ser comprometidas en caso de intrusión. Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin y no las claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si se cuelan en el servidor.",
-					"bulklabelq2": "¿Cómo uso \"Direcciones en masa\" para aceptar bitcoins en mi web?",
+					"bulka1": "La forma tradicional de aceptar litecoins en tu web requiere tener instalado el cliente oficial de litecoin (\"litecoind\"). Sin embargo muchos servicios de hosting no permiten instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves privadas están también en el servidor y podrían ser comprometidas en caso de intrusión. Al usar este mecanismo, puedes subir al servidor sólo las dirección de litecoin y no las claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si se cuelan en el servidor.",
+					"bulklabelq2": "¿Cómo uso \"Direcciones en masa\" para aceptar litecoins en mi web?",
 					"bulklabela2li1": "Usa el tab \"Direcciones en masa\" para generar por anticipado muchas direcciones (más de 10000). Copia y pega la lista de valores separados por comas (CSV) a un archivo de texto seguro (cifrado) en tu ordenador. Guarda una copia de seguridad en algún lugar seguro.",
 					"bulklabela2li2": "Importa las direcciones en la base de datos de tu servidor. No subas la cartera ni las claves públicas, o de lo contrario te lo pueden robar. Sube sólo las direcciones, ya que es lo que se va a mostrar a los clientes.",
 					"bulklabela2li3": "Ofrece una alternativa en el carro de la compra de tu web para que los clientes paguen con Litecoin. Cuando el cliente elija pagar con Litecoin, les muestras una de las direcciones de la base de datos como su \"dirección de pago\" y guardas esto junto con el pedido.",
-					"bulklabela2li4": "Ahora te hace falta recibir una notificación del pago. Busca en google \"notificación de pagos bitcoin\" (o \"bitcoin payment notification\" en inglés) y suscríbete a alguno de los servicios que aparezcan. Hay varios de ellos, que te pueden notificar vía Web services, API, SMS, email, etc. Una vez te llegue la notificación, lo cual puede ser automatizado, entonces ya puedes procesar el pedido. Para comprobar a mano si has recibido un pago, puedes usar Block Explorer: reemplaza DIRECCION a continuación por la dirección que estés comprobando. La transacción puede tardar entre 10 minutos y una hora en ser confirmada. <br />http://www.blockexplorer.com/address/DIRECCION<br /><br />Puedes ver las transacciones sin confirmar en: http://blockchain.info/ <br />Las transacciones sin confirmar suelen aparecer ahí en unos 30 segundos.",
-					"bulklabela2li5": "Las bitcoins que recibas se almacenarán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.",
+					"bulklabela2li4": "Ahora te hace falta recibir una notificación del pago. Busca en google \"notificación de pagos litecoin\" (o \"litecoin payment notification\" en inglés) y suscríbete a alguno de los servicios que aparezcan. Hay varios de ellos, que te pueden notificar vía Web services, API, SMS, email, etc. Una vez te llegue la notificación, lo cual puede ser automatizado, entonces ya puedes procesar el pedido. Para comprobar a mano si has recibido un pago, puedes usar Block Explorer: reemplaza DIRECCION a continuación por la dirección que estés comprobando. La transacción puede tardar entre 10 minutos y una hora en ser confirmada. <br />http://www.blockexplorer.com/address/DIRECCION<br /><br />Puedes ver las transacciones sin confirmar en: http://blockchain.info/ <br />Las transacciones sin confirmar suelen aparecer ahí en unos 30 segundos.",
+					"bulklabela2li5": "Las litecoins que recibas se almacenarán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.",
 
 					// brain wallet html
 					"brainlabelenterpassphrase": "Contraseña:",
@@ -5311,15 +6691,15 @@
 					"vanitylabelstep2calculateyourvanitywallet": "Paso 2 - Calcula tu cartera personalizada",
 					"vanitylabelenteryourpart": "Introduce la clave privada generada en el paso 1, y que has guardado:",
 					"vanitylabelenteryourpoolpart": "Introduce la clave privada obtenida de la Vanity Pool:",
-					"vanitylabelnote1": "[NOTE: this input box can accept a public key or private key]", //TODO: please translate
-					"vanitylabelnote2": "[NOTE: this input box can accept a public key or private key]", //TODO: please translate
-					"vanitylabelradioadd": "Add", //TODO: please translate
-					"vanitylabelradiomultiply": "Multiply", //TODO: please translate
+					"vanitylabelnote1": "[NOTA: esta casilla de entrada puede aceptar una clave pública o clave privada]",
+					"vanitylabelnote2": "[NOTA: esta casilla de entrada puede aceptar una clave pública o clave privada]",
+					"vanitylabelradioadd": "Añadir",
+					"vanitylabelradiomultiply": "Multiplicar",
 					"vanitycalc": "Calcular cartera personalizada",
 					"vanitylabelbitcoinaddress": "Dirección Litecoin personalizada:",
 					"vanitylabelnotesbitcoinaddress": "Esta es tu nueva dirección, que debería tener el prefijo deseado.",
-					"vanitylabelpublickeyhex": "Vanity Public Key (HEX):", //TODO: please translate
-					"vanitylabelnotespublickeyhex": "The above is the Public Key in hexadecimal format.", //TODO: please translate
+					"vanitylabelpublickeyhex": "Clave pública personalizada (HEX):",
+					"vanitylabelnotespublickeyhex": "Lo anterior es la clave pública en formato hexadecimal.",
 					"vanitylabelprivatekey": "Clave privada personalizada (formato para importar):",
 					"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
 
@@ -5338,7 +6718,112 @@
 					"detailcompwifprefix": "'T'",
 					"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
 					"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
-					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):"
+					"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
+					"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
+					"detaildecrypt": "Decrypt BIP38" //TODO: please translate
+				},
+					
+				"fr": {
+					"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
+					"paperlabelbitcoinaddress": "Adresse Litecoin:",
+					"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+					"bulkgeneratingaddresses": "Création de l'adresse... ",
+					"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
+					"brainalertpassphrasedoesnotmatch": "Le mot de passe ne correspond pas au mot de passe de vérification.",
+					"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
+					"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Litecoins.",
+					"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
+					"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
+					"vanityinvalidinputcouldnotcombinekeys": "Entrée non valide. Impossible de combiner les clés.",
+					"vanityalertinvalidinputpublickeysmatch": "Entrée non valide. La clé publique des deux entrées est identique. Vous devez entrer deux clés différentes.",
+					"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Litecoin.",
+					"vanityprivatekeyonlyavailable": "Seulement disponible si vos combinez deux clés privées",
+					"vanityalertinvalidinputprivatekeysmatch": "Entrée non valide. La clé Privée des deux entrées est identique. Vous devez entrer deux clés différentes.",
+					"tagline": "Générateur De Porte-Monnaie Litecoin Javascript Hors-Ligne",
+					"generatelabelbitcoinaddress": "Création de l'adresse Litecoin...",
+					"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
+					"singlewallet": "Porte-Monnaie Simple",
+					"paperwallet": "Porte-Monnaie Papier",
+					"bulkwallet": "Porte-Monnaie En Vrac",
+					"brainwallet": "Porte-Monnaie Cerveau",
+					"vanitywallet": "Porte-Monnaie Vanité",
+					"detailwallet": "Détails du Porte-Monnaie",
+					"footerlabeldonations": "Dons:",
+					"footerlabeltranslatedby": "Traduction: 1Gy7NYSJNUYqUdXTBow5d7bCUEJkUFDFSq",
+					"footerlabelpgp": "Clé Publique PGP",
+					"footerlabelversion": "Historique De Version Signé",
+					"footerlabelgithub": "Dépôt GitHub",
+					"footerlabelcopyright1": "Copyright bitaddress.org.",
+					"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
+					"footerlabelnowarranty": "Aucune garantie.",
+					"newaddress": "Générer Une Nouvelle Adresse",
+					"singleprint": "Imprimer",
+					"singlelabelbitcoinaddress": "Adresse Litecoin:",
+					"singlelabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+					"paperlabelhideart": "Retirer Le Style?",
+					"paperlabeladdressesperpage": "Adresses par page:",
+					"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
+					"papergenerate": "Générer",
+					"paperprint": "Imprimer",
+					"bulklabelstartindex": "Commencer à l'index:",
+					"bulklabelrowstogenerate": "Colonnes à générer:",
+					"bulkgenerate": "Générer",
+					"bulkprint": "Imprimer",
+					"bulklabelcsv": "Valeurs Séparées Par Des Virgules (CSV):",
+					"bulklabelformat": "Index,Adresse,Clé Privée (WIF)",
+					"bulklabelq1": "Pourquoi utiliserais-je un Porte-monnaie en vrac pour accepter les Litecoins sur mon site web?",
+					"bulka1": "L'approche traditionnelle pour accepter des Litecoins sur votre site web requière l'installation du logiciel Litecoin officiel (\"litecoind\"). Plusieurs hébergeurs ne supportent pas l'installation du logiciel Litecoin. De plus, faire fonctionner le logiciel Litecoin sur votre serveur web signifie que vos clés privées sont hébergées sur le serveur et pourraient donc être volées si votre serveur web était compromis. En utilisant un Porte-monnaie en vrac, vous pouvez publiquer seulement les adresses Litecoin sur votre serveur et non les clés privées. Vous n'avez alors pas à vous inquiéter du risque de vous faire voler votre porte-monnaie si votre serveur était compromis.",
+					"bulklabelq2": "Comment utiliser le Porte-monnaie en vrac pour utiliser le Litecoin sur mon site web?",
+					"bulklabela2li1": "Utilisez le Porte-monnaie en vrac pour pré-générer une large quantité d'adresses Litecoin (10,000+). Copiez collez les données séparées par des virgules (CSV) dans un fichier texte sécurisé dans votre ordinateur. Sauvegardez ce fichier dans un endroit sécurisé.",
+					"bulklabela2li2": "Importez les adresses Litecoin dans une base de donnée sur votre serveur web. (N'ajoutez pas le porte-monnaie ou les clés privées sur votre serveur web, sinon vous courrez le risque de vous faire voler si votre serveur est compromis. Ajoutez seulement les adresses Litecoin qui seront visibles à vos visiteurs.)",
+					"bulklabela2li3": "Ajoutez une option dans votre panier en ligne pour que vos clients puissent vous payer en Litecoin. Quand un client choisi de vous payer en Litecoin, vous pouvez afficher une des adresses de votre base de donnée comme \"adresse de paiment\" pour votre client et sauvegarder cette adresse avec sa commande.",
+					"bulklabela2li4": "Vous avez maintenant besoin d'être avisé quand le paiement est reçu. Cherchez \"litecoin payment notification\" sur Google et inscrivez-vous à un service de notification de paiement Litecoin. Il y a plusieurs services qui vous avertiront via des services Web, API, SMS, Email, etc. Une fois que vous avez reçu la notification, qui devrait être programmée automatiquement, vous pouvez traiter la commande de votre client. Pour vérifier manuellement si un paiement est arrivé, vous pouvez utiliser Block Explorer. Remplacez ADRESSE par l'adresse Litecoin que vous souhaitez vérifier. La confirmation de la transaction pourrait prendre de 10 à 60 minutes pour être confirmée.<br />http://www.blockexplorer.com/address/ADRESSE<br /><br />Les transactions non confirmées peuvent être visualisées ici: http://blockchain.info/ <br />Vous devriez voir la transaction à l'intérieur de 30 secondes.",
+					"bulklabela2li5": "Les Litecoins vos s'accumuler de façon sécuritaire dans la chaîne de blocs. Utilisez le porte-monnaie original que vous avez généré à l'étape 1 pour les dépenser.",
+					"brainlabelenterpassphrase": "Entrez votre mot de passe: ",
+					"brainlabelshow": "Afficher?",
+					"brainprint": "Imprimer",
+					"brainlabelconfirm": "Confirmer le mot de passe: ",
+					"brainview": "Visualiser",
+					"brainalgorithm": "Algorithme: SHA256(mot de passe)",
+					"brainlabelbitcoinaddress": "Adresse Litecoin:",
+					"brainlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+					"vanitylabelstep1": "Étape 1 - Générer votre \"Étape 1 Paire De Clés\"",
+					"vanitynewkeypair": "Générer",
+					"vanitylabelstep1publickey": "Étape 1 Clé Publique:",
+					"vanitylabelstep1pubnotes": "Copiez celle-ci dans la case Votre-Clé-Publique du site de Vanity Pool.",
+					"vanitylabelstep1privatekey": "Step 1 Clé Privée:",
+					"vanitylabelstep1privnotes": "Copiez la cette Clé Privée dans un fichier texte. Idéalement, sauvegardez la dans un fichier encrypté. Vous en aurez besoin pour récupérer la Clé Privée lors que Vanity Pool aura trouvé votre préfixe.",
+					"vanitylabelstep2calculateyourvanitywallet": "Étape 2 - Calculer votre Porte-monnaie Vanité",
+					"vanitylabelenteryourpart": "Entrez votre Clé Privée (générée à l'étape 1 plus haut et précédemment sauvegardée):",
+					"vanitylabelenteryourpoolpart": "Entrez la Clé Privée (provenant de Vanity Pool):",
+					"vanitylabelnote1": "[NOTE: cette case peut accepter une clé publique ou un clé privée]",
+					"vanitylabelnote2": "[NOTE: cette case peut accepter une clé publique ou un clé privée]",
+					"vanitylabelradioadd": "Ajouter",
+					"vanitylabelradiomultiply": "Multiplier",
+					"vanitycalc": "Calculer Le Porte-monnaie Vanité",
+					"vanitylabelbitcoinaddress": "Adresse Litecoin Vanité:",
+					"vanitylabelnotesbitcoinaddress": "Ci-haut est votre nouvelle adresse qui devrait inclure le préfix requis.",
+					"vanitylabelpublickeyhex": "Clé Public Vanité (HEX):",
+					"vanitylabelnotespublickeyhex": "Celle-ci est la Clé Publique dans le format hexadécimal. ",
+					"vanitylabelprivatekey": "Clé Privée Vanité (WIF):",
+					"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
+					"detaillabelenterprivatekey": "Entrez la Clé Privée (quel que soit son format)",
+					"detailview": "Voir les détails",
+					"detailprint": "Imprimer",
+					"detaillabelnote1": "Votre Clé Privée Litecoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Litecoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, HEX, B64, MINI).",
+					"detaillabelnote2": "Litecoin v0.6+ conserve les clés publiques dans un format compressé. Le logiciel supporte maintenant aussi l'importation et l'exportation de clés privées avec importprivkey/dumpprivkey. Le format de la clé privée exportée est déterminé selon la version du porte-monnaie Litecoin.",
+					"detaillabelbitcoinaddress": "Adresse Litecoin:",
+					"detaillabelbitcoinaddresscomp": "Adresse Litecoin (compressée):",
+					"detaillabelpublickey": "Clé Publique (130 caractères [0-9A-F]):",
+					"detaillabelpublickeycomp": "Clé Publique (compressée, 66 caractères [0-9A-F]):",
+					"detaillabelprivwif": "Clé Privée WIF (51 caractères base58, débute avec un a",
+					"detaillabelprivwifcomp": "Clé Privée WIF (compressée, 52 caractères base58, débute avec un a",
+					"detailcompwifprefix": "'K' ou 'L'",
+					"detaillabelprivhex": "Clé Privée Format Hexadecimal (64 caractères [0-9A-F]):",
+					"detaillabelprivb64": "Clé Privée Base64 (44 caractères):",
+					"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):",
+					"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
+					"detaildecrypt": "Decrypt BIP38" //TODO: please translate
 				}
 			}
 		};
@@ -5371,9 +6856,10 @@
 			var elem = document.createElement("textarea");
 			elem.setAttribute("rows", "35");
 			elem.setAttribute("cols", "110");
+			elem.setAttribute("wrap", "off");
 			var langJson = "{\n";
 			for (var key in newLang) {
-				langJson += "  \"" + key + "\"" + " = " + "\"" + newLang[key] + "\",\n";
+				langJson += "\t\"" + key + "\"" + ": " + "\"" + newLang[key].replace(/\"/g, "\\\"").replace(/\n/g, "\\n") + "\",\n";
 			}
 			langJson = langJson.substr(0, langJson.length - 2);
 			langJson += "\n}\n";
@@ -5456,6 +6942,7 @@
 
 			build: function (numWallets, pageBreakAt, useArtisticWallet) {
 				if (numWallets < 1) numWallets = 1;
+				if (pageBreakAt < 1) pageBreakAt = 1;
 				ninja.wallets.paperwallet.remaining = numWallets;
 				ninja.wallets.paperwallet.count = 0;
 				ninja.wallets.paperwallet.useArtisticWallet = useArtisticWallet;
@@ -5482,7 +6969,7 @@
 					}
 					if (paperArea.innerHTML != "") {
 						// page break
-						if (i % pageBreakAt == 1 && ninja.wallets.paperwallet.count >= pageBreakAt) {
+						if ((i - 1) % pageBreakAt == 0 && i >= pageBreakAt) {
 							var pBreak = document.createElement("div");
 							pBreak.setAttribute("class", "pagebreak");
 							document.getElementById("paperkeyarea").appendChild(pBreak);
@@ -5860,36 +7347,77 @@
 			},
 
 			viewDetails: function () {
+				var bip38 = false;
 				var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+				if (key == "") {
+					ninja.wallets.detailwallet.clear();
+					return;
+				}
 				document.getElementById("detailprivkey").value = key;
 				if (Bitcoin.ECKey.isMiniFormat(key)) {
 					// show Private Key Mini Format
 					document.getElementById("detailprivmini").innerHTML = key;
 					document.getElementById("detailmini").style.display = "block";
+					document.getElementById("detailbip38commands").style.display = "none";
+				}
+				else if (ninja.privateKey.isBIP38Format(key)) {
+					if (document.getElementById("detailbip38commands").style.display != "block") {
+						document.getElementById("detailbip38commands").style.display = "block";
+						document.getElementById("detailprivkeypassphrase").focus();
+						return;
+					}
+					else {
+						bip38 = true;
+					}
 				}
 				else {
 					// hide Private Key Mini Format
 					document.getElementById("detailmini").style.display = "none";
+					document.getElementById("detailbip38commands").style.display = "none";
 				}
-				var btcKey = new Bitcoin.ECKey(key);
-				if (btcKey.priv == null) {
-					// enforce a minimum passphrase length
-					if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-						// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
-						var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
-						if (usePassphrase) {
-							var bytes = Crypto.SHA256(key, { asBytes: true });
-							var btcKey = new Bitcoin.ECKey(bytes);
+
+				if (bip38) {
+					var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+					if (passphrase == "") {
+						alert(ninja.translator.get("bip38alertpassphraserequired"));
+						return;
+					}
+					ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
+						document.getElementById("busyblock").className = "";
+						if (btcKeyOrError.message) {
+							alert(btcKeyOrError.message);
+							ninja.wallets.detailwallet.clear();
+						} else {
+							ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
+						}
+					});
+					document.getElementById("busyblock").className = "busy";
+				}
+				else {
+					var btcKey = new Bitcoin.ECKey(key);
+					if (btcKey.priv == null) {
+						// enforce a minimum passphrase length
+						if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
+							// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
+							var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
+							if (usePassphrase) {
+								var bytes = Crypto.SHA256(key, { asBytes: true });
+								var btcKey = new Bitcoin.ECKey(bytes);
+							}
+							else {
+								ninja.wallets.detailwallet.clear();
+							}
 						}
 						else {
+							alert(ninja.translator.get("detailalertnotvalidprivatekey"));
 							ninja.wallets.detailwallet.clear();
 						}
 					}
-					else {
-						alert(ninja.translator.get("detailalertnotvalidprivatekey"));
-						ninja.wallets.detailwallet.clear();
-					}
+					ninja.wallets.detailwallet.populateKeyDetails(btcKey);
 				}
+			},
+
+			populateKeyDetails: function (btcKey) {
 				if (btcKey.priv != null) {
 					btcKey.setCompressed(false);
 					document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
@@ -5911,7 +7439,7 @@
 						"detailqrcodepubliccomp": bitcoinAddressComp,
 						"detailqrcodeprivate": wif,
 						"detailqrcodeprivatecomp": wifComp
-					});
+					}, 4);
 				}
 			},
 
@@ -5929,6 +7457,7 @@
 				document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 				document.getElementById("detailqrcodeprivate").innerHTML = "";
 				document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
+				document.getElementById("detailbip38commands").style.display = "none";
 			}
 		};
 	</script>
@@ -5936,17 +7465,19 @@
 	<script type="text/javascript">
 	(function (ninja) {
 		var ut = ninja.unitTests = {
-			runTests: function () {
+			runSynchronousTests: function () {
+				document.getElementById("busyblock").className = "busy";
 				var div = document.createElement("div");
 				div.setAttribute("class", "unittests");
+				div.setAttribute("id", "unittests");
 				var testResults = "";
 				var passCount = 0;
 				var testCount = 0;
-				for (var test in ut.tests) {
+				for (var test in ut.synchronousTests) {
 					var exceptionMsg = "";
 					var resultBool = false;
 					try {
-						resultBool = ut.tests[test]();
+						resultBool = ut.synchronousTests[test]();
 					} catch (ex) {
 						exceptionMsg = ex.toString();
 						resultBool = false;
@@ -5961,15 +7492,28 @@
 					testCount++;
 					testResults += test + ": " + passFailStr + "<br/>";
 				}
-				testResults += passCount + " of " + testCount + " tests passed";
-				div.innerHTML = "<h3>Unit Tests</h3><div>" + testResults + "</div>";
-				document.body.appendChild(div);
+				testResults += passCount + " of " + testCount + " synchronous tests passed";
 				if (passCount < testCount) {
-					alert((testCount - passCount) + " unit test(s) failed");
+					testResults += "<b>" + (testCount - passCount) + " unit test(s) failed</b>";
 				}
+				div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
+				document.body.appendChild(div);
+				document.getElementById("busyblock").className = "";
+				
 			},
 
-			tests: {
+			runAsynchronousTests: function () {
+				document.getElementById("busyblock").className = "busy";
+				// run the asynchronous tests one after another so we don't crash the browser
+				ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
+					ninja.unitTests.asynchronousTests[name](cb);
+				}, function () {
+					document.getElementById("unittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
+					document.getElementById("busyblock").className = "";
+				});
+			},
+
+			synchronousTests: {
 				//ninja.publicKey tests
 				testIsPublicKeyHexFormat: function () {
 					var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
@@ -6328,6 +7872,17 @@
 					}
 					return true;
 				},
+				testGetECKeyFromBase6Key: function () {
+					var base = 6;
+					var baseKey = "100531114202410255230521444145414341221420541210522412225005202300434134213212540304311321323051431";
+					var hexKey = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
+					var bigInt = new BigInteger(baseKey, base);
+					var ecKey = new Bitcoin.ECKey(bigInt);
+					if (ecKey.getBitcoinHexFormat() != hexKey) {
+						return false;
+					}
+					return true;
+				},
 
 				// EllipticCurve tests
 				testDecodePointEqualsDecodeFrom: function () {
@@ -6365,6 +7920,48 @@
 					}
 					return true;
 				}
+			},
+
+			asynchronousTests: {
+				testBip38: function (done) {
+					var tests = [["6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", "TestingOneTwoThree", "5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR"],
+								["6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq", "Satoshi", "5HtasZ6ofTHP6HCwTqTkLDuLQisYPah7aUnSKfC7h4hMUVw2gi5"],
+								["6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo", "TestingOneTwoThree", "L44B5gGEpqEDRS9vVPz7QT35jcBG2r3CZwSwQ4fCewXAhAhqGVpP"],
+								["6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7", "Satoshi", "KwYgW8gcxj1JWJXhPSu4Fqwzfhp5Yfi42mdYmMa4XqK7NJxXUSK7"],
+								["6PfQu77ygVyJLZjfvMLyhLMQbYnu5uguoJJ4kMCLqWwPEdfpwANVS76gTX", "TestingOneTwoThree", "5K4caxezwjGCGfnoPTZ8tMcJBLB7Jvyjv4xxeacadhq8nLisLR2"],
+								["6PfLGnQs6VZnrNpmVKfjotbnQuaJK4KZoPFrAjx1JMJUa1Ft8gnf5WxfKd", "Satoshi", "5KJ51SgxWaAYR13zd9ReMhJpwrcX47xTJh2D3fGPG9CM8vkv5sH"],
+								["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
+								["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
+					// running each test uses a lot of memory, which isn't freed
+					// immediately, so give the VM a little time to reclaim memory
+					function waitThenCall(callback) {
+						return function () { setTimeout(callback, 6000); }
+					}
+
+					var decryptTest = function (test, i, onComplete) {
+						ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(test[0], test[1], function (privBytes) {
+							if (privBytes.constructor == Error) {
+								document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + ", error: " + privBytes.message + "<br/>";
+							} else {
+								var btcKey = new Bitcoin.ECKey(privBytes);
+								var wif = !test[2].substr(0, 1).match(/[LK]/) ? btcKey.setCompressed(false).getBitcoinWalletImportFormat() : btcKey.setCompressed(true).getBitcoinWalletImportFormat();
+								if (wif != test[2]) {
+									document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + "<br/>";
+								} else {
+									document.getElementById("unittestresults").innerHTML += "pass testDecryptBip38 #" + i + "<br/>";
+								}
+							}
+							onComplete();
+						});
+					}
+
+					document.getElementById("unittestresults").innerHTML += "running " + tests.length + " tests named testDecryptBip38<br/>";
+					ninja.runSerialized([function (cb) {
+						ninja.forSerialized(0, tests.length, function (i, callback) {
+							decryptTest(tests[i], i, waitThenCall(callback));
+						}, waitThenCall(cb));
+					} ], done);
+				}
 			}
 		};
 	})(ninja);
@@ -6373,8 +7970,12 @@
 	<script type="text/javascript">
 		// run unit tests
 		if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-			ninja.unitTests.runTests();
+			ninja.unitTests.runSynchronousTests();
 			ninja.translator.showEnglishJson();
+		}
+		// run async unit tests
+		if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
+			ninja.unitTests.runAsynchronousTests();
 		}
 
 		// change language
