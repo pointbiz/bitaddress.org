@@ -49,6 +49,7 @@ window.EllipticCurve		BSD License
 window.BigInteger		BSD License
 window.QRCode			MIT License
 window.Bitcoin			MIT License
+window.secrets                  MIT Licenses
 
 The bitaddress.org software is available under The MIT License (MIT)
 Copyright (c) 2011-2012 bitaddress.org
