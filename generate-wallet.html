@@ -5987,7 +5987,10 @@
 		#generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid #f7931a; }
 		#generate span { padding: 5px 5px 0 5px; }
 		#menu { visibility: hidden; font-size: 90%; padding: 0 12px;}
+		
 		#culturemenu { text-align: right; padding: 10px 20px; font-size: 12px; }
+
+		#culturemenu { text-align: right; padding: 10px 20px; font-size: 12px;}
 		#culturemenu span { padding: 3px; }
 		#culturemenu .selected { text-decoration: none; color: #000000; }
 
@@ -6102,6 +6105,18 @@
 		.qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
 		.qrcodetddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
 		.qrcodetdlight { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #ffffff; }
+
+
+		@-webkit-keyframes blink { /* Like it's the 1990's again! Thanks https://github.com/madrobby/blink */
+		  0%     { opacity: 0 } 50% { opacity: 0 }
+		  50.01% { opacity: 1 } 100% { opacity: 1 }
+		}
+		blink {
+		  -webkit-animation: blink 0.5s infinite linear alternate;
+		  -webkit-font-smoothing: antialiased;
+		}
+		#generatelabelmovemouse { margin: 30px 150px; padding: 30px; font-weight: bold; background-color: #EBFDBF; text-align: center; }
+		#generatelabelbitcoinaddress { text-align: center;}
 		
 		@media screen 	
 		{
@@ -6148,7 +6163,9 @@
 			.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
 			.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
 			.footer .copyright span { padding: 10px 10px; }
-		}
+
+		}		
+
 		@media print
 		{
 			#wallets .walletarea { border-top: none; }
@@ -6169,9 +6186,11 @@
 	<div id="main">
     	<div id="logoback">
           	<div id="culturemenu">
+              <!--
               <span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
               <span><a href="?culture=es" id="culturees">Español</a></span> | 
-              <span><a href="?culture=fr" id="culturefr">Français</a></span>
+              <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
+              &nbsp;
           	</div>
 			<div id="tagline">Open Source Client-Side JavaScript Bitcoin Wallet Generator</div>
 			<div id="tagsite">For help &amp; security tips, visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
@@ -6197,8 +6216,8 @@
 		</div><!-- end logoback -->
 		
 		<div id="generate">
-			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
-			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness...</span><br />
+			<div id="generatelabelmovemouse"><blink>Please move your mouse around...</blink></div>
+			<p id="generatelabelbitcoinaddress">(This helps to generate more random &amp; secure bitcoin addresses.)</p>
 		</div>
 
 		<div id="wallets">
@@ -6227,8 +6246,8 @@
 						<br /><br />	
 						<span id="instructions5"><b>Step 3: Print Back</b> Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-proof safeguards.</span>
 						<br /><br />	
-						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b> Find your scissors! Time to cut out your wallet, fold it, and seal it (use <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">tamper-proof holographic tape</a>!) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
-                        
+						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b> Find your scissors! Time to cut out your wallet, fold it, and seal it  with tape (or better yet <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">tamper-proof holographic tape</a>!) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+                                                
 					</div>
 				</div>
 			</div><!-- end landarea -->
@@ -6238,8 +6257,8 @@
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('alert-landscape');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.</p>
-						<span class="print"><input type="button" class="nicerButton" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('alert-landscape');" /></span>
+						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('calibration');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.</p>
+						<span class="print"><input type="button" class="nicerButton" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('calibration');" /></span>
 					</div>
 				</div>
 
@@ -6275,8 +6294,8 @@
                     	<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
 						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
                     </div>
-					<span><input type="button" id="papergenerate" value="Generate a new set of codes..." onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked);" /></span>
-					<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Front" id="paperprint" onClick="doPrint();" /></span>
+					<span><input type="button" id="papergenerate" value="Generate a new set of codes..." onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked); printCounter=0;" /></span>
+					<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Front" id="paperprint" onClick="doPrint('generate');" /></span>
 				</div>
 				<div id="paperkeyarea"></div>
 			</div><!-- end paperarea -->
@@ -6288,7 +6307,7 @@
 			<div id="backarea" class="walletarea">
 				<div class="commands">
 					<div id="backcommands">
-						<p id="backinstructions" class="instructions">Reload the front page into your printer first.</p>
+						<p id="backinstructions" class="instructions highlighted">Reload the front page into your printer first. And don't forget to print in LANDSCAPE mode!</p>
 						<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Back" id="singleprint" onClick="doPrint();" /></span>
 					</div>
 				</div>
@@ -6358,7 +6377,7 @@
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub">GitHub Repository &raquo;</a></span>
+				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub">GitHub Repository (ZIP Download)</a></span>
                 <span class="item"><a href="?unittests=1">Run Local Unit Tests</a></span>
 			</div>
 			<div class="copyright">
@@ -6672,7 +6691,7 @@
 					// header and menu html
 					"tagline": "Generador de carteras Bitcoin de código abierto en lado de cliente con Javascript",
 					"generatelabelbitcoinaddress": "Generando dirección Bitcoin...",
-					"generatelabelmovemouse": "Mueve un poco el ratón para crear entropía...",
+					"generatelabelmovemouse": "<blink>Mueve un poco el ratón para crear entropía...</blink>",
 					"calibratewallet": "Calibrate Printer (es)",
 					"paperwallet": "Cartera en papel",
 					"landwallet": "Welcome (Es)",
@@ -6702,7 +6721,7 @@
 					// header and menu html
 					"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 					"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
-					"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
+					"generatelabelmovemouse": "<blink>BOUGEZ votre souris pour ajouter de l'entropie...</blink>",
 					"calibratewallet": "Calibrate Printer (fr)",
 					"paperwallet": "Porte-Monnaie Papier",
 					"landwallet": "Welcome (Fr)",
@@ -7452,7 +7471,7 @@
 		}
 
 		// if users does not move mouse after random amount of time then generate the key anyway.
-		setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 20);
+		setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 50);
 	</script>
 
 	<script type="text/javascript">
@@ -7498,13 +7517,25 @@
 			inlineMediaStyle = printerStyle;
 		}
 		
-		function doPrint(alertmessage) { /* What to do anytime a print button is clicked */
+		var printCounter=0;
+		var landscapeAlert=0;
+		
+		function doPrint(myContext) { /* What to do anytime a print button is clicked */
+			window.landscapeAlert ++;
 			updateCalibrationInfo();
-			if (alertmessage  == 'alert-landscape') {
-				alert ('Remember to print in LANDSCAPE (wide) format!');	
+			if (window.landscapeAlert == 1) {
+				alert ('Important note: This design requires that you set your printer to output in LANDSCAPE (wide) format.');	
+			}
+			
+			if (myContext == 'generate') {
+				window.printCounter ++;
+				if (window.printCounter == 2) {
+					alert (" *** WARNING *** WARNING *** WARNING *** \n\nYou are about to print a second wallet with the same set of codes. \n\nUnless you intended to make a backup wallet, cancel this print job and click the 'Generate a new set of codes' button first.");
+				}
 			}
 			window.print();	
 		}
+
 	</script>
 
 </body>
