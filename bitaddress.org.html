@@ -5922,7 +5922,8 @@
 				<div id="bulkcommands" class="commands">
 					<span><label id="bulklabelstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
 					<span><label id="bulklabelrowstogenerate">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
-					<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1);" /> </span>
+					<span><label id="bulklabelcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
+					<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
 					<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
 				</div>
 				<div class="body">
@@ -6654,6 +6655,7 @@
 					// bulk wallet html
 					"bulklabelstartindex": "Empezar en:",
 					"bulklabelrowstogenerate": "Filas a generar:",
+					"bulklabelcompressed": "Compressed addresses?", //TODO: please translate
 					"bulkgenerate": "Generar",
 					"bulkprint": "Imprimir",
 					"bulklabelcsv": "Valores separados por coma:",
@@ -6763,6 +6765,7 @@
 					"paperprint": "Imprimer",
 					"bulklabelstartindex": "Commencer à l'index:",
 					"bulklabelrowstogenerate": "Colonnes à générer:",
+					"bulklabelcompressed": "Compressed addresses?", //TODO: please translate
 					"bulkgenerate": "Générer",
 					"bulkprint": "Imprimer",
 					"bulklabelcsv": "Valeurs Séparées Par Des Virgules (CSV):",
@@ -7083,7 +7086,7 @@
 				// show a default CSV list if the text area is empty
 				if (document.getElementById("bulktextarea").value == "") {
 					// return control of the thread to the browser to render the tab switch UI then build a default CSV list
-					setTimeout(function () { ninja.wallets.bulkwallet.buildCSV(3, 1); }, 200);
+					setTimeout(function () { ninja.wallets.bulkwallet.buildCSV(3, 1, document.getElementById("bulkcompressed").checked); }, 200);
 				}
 			},
 
@@ -7096,13 +7099,14 @@
 			// startIndex: add this number to the row index for output purposes
 			// returns:
 			// index,bitcoinAddress,privateKeyWif
-			buildCSV: function (rowLimit, startIndex) {
+			buildCSV: function (rowLimit, startIndex, compressedAddrs) {
 				var bulkWallet = ninja.wallets.bulkwallet;
 				document.getElementById("bulktextarea").value = ninja.translator.get("bulkgeneratingaddresses") + rowLimit;
 				bulkWallet.csv = [];
 				bulkWallet.csvRowLimit = rowLimit;
 				bulkWallet.csvRowsRemaining = rowLimit;
 				bulkWallet.csvStartIndex = --startIndex;
+				bulkWallet.compressedAddrs = !!compressedAddrs;
 				setTimeout(bulkWallet.batchCSV, 0);
 			},
 
@@ -7116,6 +7120,7 @@
 				if (bulkWallet.csvRowsRemaining > 0) {
 					bulkWallet.csvRowsRemaining--;
 					var key = new Bitcoin.ECKey(false);
+					key.setCompressed(bulkWallet.compressedAddrs);
 
 					bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
 								+ ",\"" + key.getBitcoinAddress() + "\",\"" + key.toString("wif")
