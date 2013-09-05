@@ -6,7 +6,12 @@
     
     generate-wallet.html (from https://bitcoinpaperwallet.com)
     
-    Wallet design and portions of this code are © Copyright 2013 Canton Becker and bitaddress.org
+    Contact: Canton Becker / canton@gmail.com
+    
+    generate-wallet.html is always distributed with a PGP signature "generate-wallet.html.sig" which you
+    can use to validate the integrity and authorship of this file.
+    
+    Wallet design and portions of this code are ©Copyright 2013 Canton Becker and bitaddress.org
     Other portions of this code are copyrighted by their respective authors - see below.
     
 
@@ -64,7 +69,7 @@
 	GitHub Repository: https://github.com/cantonbecker/bitcoinpaperwallet
 	-->
 
-	<title>Bitcoin Paper Wallet</title>
+	<title>Bitcoin Paper Wallet Generator</title>
 
 	<script type="text/javascript">
 	// Array.prototype.map function is in the public domain.
@@ -6084,20 +6089,50 @@
 				transform:rotate(-180deg);
 		}
 
-
-		.nicerButton
-		{
-			border-top:		2px solid #FDB162;
-			border-left:		2px solid #FDB162;
-			border-right:		2px solid #FC902E;
-			border-bottom:		2px solid #FC902E;
-			padding:		10px 20px !important;
-			font-size:		12px !important;
-			background-color:	#EDFED4;
-			font-weight:		bold;
-			color:			#333333;
+		.nicerButton {
+			-moz-box-shadow:inset 0px 1px 0px 0px #fce2c1;
+			-webkit-box-shadow:inset 0px 1px 0px 0px #fce2c1;
+			box-shadow:inset 0px 1px 0px 0px #fce2c1;
+			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffc477), color-stop(1, #fb9e25) );
+			background:-moz-linear-gradient( center top, #ffc477 5%, #fb9e25 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc477', endColorstr='#fb9e25');
+			background-color:#ffc477;
+			-webkit-border-top-left-radius:20px;
+			-moz-border-radius-topleft:20px;
+			border-top-left-radius:20px;
+			-webkit-border-top-right-radius:20px;
+			-moz-border-radius-topright:20px;
+			border-top-right-radius:20px;
+			-webkit-border-bottom-right-radius:20px;
+			-moz-border-radius-bottomright:20px;
+			border-bottom-right-radius:20px;
+			-webkit-border-bottom-left-radius:20px;
+			-moz-border-radius-bottomleft:20px;
+			border-bottom-left-radius:20px;
+			text-indent:0;
+			border:1px solid #eeb44f;
+			display:inline-block;
+			color:#ffffff !important;
+			font-family:Arial;
+			font-size:13px;
+			font-weight:bold;
+			font-style:normal;
+			height:40px;
+			line-height:40px;
+			width:200px;
+			text-decoration:none !important;
+			text-align:center;
+			text-shadow:1px 1px 0px #cc9f52;
 		}
-
+		.nicerButton:hover {
+			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fb9e25), color-stop(1, #ffc477) );
+			background:-moz-linear-gradient( center top, #fb9e25 5%, #ffc477 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb9e25', endColorstr='#ffc477');
+			background-color:#fb9e25;
+		}.nicerButton:active {
+			position:relative;
+			top:1px;
+		}
 
 		.instructionsarea { padding: 0 25px; }
 		
@@ -6128,6 +6163,7 @@
 		@media screen 	
 		{
 			#tagline { margin: 10px 0 0 250px; font-style: italic; font-size: 18px; color: #666; }
+			#tagline span {padding-left: 10px; font-size: 11px; color: #999;}
 			#tagsite { margin: 5px 0 20px 252px; font-size: 14px; color: #666; }
 			
 
@@ -6147,13 +6183,13 @@
 			.menu #printeradjust { float: right; text-align: right; margin-top: 5px; } /* zoom & shift */
 			
 			.pagebreak { height: 50px; }
-			.commands { padding: 10px 0 20px 10px; margin-bottom: 0; } 
+			.commands { padding: 10px 0 20px 10px; margin-bottom: 0;} 
 			.commands span { padding: 0 10px; } 
-			.commands span.print { float: right; } 
+			.commands span.print { float: right; padding-top: 10px;} 
 			.commands span.right { float: right; }
 			.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 			
-			.commands p.instructions { width: 700px; float: left; font-size: 13px; }
+			.commands p.instructions { width: 600px; float: left; font-size: 13px; }
 			
 
 
@@ -6161,16 +6197,19 @@
 			#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 			#bulklimit { width: 45px; }
 			
-			.footer { font-family: Arial; font-size: 90%; clear: both; padding: 10px 0 10px 0; margin: 50px 20px; color: #999;}
-			.footer div span.item { padding: 10px; }
+			.footer { font-family: Arial; font-size: 90%; clear: both; padding: 10px 0 10px 0; margin: 50px 20px; color: #999; border-top: 1px dotted #999;}
+			.footer div span.item { padding: 5px; }
 			.footer .authorbtc { float: left; width: 470px; }
 			.footer .authorbtc span.item { text-align: left; display: block; padding-right: 20px; }
 			.footer .authorbtc div { position: relative; z-index: 100; }
 			.footer .authorpgp { position: relative; }
-			.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
-			.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
+			.footer .authorpgp span.item { text-align: right; display: block; padding-bottom: 5px; }
+			.footer .copyright { font-size: 75%; clear: both; padding: 5px 0; }
 			.footer .copyright span { padding: 10px 10px; }
 
+			#siginfo { margin: 10px 200px; border: 1px solid #666; padding: 10px; background-color: #999; color: #FFF;}
+			#siginfo a, #siginfo a:visited { color: #EFFED3;}
+			#siginfo .closeme { float: right; padding: 0 0 30px 20px; margin: 0;}
 		}		
 
 		@media print
@@ -6199,7 +6238,7 @@
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source Client-Side JavaScript Bitcoin Wallet Generator</div>
+			<div id="tagline">Open Source Client-Side JavaScript Bitcoin Wallet Generator <span>Updated September 5, 2013</span></div>
 			<div id="tagsite">For help &amp; security tips, visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
         
@@ -6239,21 +6278,22 @@
 					<div class="notes">
 						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your bitcoins.</span></h1>
 
-						<span id="instructions1">Here's an overview of what will happen, step by step.</span>
+						<span id="instructions1"><em>Here's an overview of what will happen, step by step.</em></span>
 						<br /><br />
 
-
-						<span id="instructions2" class="highlighted"><a href="http://www.youtube.com/watch?v=V4H1VE3EAtI" target="_blank">Prefer a 90 second video? Watch a quick demonstration on YouTube &raquo;</a></span>
-						<br /><br />	
-
-
-						<span id="instructions3"><b>Step 1: Calibrate Printer</b> Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b>. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side. Don't forget to write down the zoom/shift values for the next time you need them.</span>
+						<span id="instructions3"><b>Step 1: Calibrate Printer</b><br />
+                        Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b> to accommodate your particular browser / printer combination. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side.</span>
 						<br /><br />
-						<span id="instructions4"><b>Step 2: Print Front</b> Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
+						<span id="instructions4"><b>Step 2: Print Front</b><br />
+                        Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
 						<br /><br />	
-						<span id="instructions5"><b>Step 3: Print Back</b> Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-proof safeguards.</span>
+						<span id="instructions5"><b>Step 3: Print Back</b><br />
+                        Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
 						<br /><br />	
-						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b> Find your scissors! Time to cut out your wallet, fold it, and seal it  with tape (or better yet <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">tamper-proof holographic tape</a>!) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b><br />
+                        Find your scissors! Time to cut out your wallet, fold it, and seal it  with opaque (light-blocking) tape&mdash;or better yet <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">tamper-evident holographic tape</a>.) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+						<br /><br />	
+						<span id="instructions2"><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second video demonstration on YouTube &raquo;</a></span>
                                                 
 					</div>
 				</div>
@@ -6265,7 +6305,9 @@
 				<div class="commands">
 					<div id="calibratecommands">
 						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('calibration');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.<br /><br />PS: Once you get your wallets printing out properly, please consider <a href="https://bitcoinpaperwallet.com/feedback/">sending feedback</a> so we can share successful print settings with others.</p>
-						<span class="print"><input type="button" class="nicerButton" name="print" value="Print Calibration Test" id="singleprint" onClick="doPrint('calibration');" /></span>
+						<span class="print">
+                        <a href="#" class="nicerButton" onClick="doPrint('calibration');">Print Calibration Test</a>
+                        </span>
 					</div>
 				</div>
 
@@ -6301,8 +6343,11 @@
                     	<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
 						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
                     </div>
-					<span><input type="button" id="papergenerate" value="Generate a new set of codes..." onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked); printCounter=0;" /></span>
-					<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Front" id="paperprint" onClick="doPrint('generate');" /></span>
+					<span><input type="button" id="papergenerate" value="Generate a new wallet" onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked); printCounter=0;" /></span>
+					<span class="print">
+                    <a href="#" class="nicerButton" onClick="doPrint('generate');">Print Wallet Front</a>
+                    </span>
+                    <br clear="all" />
 				</div>
 				<div id="paperkeyarea"></div>
 			</div><!-- end paperarea -->
@@ -6312,11 +6357,14 @@
 
 
 			<div id="backarea" class="walletarea">
-				<div class="commands">
+				<div class="commands"> 
 					<div id="backcommands">
 						<p id="backinstructions" class="instructions highlighted">Reload the front page into your printer first. And don't forget to print in LANDSCAPE mode!</p>
-						<span class="print"><input type="button" name="print" class="nicerButton" value="Print Wallet Back" id="singleprint" onClick="doPrint();" /></span>
+						<span class="print">
+                        <a href="#" class="nicerButton" onClick="doPrint();">Print Wallet Back</a>
+                        </span>
 					</div>
+                    <br clear="all" />
 				</div>
                 
 				<img id="backsvg" class="backsvg" src="./images/back-300dpi.jpg">
@@ -6333,7 +6381,7 @@
 					<div class="notes">
 					  <h1><span id="instructions21">How to cut &amp; fold your 2-sided wallet:</span></h1>
 
-						<span id="instructions22">Cut out your wallet <em>(use the front as a guide, not the back!)</em>
+						<span id="instructions22">Cut out your wallet <em>(use the dotted lines on the front as a guide, not the back!)</em>
                         <br />
                         <br />
                         Now fold the more narrow private key area in half, and then over again as indicated by the dotted lines in this diagram:</span><br />
@@ -6347,13 +6395,13 @@
                         
                         <br />	
                         <br />
-						<span id="instructions13">Finally seal your wallet by placing two strips of sturdy tape over the top and bottom edges of the private (folded) area:</span>
+						<span id="instructions13">Finally seal your wallet by placing two strips of sturdy <strong>light-blocking</strong> tape over the top and bottom edges of the private (folded) area. A zip-seal bag will keep it safe from moisture (especially important for inkjet prints.)</span>
 						<br /><br />	
 
                         <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet">
 
 						<br /><br />	
-						<span id="instructions15" class="highlighted"><a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">Click here to order some holographic tamper-proof tape designed for this job &raquo;</a></span>
+						<span id="instructions15" class="highlighted"><a href="https://bitcoinpaperwallet.com/#purchase" target="_blank"><strong>Click here to order some holographic tamper-evident tape and/or zip-sealing waterproof bags</strong> &raquo;</a></span>
 						<br /><br />	
 
 						<h1><span id="instructions16">How to add funds to your wallet:</span></h1>
@@ -6376,21 +6424,44 @@
 		<div id="footer" class="footer">
 			<div class="authorbtc">
 				<div>
-					<span class="item">
-                    <span id="footerlabeldonations">Donations:</span><br />
-                    <strong>Folding Design:</strong> 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG<br />
-                    <strong>bitaddress.org code:</strong> 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
+					<span class="item" id="footerlabeldonations"><b>Bitcoin Donations</b></span>
+                    <span class="item" style="font-size: 11px; font-family: 'Courier New', Courier, monospace;">
+                    <strong>Bitcoin Paper Wallet</strong>:&nbsp; 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG<br />
+                    <strong>bitaddress.org source</strong>: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub">GitHub Repository (ZIP Download)</a></span>
-                <span class="item"><a href="?unittests=1">Run Local Unit Tests</a></span>
+            	<span class="item"><b>Security Details</b></span>
+                <span class="item" style="font-size: 75%;"><a href="https://bitcoinpaperwallet.com/#security" target="_blank">For extra security</a>, do not run this generator directly from the bitcoinpaperwallet.com website.<br />
+                Download the generator and run the HTML as a local file in your browser instead.</span>
+				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub"><strong>Download</strong> (GitHub ZIP file)</a></span>
+                
+                <span class="item" id="footerlabeltests" style="font-size: 75%;"><a href="?unittests=1">Run local encode/decode unit tests</a></span>
+
+				<span class="item" id="footerlabelsig" style="font-size: 75%;"><a href="#" onClick="document.getElementById('siginfo').style.display='block'; return(false);">Validate PGP/GPG signature</a></span>
+                
+                <div id="siginfo" style="display: none;">
+                  <p class="closeme"><a href="#" onClick="document.getElementById('siginfo').style.display='none'; return(false);">X</a></p>
+  
+                    After downloading the ZIP package for this generator, you should find a file named <b>generate-wallet.html.sig</b> 
+                    which you can use to:
+                    <ol><li> verify that <strong>generate-wallet.html</strong> hasn't been tampered with, and</li>
+                    <li>get proof that it really was authored by Canton Becker (canton@gmail.com) whose public key was published in May 2013.</li>
+                    </ol>
+                    For example, if you have GPG installed, you can type:<br />
+                    <code>gpg --verify generate-wallet.html.sig generate-wallet.html</code>
+                   <br /><br />
+                  <a href="http://www.google.com/search?q=how+to+verify+PGP+%22.sig%22+signature+on+file">Learn how to verify a PGP-signed file &raquo;</a>
+                </div>
+
+                
 			</div>
 			<div class="copyright">
-				<span id="footerlabelcopyright1">&copy; Copyright 2013 Canton Becker and bitaddress.org</span>
+				<span id="footerlabelcopyright1">&copy; Copyright 2013 Canton Becker (<a href="mailto:canton@gmail.com">canton@gmail.com</a>) and Pointbiz/bitaddress.org</span>
 				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
-				<span id="footerlabelnowarranty">No warranty.</span>
+				<span id="footerlabelnowarranty">No warranty.</span><br />
+
 			</div>
 		</div>
 	</div>
@@ -7469,7 +7540,8 @@
 		// run unit tests
 		if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
 			ninja.unitTests.runTests();
-			ninja.translator.showEnglishJson();
+			// ninja.translator.showEnglishJson();
+			// no need to show translations until we actually have some. 9/5/2013 - Canton
 		}
 
 		// change language
@@ -7537,11 +7609,12 @@
 			if (myContext == 'generate') {
 				window.printCounter ++;
 				if (window.printCounter == 2) {
-					alert (" *** WARNING *** WARNING *** WARNING *** \n\nYou are about to print a second wallet with the same set of codes. \n\nUnless you intended to make a backup wallet, cancel this print job and click the 'Generate a new set of codes' button first.");
+					alert (" *** WARNING *** WARNING *** WARNING *** \n\nYou are about to print a second wallet with the same set of keys. \n\nUnless you intended to make a backup wallet, cancel this print job and click the 'Generate a new wallet' button first.");
 				}
 			}
 			window.print();	
 		}
+		
 
 	</script>
 
