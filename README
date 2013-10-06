@@ -3,27 +3,66 @@ If you're on already at https://github.com/cantonbecker/bitcoinpaperwallet
 Then just look for the button that says "Download ZIP". Look to your right -->
 *******************************************************************************
 
-
 *** bitcoinpaperwallet ***
 
-is a fork of bitaddress.org, the JavaScript Client-Side Bitcoin Wallet Generator
+This project is a fork of bitaddress.org, the original trustworthy
+JavaScript powered offline bitcoin address generator.
 
-This removes much of the (albeit excellent) functionality from
-bitaddress.org to create a streamined step-by-step 2 sided tri-fold
-paper wallet printer for novices. (Tamper-resistant features abound.)
-Includes a tool to help users "calibrate" their printer
-for more consistent output between different browsers. Renamed main
-.html file to avoid confusion with bitaddress.org. Moved images into
-their own directory since they are quite large and might not do
-well encoded into the JS anymore.
+Here's how this project differs:
 
+1) This generator is ONLY for printing paper wallets. Use bitaddress.org if
+you need to bulk-generate addresses, etc.
 
+2) This attractive paper wallet design is two-sided and folds up to
+hide the private key. Optional tamper-evident hologram tape can be purchased
+to provide extra security against snooping.
+
+3) A tool is included to help calibrate the printer output for proper
+sizing and two-sided alignment.
+
+4) Images and resources have been moved out of the .html file (where they were
+base-64 encoded) and into an images directory to make the code easier to review.
+
+All cryptographic functions are verifiably identical to those in bitaddress.org.
+(Run a "diff" between this project and bitaddress.org if you want to be sure.)
+
+You can also bypass the random key generator and supply your own keys or so-called
+"vanity addresses".
+
+*** HOW TO USE THIS GENERATOR ***
+
+1) Extract the ZIP file
+2) Open up the 'generate-wallet.html' file with your web browser. 
+
+Rendering and printing seems to work best using: 
+
+   OS X:     Safari or Chrome or Firefox
+   Windows:  Chrome or Firefox
+   Linux:    Firefox
+
+*** HOW TO VERIFY THE AUTHENTICITY OF THIS DOWNLOAD ***
+
+After downloading the ZIP package for this generator, you should find a file 
+named generate-wallet.html.sig which you can use to:
+
+* Verify that generate-wallet.html hasn't been tampered with, and
+* Get proof that it really was authored by Canton Becker (canton@gmail.com) 
+  whose GPG public key and fingerprint can be confirmed at http://cantonbecker.com
+  
+For example, if you have GPG installed, you can type:
+gpg --verify --with-fingerprint generate-wallet.html.sig generate-wallet.html 
+
+And then verify the signature's fingerprint against Canton Becker's published signatures.
 
 - Canton Becker
 http://cantonbecker.com
 canton@gmail.com
 
---- original bitaddress.org README continues below ---
+
+
+----------------------------------------------------------
+--- The original bitaddress.org README continues below ---
+----------------------------------------------------------
 
 Now Bitcoin addresses and their corresponding private key can be conveniently 
 generated in a web browser.
