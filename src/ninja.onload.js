@@ -7,12 +7,10 @@ if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["uni
 if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
 	ninja.unitTests.runAsynchronousTests();
 }
-
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
 }
-
 // testnet, check if testnet edition should be activated
 if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
 	document.getElementById("testnet").innerHTML = ninja.translator.get("testneteditionactivated");
@@ -23,6 +21,5 @@ if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testn
 	Bitcoin.ECKey.privateKeyPrefix = 0xEF; // testnet
 	ninja.testnetMode = true;
 }
-
 // if users does not move mouse after random amount of time then generate the key anyway.
 setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 20);

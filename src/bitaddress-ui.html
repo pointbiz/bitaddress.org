@@ -165,10 +165,18 @@
 			<div id="paperarea">
 				<div id="papercommands" class="commands">
 					<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
-					<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
 					<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
-					<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked);" /></span>
+					<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
 					<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
+				</div>
+				<div id="paperadvancedcommandsexpandable" class="commands expandable sideborders" onclick="ninja.wallets.paperwallet.openCloseAdvanced();">
+					<span><label id="paperadvancedcommandslabel">Advanced Options</label></span>
+					<div id="paperadvancedcommandsicon" class="more"></div>
+				</div>
+				<div id="paperadvancedcommands" class="commands sideborders hide">
+					<span><label id="paperlabelencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
+					<span><label id="paperlabelBIPpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
+					<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
 				</div>
 				<div id="paperkeyarea"></div>
 			</div>
@@ -380,8 +388,11 @@
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item"><a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP Public Key</a></span>
-				<span class="item"><a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Signed Version History</span> (v2.5)</a></span>
+				<span class="item">
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.5.1)</a>
+					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
+				</span>
+				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
 				<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
 			</div>
 			<div class="copyright">

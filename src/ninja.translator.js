@@ -34,6 +34,7 @@ ninja.translator = {
 			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 			"paperlabelbitcoinaddress": "Bitcoin Address:",
 			"paperlabelprivatekey": "Private Key (Wallet Import Format):",
+			"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
 			"bulkgeneratingaddresses": "Generating addresses... ",
 			"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
@@ -53,6 +54,7 @@ ninja.translator = {
 			"testneteditionactivated": "Testnet se activa",
 			"paperlabelbitcoinaddress": "Dirección Bitcoin:",
 			"paperlabelprivatekey": "Clave privada (formato para importar):",
+			"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
 			"bulkgeneratingaddresses": "Generación de direcciones... ",
 			"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
@@ -80,7 +82,7 @@ ninja.translator = {
 			// footer html
 			"footerlabeldonations": "Donaciones:",
 			"footerlabeltranslatedby": "Traducción: <b>12345</b>Vypv2QSmuRXcciT5oEB27mPbWGeva",
-			"footerlabelpgp": "Clave pública PGP",
+			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Histórico de versiones",
 			"footerlabelgithub": "Repositorio GitHub",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
@@ -99,6 +101,9 @@ ninja.translator = {
 			"paperlabeladdressestogenerate": "Direcciones en total:",
 			"papergenerate": "Generar",
 			"paperprint": "Imprimir",
+			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
+			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Empezar en:",
@@ -173,6 +178,7 @@ ninja.translator = {
 			"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 			"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 			"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 			"bulkgeneratingaddresses": "Création de l'adresse... ",
 			"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "Le mot de passe ne correspond pas au mot de passe de vérification.",
@@ -196,8 +202,8 @@ ninja.translator = {
 			"detailwallet": "Détails du Porte-Monnaie",
 			"footerlabeldonations": "Dons:",
 			"footerlabeltranslatedby": "Traduction: 1Gy7NYSJNUYqUdXTBow5d7bCUEJkUFDFSq",
-			"footerlabelpgp": "Clé Publique PGP",
-			"footerlabelversion": "Historique De Version Signé",
+			"footerlabelpgp": "PGP",
+			"footerlabelversion": "Historique De Version",
 			"footerlabelgithub": "Dépôt GitHub",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
@@ -211,6 +217,9 @@ ninja.translator = {
 			"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
 			"papergenerate": "Générer",
 			"paperprint": "Imprimer",
+			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
+			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
 			"bulklabelstartindex": "Commencer à l'index:",
 			"bulklabelrowstogenerate": "Colonnes à générer:",
 			"bulklabelcompressed": "Compressed addresses?", //TODO: please translate
@@ -278,6 +287,7 @@ ninja.translator = {
 			"testneteditionactivated": "ΕΝΕΡΓΗ ΕΚΔΟΣΗ TESTNET",
 			"paperlabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
+			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 			"bulkgeneratingaddresses": "Δημιουργία διευθύνσεων... ",
 			"brainalertpassphrasetooshort": "Η φράση κωδικός που δώσατε είναι πολύ αδύναμη.\n\nΠροσοχή: Είναι σημαντικό να επιλέξετε μια ισχυρή φράση κωδικό που θα σας προφυλάξει από απόπειρες παραβίασής της τύπου brute force και κλοπή των bitcoins σας.",
 			"brainalertpassphrasedoesnotmatch": "Η φράση κωδικός και η επιβεβαίωση της δε συμφωνούν.",
@@ -305,8 +315,8 @@ ninja.translator = {
 			// footer html
 			"footerlabeldonations": "Δωρεές:",
 			"footerlabeltranslatedby": "Μετάφραση: <a href='http://BitcoinX.gr/'><b>BitcoinX.gr</b></a> 1BitcoiNxkUPcTFxwMqxhRiPEiQRzYskf6",
-			"footerlabelpgp": "Δημόσιο Κλειδί PGP",
-			"footerlabelversion": "Υπογεγραμένο ιστορικό εκδόσεων",
+			"footerlabelpgp": "PGP",
+			"footerlabelversion": "ιστορικό εκδόσεων",
 			"footerlabelgithub": "Αποθετήριο GitHub",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Τα πνευματικά δικαιώματα της JavaScript περιλαμβάνονται στον κώδικα.",
@@ -324,6 +334,9 @@ ninja.translator = {
 			"paperlabeladdressestogenerate": "Πλήθος διευθύνσεων:",
 			"papergenerate": "Δημιουργία",
 			"paperprint": "Εκτύπωση",
+			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
+			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Ξεκίνημα δείκτη:",
@@ -423,7 +436,7 @@ ninja.translator.showEnglishJson = function () {
 	div.setAttribute("class", "englishjson");
 	div.innerHTML = "<h3>English Json</h3>";
 	var elem = document.createElement("textarea");
-	elem.setAttribute("rows", "35");
+	elem.setAttribute("rows", "15");
 	elem.setAttribute("cols", "110");
 	elem.setAttribute("wrap", "off");
 	var langJson = "{\n";

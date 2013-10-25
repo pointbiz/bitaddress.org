@@ -38,12 +38,18 @@
 		},
 
 		runAsynchronousTests: function () {
-			document.getElementById("busyblock").className = "busy";
+			var div = document.createElement("div");
+			div.setAttribute("class", "unittests");
+			div.setAttribute("id", "asyncunittests");
+			div.innerHTML = "<h3>Async Unit Tests</h3><div id=\"asyncunittestresults\"></div><br/><br/><br/><br/>";
+			document.body.appendChild(div);
+
 			// run the asynchronous tests one after another so we don't crash the browser
 			ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
+				document.getElementById("busyblock").className = "busy";
 				ninja.unitTests.asynchronousTests[name](cb);
 			}, function () {
-				document.getElementById("unittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
+				document.getElementById("asyncunittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
 				document.getElementById("busyblock").className = "";
 			});
 		},
@@ -458,44 +464,132 @@
 		},
 
 		asynchronousTests: {
+			//https://en.bitcoin.it/wiki/BIP_0038
 			testBip38: function (done) {
-				var tests = [["6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", "TestingOneTwoThree", "5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR"],
-								["6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq", "Satoshi", "5HtasZ6ofTHP6HCwTqTkLDuLQisYPah7aUnSKfC7h4hMUVw2gi5"],
-								["6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo", "TestingOneTwoThree", "L44B5gGEpqEDRS9vVPz7QT35jcBG2r3CZwSwQ4fCewXAhAhqGVpP"],
-								["6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7", "Satoshi", "KwYgW8gcxj1JWJXhPSu4Fqwzfhp5Yfi42mdYmMa4XqK7NJxXUSK7"],
-								["6PfQu77ygVyJLZjfvMLyhLMQbYnu5uguoJJ4kMCLqWwPEdfpwANVS76gTX", "TestingOneTwoThree", "5K4caxezwjGCGfnoPTZ8tMcJBLB7Jvyjv4xxeacadhq8nLisLR2"],
-								["6PfLGnQs6VZnrNpmVKfjotbnQuaJK4KZoPFrAjx1JMJUa1Ft8gnf5WxfKd", "Satoshi", "5KJ51SgxWaAYR13zd9ReMhJpwrcX47xTJh2D3fGPG9CM8vkv5sH"],
-								["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
-								["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
+				var tests = [
+					//No compression, no EC multiply
+					["6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", "TestingOneTwoThree", "5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR"],
+					["6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq", "Satoshi", "5HtasZ6ofTHP6HCwTqTkLDuLQisYPah7aUnSKfC7h4hMUVw2gi5"],
+					//Compression, no EC multiply
+					["6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo", "TestingOneTwoThree", "L44B5gGEpqEDRS9vVPz7QT35jcBG2r3CZwSwQ4fCewXAhAhqGVpP"],
+					["6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7", "Satoshi", "KwYgW8gcxj1JWJXhPSu4Fqwzfhp5Yfi42mdYmMa4XqK7NJxXUSK7"],
+					//EC multiply, no compression, no lot/sequence numbers
+					["6PfQu77ygVyJLZjfvMLyhLMQbYnu5uguoJJ4kMCLqWwPEdfpwANVS76gTX", "TestingOneTwoThree", "5K4caxezwjGCGfnoPTZ8tMcJBLB7Jvyjv4xxeacadhq8nLisLR2"],
+					["6PfLGnQs6VZnrNpmVKfjotbnQuaJK4KZoPFrAjx1JMJUa1Ft8gnf5WxfKd", "Satoshi", "5KJ51SgxWaAYR13zd9ReMhJpwrcX47xTJh2D3fGPG9CM8vkv5sH"],
+					//EC multiply, no compression, lot/sequence numbers
+					["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
+					["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
+				
 				// running each test uses a lot of memory, which isn't freed
 				// immediately, so give the VM a little time to reclaim memory
 				function waitThenCall(callback) {
-					return function () { setTimeout(callback, 6000); }
+					return function () { setTimeout(callback, 10000); }
 				}
 
 				var decryptTest = function (test, i, onComplete) {
 					ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(test[0], test[1], function (privBytes) {
 						if (privBytes.constructor == Error) {
-							document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + ", error: " + privBytes.message + "<br/>";
+							document.getElementById("asyncunittestresults").innerHTML += "fail testDecryptBip38 #" + i + ", error: " + privBytes.message + "<br/>";
 						} else {
 							var btcKey = new Bitcoin.ECKey(privBytes);
 							var wif = !test[2].substr(0, 1).match(/[LK]/) ? btcKey.setCompressed(false).getBitcoinWalletImportFormat() : btcKey.setCompressed(true).getBitcoinWalletImportFormat();
 							if (wif != test[2]) {
-								document.getElementById("unittestresults").innerHTML += "fail testDecryptBip38 #" + i + "<br/>";
+								document.getElementById("asyncunittestresults").innerHTML += "fail testDecryptBip38 #" + i + "<br/>";
 							} else {
-								document.getElementById("unittestresults").innerHTML += "pass testDecryptBip38 #" + i + "<br/>";
+								document.getElementById("asyncunittestresults").innerHTML += "pass testDecryptBip38 #" + i + "<br/>";
 							}
 						}
 						onComplete();
 					});
+				};
+
+				var encryptTest = function (test, compressed, i, onComplete) {
+					ninja.privateKey.BIP38PrivateKeyToEncryptedKeyAsync(test[2], test[1], compressed, function (encryptedKey) {
+						if (encryptedKey === test[0]) {
+							document.getElementById("asyncunittestresults").innerHTML += "pass testBip38Encrypt #" + i + "<br/>";
+						} else {
+							document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Encrypt #" + i + "<br/>";
+							document.getElementById("asyncunittestresults").innerHTML += "expected " + test[0] + "<br/>received " + encryptedKey + "<br/>";
+						}
+						onComplete();
+					});
+				};
+
+				// test randomly generated encryption-decryption cycle
+				var cycleTest = function (i, compress, onComplete) {
+					// create new private key
+					var privKey = (new Bitcoin.ECKey(false)).getBitcoinWalletImportFormat();
+
+					// encrypt private key
+					ninja.privateKey.BIP38PrivateKeyToEncryptedKeyAsync(privKey, 'testing', compress, function (encryptedKey) {
+						// decrypt encryptedKey
+						ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(encryptedKey, 'testing', function (decryptedBytes) {
+							var decryptedKey = (new Bitcoin.ECKey(decryptedBytes)).getBitcoinWalletImportFormat();
+
+							if (decryptedKey === privKey) {
+								document.getElementById("asyncunittestresults").innerHTML += "pass cycleBip38 test #" + i + "<br/>";
+							}
+							else {
+								document.getElementById("asyncunittestresults").innerHTML += "fail cycleBip38 test #" + i + " " + privKey + "<br/>";
+								document.getElementById("asyncunittestresults").innerHTML += "encrypted key: " + encryptedKey + "<br/>decrypted key: " + decryptedKey;
+							}
+							onComplete();
+						});
+					});
+				};
+
+				// intermediate test - create some encrypted keys from an intermediate
+				// then decrypt them to check that the private keys are recoverable
+				var intermediateTest = function (i, onComplete) {
+					var pass = Math.random().toString(36).substr(2);
+					ninja.privateKey.BIP38GenerateIntermediatePointAsync(pass, null, null, function (intermediatePoint) {
+						ninja.privateKey.BIP38GenerateECAddressAsync(intermediatePoint, false, function (address, encryptedKey) {
+							ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(encryptedKey, pass, function (privBytes) {
+								if (privBytes.constructor == Error) {
+									document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Intermediate #" + i + ", error: " + privBytes.message + "<br/>";
+								} else {
+									var btcKey = new Bitcoin.ECKey(privBytes);
+									var btcAddress = btcKey.getBitcoinAddress();
+									if (address !== btcKey.getBitcoinAddress()) {
+										document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Intermediate #" + i + "<br/>";
+									} else {
+										document.getElementById("asyncunittestresults").innerHTML += "pass testBip38Intermediate #" + i + "<br/>";
+									}
+								}
+								onComplete();
+							});
+						});
+					});
 				}
 
-				document.getElementById("unittestresults").innerHTML += "running " + tests.length + " tests named testDecryptBip38<br/>";
-				ninja.runSerialized([function (cb) {
-					ninja.forSerialized(0, tests.length, function (i, callback) {
-						decryptTest(tests[i], i, waitThenCall(callback));
-					}, waitThenCall(cb));
-				} ], done);
+				document.getElementById("asyncunittestresults").innerHTML += "running " + tests.length + " tests named testDecryptBip38<br/>";
+				document.getElementById("asyncunittestresults").innerHTML += "running 4 tests named testBip38Encrypt<br/>";
+				document.getElementById("asyncunittestresults").innerHTML += "running 2 tests named cycleBip38<br/>";
+				document.getElementById("asyncunittestresults").innerHTML += "running 5 tests named testBip38Intermediate<br/>";
+				ninja.runSerialized([
+					function (cb) {
+						ninja.forSerialized(0, tests.length, function (i, callback) {
+							decryptTest(tests[i], i, waitThenCall(callback));
+						}, waitThenCall(cb));
+					},
+					function (cb) {
+						ninja.forSerialized(0, 4, function (i, callback) {
+							// only first 4 test vectors are not EC-multiply,
+							// compression param false for i = 1,2 and true for i = 3,4
+							encryptTest(tests[i], i >= 2, i, waitThenCall(callback));
+						}, waitThenCall(cb));
+					},
+					function (cb) {
+						ninja.forSerialized(0, 2, function (i, callback) {
+							cycleTest(i, i % 2 ? true : false, waitThenCall(callback));
+						}, waitThenCall(cb));
+					},
+					function (cb) {
+						ninja.forSerialized(0, 5, function (i, callback) {
+							intermediateTest(i, waitThenCall(callback));
+						}, cb);
+					}
+				], done);
 			}
 		}
 	};
