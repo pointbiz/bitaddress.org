@@ -220,16 +220,12 @@ ninja.wallets.paperwallet = {
 		var limitperpage;
 
 		document.getElementById("paperkeyarea").style.fontSize = "100%";
-		if (!hideArt.checked && paperEncrypt.checked) {
-			limit = 1;
-			limitperpage = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;			
-		}
-		else if (!hideArt.checked && !paperEncrypt.checked) {
+		if (!hideArt.checked) {
 			limit = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
 			limitperpage = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
 		}
 		else if (hideArt.checked && paperEncrypt.checked) {
-			limit = 1;
+			limit = ninja.wallets.paperwallet.pageBreakAtDefault;
 			limitperpage = ninja.wallets.paperwallet.pageBreakAtDefault;
 			// reduce font size
 			document.getElementById("paperkeyarea").style.fontSize = "95%";

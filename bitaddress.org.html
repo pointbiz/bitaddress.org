@@ -6129,7 +6129,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.5.1)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.5.2)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7398,16 +7398,12 @@ ninja.wallets.paperwallet = {
 		var limitperpage;
 
 		document.getElementById("paperkeyarea").style.fontSize = "100%";
-		if (!hideArt.checked && paperEncrypt.checked) {
-			limit = 1;
-			limitperpage = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;			
-		}
-		else if (!hideArt.checked && !paperEncrypt.checked) {
+		if (!hideArt.checked) {
 			limit = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
 			limitperpage = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
 		}
 		else if (hideArt.checked && paperEncrypt.checked) {
-			limit = 1;
+			limit = ninja.wallets.paperwallet.pageBreakAtDefault;
 			limitperpage = ninja.wallets.paperwallet.pageBreakAtDefault;
 			// reduce font size
 			document.getElementById("paperkeyarea").style.fontSize = "95%";
