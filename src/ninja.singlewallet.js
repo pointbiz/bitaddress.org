@@ -22,7 +22,7 @@ ninja.wallets.singlewallet = {
 				"qrcode_public": bitcoinAddress,
 				"qrcode_private": privateKeyWif
 			};
-			ninja.qrCode.showQrCode(keyValuePair);
+			ninja.qrCode.showQrCode(keyValuePair, 4);
 		}
 		catch (e) {
 			// browser does not have sufficient JavaScript support to generate a bitcoin address

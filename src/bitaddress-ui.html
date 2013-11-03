@@ -6,7 +6,7 @@
 
 	Notice of Copyrights and Licenses:
 	***********************************
-	The bitaddress.org project, software and embedded resources are copyright bitaddress.org. 
+	The bitaddress.org project, software and embedded resources are copyright bitaddress.org (pointbiz). 
 	The bitaddress.org name and logo are not part of the open source license.
 
 	Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others. 
@@ -26,7 +26,7 @@
 	window.Crypto_scrypt		MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
-	Copyright (c) 2011-2013 bitaddress.org
+	Copyright (c) 2011-2013 bitaddress.org (pointbiz)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 	associated documentation files (the "Software"), to deal in the Software without restriction, including 
@@ -139,55 +139,69 @@
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
 				<div class="commands">
-					<div id="singlecommands">
+					<div id="singlecommands" class="row">
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
 					</div>
 				</div>
 				<div id="keyarea" class="keyarea">
 					<div class="public">
+						<div class="pubaddress">
+							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address:</span>
 							<span class="output" id="btcaddress"></span>
 						</div>
+						<div id="singleshare">SHARE</div>
 					</div>
 					<div class="private">
+						<div class="privwif">
+							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
+						</div>
 						<div id="qrcode_private" class="qrcode_private"></div>
 						<div class="privwif">
-							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format):</span>
 							<span class="output" id="btcprivwif"></span>
 						</div>
-					</div>
+						<div id="singlesecret">SECRET</div>
+					</div>				
+				</div>
+				
+				<div id="singlesafety">
+					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
+					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
+					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
+					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 
 			<div id="paperarea">
-				<div id="papercommands" class="commands">
-					<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
-					<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
-					<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
-					<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
-				</div>
-				<div id="paperadvancedcommandsexpandable" class="commands expandable sideborders" onclick="ninja.wallets.paperwallet.openCloseAdvanced();">
-					<span><label id="paperadvancedcommandslabel">Advanced Options</label></span>
-					<div id="paperadvancedcommandsicon" class="more"></div>
-				</div>
-				<div id="paperadvancedcommands" class="commands sideborders hide">
-					<span><label id="paperlabelencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
-					<span><label id="paperlabelBIPpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
-					<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
+				<div class="commands">
+					<div id="papercommands" class="row">
+						<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
+						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
+						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
+						<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
+					</div>
+					<div id="paperadvancedcommands" class="row extra">
+						<span><label id="paperlabelencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
+						<span><label id="paperlabelBIPpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
+						<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
+					</div>
 				</div>
 				<div id="paperkeyarea"></div>
 			</div>
 			
 			<div id="bulkarea" class="walletarea">
-				<div id="bulkcommands" class="commands">
-					<span><label id="bulklabelstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
-					<span><label id="bulklabelrowstogenerate">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
-					<span><label id="bulklabelcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
-					<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
-					<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
+				<div class="commands">
+					<div id="bulkcommands" class="row">
+						<span><label id="bulklabelstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
+						<span><label id="bulklabelrowstogenerate">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
+						<span><label id="bulklabelcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
+						<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
+						<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
+					</div>
 				</div>
 				<div class="body">
 					<span class="label" id="bulklabelcsv">Comma Separated Values:</span> <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
@@ -233,6 +247,7 @@
 						<span><input tabindex="3" type="button" id="brainview" value="View" onclick="ninja.wallets.brainwallet.view();" /></span>
 						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
 					</div>
+					<div class="row extra"><span id="brainwarning"></span></div>
 				</div>
 				<div id="brainkeyarea" class="keyarea">
 					<div class="public">
@@ -324,7 +339,7 @@
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).</span>
+						<span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI, BIP38).</span>
 						<br /><br />
 						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
@@ -389,7 +404,7 @@
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.5.2)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.0)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>

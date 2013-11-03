@@ -236,16 +236,5 @@ ninja.wallets.paperwallet = {
 		}
 		document.getElementById("paperlimitperpage").value = limitperpage;
 		document.getElementById("paperlimit").value = limit;
-	},
-
-	openCloseAdvanced: function () {
-		if (document.getElementById("paperadvancedcommands").getAttribute("class") == "commands sideborders show") {
-			document.getElementById("paperadvancedcommands").setAttribute("class", "commands sideborders hide");
-			document.getElementById("paperadvancedcommandsicon").setAttribute("class", "more");
-		}
-		else {
-			document.getElementById("paperadvancedcommands").setAttribute("class", "commands sideborders show");
-			document.getElementById("paperadvancedcommandsicon").setAttribute("class", "less");
-		}
 	}
 };

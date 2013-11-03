@@ -2,6 +2,7 @@ ninja.wallets.brainwallet = {
 	open: function () {
 		document.getElementById("brainarea").style.display = "block";
 		document.getElementById("brainpassphrase").focus();
+		document.getElementById("brainwarning").innerHTML = ninja.translator.get("brainalertpassphrasewarning");
 	},
 
 	close: function () {
@@ -32,7 +33,7 @@ ninja.wallets.brainwallet = {
 				document.getElementById("brainkeyarea").style.visibility = "visible";
 			}
 			else {
-				alert(ninja.translator.get("brainalertpassphrasetooshort"));
+				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
 				ninja.wallets.brainwallet.clear();
 			}
 		}

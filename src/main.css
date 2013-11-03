@@ -7,7 +7,7 @@
 .keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
-.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
+.keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
 .keyarea .label { text-decoration: underline; }
 .keyarea .output { display: block; }
 .keyarea .qrcode_public { display: inline-block; float: left; }
@@ -16,14 +16,24 @@
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
 body { font-family: Arial; }
+
+#keyarea { height: 250px; font-family: Arial; }
+#keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
+#keyarea .label { text-decoration: none; }
+#keyarea .privwif { float: none; text-align: right; position: relative; padding: 0; }
+#keyarea .qrcode_public { float: none; display: block; }
+#keyarea .qrcode_private { float: none; display: block; top: 0; text-align: right; }
+#keyarea .private { width: 30%; display: table-cell; }
+#keyarea .public { width: 30%; display: table-cell; }
+#singlearea { font-size: 90%; }
+#singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -30px; position: relative; }
+
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
 #generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 #generate span { padding: 5px 5px 0 5px; }
-#menu { visibility: hidden; font-size: 90%; }
-#culturemenu { text-align: right; padding: 0 20px; }
-#culturemenu span { padding: 3px; }
-#culturemenu .selected { text-decoration: none; color: #000000; }
 		
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 2px solid green; border-top: 0; }
@@ -124,25 +134,29 @@ body { font-family: Arial; }
 	.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid green;  padding: 10px 0; margin-bottom: 0; }
-	.commands span { padding: 0 10px; } 
-	.commands span.print { float: right; } 
+	.commands { border-bottom: 2px solid green;  padding: 10px 2px; margin-bottom: 0; }
+	.commands .row { padding: 0 0; text-align: left; } 
+	.commands .row.extra { padding-top: 6px; }
+	.commands span { padding: 0 10px; }
+	.commands span.print { float: right; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
-			
-	#papercommands { padding: 10px 0; border: 2px solid green; }
-	.sideborders { border-left: 2px solid green; border-right: 2px solid green; }
-	#braincommands .row { text-align: left; }
+
+    #menu { visibility: hidden; font-size: 90%; }
+    #culturemenu { text-align: right; padding: 0 20px; }
+    #culturemenu span { padding: 3px; }
+    #culturemenu .selected { text-decoration: none; color: #000000; }
+
 	#braincommands .row .label { width: 200px; display: inline-block; }
-	#braincommands .row.extra { padding: 6px 0 0 0; }
 	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
 	#brainpassphrase { width: 280px; }
 	#brainpassphraseconfirm { width: 280px; }
+	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
+	.paper .commands { border: 2px solid green; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -159,16 +173,13 @@ body { font-family: Arial; }
 @media print
 {
 	#main { width: auto; }
-	#culturemenu { display: none; }
+	#singlearea { border: 0; }
+	#singlesafety { border: 0; }
 	#paperarea .keyarea:first-child { border-top: 2px solid green; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
-	.menu { display: none; }
-	.footer { display: none; }
-	.commands { display: none; }
-	#tagline { display: none; }
-	#faqs { display: none; }
+	.menu, .footer, .commands, #tagline, #faqs, #culturemenu { display: none; }
 	#detailprivwif { width: 285px; word-wrap: break-word; }
 	#detailprivwifcomp { width: 285px; word-wrap: break-word; text-align: right; }
 	#detailarea .privqr .item { width: 285px; }

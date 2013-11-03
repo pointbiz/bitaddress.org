@@ -6,7 +6,7 @@
 
 	Notice of Copyrights and Licenses:
 	***********************************
-	The bitaddress.org project, software and embedded resources are copyright bitaddress.org. 
+	The bitaddress.org project, software and embedded resources are copyright bitaddress.org (pointbiz). 
 	The bitaddress.org name and logo are not part of the open source license.
 
 	Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others. 
@@ -26,7 +26,7 @@
 	window.Crypto_scrypt		MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
-	Copyright (c) 2011-2013 bitaddress.org
+	Copyright (c) 2011-2013 bitaddress.org (pointbiz)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 	associated documentation files (the "Software"), to deal in the Software without restriction, including 
@@ -5682,7 +5682,7 @@ Bitcoin.Util = {
 .keyarea { font-family: Courier New; height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
-.keyarea .privwif { margin: 0; float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
+.keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
 .keyarea .label { text-decoration: underline; }
 .keyarea .output { display: block; }
 .keyarea .qrcode_public { display: inline-block; float: left; }
@@ -5691,14 +5691,24 @@ Bitcoin.Util = {
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
 body { font-family: Arial; }
+
+#keyarea { height: 250px; font-family: Arial; }
+#keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
+#keyarea .label { text-decoration: none; }
+#keyarea .privwif { float: none; text-align: right; position: relative; padding: 0; }
+#keyarea .qrcode_public { float: none; display: block; }
+#keyarea .qrcode_private { float: none; display: block; top: 0; text-align: right; }
+#keyarea .private { width: 30%; display: table-cell; }
+#keyarea .public { width: 30%; display: table-cell; }
+#singlearea { font-size: 90%; }
+#singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -30px; position: relative; }
+
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
 #generate { font-family: Courier New; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 #generate span { padding: 5px 5px 0 5px; }
-#menu { visibility: hidden; font-size: 90%; }
-#culturemenu { text-align: right; padding: 0 20px; }
-#culturemenu span { padding: 3px; }
-#culturemenu .selected { text-decoration: none; color: #000000; }
 		
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 2px solid green; border-top: 0; }
@@ -5799,25 +5809,29 @@ body { font-family: Arial; }
 	.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid green;  padding: 10px 0; margin-bottom: 0; }
-	.commands span { padding: 0 10px; } 
-	.commands span.print { float: right; } 
+	.commands { border-bottom: 2px solid green;  padding: 10px 2px; margin-bottom: 0; }
+	.commands .row { padding: 0 0; text-align: left; } 
+	.commands .row.extra { padding-top: 6px; }
+	.commands span { padding: 0 10px; }
+	.commands span.print { float: right; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
-			
-	#papercommands { padding: 10px 0; border: 2px solid green; }
-	.sideborders { border-left: 2px solid green; border-right: 2px solid green; }
-	#braincommands .row { text-align: left; }
+
+    #menu { visibility: hidden; font-size: 90%; }
+    #culturemenu { text-align: right; padding: 0 20px; }
+    #culturemenu span { padding: 3px; }
+    #culturemenu .selected { text-decoration: none; color: #000000; }
+
 	#braincommands .row .label { width: 200px; display: inline-block; }
-	#braincommands .row.extra { padding: 6px 0 0 0; }
 	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
 	#brainpassphrase { width: 280px; }
 	#brainpassphraseconfirm { width: 280px; }
+	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper #commands { border-bottom: 2px solid green; padding: 0; margin-bottom: 0; }
+	.paper .commands { border: 2px solid green; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -5834,16 +5848,13 @@ body { font-family: Arial; }
 @media print
 {
 	#main { width: auto; }
-	#culturemenu { display: none; }
+	#singlearea { border: 0; }
+	#singlesafety { border: 0; }
 	#paperarea .keyarea:first-child { border-top: 2px solid green; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
-	.menu { display: none; }
-	.footer { display: none; }
-	.commands { display: none; }
-	#tagline { display: none; }
-	#faqs { display: none; }
+	.menu, .footer, .commands, #tagline, #faqs, #culturemenu { display: none; }
 	#detailprivwif { width: 285px; word-wrap: break-word; }
 	#detailprivwifcomp { width: 285px; word-wrap: break-word; text-align: right; }
 	#detailarea .privqr .item { width: 285px; }
@@ -5879,55 +5890,69 @@ body { font-family: Arial; }
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
 				<div class="commands">
-					<div id="singlecommands">
+					<div id="singlecommands" class="row">
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
 					</div>
 				</div>
 				<div id="keyarea" class="keyarea">
 					<div class="public">
+						<div class="pubaddress">
+							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address:</span>
 							<span class="output" id="btcaddress"></span>
 						</div>
+						<div id="singleshare">SHARE</div>
 					</div>
 					<div class="private">
+						<div class="privwif">
+							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
+						</div>
 						<div id="qrcode_private" class="qrcode_private"></div>
 						<div class="privwif">
-							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format):</span>
 							<span class="output" id="btcprivwif"></span>
 						</div>
-					</div>
+						<div id="singlesecret">SECRET</div>
+					</div>				
+				</div>
+				
+				<div id="singlesafety">
+					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
+					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
+					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
+					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 
 			<div id="paperarea">
-				<div id="papercommands" class="commands">
-					<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
-					<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
-					<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
-					<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
-				</div>
-				<div id="paperadvancedcommandsexpandable" class="commands expandable sideborders" onclick="ninja.wallets.paperwallet.openCloseAdvanced();">
-					<span><label id="paperadvancedcommandslabel">Advanced Options</label></span>
-					<div id="paperadvancedcommandsicon" class="more"></div>
-				</div>
-				<div id="paperadvancedcommands" class="commands sideborders hide">
-					<span><label id="paperlabelencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
-					<span><label id="paperlabelBIPpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
-					<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
+				<div class="commands">
+					<div id="papercommands" class="row">
+						<span><label id="paperlabelhideart">Hide Art?</label> <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" /></span>
+						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
+						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
+						<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
+					</div>
+					<div id="paperadvancedcommands" class="row extra">
+						<span><label id="paperlabelencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
+						<span><label id="paperlabelBIPpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
+						<span><label id="paperlabeladdressesperpage">Addresses per page:</label> <input type="text" id="paperlimitperpage" /></span>
+					</div>
 				</div>
 				<div id="paperkeyarea"></div>
 			</div>
 			
 			<div id="bulkarea" class="walletarea">
-				<div id="bulkcommands" class="commands">
-					<span><label id="bulklabelstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
-					<span><label id="bulklabelrowstogenerate">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
-					<span><label id="bulklabelcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
-					<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
-					<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
+				<div class="commands">
+					<div id="bulkcommands" class="row">
+						<span><label id="bulklabelstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
+						<span><label id="bulklabelrowstogenerate">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
+						<span><label id="bulklabelcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
+						<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
+						<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
+					</div>
 				</div>
 				<div class="body">
 					<span class="label" id="bulklabelcsv">Comma Separated Values:</span> <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
@@ -5973,6 +5998,7 @@ body { font-family: Arial; }
 						<span><input tabindex="3" type="button" id="brainview" value="View" onclick="ninja.wallets.brainwallet.view();" /></span>
 						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
 					</div>
+					<div class="row extra"><span id="brainwarning"></span></div>
 				</div>
 				<div id="brainkeyarea" class="keyarea">
 					<div class="public">
@@ -6064,7 +6090,7 @@ body { font-family: Arial; }
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).</span>
+						<span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI, BIP38).</span>
 						<br /><br />
 						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
@@ -6129,7 +6155,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.5.2)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.0)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -6722,7 +6748,8 @@ ninja.translator = {
 			"paperlabelprivatekey": "Private Key (Wallet Import Format):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
 			"bulkgeneratingaddresses": "Generating addresses... ",
-			"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+			"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\n",
+			"brainalertpassphrasewarning": "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
 			"detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
 			"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
@@ -6742,7 +6769,8 @@ ninja.translator = {
 			"paperlabelprivatekey": "Clave privada (formato para importar):",
 			"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
 			"bulkgeneratingaddresses": "Generación de direcciones... ",
-			"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
+			"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\n",
+			"brainalertpassphrasewarning": "Aviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
 			"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
 			"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
@@ -6780,6 +6808,11 @@ ninja.translator = {
 			"singleprint": "Imprimir",
 			"singlelabelbitcoinaddress": "Dirección Bitcoin",
 			"singlelabelprivatekey": "Clave privada (formato para importar):",
+			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
+			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
 
 			// paper wallet html
 			"paperlabelhideart": "Ocultar diseño",
@@ -6789,7 +6822,6 @@ ninja.translator = {
 			"paperprint": "Imprimir",
 			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
 			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
-			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Empezar en:",
@@ -6861,12 +6893,14 @@ ninja.translator = {
 		},
 
 		"fr": {
+			// javascript alerts or messages
 			"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 			"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 			"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 			"bulkgeneratingaddresses": "Création de l'adresse... ",
-			"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
+			"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\n",
+			"brainalertpassphrasewarning": "Attention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
 			"brainalertpassphrasedoesnotmatch": "Le mot de passe ne correspond pas au mot de passe de vérification.",
 			"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
 			"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
@@ -6877,6 +6911,8 @@ ninja.translator = {
 			"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Bitcoin.",
 			"vanityprivatekeyonlyavailable": "Seulement disponible si vos combinez deux clés privées",
 			"vanityalertinvalidinputprivatekeysmatch": "Entrée non valide. La clé Privée des deux entrées est identique. Vous devez entrer deux clés différentes.",
+			
+			// header and menu html
 			"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 			"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 			"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
@@ -6886,6 +6922,8 @@ ninja.translator = {
 			"brainwallet": "Porte-Monnaie Cerveau",
 			"vanitywallet": "Porte-Monnaie Vanité",
 			"detailwallet": "Détails du Porte-Monnaie",
+			
+			// footer html
 			"footerlabeldonations": "Dons:",
 			"footerlabeltranslatedby": "Traduction: 1Gy7NYSJNUYqUdXTBow5d7bCUEJkUFDFSq",
 			"footerlabelpgp": "PGP",
@@ -6894,10 +6932,19 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 			"footerlabelnowarranty": "Aucune garantie.",
+			
+			// single wallet html
 			"newaddress": "Générer Une Nouvelle Adresse",
 			"singleprint": "Imprimer",
 			"singlelabelbitcoinaddress": "Adresse Bitcoin:",
 			"singlelabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
+			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
+
+			// paper wallet html
 			"paperlabelhideart": "Retirer Le Style?",
 			"paperlabeladdressesperpage": "Adresses par page:",
 			"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
@@ -6905,7 +6952,8 @@ ninja.translator = {
 			"paperprint": "Imprimer",
 			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
 			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
-			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
+
+			// bulk wallet html
 			"bulklabelstartindex": "Commencer à l'index:",
 			"bulklabelrowstogenerate": "Colonnes à générer:",
 			"bulklabelcompressed": "Compressed addresses?", //TODO: please translate
@@ -6921,6 +6969,8 @@ ninja.translator = {
 			"bulklabela2li3": "Ajoutez une option dans votre panier en ligne pour que vos clients puissent vous payer en Bitcoin. Quand un client choisi de vous payer en Bitcoin, vous pouvez afficher une des adresses de votre base de donnée comme \"adresse de paiment\" pour votre client et sauvegarder cette adresse avec sa commande.",
 			"bulklabela2li4": "Vous avez maintenant besoin d'être avisé quand le paiement est reçu. Cherchez \"bitcoin payment notification\" sur Google et inscrivez-vous à un service de notification de paiement Bitcoin. Il y a plusieurs services qui vous avertiront via des services Web, API, SMS, Email, etc. Une fois que vous avez reçu la notification, qui devrait être programmée automatiquement, vous pouvez traiter la commande de votre client. Pour vérifier manuellement si un paiement est arrivé, vous pouvez utiliser Block Explorer. Remplacez ADRESSE par l'adresse Bitcoin que vous souhaitez vérifier. La confirmation de la transaction pourrait prendre de 10 à 60 minutes pour être confirmée.<br />http://www.blockexplorer.com/address/ADRESSE<br /><br />Les transactions non confirmées peuvent être visualisées ici: http://blockchain.info/ <br />Vous devriez voir la transaction à l'intérieur de 30 secondes.",
 			"bulklabela2li5": "Les Bitcoins vos s'accumuler de façon sécuritaire dans la chaîne de blocs. Utilisez le porte-monnaie original que vous avez généré à l'étape 1 pour les dépenser.",
+			
+			// brain wallet html
 			"brainlabelenterpassphrase": "Entrez votre mot de passe: ",
 			"brainlabelshow": "Afficher?",
 			"brainprint": "Imprimer",
@@ -6929,6 +6979,8 @@ ninja.translator = {
 			"brainalgorithm": "Algorithme: SHA256(mot de passe)",
 			"brainlabelbitcoinaddress": "Adresse Bitcoin:",
 			"brainlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+
+			// vanity wallet html
 			"vanitylabelstep1": "Étape 1 - Générer votre \"Étape 1 Paire De Clés\"",
 			"vanitynewkeypair": "Générer",
 			"vanitylabelstep1publickey": "Étape 1 Clé Publique:",
@@ -6949,6 +7001,8 @@ ninja.translator = {
 			"vanitylabelnotespublickeyhex": "Celle-ci est la Clé Publique dans le format hexadécimal. ",
 			"vanitylabelprivatekey": "Clé Privée Vanité (WIF):",
 			"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
+			
+			// detail wallet html
 			"detaillabelenterprivatekey": "Entrez la Clé Privée (quel que soit son format)",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
@@ -6975,7 +7029,8 @@ ninja.translator = {
 			"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 			"bulkgeneratingaddresses": "Δημιουργία διευθύνσεων... ",
-			"brainalertpassphrasetooshort": "Η φράση κωδικός που δώσατε είναι πολύ αδύναμη.\n\nΠροσοχή: Είναι σημαντικό να επιλέξετε μια ισχυρή φράση κωδικό που θα σας προφυλάξει από απόπειρες παραβίασής της τύπου brute force και κλοπή των bitcoins σας.",
+			"brainalertpassphrasetooshort": "Η φράση κωδικός που δώσατε είναι πολύ αδύναμη.\n\n",
+			"brainalertpassphrasewarning": "Προσοχή: Είναι σημαντικό να επιλέξετε μια ισχυρή φράση κωδικό που θα σας προφυλάξει από απόπειρες παραβίασής της τύπου brute force και κλοπή των bitcoins σας.",
 			"brainalertpassphrasedoesnotmatch": "Η φράση κωδικός και η επιβεβαίωση της δε συμφωνούν.",
 			"detailalertnotvalidprivatekey": "Το κείμενο που εισάγατε δεν αντιστοιχεί σε έγκυρο Προσωπικό Κλειδί",
 			"detailconfirmsha256": "Το κείμενο που εισάγατε δεν αντιστοιχεί σε έγκυρο Προσωπικό Κλειδί!\n\nΘα θέλατε να χρησιμοποιηθεί το κείμενο ως κωδικός για τη δημιουργία ενός Προσωπικού Κλειδιού που θα δημιουργηθεί από το SHA265 hash της φράσης κωδικού;\n\nΠροσοχή: Είναι σημαντικό να επιλέξετε έναν ισχυρό κωδικό ώστε να είναι δύσκολο να τον μαντέψει κάποιος και να κλέψει τα bitcoins σας.",
@@ -7013,6 +7068,11 @@ ninja.translator = {
 			"singleprint": "Εκτύπωση",
 			"singlelabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"singlelabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
+			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
+			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
 
 			// paper wallet html
 			"paperlabelhideart": "Απόκρυψη γραφικού;",
@@ -7022,7 +7082,6 @@ ninja.translator = {
 			"paperprint": "Εκτύπωση",
 			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
 			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
-			"paperadvancedcommandslabel": "Advanced Options", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Ξεκίνημα δείκτη:",
@@ -7162,7 +7221,7 @@ ninja.wallets.singlewallet = {
 				"qrcode_public": bitcoinAddress,
 				"qrcode_private": privateKeyWif
 			};
-			ninja.qrCode.showQrCode(keyValuePair);
+			ninja.qrCode.showQrCode(keyValuePair, 4);
 		}
 		catch (e) {
 			// browser does not have sufficient JavaScript support to generate a bitcoin address
@@ -7414,17 +7473,6 @@ ninja.wallets.paperwallet = {
 		}
 		document.getElementById("paperlimitperpage").value = limitperpage;
 		document.getElementById("paperlimit").value = limit;
-	},
-
-	openCloseAdvanced: function () {
-		if (document.getElementById("paperadvancedcommands").getAttribute("class") == "commands sideborders show") {
-			document.getElementById("paperadvancedcommands").setAttribute("class", "commands sideborders hide");
-			document.getElementById("paperadvancedcommandsicon").setAttribute("class", "more");
-		}
-		else {
-			document.getElementById("paperadvancedcommands").setAttribute("class", "commands sideborders show");
-			document.getElementById("paperadvancedcommandsicon").setAttribute("class", "less");
-		}
 	}
 };
 	</script>
@@ -7508,6 +7556,7 @@ ninja.wallets.brainwallet = {
 	open: function () {
 		document.getElementById("brainarea").style.display = "block";
 		document.getElementById("brainpassphrase").focus();
+		document.getElementById("brainwarning").innerHTML = ninja.translator.get("brainalertpassphrasewarning");
 	},
 
 	close: function () {
@@ -7538,7 +7587,7 @@ ninja.wallets.brainwallet = {
 				document.getElementById("brainkeyarea").style.visibility = "visible";
 			}
 			else {
-				alert(ninja.translator.get("brainalertpassphrasetooshort"));
+				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
 				ninja.wallets.brainwallet.clear();
 			}
 		}
