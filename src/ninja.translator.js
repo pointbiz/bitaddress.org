@@ -161,7 +161,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
 
 			// detail wallet html
-			"detaillabelenterprivatekey": "Introduce la clave privada (en cualquier formato)",
+			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, B64, MINI, BIP38)",
 			"detailview": "Ver detalles",
 			"detailprint": "Imprimir",
 			"detaillabelnote1": "Tu clave privada es un número secreto, único, que sólo tú conoces. Se puede expresar en varios formatos. Aquí abajo mostramos la dirección y la clave pública que se corresponden con tu clave privada, así como la clave privada en los formatos más conocidos (para importar, hex, base64 y mini).",
@@ -291,10 +291,10 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Entrez la Clé Privée (quel que soit son format)",
+			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, B64, MINI, BIP38)",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
-			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, HEX, B64, MINI).",
+			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64, MINI).",
 			"detaillabelnote2": "Bitcoin v0.6+ conserve les clés publiques dans un format compressé. Le logiciel supporte maintenant aussi l'importation et l'exportation de clés privées avec importprivkey/dumpprivkey. Le format de la clé privée exportée est déterminé selon la version du porte-monnaie Bitcoin.",
 			"detaillabelbitcoinaddress": "Adresse Bitcoin:",
 			"detaillabelbitcoinaddresscomp": "Adresse Bitcoin (compressée):",
@@ -421,10 +421,10 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Παραπάνω είναι το Προσωπικό Κλειδί που θα φορτώσετε στο Πορτοφόλι σας. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (οποιαδήποτε μορφή)",
+			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, B64, MINI, BIP38)",
 			"detailview": "Προβολή λεπτομερειών",
 			"detailprint": "Εκτύπωση",
-			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, HEX, B64, MINI).",
+			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64, MINI).",
 			"detaillabelnote2": "Το Bitcoin v0.6+ αποθηκεύει τα Προσωπικά Κλειδιά σε συμπιεσμένη μορφή. Το πρόγραμμα υποστηρίζει επίσης εισαγωγή κι εξαγωγή των Προσωπικών Κλειδιών με τις εντολές importprivkey/dumpprivkey. Η μορφή του εξαγόμενου Προσωπικού Κλειδιού προσδιορίζεται από το αν η διεύθυνση δημιουργήθηκε σε ένα παλιό ή νέο πορτοφόλι.",
 			"detaillabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"detaillabelbitcoinaddresscomp": "Συμπιεσμένη Διεύθυνση Bitcoin:",
@@ -440,15 +440,14 @@ ninja.translator = {
 			"detaildecrypt": "Αποκωδικοποίηση BIP38"
 		},
 
-	    'it':{
-
+	    "it": {
 			// javascript alerts or messages
 			"testneteditionactivated": "TESTNET EDITION ATTIVATO",
 			"paperlabelbitcoinaddress": "Indirizzo Bitcoin:",
 			"paperlabelprivatekey": "Chiave privata (Wallet Import Format):",
 			"paperlabelencryptedkey": "Chiave privata criptata (password richiesta)",
 			"bulkgeneratingaddresses": "Generazione indirizzi... ",
-			"brainalertpassphrasetooshort": "La passphrase inserita è troppo corta.",
+			"brainalertpassphrasetooshort": "La passphrase inserita è troppo corta.\n\n",
 			"brainalertpassphrasewarning":"Attenzione: La scelta di una passphrase robusta è importante per evitare attacchi brute force in grado di indovinare la tua passphrase e rubare i tuoi Bitcoin",
 			"brainalertpassphrasedoesnotmatch": "La passphrase non combacia con quella data per la conferma.",
 			"detailalertnotvalidprivatekey": "Il testo inserito non rappresenta una Chiave Privata valida",
@@ -460,7 +459,6 @@ ninja.translator = {
 			"vanityalertinvalidinputcannotmultiple": "Dati inseriti non validi. Impossibile moltiplicare due chiavi pubbliche. Seleziona 'Aggiungi' per inserire due chiavi pubbliche ed ottenere l'indirizzo Bitcoin.",
 			"vanityprivatekeyonlyavailable": "Non disponibile quando vengono combinate due chiavi private",
 			"vanityalertinvalidinputprivatekeysmatch": "Dati inseriti non validi. Entrambe le chiavi private combaciano. Devi inserire due chiavi differenti.",
-
 
 			// header and menu html
 			"tagline": "Open Source JavaScript Client-Side Bitcoin Wallet Generator",
@@ -552,13 +550,13 @@ ninja.translator = {
 			"vanitylabelnotespublickeyhex": "Quella sopra è la Chiave Pubblica nel formato esadecimale. ",
 			"vanitylabelprivatekey": "Chiave privata del Vanity Wallet (WIF):",
 			"vanitylabelnotesprivatekey": "Quella sopra è la Chiave Privata nel formato esadecimale.  ",
-			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (in qualunque formato)",
+			
+			// detail wallet html
+			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, B64, MINI, BIP38)",
 			"detailview": "Mostra Dettagli",
 			"detailprint": "Stampa",
-			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, HEX, B64, MINI).",
+			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64, MINI).",
 			"detaillabelnote2": "Il client Bitcoin, dalla versione v0.6, memorizza le chiavi pubbliche in formato compresso. Il programma ora supporta l'importazione e l'esportazione delle chiavi private attraverso importprivkey/dumpprivkey. Il formato con cui viene esportata la chiave privata dipende se l'indirizzo generato è stato creato con il nuovo o vecchio portafogli.",
-
-			// detail wallet html
 			"detaillabelbitcoinaddress": "Indirizzo Bitcoin",
 			"detaillabelbitcoinaddresscomp": "Indirizzo Bitcoin compresso",
 			"detaillabelpublickey": "Chiave pubblica (130 caratteri [0-9A-F]):",
