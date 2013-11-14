@@ -161,7 +161,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
 
 			// detail wallet html
-			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Ver detalles",
 			"detailprint": "Imprimir",
 			"detaillabelnote1": "Tu clave privada es un número secreto, único, que sólo tú conoces. Se puede expresar en varios formatos. Aquí abajo mostramos la dirección y la clave pública que se corresponden con tu clave privada, así como la clave privada en los formatos más conocidos (para importar, hex, base64 y mini).",
@@ -291,7 +291,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
 			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64, MINI).",
@@ -421,7 +421,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Παραπάνω είναι το Προσωπικό Κλειδί που θα φορτώσετε στο Πορτοφόλι σας. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Προβολή λεπτομερειών",
 			"detailprint": "Εκτύπωση",
 			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64, MINI).",
@@ -552,7 +552,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Quella sopra è la Chiave Privata nel formato esadecimale.  ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Mostra Dettagli",
 			"detailprint": "Stampa",
 			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64, MINI).",

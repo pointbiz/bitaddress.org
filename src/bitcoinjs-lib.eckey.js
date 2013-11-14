@@ -29,8 +29,10 @@ Bitcoin.ECKey = (function () {
 			} else if (ECKey.isBase64Format(input)) {
 				bytes = Crypto.util.base64ToBytes(input);
 			}
-
-			if (bytes == null || bytes.length != 32) {
+			
+			if (ECKey.isBase6Format(input)) {
+				this.priv = new BigInteger(input, 6);
+			} else if (bytes == null || bytes.length != 32) {
 				this.priv = null;
 			} else {
 				// Prepend zero byte to prevent interpretation as negative integer
@@ -245,6 +247,12 @@ Bitcoin.ECKey = (function () {
 	ECKey.isBase64Format = function (key) {
 		key = key.toString();
 		return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
+	};
+
+	// 99 characters, 1=1, if using dice convert 6 to 0
+	ECKey.isBase6Format = function (key) {
+		key = key.toString();
+		return (/^[012345]{99}$/.test(key));
 	};
 
 	// 22, 26 or 30 characters, always starts with an 'S'

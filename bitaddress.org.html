@@ -5036,8 +5036,10 @@ Bitcoin.ECKey = (function () {
 			} else if (ECKey.isBase64Format(input)) {
 				bytes = Crypto.util.base64ToBytes(input);
 			}
-
-			if (bytes == null || bytes.length != 32) {
+			
+			if (ECKey.isBase6Format(input)) {
+				this.priv = new BigInteger(input, 6);
+			} else if (bytes == null || bytes.length != 32) {
 				this.priv = null;
 			} else {
 				// Prepend zero byte to prevent interpretation as negative integer
@@ -5252,6 +5254,12 @@ Bitcoin.ECKey = (function () {
 	ECKey.isBase64Format = function (key) {
 		key = key.toString();
 		return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
+	};
+
+	// 99 characters, 1=1, if using dice convert 6 to 0
+	ECKey.isBase6Format = function (key) {
+		key = key.toString();
+		return (/^[012345]{99}$/.test(key));
 	};
 
 	// 22, 26 or 30 characters, always starts with an 'S'
@@ -6081,7 +6089,7 @@ body { font-family: Arial; }
 
 			<div id="detailarea" class="walletarea">	
 				<div id="detailcommands" class="commands">
-					<span><label id="detaillabelenterprivatekey">Enter Private Key (WIF, WIFC, B64, MINI, BIP38)</label> <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
+					<span><label id="detaillabelenterprivatekey">Enter Private Key (WIF, WIFC, HEX, B64, B6, MINI, BIP38)</label> <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
 					<div id="detailbip38commands">
@@ -6156,7 +6164,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.1)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.2)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -6874,7 +6882,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
 
 			// detail wallet html
-			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Ver detalles",
 			"detailprint": "Imprimir",
 			"detaillabelnote1": "Tu clave privada es un número secreto, único, que sólo tú conoces. Se puede expresar en varios formatos. Aquí abajo mostramos la dirección y la clave pública que se corresponden con tu clave privada, así como la clave privada en los formatos más conocidos (para importar, hex, base64 y mini).",
@@ -7004,7 +7012,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
 			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64, MINI).",
@@ -7134,7 +7142,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Παραπάνω είναι το Προσωπικό Κλειδί που θα φορτώσετε στο Πορτοφόλι σας. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Προβολή λεπτομερειών",
 			"detailprint": "Εκτύπωση",
 			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64, MINI).",
@@ -7265,7 +7273,7 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Quella sopra è la Chiave Privata nel formato esadecimale.  ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, B64, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
 			"detailview": "Mostra Dettagli",
 			"detailprint": "Stampa",
 			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64, MINI).",
@@ -8407,11 +8415,9 @@ ninja.wallets.detailwallet = {
 				return true;
 			},
 			testGetECKeyFromBase6Key: function () {
-				var base = 6;
 				var baseKey = "100531114202410255230521444145414341221420541210522412225005202300434134213212540304311321323051431";
 				var hexKey = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
-				var bigInt = new BigInteger(baseKey, base);
-				var ecKey = new Bitcoin.ECKey(bigInt);
+				var ecKey = new Bitcoin.ECKey(baseKey);
 				if (ecKey.getBitcoinHexFormat() != hexKey) {
 					return false;
 				}
@@ -8460,19 +8466,19 @@ ninja.wallets.detailwallet = {
 			//https://en.bitcoin.it/wiki/BIP_0038
 			testBip38: function (done) {
 				var tests = [
-					//No compression, no EC multiply
+				//No compression, no EC multiply
 					["6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", "TestingOneTwoThree", "5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR"],
 					["6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq", "Satoshi", "5HtasZ6ofTHP6HCwTqTkLDuLQisYPah7aUnSKfC7h4hMUVw2gi5"],
-					//Compression, no EC multiply
+				//Compression, no EC multiply
 					["6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo", "TestingOneTwoThree", "L44B5gGEpqEDRS9vVPz7QT35jcBG2r3CZwSwQ4fCewXAhAhqGVpP"],
 					["6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7", "Satoshi", "KwYgW8gcxj1JWJXhPSu4Fqwzfhp5Yfi42mdYmMa4XqK7NJxXUSK7"],
-					//EC multiply, no compression, no lot/sequence numbers
+				//EC multiply, no compression, no lot/sequence numbers
 					["6PfQu77ygVyJLZjfvMLyhLMQbYnu5uguoJJ4kMCLqWwPEdfpwANVS76gTX", "TestingOneTwoThree", "5K4caxezwjGCGfnoPTZ8tMcJBLB7Jvyjv4xxeacadhq8nLisLR2"],
 					["6PfLGnQs6VZnrNpmVKfjotbnQuaJK4KZoPFrAjx1JMJUa1Ft8gnf5WxfKd", "Satoshi", "5KJ51SgxWaAYR13zd9ReMhJpwrcX47xTJh2D3fGPG9CM8vkv5sH"],
-					//EC multiply, no compression, lot/sequence numbers
+				//EC multiply, no compression, lot/sequence numbers
 					["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
 					["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
-				
+
 				// running each test uses a lot of memory, which isn't freed
 				// immediately, so give the VM a little time to reclaim memory
 				function waitThenCall(callback) {
