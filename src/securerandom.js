@@ -29,6 +29,15 @@
 	// ba: byte array
 	sr.prototype.nextBytes = function (ba) {
 		var i;
+		if (window.crypto && window.crypto.getRandomValues && window.Uint8Array) {
+			try {
+				var rvBytes = new Uint8Array(ba.length);
+				window.crypto.getRandomValues(rvBytes);
+				for (i = 0; i < ba.length; ++i)
+					ba[i] = sr.getByte() ^ rvBytes[i];
+				return;
+			} catch(e) {}
+		}
 		for (i = 0; i < ba.length; ++i) ba[i] = sr.getByte();
 	};
 
