@@ -26,6 +26,15 @@ ninja.wallets.splitwallet = {
 
     stripLeadZeros: function(hex) { return hex.split(/^0+/).slice(-1)[0]; },
 
+    hexToBytes: function (hex) {
+        //if input has odd number of digits, pad it
+        if (hex.length % 2 == 1)
+            hex = "0" + hex;
+  	for (var bytes = [], c = 0; c < hex.length; c += 2)
+ 	    bytes.push(parseInt(hex.substr(c, 2), 16));
+ 	return bytes;
+    },
+
     // Split a private key and update information in the HTML
     splitKey: function () {
         try {
@@ -37,7 +46,7 @@ ninja.wallets.splitwallet = {
             var numshares = parseInt(document.getElementById('splitshares').value);
             var threshhold =  parseInt(document.getElementById('splitthreshhold').value);
             var shares = secrets.share(Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray()),
-                                       numshares, threshhold).map(Crypto.util.hexToBytes).map(Bitcoin.Base58.encode);
+                                       numshares, threshhold).map(this.hexToBytes).map(Bitcoin.Base58.encode);
             var output = document.createElement("div");
             output.setAttribute("id", "splitoutput");
             var m = {};
@@ -76,7 +85,7 @@ ninja.wallets.splitwallet = {
                                            map(Crypto.util.bytesToHex).
                                            map(this.stripLeadZeros));
 
-            var privkeyBase58 = new Bitcoin.ECKey(Crypto.util.hexToBytes(combined)).getBitcoinWalletImportFormat();
+            var privkeyBase58 = new Bitcoin.ECKey(this.hexToBytes(combined)).getBitcoinWalletImportFormat();
             var output = document.createElement("div");
             output.setAttribute("id", "combineoutput");
             var txt = document.createElement("input");
