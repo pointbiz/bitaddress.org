@@ -161,7 +161,8 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Esto es la clave privada para introducir en tu cartera.",
 
 			// detail wallet html
-			"detaillabelenterprivatekey": "Introduce la clave privada (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Introduce la clave privada",
+			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Ver detalles",
 			"detailprint": "Imprimir",
 			"detaillabelnote1": "Tu clave privada es un número secreto, único, que sólo tú conoces. Se puede expresar en varios formatos. Aquí abajo mostramos la dirección y la clave pública que se corresponden con tu clave privada, así como la clave privada en los formatos más conocidos (para importar, hex, base64 y mini).",
@@ -177,7 +178,9 @@ ninja.translator = {
 			"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
 			"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
 			"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
-			"detaildecrypt": "Decrypt BIP38" //TODO: please translate
+			"detaildecrypt": "Decrypt BIP38", //TODO: please translate
+			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
+			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
 
 		"fr": {
@@ -291,7 +294,8 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Celle-ci est la Clé Privée pour accéder à votre porte-monnaie. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Entrez la Clé Privée (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Entrez la Clé Privée",
+			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
 			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64, MINI).",
@@ -307,7 +311,9 @@ ninja.translator = {
 			"detaillabelprivb64": "Clé Privée Base64 (44 caractères):",
 			"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):",
 			"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
-			"detaildecrypt": "Decrypt BIP38" //TODO: please translate
+			"detaildecrypt": "Decrypt BIP38", //TODO: please translate
+			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
+			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
 
 		"el": {
@@ -421,7 +427,8 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Παραπάνω είναι το Προσωπικό Κλειδί που θα φορτώσετε στο Πορτοφόλι σας. ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Εισάγετε το Προσωπικό Κλειδί",
+			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Προβολή λεπτομερειών",
 			"detailprint": "Εκτύπωση",
 			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64, MINI).",
@@ -437,7 +444,9 @@ ninja.translator = {
 			"detaillabelprivb64": "Προσωπικό Κλειδί Base64 (44 χαρακτήρες):",
 			"detaillabelprivmini": "Προσωπικό Κλειδί Μορφή Mini (22, 26 ή 30 χαρακτήρες, ξεκινάει με 'S'):",
 			"detaillabelpassphrase": "BIP38 Κωδικός",
-			"detaildecrypt": "Αποκωδικοποίηση BIP38"
+			"detaildecrypt": "Αποκωδικοποίηση BIP38",
+			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
+			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
 
 	    "it": {
@@ -552,7 +561,8 @@ ninja.translator = {
 			"vanitylabelnotesprivatekey": "Quella sopra è la Chiave Privata nel formato esadecimale.  ",
 			
 			// detail wallet html
-			"detaillabelenterprivatekey": "Inserisci la Chiave Privata (WIF, WIFC, HEX, B64, B6, MINI, BIP38)",
+			"detaillabelenterprivatekey": "Inserisci la Chiave Privata",
+			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Mostra Dettagli",
 			"detailprint": "Stampa",
 			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64, MINI).",
@@ -568,8 +578,9 @@ ninja.translator = {
 			"detaillabelprivb64": "Chiave privata Base64 (44 caratteri):",
 			"detaillabelprivmini": "Chiave privata formato mini (22, 26 or 30 caratteri, inizia per 'S'):",
 			"detaillabelpassphrase": "Inserisci passphrase BIP38",
-			"detaildecrypt": "Decripta BIP38"
-
+			"detaildecrypt": "Decripta BIP38",
+			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
+			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 	    }
 
 	}

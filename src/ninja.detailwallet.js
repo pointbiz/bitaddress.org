@@ -8,42 +8,44 @@ ninja.wallets.detailwallet = {
 		document.getElementById("detailarea").style.display = "none";
 	},
 
+	openCloseFaq: function (faqNum) {
+		// do close
+		if (document.getElementById("detaila" + faqNum).style.display == "block") {
+			document.getElementById("detaila" + faqNum).style.display = "none";
+			document.getElementById("detaile" + faqNum).setAttribute("class", "more");
+		}
+		// do open
+		else {
+			document.getElementById("detaila" + faqNum).style.display = "block";
+			document.getElementById("detaile" + faqNum).setAttribute("class", "less");
+		}
+	},
+
 	viewDetails: function () {
 		var bip38 = false;
 		var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+		document.getElementById("detailprivkey").value = key;
+		var bip38CommandDisplay = document.getElementById("detailbip38commands").style.display;
+		ninja.wallets.detailwallet.clear();
 		if (key == "") {
-			ninja.wallets.detailwallet.clear();
 			return;
 		}
-		document.getElementById("detailprivkey").value = key;
-		if (Bitcoin.ECKey.isMiniFormat(key)) {
-			// show Private Key Mini Format
-			document.getElementById("detailprivmini").innerHTML = key;
-			document.getElementById("detailmini").style.display = "block";
-			document.getElementById("detailbip38commands").style.display = "none";
-		}
-		else if (ninja.privateKey.isBIP38Format(key)) {
-			if (document.getElementById("detailbip38commands").style.display != "block") {
+		if (ninja.privateKey.isBIP38Format(key)) {
+			document.getElementById("detailbip38commands").style.display = bip38CommandDisplay;
+			if (bip38CommandDisplay != "block") {
 				document.getElementById("detailbip38commands").style.display = "block";
 				document.getElementById("detailprivkeypassphrase").focus();
 				return;
 			}
-			else {
-				bip38 = true;
-			}
-		}
-		else {
-			// hide Private Key Mini Format
-			document.getElementById("detailmini").style.display = "none";
-			document.getElementById("detailbip38commands").style.display = "none";
-		}
-
-		if (bip38) {
 			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 			if (passphrase == "") {
 				alert(ninja.translator.get("bip38alertpassphraserequired"));
 				return;
 			}
+			document.getElementById("busyblock").className = "busy";
+			// show Private Key BIP38 Format
+			document.getElementById("detailprivbip38").innerHTML = key;
+			document.getElementById("detailbip38").style.display = "block";
 			ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
 				document.getElementById("busyblock").className = "";
 				if (btcKeyOrError.message) {
@@ -53,9 +55,18 @@ ninja.wallets.detailwallet = {
 					ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
 				}
 			});
-			document.getElementById("busyblock").className = "busy";
 		}
 		else {
+			if (Bitcoin.ECKey.isMiniFormat(key)) {
+				// show Private Key Mini Format
+				document.getElementById("detailprivmini").innerHTML = key;
+				document.getElementById("detailmini").style.display = "block";
+			}
+			else if (Bitcoin.ECKey.isBase6Format(key)) {
+				// show Private Key Base6 Format
+				document.getElementById("detailprivb6").innerHTML = key;
+				document.getElementById("detailb6").style.display = "block";
+			}
 			var btcKey = new Bitcoin.ECKey(key);
 			if (btcKey.priv == null) {
 				// enforce a minimum passphrase length
@@ -114,11 +125,16 @@ ninja.wallets.detailwallet = {
 		document.getElementById("detailprivwifcomp").innerHTML = "";
 		document.getElementById("detailprivhex").innerHTML = "";
 		document.getElementById("detailprivb64").innerHTML = "";
+		document.getElementById("detailprivb6").innerHTML = "";
 		document.getElementById("detailprivmini").innerHTML = "";
+		document.getElementById("detailprivbip38").innerHTML = "";
 		document.getElementById("detailqrcodepublic").innerHTML = "";
 		document.getElementById("detailqrcodepubliccomp").innerHTML = "";
 		document.getElementById("detailqrcodeprivate").innerHTML = "";
 		document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
+		document.getElementById("detailb6").style.display = "none";
+		document.getElementById("detailmini").style.display = "none";
 		document.getElementById("detailbip38commands").style.display = "none";
+		document.getElementById("detailbip38").style.display = "none";
 	}
 };

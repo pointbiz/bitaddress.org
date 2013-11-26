@@ -13,22 +13,26 @@
 .keyarea .qrcode_public { display: inline-block; float: left; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
 .pubkeyhex { word-wrap: break-word; }
+body { font-family: Arial; }
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
-body { font-family: Arial; }
+.question { padding: 10px 15px; text-align: left; cursor: pointer; }
+.question:hover, .expandable:hover { color: #77777A; }
+.answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
+.faq { border: 0; border-top: 2px solid green; }
 
 #keyarea { height: 250px; font-family: Arial; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
 #keyarea .privwif { float: none; text-align: right; position: relative; padding: 0; }
-#keyarea .qrcode_public { float: none; display: block; }
-#keyarea .qrcode_private { float: none; display: block; top: 0; text-align: right; }
+#keyarea .qrcode_public { float: none; display: block; padding: 13px 11px 11px 11px; }
+#keyarea .qrcode_private { float: none; display: block; top: 0; text-align: right; padding: 13px 11px 11px 11px; }
 #keyarea .private { width: 30%; display: table-cell; }
 #keyarea .public { width: 30%; display: table-cell; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -30px; position: relative; }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -25px; position: relative; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
@@ -76,10 +80,6 @@ body { font-family: Arial; }
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
 #bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
-.bulkquestion { padding: 10px 15px; text-align: left; cursor: pointer; }
-.bulkquestion:hover, .expandable:hover { color: #77777A; }
-.bulkanswer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-.bulkfaq { border: 0; border-top: 2px solid green; }
 #brainarea .keyarea { visibility: hidden; min-height: 110px; }
 #detailkeyarea { padding: 10px; }
 #detailarea { margin: 0; text-align: left; }
@@ -94,10 +94,10 @@ body { font-family: Arial; }
 #detailarea .item.clear { clear: both; padding-top: 10px; }
 #detailarea .label { display: block; text-decoration: underline; }
 #detailarea .output { display: block; min-height: 20px; }
-#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; }
-#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; }
-#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; }
-#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; }
+#detailarea #detailqrcodepublic { position: relative; float: left; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
+#detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
+#detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
+#detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
 #detailpubkey { width: 566px; }
 #detailbip38commands { display: none; padding-top: 5px; }	
 #vanityarea { text-align: left; }
