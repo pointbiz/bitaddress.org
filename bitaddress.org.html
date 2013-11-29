@@ -1802,14 +1802,18 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		if (this.zinv == null) {
 			this.zinv = this.z.modInverse(this.curve.q);
 		}
-		return this.curve.fromBigInteger(this.x.toBigInteger().multiply(this.zinv).mod(this.curve.q));
+		var r = this.x.toBigInteger().multiply(this.zinv);
+		this.curve.reduce(r);
+		return this.curve.fromBigInteger(r);
 	};
 
 	ec.PointFp.prototype.getY = function () {
 		if (this.zinv == null) {
 			this.zinv = this.z.modInverse(this.curve.q);
 		}
-		return this.curve.fromBigInteger(this.y.toBigInteger().multiply(this.zinv).mod(this.curve.q));
+		var r = this.y.toBigInteger().multiply(this.zinv);
+		this.curve.reduce(r);
+		return this.curve.fromBigInteger(r);
 	};
 
 	ec.PointFp.prototype.equals = function (other) {
@@ -1891,6 +1895,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 			w = w.add(this.z.square().multiply(a));
 		}
 		w = w.mod(this.curve.q);
+		//this.curve.reduce(w);
 		// x3 = 2 * y1 * z1 * (w^2 - 8 * x1 * y1^2 * z1)
 		var x3 = w.square().subtract(x1.shiftLeft(3).multiply(y1sqz1)).shiftLeft(1).multiply(y1z1).mod(this.curve.q);
 		// y3 = 4 * y1^2 * z1 * (3 * w * x1 - 2 * y1^2 * z1) - w^3
@@ -2131,6 +2136,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		this.a = this.fromBigInteger(a);
 		this.b = this.fromBigInteger(b);
 		this.infinity = new ec.PointFp(this, null, null);
+		this.reducer = new Barrett(this.q);
 	}
 
 	ec.CurveFp.prototype.getQ = function () {
@@ -2156,6 +2162,10 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 	ec.CurveFp.prototype.fromBigInteger = function (x) {
 		return new ec.FieldElementFp(this.q, x);
+	};
+
+	ec.CurveFp.prototype.reduce = function (x) {
+		this.reducer.reduce(x);
 	};
 
 	// for now, work with hex strings because they're easier in JS
@@ -2185,6 +2195,21 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 			default: // unsupported
 				return null;
 		}
+	};
+
+	ec.CurveFp.prototype.encodePointHex = function (p) {
+		if (p.isInfinity()) return "00";
+		var xHex = p.getX().toBigInteger().toString(16);
+		var yHex = p.getY().toBigInteger().toString(16);
+		var oLen = this.getQ().toString(16).length;
+		if ((oLen % 2) != 0) oLen++;
+		while (xHex.length < oLen) {
+			xHex = "0" + xHex;
+		}
+		while (yHex.length < oLen) {
+			yHex = "0" + yHex;
+		}
+		return "04" + xHex + yHex;
 	};
 
 	/*
@@ -2415,7 +2440,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		this.t = 1;
 		this.s = (x < 0) ? -1 : 0;
 		if (x > 0) this[0] = x;
-		else if (x < -1) this[0] = x + DV;
+		else if (x < -1) this[0] = x + this.DV;
 		else this.t = 0;
 	};
 
@@ -3427,7 +3452,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 	// ****** REDUCTION ******* //
 
 	// Modular reduction using "classic" algorithm
-	function Classic(m) { this.m = m; }
+	var Classic = window.Classic = function Classic(m) { this.m = m; }
 	Classic.prototype.convert = function (x) {
 		if (x.s < 0 || x.compareTo(this.m) >= 0) return x.mod(this.m);
 		else return x;
@@ -3442,7 +3467,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// Montgomery reduction
-	function Montgomery(m) {
+	var Montgomery = window.Montgomery = function Montgomery(m) {
 		this.m = m;
 		this.mp = m.invDigit();
 		this.mpl = this.mp & 0x7fff;
@@ -3493,7 +3518,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// A "null" reducer
-	function NullExp() { }
+	var NullExp = window.NullExp = function NullExp() { }
 	NullExp.prototype.convert = function (x) { return x; };
 	NullExp.prototype.revert = function (x) { return x; };
 	NullExp.prototype.mulTo = function (x, y, r) { x.multiplyTo(y, r); };
@@ -3504,7 +3529,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// Barrett modular reduction
-	function Barrett(m) {
+	var Barrett = window.Barrett = function Barrett(m) {
 		// setup Barrett
 		this.r2 = nbi();
 		this.q3 = nbi();
@@ -6185,7 +6210,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.3)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.6.4)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>

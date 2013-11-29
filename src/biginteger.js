@@ -150,7 +150,7 @@
 		this.t = 1;
 		this.s = (x < 0) ? -1 : 0;
 		if (x > 0) this[0] = x;
-		else if (x < -1) this[0] = x + DV;
+		else if (x < -1) this[0] = x + this.DV;
 		else this.t = 0;
 	};
 
@@ -1162,7 +1162,7 @@
 	// ****** REDUCTION ******* //
 
 	// Modular reduction using "classic" algorithm
-	function Classic(m) { this.m = m; }
+	var Classic = window.Classic = function Classic(m) { this.m = m; }
 	Classic.prototype.convert = function (x) {
 		if (x.s < 0 || x.compareTo(this.m) >= 0) return x.mod(this.m);
 		else return x;
@@ -1177,7 +1177,7 @@
 
 
 	// Montgomery reduction
-	function Montgomery(m) {
+	var Montgomery = window.Montgomery = function Montgomery(m) {
 		this.m = m;
 		this.mp = m.invDigit();
 		this.mpl = this.mp & 0x7fff;
@@ -1228,7 +1228,7 @@
 
 
 	// A "null" reducer
-	function NullExp() { }
+	var NullExp = window.NullExp = function NullExp() { }
 	NullExp.prototype.convert = function (x) { return x; };
 	NullExp.prototype.revert = function (x) { return x; };
 	NullExp.prototype.mulTo = function (x, y, r) { x.multiplyTo(y, r); };
@@ -1239,7 +1239,7 @@
 
 
 	// Barrett modular reduction
-	function Barrett(m) {
+	var Barrett = window.Barrett = function Barrett(m) {
 		// setup Barrett
 		this.r2 = nbi();
 		this.q3 = nbi();
