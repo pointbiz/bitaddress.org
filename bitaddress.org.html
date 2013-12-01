@@ -5968,7 +5968,7 @@ body { font-family: Arial; }
 						<span><label id="paperlabeladdressestogenerate">Addresses to generate:</label> <input type="text" id="paperlimit" /></span>
 						<span><input type="button" id="papergenerate" value="Generate" onclick="
 
-							if(document.getElementById('paperpassphrase').value == '')
+							if(document.getElementById('paperencrypt').checked && document.getElementById('paperpassphrase').value == '')
 							{
 								alert(ninja.translator.get('bip38alertemptypassphrase'));
 								return;
