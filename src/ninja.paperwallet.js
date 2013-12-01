@@ -41,6 +41,10 @@ ninja.wallets.paperwallet = {
 		ninja.wallets.paperwallet.pageBreakAt = pageBreakAt;
 		document.getElementById("paperkeyarea").innerHTML = "";
 		if (ninja.wallets.paperwallet.encrypt) {
+			if (passphrase == "") {
+				alert(ninja.translator.get("bip38alertpassphraserequired"));
+				return;
+			}
 			document.getElementById("busyblock").className = "busy";
 			ninja.privateKey.BIP38GenerateIntermediatePointAsync(passphrase, null, null, function (intermediate) {
 				ninja.wallets.paperwallet.intermediatePoint = intermediate;
