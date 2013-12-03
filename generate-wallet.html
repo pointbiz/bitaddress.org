@@ -6569,7 +6569,7 @@ Bitcoin.Util = {
 		}
 	</style>
 </head>
-<body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" onload="guessPrinterSettings();">
+<body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" onLoad="guessPrinterSettings(); setDesign(ninja.getQueryString()['design']);">
 	<div id="main">
     	<div id="logoback">
           	<div id="culturemenu">
@@ -6624,7 +6624,14 @@ Bitcoin.Util = {
 						<br /><br />
 
 						<div style="float: right; width: 410px; padding-left: 30px; margin-left: 20px; border-left: 4px solid #EEE;">
-                        <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" >
+                        <p><strong>Select your wallet design or language here:</strong>
+                        <select id="designPicker" onChange="setDesign(this.value);">
+                          <option value="default">Standard (English/en)</option>
+                          <option value="german">Standard (German/de)</option>
+                          <option value="holiday">Holiday / Christmas Design (English/en)</option>
+                        </select>
+                        </p>
+                        <img id="designPreview" src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" >
 
 						<h2><span id="instructions01">Basic security checklist:</span></h2>
 						<ul>
@@ -6746,7 +6753,7 @@ Bitcoin.Util = {
                     <br clear="all" />
 				</div>
                 
-				<img id="backsvg" class="backsvg" src="./images/back-300dpi.jpg">
+				<img id="backsvg1" class="backsvg" src="./images/back-300dpi.jpg">
                 
 			</div><!-- end backarea -->
 
@@ -7426,7 +7433,7 @@ Bitcoin.Util = {
 				var walletHtml =
 							"<div class='artwallet' id='artwallet" + i + "'>" +
 				//"<iframe src='bitcoin-wallet-01.svg' id='papersvg" + i + "' class='papersvg' ></iframe>" +
-								"<img id='papersvg" + i + "' class='papersvg' src='./images/front-300dpi.jpg' />" +
+								"<img id='papersvg" + i + "' class='papersvg' src='" + window.frontJPG + "' />" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
@@ -8038,8 +8045,25 @@ Bitcoin.Util = {
 			}
 
 			updateCalibrationInfo();
-
 		}
+
+	function setDesign (whichDesign) {
+		if (!whichDesign) whichDesign = 'default';
+		if (whichDesign == 'default') {
+			var myFront = './images/front-300dpi.jpg';
+			var myBack = './images/back-300dpi.jpg';
+			var myPreview = './images/finished-sample-sealed.jpg';
+		} else {
+			var myFront = './images/front-300dpi-' + whichDesign + '.jpg';
+			var myBack = './images/back-300dpi-' + whichDesign + '.jpg';
+			var myPreview = './images/finished-sample-' + whichDesign + '.jpg';
+		}
+		window.frontJPG=myFront;
+		if (document.getElementById('papersvg1') != null) document.getElementById('papersvg1').src=myFront;
+		document.getElementById('backsvg1').src=myBack;
+		document.getElementById('designPreview').src=myPreview;
+		document.getElementById('designPicker').value = whichDesign; // force menu option in case it was picked during onload.
+	}
 
 	</script>
 
