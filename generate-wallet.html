@@ -1624,7 +1624,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		sr.pptr = 0;
 		var t;
 		// Use webcrypto if available; -- Thanks to Gavin Andresen for this contribution
-		// see http://www.w3.org/2012/webcrypto/WebCryptoAPI/#Crypto-method-getRandomValues
+		// see http://www.w3.org/TR/WebCryptoAPI/#RandomSource-interface
 		if (window.crypto && window.crypto.getRandomValues) {
 			sr.pool = new Uint8Array(sr.poolSize);
 			window.crypto.getRandomValues(sr.pool);
@@ -1835,14 +1835,18 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		if (this.zinv == null) {
 			this.zinv = this.z.modInverse(this.curve.q);
 		}
-		return this.curve.fromBigInteger(this.x.toBigInteger().multiply(this.zinv).mod(this.curve.q));
+		var r = this.x.toBigInteger().multiply(this.zinv);
+		this.curve.reduce(r);
+		return this.curve.fromBigInteger(r);
 	};
 
 	ec.PointFp.prototype.getY = function () {
 		if (this.zinv == null) {
 			this.zinv = this.z.modInverse(this.curve.q);
 		}
-		return this.curve.fromBigInteger(this.y.toBigInteger().multiply(this.zinv).mod(this.curve.q));
+		var r = this.y.toBigInteger().multiply(this.zinv);
+		this.curve.reduce(r);
+		return this.curve.fromBigInteger(r);
 	};
 
 	ec.PointFp.prototype.equals = function (other) {
@@ -1924,6 +1928,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 			w = w.add(this.z.square().multiply(a));
 		}
 		w = w.mod(this.curve.q);
+		//this.curve.reduce(w);
 		// x3 = 2 * y1 * z1 * (w^2 - 8 * x1 * y1^2 * z1)
 		var x3 = w.square().subtract(x1.shiftLeft(3).multiply(y1sqz1)).shiftLeft(1).multiply(y1z1).mod(this.curve.q);
 		// y3 = 4 * y1^2 * z1 * (3 * w * x1 - 2 * y1^2 * z1) - w^3
@@ -2164,6 +2169,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		this.a = this.fromBigInteger(a);
 		this.b = this.fromBigInteger(b);
 		this.infinity = new ec.PointFp(this, null, null);
+		this.reducer = new Barrett(this.q);
 	}
 
 	ec.CurveFp.prototype.getQ = function () {
@@ -2189,6 +2195,10 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 	ec.CurveFp.prototype.fromBigInteger = function (x) {
 		return new ec.FieldElementFp(this.q, x);
+	};
+
+	ec.CurveFp.prototype.reduce = function (x) {
+		this.reducer.reduce(x);
 	};
 
 	// for now, work with hex strings because they're easier in JS
@@ -2218,6 +2228,21 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 			default: // unsupported
 				return null;
 		}
+	};
+
+	ec.CurveFp.prototype.encodePointHex = function (p) {
+		if (p.isInfinity()) return "00";
+		var xHex = p.getX().toBigInteger().toString(16);
+		var yHex = p.getY().toBigInteger().toString(16);
+		var oLen = this.getQ().toString(16).length;
+		if ((oLen % 2) != 0) oLen++;
+		while (xHex.length < oLen) {
+			xHex = "0" + xHex;
+		}
+		while (yHex.length < oLen) {
+			yHex = "0" + yHex;
+		}
+		return "04" + xHex + yHex;
 	};
 
 	/*
@@ -2448,7 +2473,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		this.t = 1;
 		this.s = (x < 0) ? -1 : 0;
 		if (x > 0) this[0] = x;
-		else if (x < -1) this[0] = x + DV;
+		else if (x < -1) this[0] = x + this.DV;
 		else this.t = 0;
 	};
 
@@ -3460,7 +3485,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 	// ****** REDUCTION ******* //
 
 	// Modular reduction using "classic" algorithm
-	function Classic(m) { this.m = m; }
+	var Classic = window.Classic = function Classic(m) { this.m = m; }
 	Classic.prototype.convert = function (x) {
 		if (x.s < 0 || x.compareTo(this.m) >= 0) return x.mod(this.m);
 		else return x;
@@ -3475,7 +3500,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// Montgomery reduction
-	function Montgomery(m) {
+	var Montgomery = window.Montgomery = function Montgomery(m) {
 		this.m = m;
 		this.mp = m.invDigit();
 		this.mpl = this.mp & 0x7fff;
@@ -3526,7 +3551,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// A "null" reducer
-	function NullExp() { }
+	var NullExp = window.NullExp = function NullExp() { }
 	NullExp.prototype.convert = function (x) { return x; };
 	NullExp.prototype.revert = function (x) { return x; };
 	NullExp.prototype.mulTo = function (x, y, r) { x.multiplyTo(y, r); };
@@ -3537,7 +3562,7 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 
 
 	// Barrett modular reduction
-	function Barrett(m) {
+	var Barrett = window.Barrett = function Barrett(m) {
 		// setup Barrett
 		this.r2 = nbi();
 		this.q3 = nbi();
@@ -5069,8 +5094,10 @@ Bitcoin.ECKey = (function () {
 			} else if (ECKey.isBase64Format(input)) {
 				bytes = Crypto.util.base64ToBytes(input);
 			}
-
-			if (bytes == null || bytes.length != 32) {
+			
+			if (ECKey.isBase6Format(input)) {
+				this.priv = new BigInteger(input, 6);
+			} else if (bytes == null || bytes.length != 32) {
 				this.priv = null;
 			} else {
 				// Prepend zero byte to prevent interpretation as negative integer
@@ -5285,6 +5312,12 @@ Bitcoin.ECKey = (function () {
 	ECKey.isBase64Format = function (key) {
 		key = key.toString();
 		return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
+	};
+
+	// 99 characters, 1=1, if using dice convert 6 to 0
+	ECKey.isBase6Format = function (key) {
+		key = key.toString();
+		return (/^[012345]{99}$/.test(key));
 	};
 
 	// 22, 26 or 30 characters, always starts with an 'S'
@@ -6439,6 +6472,8 @@ Bitcoin.Util = {
 		}
 
 		.instructionsarea { padding: 0 25px; }
+		.instructionsarea { font-size: 12px; line-height: 18px; }
+		.instructionsarea li { padding-bottom: 8px; list-style: none; }
 		
 		.highlighted { font-size: 14px; padding: 8px; background-color: #ebfdbf;}
 		
@@ -6534,7 +6569,7 @@ Bitcoin.Util = {
 		}
 	</style>
 </head>
-<body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
+<body onclick="SecureRandom.seedTime();" onkeypress="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" onload="guessPrinterSettings();">
 	<div id="main">
     	<div id="logoback">
           	<div id="culturemenu">
@@ -6544,8 +6579,8 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated October 1, 2013</span></div>
-			<div id="tagsite">For help, security tips, or wallet supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
+			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated December 3, 2013</span></div>
+			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
         
 		<div class="menu" id="menu">
@@ -6585,23 +6620,60 @@ Bitcoin.Util = {
 						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your bitcoins.</span></h1>
 						                        
 						<span id="instructions1"><em>Here's an overview of what will happen, step by step.</em></span>
+
 						<br /><br />
 
-                        <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" style="float: right; margin: 0 0 20px 20px;">
+						<div style="float: right; width: 410px; padding-left: 30px; margin-left: 20px; border-left: 4px solid #EEE;">
+                        <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" >
 
-						<span id="instructions3"><b>Step 1: Calibrate Printer</b><br />
-                        Before printing out a wallet you'll need to "calibrate" your printer for <b>zoom</b> and <b>horizontal shift</b> to accommodate your particular browser / printer combination. Without proper callibration, your wallet will end up the wrong size or with a misaligned reverse side.</span>
+						<h2><span id="instructions01">Basic security checklist:</span></h2>
+						<ul>
+                        <li>
+                        <script language="javascript">
+						  switch(window.location.protocol) {
+							 case 'http:':
+							 case 'https:':
+							   document.write('<span style="color: #990000;">&times; You appear to be running this generator off of a live website, which is not recommended for creating valuable wallets. Instead, use the download link at the bottom of this page to download the ZIP file from GitHub and run this generator offline as a \'local\' HTML file.</span>');
+							   break;
+							 case 'file:':
+							   document.write('<span style="color: #009900;">&#10004; You are running this generator from your own download.</span><br />Tip: Make 100% sure you are offline by trying <a href="http://google.com" target="_blank">google.com</a></span>');
+							   break;
+							 default: 
+						  }
+                        </script>
+                        
+                        </li>
+                        <li>
+                        <script language="javascript">
+						  if (window.crypto && window.crypto.getRandomValues) {
+								 document.write('<span style="color: #009900;">&#10004; Your browser is capable of generating cryptographically random keys using window.crypto.getRandomValues</span>');
+						  } else {
+								 document.write('<span style="color: #990000;">&times; Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>');
+						  }
+						</script>
+                        </li>
+                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD?</li>
+                        </ul>
+                        
+                        <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips</a></p>
+                        
+                        </div>
+
+						<span id="instructions2"><b>Step 1: Calibrate Printer</b><br />
+                        Before printing out a wallet you'll need to "calibrate" your output using the <em>zoom</em> and <em>horizontal&nbsp;shift</em> adjustments to accommodate your particular browser / printer combination. Without proper callibration, your wallet may print out too small or with a misaligned reverse side.</span>
 						<br /><br />
-						<span id="instructions4"><b>Step 2: Print Front</b><br />
-                        Next we'll print out the front side of your wallet. A public address and private key will automatically be generated.</span>
+						<span id="instructions3"><b>Step 2: Print Front</b><br />
+                        Next we'll print out the front side of your wallet. A public address and private key will automatically be generated, or you can supply your own key if you are using 'vanitygen' or some other random key generator.</span>
 						<br /><br />	
-						<span id="instructions5"><b>Step 3: Print Back</b><br />
-                        Then you will put the same page back in your printer (but upside down) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
+						<span id="instructions4"><b>Step 3: Print Back</b><br />
+                        Then you will put the same page back in your printer (but flipped over) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
 						<br /><br />	
-						<span id="instructions6"><b>Step 4: Cut, Fold, Seal &amp; Fund</b><br />
-                        Find your scissors! Time to cut out your wallet, fold it, and seal it  with opaque (light-blocking) tape&mdash;or better yet <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank"><strong>tamper-evident holographic tape with serial numbers</strong></a>.) Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+						<span id="instructions5"><b>Step 4: Cut, Fold, Seal &amp; Fund</b><br />
+                        Find your scissors! The final step is to cut out your wallet, fold it, and seal it  with opaque (light-blocking) tape. Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+                        <br /><br />
+						<span><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second tutorial video on YouTube &raquo;</a></span>
 						<br /><br />	
-						<span id="instructions2"><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second video demonstration on YouTube &raquo;</a></span>
+						<span><a href="https://bitcoinpaperwallet.com/#purchase" target="_blank" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a></span>
                                                 
 					</div>
 				</div>
@@ -6612,7 +6684,7 @@ Bitcoin.Util = {
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">To calibrate your printer, <a href="#" onClick="doPrint('calibration');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until the printed ruler closely matches a real ruler, and has equal margins on the left and right sides of the page. Once you have a properly sized &amp; centered ruler, go on to step 2.<br /><br />PS: Once you get your wallets printing out properly, please consider <a href="https://bitcoinpaperwallet.com/feedback/">sending feedback</a> so we can share successful print settings with others.</p>
+						<p id="calibrateinstructions" class="instructions">To calibrate your output, <a href="#" onClick="doPrint('calibration');">print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until your printed ruler approximates a real ruler, and leaves equal margins on the left and right sides of the page. Consider <a href="https://bitcoinpaperwallet.com/feedback/">letting us know</a> what settings worked best.</p>
 						<span class="print">
                         <a href="#" class="nicerButton" onClick="doPrint('calibration');">Print Calibration Test</a>
                         </span>
@@ -6622,21 +6694,7 @@ Bitcoin.Util = {
 
 				<div id="calibrationinfo">Zoom / Shift : Default</div>
 				<img id="calibratesvg" class="calibratesvg" src="./images/calibrate-300dpi.jpg">
-				<div id="browserinfo"></div>
-
-				<script type="text/javascript">
-					// detect browser / OS human-readable
-                  	txt = "<p><small style=\"color: #666666;\"><b>User-agent:</b> " + navigator.userAgent + "</small><br />&nbsp;<br />";
-					var parser = new UAParser();
-					parser.setUA(navigator.userAgent);
-					var result = parser.getResult();
-					txt+=result.browser.name + " version " + result.browser.version + " (" + result.engine.name + ")<br />";
-					txt+=result.os.name + " version " + result.os.version + " (" + result.cpu.architecture + ")<br />";
-					txt += "</p>";
-                	document.getElementById("browserinfo").innerHTML=txt;
-                </script>
-
-
+				<div id="browserinfo"></div><!-- this gets set onLoad -->
                 
 			</div><!-- end calibratearea -->
             
@@ -6718,11 +6776,10 @@ Bitcoin.Util = {
                         <br />
 						<span id="instructions13">Finally seal your wallet by placing two strips of sturdy <strong>light-blocking</strong> tape over the top and bottom edges of the private (folded) area. A zip-seal bag will keep it safe from moisture (especially important for inkjet prints.)</span>
 						<br /><br />	
-
+                        <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a>	
+						<br /><br />
                         <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet">
 
-						<br /><br />	
-						<span id="instructions15" class="highlighted"><a href="https://bitcoinpaperwallet.com/#purchase" target="_blank"><strong>Click here to order some holographic tamper-evident tape and/or zip-sealing waterproof bags</strong> &raquo;</a></span>
 						<br /><br />	
 
 						<h1><span id="instructions16">How to add funds to your wallet:</span></h1>
@@ -6732,7 +6789,7 @@ Bitcoin.Util = {
                         
 						<h1><span id="instructions18">How to withdraw funds from your wallet:</span></h1>
 
-						<span id="instructions19" class="highlighted"><a href="https://bitcoinpaperwallet.com/#security" target="_blank">Click here for important tips on withdrawing funds from your wallet &raquo;</a></span>
+						<span id="instructions19">You should expect to withdraw the entire balance of the wallet by importing it (or "sweeping" it) to a live wallet, e.g. a Bitcoin wallet application or online service like blockchain.info or coinbase.com. <a href="https://bitcoinpaperwallet.com/#security" target="_blank">Click here for important tips on withdrawing funds from your wallet &raquo;</a></span>
                         
 					</div>
 				</div>
@@ -6757,13 +6814,14 @@ Bitcoin.Util = {
                 <div id="siginfo" style="display: none; position: absolute; top: -300px;">
                   <p class="closeme"><a href="#" onClick="document.getElementById('siginfo').style.display='none'; return(false);">X</a></p>
   
-                    After downloading the <a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank">ZIP package</a> for this generator, you should find a file named <b>generate-wallet.html.sig</b> 
+                    After downloading and extracting the <a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank">ZIP package</a> for this generator, you should find a file named <b>generate-wallet.html.sig</b> 
                     which you can use to:
                     <ol><li> verify that <strong>generate-wallet.html</strong> hasn't been tampered with, and</li>
                     <li>get proof that it really was authored by Canton Becker (canton@gmail.com) whose public key and fingerprint can be confirmed at <a href="http://cantonbecker.com">cantonbecker.com</a>, bitcointalk.org, etc.</li>
                     </ol>
                     For example, if you have GPG installed, just open the terminal, change directory (cd) to where this file lives, and type:<br />
-                    <code>gpg --verify --with-fingerprint generate-wallet.html.sig generate-wallet.html</code>
+                    <code>  gpg --recv-key 36E1D9B6<br />
+                    gpg --verify --with-fingerprint generate-wallet.html.sig generate-wallet.html</code>
                    <br /><br />And then verify the signature's fingerprint against Canton Becker's <a href="http://cantonbecker.com">published PGP/GPG fingerprint</a>.<br /><br />
                   <a href="http://www.google.com/search?q=how+to+verify+PGP+%22.sig%22+signature+on+file">Learn how to verify a PGP-signed file &raquo;</a>
                 </div>
@@ -7948,6 +8006,39 @@ Bitcoin.Util = {
 				ninja.wallets.paperwallet.showArtisticWallet(1, computedPublicAddress, suppliedKey);
 				window.printCounter = 0;
 			}
+		}
+
+		function guessPrinterSettings() {
+			// detect browser / OS human-readable
+			txt = "<p><small style=\"color: #666666;\"><b>User-agent:</b> " + navigator.userAgent + "</small><br />&nbsp;<br />";
+			var parser = new UAParser();
+			parser.setUA(navigator.userAgent);
+			var result = parser.getResult();
+			txt+=result.browser.name + " version " + result.browser.version + " (" + result.engine.name + ")<br />";
+			txt+=result.os.name + " version " + result.os.version + " (" + result.cpu.architecture + ")<br />";
+			txt += "</p>";
+			document.getElementById("browserinfo").innerHTML=txt;
+			
+			// some common printer calibration settings here
+			if (result.browser.name == 'Safari') { // OS X Safari
+				document.getElementById("printerzoom").value = 5;
+				document.getElementById("printershift").value = 6;
+			} else if (result.browser.name == 'Chrome' && result.os.name == 'Mac OS X') { 
+				document.getElementById("printerzoom").value = 3;
+				document.getElementById("printershift").value = 3;
+			} else if (result.browser.name == 'Firefox' && result.os.name == 'Ubuntu') { // live CD?
+				document.getElementById("printerzoom").value = 2;
+				document.getElementById("printershift").value = 3;
+			} else if (result.browser.name == 'Iceweasel' && result.os.name == 'Debian') { 
+				document.getElementById("printerzoom").value = 1.8;
+				document.getElementById("printershift").value = 2.9;
+			} else if (result.browser.name == 'IE' && result.os.name == 'Windows') { 
+				document.getElementById("printerzoom").value = 5;
+				document.getElementById("printershift").value = 6;
+			}
+
+			updateCalibrationInfo();
+
 		}
 
 	</script>
