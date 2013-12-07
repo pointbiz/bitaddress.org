@@ -6579,7 +6579,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated December 3, 2013</span></div>
+			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated December 6, 2013</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
         
@@ -6624,13 +6624,25 @@ Bitcoin.Util = {
 						<br /><br />
 
 						<div style="float: right; width: 410px; padding-left: 30px; margin-left: 20px; border-left: 4px solid #EEE;">
-                        <p><strong>Select your wallet design or language here:</strong>
-                        <select id="designPicker" onChange="setDesign(this.value);">
+						<div style="float: right; width: 325px; padding-left: 15px;">
+                        <p style="margin-top: 0;"><strong>Select your wallet design or language here:</strong>
+    					<select id="designPicker" onChange="setDesign(this.value);">
                           <option value="default">Standard (English/en)</option>
-                          <option value="german">Standard (German/de)</option>
                           <option value="holiday">Holiday / Christmas Design (English/en)</option>
+                          <option value="chinese">Standard (Chinese/zh)</option>
+                          <option value="czech">Standard (Czech/cs)</option>
+                          <option value="dutch">Standard (Dutch/nl)</option>
+                          <option value="french">Standard (French/fr)</option>
+                          <option value="german">Standard (German/de)</option>
+                          <option value="italian">Standard (Italian/it)</option>
+                          <option value="portuguese">Standard (Portuguese/pt)</option>
+                          <option value="russian">Standard (Russian/ru)</option>
+                  		  <option value="spanish">Standard (Spanish/es)</option>
                         </select>
                         </p>
+                        </div>
+                        <img src="images/flags.png" width="65" height="25" alt="Flags" style="padding-top: 10px;">
+
                         <img id="designPreview" src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" >
 
 						<h2><span id="instructions01">Basic security checklist:</span></h2>
@@ -6659,7 +6671,7 @@ Bitcoin.Util = {
 						  }
 						</script>
                         </li>
-                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD?</li>
+                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">Ubuntu LiveCD</a>?</li>
                         </ul>
                         
                         <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips</a></p>
