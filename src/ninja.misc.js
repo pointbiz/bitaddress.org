@@ -2,7 +2,7 @@ ninja.seeder = {
 	// number of mouse movements to wait for
 	seedLimit: (function () {
 		var num = Crypto.util.randomBytes(12)[11];
-		return 50 + Math.floor(num);
+		return 100 + Math.floor(num);
 	})(),
 
 	seedCount: 0, // counter
@@ -23,6 +23,12 @@ ninja.seeder = {
 			// UI
 			document.getElementById("generate").style.display = "none";
 			document.getElementById("menu").style.visibility = "visible";
+		}
+		if (SecureRandom.poolCopyOnInit != null) {
+			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+		}
+		else {
+			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.pool);
 		}
 	},
 

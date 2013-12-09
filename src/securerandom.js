@@ -17,6 +17,7 @@
 	sr.state;
 	sr.pool;
 	sr.pptr;
+	sr.poolCopyOnInit;
 
 	// Pool size must be a multiple of 4 and greater than 32.
 	// An array of bytes the size of the pool will be passed to init()
@@ -46,8 +47,9 @@
 			sr.seedTime();
 			sr.state = sr.ArcFour(); // Plug in your RNG constructor here
 			sr.state.init(sr.pool);
+			sr.poolCopyOnInit = [];
 			for (sr.pptr = 0; sr.pptr < sr.pool.length; ++sr.pptr)
-				sr.pool[sr.pptr] = 0;
+				sr.poolCopyOnInit[sr.pptr] = sr.pool[sr.pptr];
 			sr.pptr = 0;
 		}
 		// TODO: allow reseeding after first request
@@ -56,13 +58,17 @@
 
 	// Mix in a 32-bit integer into the pool
 	sr.seedInt = function (x) {
-		sr.pool[sr.pptr++] ^= x & 255;
-		sr.pool[sr.pptr++] ^= (x >> 8) & 255;
-		sr.pool[sr.pptr++] ^= (x >> 16) & 255;
-		sr.pool[sr.pptr++] ^= (x >> 24) & 255;
-		if (sr.pptr >= sr.poolSize) sr.pptr -= sr.poolSize;
+		sr.seedInt8(x);
+		sr.seedInt8((x >> 8));
+		sr.seedInt8((x >> 16));
+		sr.seedInt8((x >> 24));
 	}
 
+	// Mix in a 8-bit integer into the pool
+	sr.seedInt8 = function (x) {
+		sr.pool[sr.pptr++] ^= x & 255;
+		if (sr.pptr >= sr.poolSize) sr.pptr -= sr.poolSize;
+	}
 
 	// Arcfour is a PRNG
 	sr.ArcFour = function () {
@@ -110,11 +116,14 @@
 		sr.pool = new Array();
 		sr.pptr = 0;
 		var t;
-		if (navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
-			// Extract entropy (256 bits) from NS4 RNG if available
-			var z = window.crypto.random(32);
-			for (t = 0; t < z.length; ++t)
-				sr.pool[sr.pptr++] = z.charCodeAt(t) & 255;
+		if (window.crypto && window.crypto.getRandomValues) {
+			try {
+				// Use webcrypto if available
+				var ua = new Uint8Array(32);
+				window.crypto.getRandomValues(ua);
+				for (t = 0; t < 32; ++t)
+					sr.pool[sr.pptr++] = ua[t];
+			} catch (e) { alert(e); }
 		}
 		while (sr.pptr < sr.poolSize) {  // extract some randomness from Math.random()
 			t = Math.floor(65536 * Math.random());
@@ -124,7 +133,35 @@
 		sr.pptr = 0;
 		sr.seedTime();
 		// entropy
-		sr.seedInt(window.screenX);
-		sr.seedInt(window.screenY);
+		var entropyStr = "";
+		// screen size and color depth: ~4.8 to ~5.4 bits
+		entropyStr += (window.screen.height * window.screen.width * window.screen.colorDepth);
+		entropyStr += (window.screen.availHeight * window.screen.availWidth * window.screen.pixelDepth);
+		// time zone offset: ~4 bits
+		var dateObj = new Date();
+		var timeZoneOffset = dateObj.getTimezoneOffset();
+		entropyStr += timeZoneOffset;
+		// user agent: ~8.3 to ~11.6 bits
+		entropyStr += navigator.userAgent;
+		// browser plugin details: ~16.2 to ~21.8 bits
+		var pluginsStr = "";
+		for (var i = 0; i < navigator.plugins.length; i++) {
+			pluginsStr += navigator.plugins[i].name + " " + navigator.plugins[i].filename + " " + navigator.plugins[i].description + " " + navigator.plugins[i].version + ", ";
+		}
+		var mimeTypesStr = "";
+		for (var i = 0; i < navigator.mimeTypes.length; i++) {
+			mimeTypesStr += navigator.mimeTypes[i].description + " " + navigator.mimeTypes[i].type + " " + navigator.mimeTypes[i].suffixes + ", ";
+		}
+		entropyStr += pluginsStr + mimeTypesStr;
+		// cookies and storage: 1 bit
+		entropyStr += navigator.cookieEnabled + typeof (sessionStorage) + typeof (localStorage);
+
+		var entropyBytes = Crypto.SHA256(entropyStr, { asBytes: true });
+		sr.seedInt8(entropyBytes[0]);
+		sr.seedInt8(entropyBytes[1]);
+		sr.seedInt8(entropyBytes[2]);
+		sr.seedInt8(entropyBytes[3]);
+		sr.seedInt8(entropyBytes[4]);
+		sr.seedInt8(entropyBytes[5]);
 	}
 })();

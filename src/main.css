@@ -21,6 +21,7 @@ body { font-family: Arial; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid green; }
 
+#seedpoolarea { display: none; }
 #keyarea { height: 250px; font-family: Arial; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
@@ -183,4 +184,5 @@ body { font-family: Arial; }
 	#detailprivwif { width: 285px; word-wrap: break-word; }
 	#detailprivwifcomp { width: 285px; word-wrap: break-word; text-align: right; }
 	#detailarea .privqr .item { width: 285px; }
+	#seedpoolarea { display: none; }
 }
