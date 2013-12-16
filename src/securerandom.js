@@ -36,7 +36,9 @@
 				for (i = 0; i < ba.length; ++i)
 					ba[i] = sr.getByte() ^ rvBytes[i];
 				return;
-			} catch(e) {}
+			} catch (e) {
+				alert(e);
+			}
 		}
 		for (i = 0; i < ba.length; ++i) ba[i] = sr.getByte();
 	};
