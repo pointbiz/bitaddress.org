@@ -2,7 +2,7 @@ ninja.seeder = {
 	// number of mouse movements to wait for
 	seedLimit: (function () {
 		var num = Crypto.util.randomBytes(12)[11];
-		return 100 + Math.floor(num);
+		return 200 + Math.floor(num);
 	})(),
 
 	seedCount: 0, // counter
@@ -14,7 +14,7 @@ ninja.seeder = {
 		// seed a bunch (minimum seedLimit) of times based on mouse moves
 		SecureRandom.seedTime();
 		// seed mouse position X and Y
-		if (evt) SecureRandom.seedInt((evt.clientX * evt.clientY));
+		if (evt) SecureRandom.seedInt16((evt.clientX * evt.clientY));
 
 		ninja.seeder.seedCount++;
 		// seeding is over now we generate and display the address
