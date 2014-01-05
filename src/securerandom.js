@@ -141,7 +141,7 @@
 			sr.pool[sr.pptr++] = t >>> 8;
 			sr.pool[sr.pptr++] = t & 255;
 		}
-		sr.pptr = 0;
+		sr.pptr = Math.floor(sr.poolSize * Math.random());
 		sr.seedTime();
 		// entropy
 		var entropyStr = "";
