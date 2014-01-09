@@ -130,19 +130,17 @@
 		// Use webcrypto if available
 		if (window.crypto && window.crypto.getRandomValues) {
 			try {
-				var ua = new Uint8Array(sr.poolSize - sr.pptr);
+				var ua = new Uint8Array(sr.poolSize);
 				window.crypto.getRandomValues(ua);
-				var i = 0;
-				while (sr.pptr < sr.poolSize) {
-					sr.pool[sr.pptr++] = ua[i++];
+				for (var i = 0 ; i < sr.poolSize ; i++) {
+					sr.pool[i] = ua[i];
 				}
 			} catch (e) { alert(e); }
 		} else {
-			var t;
-			while (sr.pptr < sr.poolSize) {  // extract some randomness from Math.random()
-				t = Math.floor(65536 * Math.random());
-				sr.pool[sr.pptr++] = t >>> 8;
-				sr.pool[sr.pptr++] = t & 255;
+			for (var i = 0 ; i < sr.poolSize ; i++) { // extract some randomness from Math.random()
+				var t = Math.floor(65536 * Math.random());
+				sr.pool[i] = t >>> 8;
+				sr.pool[i] = t & 255;
 			}
 		}
 
