@@ -166,13 +166,16 @@
 		entropyStr += pluginsStr + mimeTypesStr;
 		// cookies and storage: 1 bit
 		entropyStr += navigator.cookieEnabled + typeof (sessionStorage) + typeof (localStorage);
+		// language: ~7 bit
+		entropyStr += navigator.language;
+		// history: ~2 bit
+		entropyStr += window.history.length;
+		// location
+		entropyStr += window.location;
 
 		var entropyBytes = Crypto.SHA256(entropyStr, { asBytes: true });
-		sr.seedInt8(entropyBytes[0]);
-		sr.seedInt8(entropyBytes[1]);
-		sr.seedInt8(entropyBytes[2]);
-		sr.seedInt8(entropyBytes[3]);
-		sr.seedInt8(entropyBytes[4]);
-		sr.seedInt8(entropyBytes[5]);
+		for (var i = 0 ; i < entropyBytes.length ; i++) {
+			sr.seedInt8(entropyBytes[i]);
+		}
 	}
 })();
