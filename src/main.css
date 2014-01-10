@@ -24,6 +24,9 @@ body { font-family: Arial; }
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
+#seedpooldisplay {  font-family: monospace; font-size: 0.75em; width: 600px; padding: 10px; word-wrap: break-word; }
+#generate { font-family: monospace; font-size: 1.25em; height: 275px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
+#generate span { padding: 5px 5px 0 5px; }
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
@@ -39,8 +42,6 @@ body { font-family: Arial; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
-#generate { font-family: monospace; font-size: 1.25em; height: 158px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
-#generate span { padding: 5px 5px 0 5px; }
 		
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 2px solid green; border-top: 0; }

@@ -10,11 +10,16 @@ ninja.seeder = {
 	// seed function exists to wait for mouse movement to add more entropy before generating an address
 	seed: function (evt) {
 		if (!evt) var evt = window.event;
-
-		// seed a bunch (minimum seedLimit) of times based on mouse moves
+		// seed a bunch (minimum seedLimit) of times
 		SecureRandom.seedTime();
+		// seed key press character
+		if (evt.which) {
+			SecureRandom.seedInt8(evt.which);
+		}
 		// seed mouse position X and Y
-		if (evt) SecureRandom.seedInt16((evt.clientX * evt.clientY));
+		else if (evt) { 
+			SecureRandom.seedInt16((evt.clientX * evt.clientY));
+		}
 
 		ninja.seeder.seedCount++;
 		// seeding is over now we generate and display the address
@@ -24,23 +29,18 @@ ninja.seeder = {
 			document.getElementById("generate").style.display = "none";
 			document.getElementById("menu").style.visibility = "visible";
 		}
+		var poolHex; 
 		if (SecureRandom.poolCopyOnInit != null) {
+			var poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
 			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
 		else {
-			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.pool);
+			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
-	},
-
-	// If user has not moved the mouse or if they are on a mobile device
-	// we will force the generation after a random period of time.
-	forceGenerate: function () {
-		// if the mouse has not moved enough
-		if (ninja.seeder.seedCount < ninja.seeder.seedLimit) {
-			SecureRandom.seedTime();
-			ninja.seeder.seedCount = ninja.seeder.seedLimit - 1;
-			ninja.seeder.seed();
-		}
+		document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
 	}
 };
 

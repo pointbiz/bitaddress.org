@@ -21,7 +21,7 @@
 
 	// Pool size must be a multiple of 4 and greater than 32.
 	// An array of bytes the size of the pool will be passed to init()
-	sr.poolSize = 256;
+	sr.poolSize = 512;
 
 
 	// --- object methods ---
@@ -133,12 +133,12 @@
 		sr.pool = new Array();
 		sr.pptr = 0;
 		var t;
-		if (window.crypto && window.crypto.getRandomValues) {
+		if (window.crypto && window.crypto.getRandomValues && window.Uint8Array) {
 			try {
 				// Use webcrypto if available
-				var ua = new Uint8Array(32);
+				var ua = new Uint8Array(sr.poolSize);
 				window.crypto.getRandomValues(ua);
-				for (t = 0; t < 32; ++t)
+				for (t = 0; t < sr.poolSize; ++t)
 					sr.pool[sr.pptr++] = ua[t];
 			} catch (e) { alert(e); }
 		}
