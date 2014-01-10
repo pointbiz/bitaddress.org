@@ -132,21 +132,24 @@
 	if (sr.pool == null) {
 		sr.pool = new Array();
 		sr.pptr = 0;
-		var t;
+
+		// Use webcrypto if available
 		if (window.crypto && window.crypto.getRandomValues) {
 			try {
-				// Use webcrypto if available
-				var ua = new Uint8Array(32);
+				var ua = new Uint8Array(sr.poolSize);
 				window.crypto.getRandomValues(ua);
-				for (t = 0; t < 32; ++t)
-					sr.pool[sr.pptr++] = ua[t];
+				for (var i = 0 ; i < sr.poolSize ; i++) {
+					sr.pool[i] = ua[i];
+				}
 			} catch (e) { alert(e); }
+		} else {
+			for (var i = 0 ; i < sr.poolSize ; i++) { // extract some randomness from Math.random()
+				var t = Math.floor(65536 * Math.random());
+				sr.pool[i] = t >>> 8;
+				sr.pool[i] = t & 255;
+			}
 		}
-		while (sr.pptr < sr.poolSize) {  // extract some randomness from Math.random()
-			t = Math.floor(65536 * Math.random());
-			sr.pool[sr.pptr++] = t >>> 8;
-			sr.pool[sr.pptr++] = t & 255;
-		}
+
 		sr.pptr = 0;
 		sr.seedTime();
 		// entropy
