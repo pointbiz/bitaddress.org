@@ -1562,6 +1562,12 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 		sr.seedInt8((x >> 24));
 	}
 
+	// Mix in a 16-bit integer into the pool
+	sr.seedInt16 = function (x) {
+		sr.seedInt8(x);
+		sr.seedInt8((x >> 8));
+	}
+
 	// Mix in a 8-bit integer into the pool
 	sr.seedInt8 = function (x) {
 		sr.pool[sr.pptr++] ^= x & 255;
@@ -6641,7 +6647,7 @@ ninja.seeder = {
 	// number of mouse movements to wait for
 	seedLimit: (function () {
 		var num = Crypto.util.randomBytes(12)[11];
-		return 100 + Math.floor(num);
+		return 200 + Math.floor(num);
 	})(),
 
 	seedCount: 0, // counter
@@ -6653,7 +6659,7 @@ ninja.seeder = {
 		// seed a bunch (minimum seedLimit) of times based on mouse moves
 		SecureRandom.seedTime();
 		// seed mouse position X and Y
-		if (evt) SecureRandom.seedInt((evt.clientX * evt.clientY));
+		if (evt) SecureRandom.seedInt16((evt.clientX * evt.clientY));
 
 		ninja.seeder.seedCount++;
 		// seeding is over now we generate and display the address

@@ -75,6 +75,12 @@
 		sr.seedInt8((x >> 24));
 	}
 
+	// Mix in a 16-bit integer into the pool
+	sr.seedInt16 = function (x) {
+		sr.seedInt8(x);
+		sr.seedInt8((x >> 8));
+	}
+
 	// Mix in a 8-bit integer into the pool
 	sr.seedInt8 = function (x) {
 		sr.pool[sr.pptr++] ^= x & 255;
