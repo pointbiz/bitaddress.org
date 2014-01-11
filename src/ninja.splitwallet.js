@@ -2,7 +2,7 @@ ninja.wallets.splitwallet = {
     open: function () {
         document.getElementById("splitarea").style.display = "block";
         secrets.setRNG();
-        secrets.init(3);
+        secrets.init(7);
     },
 
     close: function () {
