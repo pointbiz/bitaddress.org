@@ -21,8 +21,7 @@
 
 	// Pool size must be a multiple of 4 and greater than 32.
 	// An array of bytes the size of the pool will be passed to init()
-	sr.poolSize = 512;
-
+	sr.poolSize = 256;
 
 	// --- object methods ---
 
