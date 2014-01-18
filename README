@@ -12,16 +12,16 @@ This attractive paper wallet design is two-sided and folds up to
 hide the private key. Optional tamper-evident hologram tape can be purchased
 to provide extra security against snooping. This generator is ONLY
 for generating secure paper wallets, either using Javascript-based cryptography
-or by supplying keys you have generated using your own means (vanitygen, dice.)
+or by supplying keys you have generated using your own means (e.g. vanitygen)
 
 Use bitaddress.org if you need BIP38, brain wallets, or bulk addresses.
-
 
 *** HOW TO USE THIS GENERATOR ***
 
 1) Extract the ZIP file
 2) Open up the 'generate-wallet.html' file with your web browser. 
-3) Follow the steps for calibrating your printer and then printing
+3) If you like you can select a different language or holiday theme
+4) Follow the steps for calibrating your printer and then printing
    the front and back of each wallet. Use landscape mode when printing!
    
 Rendering and printing seems to work best using: 
@@ -29,6 +29,9 @@ Rendering and printing seems to work best using:
    OS X:     Safari or Chrome or Firefox
    Windows:  Chrome or Firefox
    Linux:    Firefox
+
+When using Chrome on Windows, use the Chrome print dialog. Switching to the
+Windows system print dialog will cause corrupted output.
 
 
 *** COMPARED WITH BITADDRESS.ORG ***
@@ -63,6 +66,17 @@ published fingerprint at http://cantonbecker.com
 
 If you get warnings like "This key is not certified, there is no indication that
 the key belongs to the owner" do not worry, this is normal.
+
+*** LICENSE ***
+
+© Copyright 2013 Canton Becker. This software may be modified and redistributed as 
+per the MIT/GPL/BSD licenses included in the HTML and JavaScript source. However, 
+the bitcoinpaperwallet.com logo and folding paper wallet design are pending 
+US trademark and may not be modified or redistributed without permission excepting 
+for personal use. 
+
+This software and service is provided with no warranty. 
+Use at your own risk.
 
 - Canton Becker
 http://cantonbecker.com
