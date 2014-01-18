@@ -13,9 +13,13 @@
     
     gpg --verify --with-fingerprint generate-wallet.html.sig generate-wallet.html
     
-    Wallet design and portions of this code are ©Copyright 2013 Canton Becker and bitaddress.org
-    Other portions of this code are copyrighted by their respective authors - see below.
+	The bitcoinpaperwallet.com logo and folding wallet design are pending US trademark and may
+    not be modified or redistributed without permission.
     
+    This software (HTML and JavaScript) is ©Copyright 2013 Canton Becker and bitaddress.org
+    and licensed under the MIT license.
+    
+    Portions of this code are copyrighted by their respective authors - see below.
 
     ****************************************************************************************
     ****************************************************************************************
@@ -6544,7 +6548,7 @@ Bitcoin.Util = {
 			.footer .authorpgp { position: relative; }
 			.footer .authorpgp span.item { text-align: right; display: block; padding-bottom: 5px; }
 			.footer .copyright { font-size: 75%; clear: both; padding: 5px 0; }
-			.footer .copyright span { padding: 10px 10px; }
+			.footer .copyright span { padding: 10px 0; }
 
 			#siginfo { margin: 10px 200px; border: 1px solid #666; padding: 10px; background-color: #999; color: #FFF; z-index: 10000;}
 			#siginfo a, #siginfo a:visited { color: #EFFED3;}
@@ -6579,7 +6583,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated December 6, 2013</span></div>
+			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated January 18, 2014</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
         
@@ -6629,6 +6633,7 @@ Bitcoin.Util = {
     					<select id="designPicker" onChange="setDesign(this.value);">
                           <option value="default">Standard (English/en)</option>
                           <option value="holiday">Holiday / Christmas Design (English/en)</option>
+                          <option value="chinese-new-year">Chinese New Year (Chinese/zh)</option>
                           <option value="chinese">Standard (Chinese/zh)</option>
                           <option value="czech">Standard (Czech/cs)</option>
                           <option value="dutch">Standard (Dutch/nl)</option>
@@ -6757,7 +6762,7 @@ Bitcoin.Util = {
 			<div id="backarea" class="walletarea">
 				<div class="commands"> 
 					<div id="backcommands">
-						<p id="backinstructions" class="instructions highlighted">Reload the front page into your printer first. And don't forget to print in LANDSCAPE mode!</p>
+						<p id="backinstructions" class="instructions highlighted"><strong>Reload the front page into your printer first.</strong> Note: The back design is intentionally larger than the front side. (Use the front side as your guide when cutting to trim off the excess.)</p>
 						<span class="print">
                         <a href="#" class="nicerButton" onClick="doPrint();">Print Wallet Back</a>
                         </span>
@@ -6856,9 +6861,9 @@ Bitcoin.Util = {
                 
 			</div>
 			<div class="copyright">
-				<span id="footerlabelcopyright1">&copy; Copyright 2013 Canton Becker (<a href="mailto:canton@gmail.com">canton@gmail.com</a>) and Pointbiz/bitaddress.org</span>
-				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
-				<span id="footerlabelnowarranty">No warranty.</span><br />
+				<span id="footerlabelcopyright1">&copy; Copyright 2013 Canton Becker.</span>
+				<span id="footerlabelcopyright2">This software may be modified and redistributed as per the MIT/GPL/BSD licenses included in the HTML and JavaScript source. However, the bitcoinpaperwallet.com logo and folding paper wallet design are pending US trademark and may not be modified or redistributed without permission excepting for personal use.</span>
+				<span id="footerlabelnowarranty">This software and service is provided with no warranty. Use at your own risk.</span><br />
 
 			</div>
 		</div>
