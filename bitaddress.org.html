@@ -5788,9 +5788,11 @@ body { font-family: Arial; }
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
-#seedpooldisplay {  font-family: monospace; font-size: 0.75em; width: 600px; padding: 10px; word-wrap: break-word; }
+#seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
+.seedpoint { width: 6px; height: 6px; border-radius: 3px; background-color: green; position: absolute; z-index: 10; }
 #generate { font-family: monospace; font-size: 1.25em; height: 275px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 #generate span { padding: 5px 5px 0 5px; }
+#generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
@@ -5958,7 +5960,7 @@ body { font-family: Arial; }
 }
 	</style>
 </head>
-<body onclick="SecureRandom.seedTime();" onkeypress="ninja.seeder.seed(event);" onmousemove="ninja.seeder.seed(event);">
+<body onclick="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
 	<div id="busyblock"></div>
 	<div id="main">
 		<div id="culturemenu">
@@ -5985,7 +5987,7 @@ body { font-family: Arial; }
 		<div id="generate">
 			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-			<span id="generatelabelkeypress">OR type some random characters into this textbox </span><input type="text" id="generatekeyinput"></span><br />
+			<span id="generatelabelkeypress">OR type some random characters into this textbox <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seed(event);" /></span><br />
 			<div id="seedpooldisplay"></div>
 		</div>
 
@@ -6278,7 +6280,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.7.6)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.8.0)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -6653,41 +6655,73 @@ ninja.seeder = {
 	})(),
 
 	seedCount: 0, // counter
+	lastInputTime: new Date().getTime(),
+	seedPoints: [],
 
 	// seed function exists to wait for mouse movement to add more entropy before generating an address
 	seed: function (evt) {
 		if (!evt) var evt = window.event;
-		// seed a bunch (minimum seedLimit) of times
-		SecureRandom.seedTime();
-		// seed key press character
-		if (evt.which) {
-			SecureRandom.seedInt8(evt.which);
-		}
-		// seed mouse position X and Y
-		else if (evt) { 
-			SecureRandom.seedInt16((evt.clientX * evt.clientY));
-		}
 
-		ninja.seeder.seedCount++;
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
+			ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
 			// UI
 			document.getElementById("generate").style.display = "none";
 			document.getElementById("menu").style.visibility = "visible";
+			ninja.seeder.removePoints();
 		}
-		var poolHex; 
+		else if (ninja.seeder.seedCount < ninja.seeder.seedLimit) {
+			var timeStamp = new Date().getTime();
+			// seed key press character
+			if (evt.which) {
+				// seed a bunch (minimum seedLimit) of times
+				SecureRandom.seedTime();
+				SecureRandom.seedInt8(evt.which);
+				var keyPressTimeDiff = timeStamp - ninja.seeder.lastInputTime;
+				SecureRandom.seedInt8(keyPressTimeDiff);
+				ninja.seeder.seedCount++;
+				ninja.seeder.lastInputTime = new Date().getTime();
+			}
+			// seed mouse position X and Y when mouse movements are greater than 40ms apart.
+			else if (evt && (timeStamp - ninja.seeder.lastInputTime) > 40) {
+				// seed a bunch (minimum seedLimit) of times
+				SecureRandom.seedTime();
+				SecureRandom.seedInt16((evt.clientX * evt.clientY));
+				ninja.seeder.showPoint(evt.clientX, evt.clientY);
+				ninja.seeder.seedCount++;
+				ninja.seeder.lastInputTime = new Date().getTime();
+			}
+			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		}
+
+		var poolHex;
 		if (SecureRandom.poolCopyOnInit != null) {
-			var poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
-		}
-		else {
-			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
 			document.getElementById("seedpool").innerHTML = poolHex;
 			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
-		document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		else {
+			poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		}
+	},
+
+	showPoint: function (x, y) {
+		var div = document.createElement("div");
+		div.setAttribute("class", "seedpoint");
+		div.style.top = y + "px";
+		div.style.left = x + "px";
+		document.body.appendChild(div);
+		ninja.seeder.seedPoints.push(div);
+	},
+
+	removePoints: function () {
+		for (var i = 0; i < ninja.seeder.seedPoints.length; i++) {
+			document.body.removeChild(ninja.seeder.seedPoints[i]);
+		}
+		ninja.seeder.seedPoints = [];
 	}
 };
 

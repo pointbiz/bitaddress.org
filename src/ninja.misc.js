@@ -6,41 +6,73 @@ ninja.seeder = {
 	})(),
 
 	seedCount: 0, // counter
+	lastInputTime: new Date().getTime(),
+	seedPoints: [],
 
 	// seed function exists to wait for mouse movement to add more entropy before generating an address
 	seed: function (evt) {
 		if (!evt) var evt = window.event;
-		// seed a bunch (minimum seedLimit) of times
-		SecureRandom.seedTime();
-		// seed key press character
-		if (evt.which) {
-			SecureRandom.seedInt8(evt.which);
-		}
-		// seed mouse position X and Y
-		else if (evt) { 
-			SecureRandom.seedInt16((evt.clientX * evt.clientY));
-		}
 
-		ninja.seeder.seedCount++;
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
+			ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
 			// UI
 			document.getElementById("generate").style.display = "none";
 			document.getElementById("menu").style.visibility = "visible";
+			ninja.seeder.removePoints();
 		}
-		var poolHex; 
+		else if (ninja.seeder.seedCount < ninja.seeder.seedLimit) {
+			var timeStamp = new Date().getTime();
+			// seed key press character
+			if (evt.which) {
+				// seed a bunch (minimum seedLimit) of times
+				SecureRandom.seedTime();
+				SecureRandom.seedInt8(evt.which);
+				var keyPressTimeDiff = timeStamp - ninja.seeder.lastInputTime;
+				SecureRandom.seedInt8(keyPressTimeDiff);
+				ninja.seeder.seedCount++;
+				ninja.seeder.lastInputTime = new Date().getTime();
+			}
+			// seed mouse position X and Y when mouse movements are greater than 40ms apart.
+			else if (evt && (timeStamp - ninja.seeder.lastInputTime) > 40) {
+				// seed a bunch (minimum seedLimit) of times
+				SecureRandom.seedTime();
+				SecureRandom.seedInt16((evt.clientX * evt.clientY));
+				ninja.seeder.showPoint(evt.clientX, evt.clientY);
+				ninja.seeder.seedCount++;
+				ninja.seeder.lastInputTime = new Date().getTime();
+			}
+			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		}
+
+		var poolHex;
 		if (SecureRandom.poolCopyOnInit != null) {
-			var poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpool").innerHTML = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
-		}
-		else {
-			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
 			document.getElementById("seedpool").innerHTML = poolHex;
 			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
-		document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		else {
+			poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		}
+	},
+
+	showPoint: function (x, y) {
+		var div = document.createElement("div");
+		div.setAttribute("class", "seedpoint");
+		div.style.top = y + "px";
+		div.style.left = x + "px";
+		document.body.appendChild(div);
+		ninja.seeder.seedPoints.push(div);
+	},
+
+	removePoints: function () {
+		for (var i = 0; i < ninja.seeder.seedPoints.length; i++) {
+			document.body.removeChild(ninja.seeder.seedPoints[i]);
+		}
+		ninja.seeder.seedPoints = [];
 	}
 };
 

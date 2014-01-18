@@ -24,9 +24,11 @@ body { font-family: Arial; }
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
-#seedpooldisplay {  font-family: monospace; font-size: 0.75em; width: 600px; padding: 10px; word-wrap: break-word; }
+#seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
+.seedpoint { width: 6px; height: 6px; border-radius: 3px; background-color: green; position: absolute; z-index: 10; }
 #generate { font-family: monospace; font-size: 1.25em; height: 275px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
 #generate span { padding: 5px 5px 0 5px; }
+#generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
