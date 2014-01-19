@@ -74,6 +74,7 @@ ninja.translator = {
 			"tagline": "Generador de carteras Bitcoin de código abierto en lado de cliente con Javascript",
 			"generatelabelbitcoinaddress": "Generando dirección Bitcoin...",
 			"generatelabelmovemouse": "Mueve un poco el ratón para crear entropía...",
+			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
 			"singlewallet": "Una sola cartera",
 			"paperwallet": "Cartera en papel",
 			"bulkwallet": "Direcciones en masa",
@@ -207,6 +208,7 @@ ninja.translator = {
 			"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 			"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 			"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
+			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
 			"singlewallet": "Porte-Monnaie Simple",
 			"paperwallet": "Porte-Monnaie Papier",
 			"bulkwallet": "Porte-Monnaie En Vrac",
@@ -340,6 +342,7 @@ ninja.translator = {
 			"tagline": "Δημιουργός Διευθύνσεων Bitcoin, ανοικτού κώδικα Javascript",
 			"generatelabelbitcoinaddress": "Δημιουργία Διεύθυνσης Bitcoin...",
 			"generatelabelmovemouse": "ΚΟΥΝΗΣΤΕ το ποντίκι τριγύρω για να προσθέσετε επιπλέον τυχαιότητα...",
+			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
 			"singlewallet": "Απλό Πορτοφόλι",
 			"paperwallet": "Χάρτινο Πορτοφόλι",
 			"bulkwallet": "Πολλαπλά Πορτοφόλια",
@@ -473,6 +476,7 @@ ninja.translator = {
 			"tagline": "Open Source JavaScript Client-Side Bitcoin Wallet Generator",
 			"generatelabelbitcoinaddress": "Generazione Indirizzo Bitcoin...",
 			"generatelabelmovemouse": "MUOVI il tuo mouse per contribuire alla generazione dei numeri casuali...",
+			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
 			"singlewallet": "Singolo portafoglio",
 			"paperwallet": "Paper Wallet",
 			"bulkwallet": "Portafogli multipli",
@@ -607,6 +611,7 @@ ninja.translator = {
 			"tagline": "Offener, client-seitiger Bitcoin-Wallet-Generator in JavaScript",
 			"generatelabelbitcoinaddress": "Erstelle Bitcoin-Wallet...",
 			"generatelabelmovemouse": "Bewege deine Maus umher, um die Zuf&auml;lligkeit zu erh&ouml;hen...",
+			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
 			"singlewallet": "Einzelnes Wallet",
 			"paperwallet": "Papier-Wallet",
 			"bulkwallet": "Massen-Wallet",
