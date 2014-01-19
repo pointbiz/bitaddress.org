@@ -1,6 +1,17 @@
 ninja.translator = {
 	currentCulture: "en",
 
+	autodetectTranslation: function() {
+		// window.navigator.language for Firefox / Chrome / Opera Safari
+		// window.navigator.userLanguage for IE
+		var language = window.navigator.language || window.navigator.userLanguage;
+		if (!ninja.translator.translate(language)) {
+			// Try to remove part after dash, for example cs-CZ -> cs
+			language = language.substr(0, language.indexOf('-'));
+			ninja.translator.translate(language);
+		}
+	},
+
 	translate: function (culture) {
 		var dict = ninja.translator.translations[culture];
 		if (dict) {
@@ -20,7 +31,9 @@ ninja.translator = {
 					document.getElementById(id).innerHTML = dict[id];
 				}
 			}
+			return true;
 		}
+		return false;
 	},
 
 	get: function (id) {

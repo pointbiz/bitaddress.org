@@ -10968,6 +10968,17 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 ninja.translator = {
 	currentCulture: "en",
 
+	autodetectTranslation: function() {
+		// window.navigator.language for Firefox / Chrome / Opera Safari
+		// window.navigator.userLanguage for IE
+		var language = window.navigator.language || window.navigator.userLanguage;
+		if (!ninja.translator.translate(language)) {
+			// Try to remove part after dash, for example cs-CZ -> cs
+			language = language.substr(0, language.indexOf('-'));
+			ninja.translator.translate(language);
+		}
+	},
+
 	translate: function (culture) {
 		var dict = ninja.translator.translations[culture];
 		if (dict) {
@@ -10987,7 +10998,9 @@ ninja.translator = {
 					document.getElementById(id).innerHTML = dict[id];
 				}
 			}
+			return true;
 		}
+		return false;
 	},
 
 	get: function (id) {
@@ -12332,6 +12345,8 @@ ninja.wallets.donate = {
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
+} else {
+	ninja.translator.autodetectTranslation();
 }
 if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["showseedpool"] == "1") {
 	document.getElementById("seedpoolarea").style.display = "block";
@@ -12430,6 +12445,7 @@ if (ninja.getQueryString()["i18nextract"]) {
 
 ninja.envSecurityCheck();
 ninja.browserSecurityCheck();
+
 	</script>
 </body>
 </html>
