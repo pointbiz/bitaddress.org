@@ -10,6 +10,8 @@ if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
+} else {
+	ninja.translator.autodetectTranslation();
 }
 // testnet, check if testnet edition should be activated
 if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
