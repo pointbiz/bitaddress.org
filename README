@@ -9,12 +9,17 @@ This project is a fork of bitaddress.org, the original trustworthy
 JavaScript powered offline bitcoin address generator. 
 
 This attractive paper wallet design is two-sided and folds up to
-hide the private key. Optional tamper-evident hologram tape can be purchased
-to provide extra security against snooping. This generator is ONLY
-for generating secure paper wallets, either using Javascript-based cryptography
-or by supplying keys you have generated using your own means (e.g. vanitygen)
+hide the private key. Optional tamper-evident hologram tape and/or a live-boot
+Ubuntu CD with this software pre-installed can be purchased from bitcoinpaperwallet.com 
+to provide extra security against snooping.
 
-Use bitaddress.org if you need BIP38, brain wallets, or bulk addresses.
+This generator includes the same pseudorandom key generation as bitaddress.org, as
+well as support for creating wallets using "vanity keys", passphrases ("brain wallets")
+or even rolling dice or shuffling cards.
+
+Use the "verify" tab to decrypt a BIP38 password-encrypted wallet, check the
+integrity of any private key, or even duplicate an exising wallet by scanning its
+QR code.
 
 *** HOW TO USE THIS GENERATOR ***
 
@@ -31,8 +36,10 @@ Rendering and printing seems to work best using:
    Linux:    Firefox
 
 When using Chrome on Windows, use the Chrome print dialog. Switching to the
-Windows system print dialog will cause corrupted output.
+Windows system print dialog will produce corrupted/illegible keys.
 
+QR scanning works best using Firefox since Chrome will not access the camera controls
+when opening a locally saved HTML file.
 
 *** COMPARED WITH BITADDRESS.ORG ***
 
@@ -42,10 +49,6 @@ base-64 encoded) and into an images directory to make the code easier to review.
 All cryptographic functions are verifiably identical to those in bitaddress.org.
 (Run a "diff" between this project and bitaddress.org if you want to be sure.)
 
-You can also bypass the random key generator and supply your own keys or so-called
-"vanity addresses".
-
-
 *** HOW TO VERIFY THE AUTHENTICITY OF THIS DOWNLOAD ***
 
 After downloading the ZIP package for this generator, you should find a file 
@@ -54,6 +57,7 @@ named generate-wallet.html.sig which you can use to:
 * Verify that generate-wallet.html hasn't been tampered with, and
 * Get proof that it really was authored by Canton Becker (canton@gmail.com) 
   whose GPG public key and fingerprint should be confirmed at http://cantonbecker.com
+  and/or by searching bitcointalk.org, etc.
   
 For example, if you have GPG installed, you should be able cd to the appropriate 
 directory and type in these two commands:
@@ -67,16 +71,25 @@ published fingerprint at http://cantonbecker.com
 If you get warnings like "This key is not certified, there is no indication that
 the key belongs to the owner" do not worry, this is normal.
 
+
+*** DONATIONS ***
+
+To support ongoing development of this project, please consider making a donation or
+purchasing wallet-making supplies or the Ubuntu LiveCD with this software here:
+
+https://bitcoinpaperwallet.com/#purchase
+https://bitcoinpaperwallet.com/#donate
+
 *** LICENSE ***
 
-© Copyright 2013 Canton Becker. This software may be modified and redistributed as 
-per the MIT/GPL/BSD licenses included in the HTML and JavaScript source. However, 
-the bitcoinpaperwallet.com logo and folding paper wallet design are pending 
-US trademark and may not be modified or redistributed without permission excepting 
+© Copyright 2014 Canton Becker. This software may be modified and redistributed as 
+per the MIT/GPL/BSD/Apache licenses included in the HTML and JavaScript source. However, 
+the bitcoinpaperwallet.com logo, hologram sticker design, and folding paper wallet design 
+are copyrighted and may not be modified or redistributed without permission excepting 
 for personal use. 
 
-This software and service is provided with no warranty. 
-Use at your own risk.
+
+{{{{ THIS SOFTWARE AND SERVICE IS PROVIDED WITHOUT WARRANTY. USE AT YOUR OWN RISK. }}}}
 
 - Canton Becker
 http://cantonbecker.com
