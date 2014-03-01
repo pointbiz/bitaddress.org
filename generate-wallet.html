@@ -16,10 +16,14 @@
     
 	The bitcoinpaperwallet.com folding wallet design may not be used for commercial use
     without permission. The design of the bitcoin hologram sticker used to seal these wallets
-    is copyrighted.
-    
+    is copyrighted. As a courtesy, please do not modify this software in such a way that the
+    links to purchase hologram stickers and wallet making supplies are removed or pointed elsewhere.
+     
     This software (HTML and JavaScript) is ©Copyright 2014 Canton Becker and bitaddress.org
     and licensed under the MIT license.
+    
+    Special thanks to pointbiz/bitaddress.org and Artiom Chilaru/flexlabs.org for significant
+    contributions to this software.
     
     Portions of this code are copyrighted by their respective authors - see below.
 
@@ -80,6 +84,73 @@
 	-->
 
 	<meta charset="utf-8">
+
+<script type="text/javascript">
+
+function setCryptoCurrency(toThis) {
+	window.currencyName = toThis;
+	switch (toThis)
+	{
+	case 'Bitcoin':	
+	  window.networkVersion = 0x00;
+	  window.privateKeyPrefix = 0x80;
+	  window.WIFPrefix = '5';
+	  window.compressedWIFPrefix = '[LK]';
+	  break;
+	case 'Litecoin':
+		window.networkVersion = 0x30;
+		window.privateKeyPrefix = 0xb0;
+		window.WIFPrefix = '6';
+		window.compressedWIFPrefix = 'T';
+		document.title = 'Litecoin paper wallet generator';
+		break;
+	case 'Dogecoin':
+		window.networkVersion = 0x1e;
+		window.privateKeyPrefix = 0x9e;
+		window.WIFPrefix = '6';
+		window.compressedWIFPrefix = 'Q';	
+		document.title = 'Dogecoin paper wallet generator. Wow! Many coin. Such shiny.';
+		break;
+	case 'Testnet':
+		window.networkVersion = 0x6F;
+		window.privateKeyPrefix = 0xEF;
+		window.WIFPrefix = '9';
+		window.compressedWIFPrefix = 'c';
+		document.title = 'Bitcoin TESTNET paper wallet generator';
+		break;
+	default:
+	  alert ('Invalid cryptocurrency "' + toThis + '" at initialization. Defaulting to Bitcoin.');
+	  setCryptoCurrency('Bitcoin');		
+	} // eof switch
+	return (true);
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var myDesign = getParameterByName('design');
+window.suppliesURL = 'https://bitcoinpaperwallet.com/?p=' + myDesign + '#purchase';
+
+switch (myDesign) {
+	case 'alt-litecoin':
+		setCryptoCurrency('Litecoin');
+		break;
+	case 'alt-dogecoin':
+		setCryptoCurrency('Dogecoin');
+		break;
+	case 'alt-testnet':
+		setCryptoCurrency('Testnet');
+		break;
+	default:
+	setCryptoCurrency('Bitcoin');
+	window.suppliesURL = 'https://bitcoinpaperwallet.com/#purchase'; // remove special currency flag
+} 
+
+</script>
 
 	<script type="text/javascript">
 // Array.prototype.map function is in the public domain.
@@ -4786,7 +4857,7 @@ Bitcoin.Address = function (bytes) {
 	this.version = Bitcoin.Address.networkVersion;
 };
 
-Bitcoin.Address.networkVersion = 0x00; // mainnet
+Bitcoin.Address.networkVersion = window.networkVersion; // multiple coin support
 
 /**
 * Serialize this object as a standard Bitcoin address.
@@ -5163,7 +5234,7 @@ Bitcoin.ECKey = (function () {
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
 	};
 
-	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
+	ECKey.privateKeyPrefix = window.privateKeyPrefix;
 
 	/**
 	* Whether public keys should be returned compressed by default.
@@ -5347,20 +5418,18 @@ Bitcoin.ECKey = (function () {
 		return /^[A-Fa-f0-9]{64}$/.test(key);
 	};
 
-	// 51 characters base58, always starts with a '5'
+	// 51 characters base58, bitcoin always starts with a 5, litecoin and dogecoin with a '6', testnet with a '9'
 	ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+		var matcher = new RegExp("^" + window.WIFPrefix + "[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$", "g");
+		return (ECKey.privateKeyPrefix == window.privateKeyPrefix) ? (matcher.test(key)) : false;
 	};
 
-	// 52 characters base58
+	// 52 characters base58, bitcoin always starts with L or K, litecoin with a T, dogecoin with a 'Q', testnet with a 'c'
 	ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+		var matcher = new RegExp("^" + window.compressedWIFPrefix + "[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$", "g");
+		return (ECKey.privateKeyPrefix == window.privateKeyPrefix) ? (matcher.test(key)) : false;
 	};
 
 	// 44 characters
@@ -10270,7 +10339,8 @@ Bitcoin.Util = {
 	</style>
     
 </head>
-<body onclick="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" ontouchmove="ninja.seeder.seed(event);" onLoad="setDesign(ninja.getQueryString()['design']); guessPrinterSettings(); ">
+<body onclick="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" ontouchmove="ninja.seeder.seed(event);" 
+	  onLoad="setDesign(ninja.getQueryString()['design'], true); guessPrinterSettings(); ">
 	<div id="busyblock">
 		<div class="background"></div>
 		<div class="dialog dialog-narrow">
@@ -10294,7 +10364,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript Bitcoin Wallet Generator <span>Updated February 10, 2014</span></div>
+			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Wallet Generator <span>Updated March 1, 2014</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
 			<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -10355,34 +10425,14 @@ Bitcoin.Util = {
 				</div>
 				<div class="instructionsarea">
 					<div class="notes">
-						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your bitcoins.</span></h1>
+						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your <script type="text/javascript">document.write(window.currencyName);</script>s.</span></h1>
 						                        
 						<span id="instructions1"><em>Here's an overview of what will happen, step by step.</em></span>
 
 						<br /><br />
 
 						<div style="float: right; width: 410px; padding-left: 30px; margin-left: 20px; border-left: 4px solid #EEE;">
-						<div style="float: right; width: 325px; padding-left: 15px;">
-                        <p style="margin-top: 0;"><strong>Select your wallet design or language here:</strong>
-    					<select id="designPicker" onChange="setDesign(this.value);">
-                          <option value="default">Standard (English/en)</option>
-                          <option value="holiday">Holiday / Christmas Design (English/en)</option>
-                          <option value="chinese-new-year">Chinese New Year (Simplified Chinese/zh-cn)</option>
-                          <option value="traditional-chinese-new-year">Chinese New Year (Traditional Chinese/zh-tw)</option>
-                          <option value="chinese">Standard (Simplified Chinese/zh-cn)</option>
-                          <option value="traditional-chinese">Standard (Traditional Chinese/zh-tw)</option>
-                          <option value="czech">Standard (Czech/cs)</option>
-                          <option value="dutch">Standard (Dutch/nl)</option>
-                          <option value="french">Standard (French/fr)</option>
-                          <option value="german">Standard (German/de)</option>
-                          <option value="italian">Standard (Italian/it)</option>
-                          <option value="portuguese">Standard (Portuguese/pt)</option>
-                          <option value="russian">Standard (Russian/ru)</option>
-                  		  <option value="spanish">Standard (Spanish/es)</option>
-                        </select>
-                        </p>
-                        </div>
-                        <img src="images/flags.png" width="65" height="25" alt="Flags" style="padding-top: 10px;">
+
 
                         <img id="designPreview" src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet" >
 
@@ -10412,28 +10462,58 @@ Bitcoin.Util = {
 						  }
 						</script>
                         </li>
-                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank">Ubuntu LiveCD</a>?</li>
+                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;">Ubuntu LiveCD</a>?</li>
                         </ul>
                         
-                        <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips</a></p>
+                        <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips and answers to frequently asked questions &raquo;</a></p>
                         
+						<span><a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;" class="nicerButton" style="width: 400px;">Order hologram stickers / zip bags / Ubuntu CD &raquo;</a></span>
+
                         </div>
 
-						<span id="instructions2"><b>Step 1: Calibrate Printer</b><br />
-                        Before printing out a wallet you'll need to "calibrate" your output using the <em>zoom</em> and <em>horizontal&nbsp;shift</em> adjustments to accommodate your particular browser / printer combination. Without proper callibration, your wallet may print out too small or with a misaligned reverse side.</span>
+						<span id="instructions2">
+
+
+						<div style="float: left;">
+                        <img src="images/flags.png" width="65" height="25" alt="Flags" style="padding-right: 20px; padding-top: 5px;">
+
+						</div>
+                        <p style="margin-top: 0;"><strong>Change your wallet design, language, or cryptocurrency?</strong>
+    					<select id="designPicker" onChange="setDesign(this.value, false);" style="font-size: 12px;">
+                  		  <option value="default">--- Bitcoin Wallet Designs ---</option>
+                          <option value="default">Standard Bitcoin Design (English)</option>
+                          <option value="holiday">Holiday / Christmas Design (English)</option>
+                          <option value="chinese-new-year">Chinese New Year (Simplified Chinese)</option>
+                          <option value="traditional-chinese-new-year">Chinese New Year (Traditional Chinese)</option>
+                          <option value="chinese">Standard (Simplified Chinese)</option>
+                          <option value="traditional-chinese">Standard (Traditional Chinese/zh-tw)</option>
+                          <option value="czech">Standard (Czech)</option>
+                          <option value="dutch">Standard (Dutch)</option>
+                          <option value="french">Standard (French)</option>
+                          <option value="german">Standard (German)</option>
+                          <option value="italian">Standard (Italian)</option>
+                          <option value="portuguese">Standard (Portuguese)</option>
+                          <option value="russian">Standard (Russian)</option>
+                  		  <option value="spanish">Standard (Spanish)</option>
+                  		  <option value="default">--- Other Cryptocurrencies ---</option>
+                  		  <option value="alt-litecoin">Litecoin</option>
+                  		  <option value="alt-dogecoin">Dogecoin</option>
+                  		  <option value="alt-testnet">"Testnet"</option>
+                        </select>
+                        </p>
+                        <b>Step 1: Calibrate Printer</b><br />
+                        Before printing out a wallet you'll need to "calibrate" your output using the <em>zoom</em> and <em>horizontal&nbsp;shift</em> adjustments to accommodate your particular browser / printer combination. Without adjustment, your wallet may print out too small or with a misaligned reverse side.</span>
 						<br /><br />
 						<span id="instructions3"><b>Step 2: Print Front</b><br />
-                        Next you will print out the front side of your wallet. A public address and private key will automatically be generated, or you can supply your own key by rolling dice, shuffling cards, etc. It is also possible to duplicate an existing paper wallet or provide a "vanity" address if you have one.</span>
+                        Next you will print out the front side of your wallet. A public address and private key will automatically be generated, or you can supply your own key by rolling dice, shuffling cards, etc. You may also duplicate an existing paper wallet or provide a "vanity" address if you have one. If you are printing several wallets, it's possible to <a href="https://bitcoinpaperwallet.com/printing-and-paper-tips/" target="_blank">print two per page</a>.</span>
 						<br /><br />	
 						<span id="instructions4"><b>Step 3: Print Back</b><br />
-                        Then you will put the same page back in your printer (but flipped over) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
+                        You will put the same page back in your printer (but flipped over) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
 						<br /><br />	
 						<span id="instructions5"><b>Step 4: Cut, Fold, Seal &amp; Fund</b><br />
-                        Find your scissors! The final step is to cut out your wallet, fold it, and seal it  with opaque (light-blocking) tape. Now you're ready to transfer bitcoins from your online holdings to your new wallet.</span>
+                        Find your scissors! The final step is to cut out your wallet, fold it, and seal it  with tamper-evident <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;">hologram stickers</a> or at least opaque (light-blocking) tape. Now you're ready to transfer funds from your online holdings to your new wallet.</span>
                         <br /><br />
 						<span><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second tutorial video on YouTube &raquo;</a></span>
-						<br /><br />	
-						<span><a href="https://bitcoinpaperwallet.com/#purchase" target="_blank" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a></span>
                                                 
 					</div>
 				</div>
@@ -10499,7 +10579,7 @@ Bitcoin.Util = {
                    <b>If you want to make a paper wallet which can <em>also</em> be accessed using a passphrase (AKA a "brain wallet"):</b>
                    <br />
                    <br />
-                   You can make a so-called "brain wallet" by supplying a very, very, VERY secure passphrase, like '1852 Cloud SMASH fuzzy steamzonk'. <em>Be careful doing this because a wallet generated using an insecure passphrase will have its balance stolen within hours of receiving funds</em>.
+                   You can make a so-called "brain wallet" by supplying a VERY secure passphrase like '1852 Adobe Cloud SMASH fuzzy steamzonk'. <em>Be extremely careful doing this because a wallet generated using an insecure passphrase is virtually guaranteed to have its balance stolen within minutes of receiving funds!</em>.
                    <br />
                    <br />The resulting paper wallet will still have an ordinary crypto-looking private key and public address, but you will <em>also</em> be able to retrieve your wallet contents by entering your passphrase into the 'verify' tab of this service or a similar service such as <a href="https://brainwallet.org" target="_blank">brainwallet.org</a>.<br /><br />
                     <strong>Note:</strong> supplying a brain wallet passphrase is different from BIP38-encrypting your wallet with a passphrase.
@@ -10533,7 +10613,7 @@ Bitcoin.Util = {
 							<h2>About "BIP38" Encryption</h2>
 							<p>
 								The advantage to encrypting your paper wallet is that if your paper wallet is stolen or otherwise exposed, the balance on the wallet is safe unless the passphrase used to encrypt the wallet is guessed. However, if you encrypt your private key with BIP38 and you lose your passphrase, it will be impossible for you to recover the funds you have sent to this wallet.</p>
-                            <p>Also, note that not many bitcoin wallet applications or web services are able to import BIP38 private keys. In this case, you will have to use the "Validate" feature on this webpage to extract the unencrypted Wallet Import Format (WIF) key as an intermediate step before sweeping the balance.</p>
+                            <p>Also, note that not many <script type="text/javascript">document.write(window.currencyName);</script> wallet applications or web services are able to import BIP38 private keys. In this case, you will have to use the "Validate" feature on this webpage to extract the unencrypted Wallet Import Format (WIF) key as an intermediate step before sweeping the balance.</p>
                             
                             <p style="color: red;">WARNING: Before sending any funds to a BIP38-encrypted wallet, first do a test make sure you are able to decrypt the printed private key back to ordinary WIF format.</p>
 							<p>In short, if you do not have a strong understanding of the BIP38 encryption and decryption workflow, <strong>click cancel</strong>, print your paper wallet out without encryption, and keep it safe the same way you would jewels or cash.
@@ -10603,13 +10683,13 @@ Bitcoin.Util = {
                         <br />
 						<span id="instructions13">Seal your wallet by placing two strips of sturdy <strong>light-blocking</strong> tape over the top and bottom edges of the private (folded) area. A zip-seal bag will keep it safe from moisture (especially important for inkjet prints.)</span>
 						<br /><br />	
-                        <a href="https://bitcoinpaperwallet.com/#purchase" target="_blank" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a>	
+                        <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a>	
 
 						<br /><br />	
 
 						<h1><span id="instructions16">How to add funds to your wallet:</span></h1>
 
-						<span id="instructions17">Send bitcoins to the address (or QR code) where your wallet says "PUBLIC ADDRESS".</span>
+						<span id="instructions17">Send <script type="text/javascript">document.write(window.currencyName);</script>s to the address (or QR code) where your wallet says "PUBLIC ADDRESS".</span>
 						<br /><br />	
                         
 						<h1><span id="instructions18">How to withdraw funds from your wallet:</span></h1>
@@ -10676,18 +10756,17 @@ Bitcoin.Util = {
 					<div class="notes">
 						<h1>Public and private details for:<br /><span id="detailkeyareakey"></span></h1>
 						<p><button onClick="ninja.wallets.detailwallet.loadInPaperWallet()">Use these details to print a paper wallet</button></p>
-						<span id="detaillabelnote1">This private key is a unique number that you should keep secret since it can be used to spend any bitcoins that have been sent to the corresponding public key. Keys can be encoded in a number of different formats. Look below for the most popular encoding formats (WIF, WIFC, HEX, B64, MINI).</span>
-						<br /><br />
-						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
+						<span id="detaillabelnote1">Use the <strong>Public Address</strong> to receive funds or check your balance online. The <strong>Private Key WIF</strong> is a code that needs to be keep secret since it can be used to spend any funds that have been sent to the corresponding public key. Keys can be encoded in a number of different formats. The most popular encoding formats (WIF, WIFC, HEX, B64) are shown below.</span>
+						<br />
 					</div>
 					<div class="pubqr">
 						<div class="item">
-							<span class="label" id="detaillabelbitcoinaddress">Bitcoin Address</span>
+							<span class="label" id="detaillabelbitcoinaddress"><strong style="font-size: 150%;">Public <script type="text/javascript">document.write(window.currencyName);</script> Address</strong></span>
 							<div id="detailqrcodepublic" class="qrcode_public"></div>
 							<span class="output" id="detailaddress"></span>
 						</div>					
 						<div class="item right">
-							<span class="label" id="detaillabelbitcoinaddresscomp">Bitcoin Address Compressed</span>
+							<span class="label" id="detaillabelbitcoinaddresscomp"><script type="text/javascript">document.write(window.currencyName);</script> Address Compressed Format</span>
 							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
 							<span class="output" id="detailaddresscomp"></span>
 						</div>
@@ -10704,12 +10783,12 @@ Bitcoin.Util = {
 					<hr />
 					<div class="privqr">
 						<div class="item">
-							<span class="label"><span id="detaillabelprivwif">Private Key WIF<br />51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span></span>
+							<span class="label"><span id="detaillabelprivwif"><strong style="font-size: 150%;">Private Key WIF</strong><br />51 characters base58, starts with a</span> '<script type="text/javascript">document.write(window.window.WIFPrefix);</script>'</span>
 							<div id="detailqrcodeprivate" class="qrcode_private"></div>
 							<span class="output" id="detailprivwif"></span>
 						</div>
 						<div class="item right">
-							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span></span>
+							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> '<script type="text/javascript">document.write(window.compressedWIFPrefix);</script>'</span>
 							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
 							<span class="output" id="detailprivwifcomp"></span>
 						</div>
@@ -10746,11 +10825,16 @@ Bitcoin.Util = {
 		<div id="footer" class="footer">
 			<div class="authorbtc">
 				<div>
-					<span class="item" id="footerlabeldonations"><b>Bitcoin Donations</b></span>
+					<span class="item" id="footerlabeldonations"><b>Donations keep this service open &amp; free!</b></span>
                     <span class="item" style="font-size: 11px; font-family: 'Courier New', Courier, monospace;">
-                    <strong>Bitcoin Paper Wallet</strong>:&nbsp; 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG<br />
-                    <strong>bitaddress.org source</strong>: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
-					<span class="item" id="footerlabeltranslatedby"></span>
+                    <strong>Bitcoin</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1Pjg628vjMLBvADrPHsthtzKiryM2y46DG<br />
+                    <strong>Litecoin</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LYrGQmrvba7qJZUD7Jt4S1iejE5ndhw3CE<br />
+                    <strong>Dogecoin</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DSE875u8k14M3K5d93iD1fsgcHkfjjy742<br /></span>
+                    
+                    <span class="item" style="font-size: 11px;">Contributions are shared by the <a href="https://bitcoinpaperwallet.com/#thanks" target="_blank">developers</a>, 
+                    including pointbiz of <strong>bitaddress.org</strong>.</span>
+
+
 				</div>
 			</div>
 			<div class="authorpgp">
@@ -10773,9 +10857,8 @@ Bitcoin.Util = {
 
                 </div>
 
-            	<span class="item"><b>Security Details</b></span>
-                <span class="item" style="font-size: 90%;"><a href="https://bitcoinpaperwallet.com/#security" target="_blank">For extra security</a>, do not run this generator directly from the bitcoinpaperwallet.com website.<br />
-                Download the generator and run the HTML as a local file in your browser instead.</span>
+            	<span class="item"><b>Security &amp; signatures</b></span>
+                <span class="item" style="font-size: 90%;">For <a href="https://bitcoinpaperwallet.com/#security" target="_blank">secure wallet generation</a>, do not print wallets using https://bitcoinpaperwallet.com.<br />Instead, <a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank">download</a> the generator and run the HTML as a local file in your browser instead.</span>
 				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub"><strong>Download</strong> (GitHub ZIP file)</a></span>
                 
 				<span class="item" id="footerlabelsig" style="font-size: 90%;"><a href="#" onClick="document.getElementById('siginfo').style.display='block'; return(false);">Validate PGP/GPG signature</a></span>
@@ -10785,8 +10868,8 @@ Bitcoin.Util = {
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">&copy; The folding wallet design and tamper-evident seals are Copyright 2014 by Canton Becker.</span>
-				<span id="footerlabelcopyright2">This software may be modified and redistributed as per the MIT/GPL/BSD licenses included in the HTML and JavaScript source. However, the folding paper wallet design itself may not be modified or redistributed for commercial purposes without permission.</span>
-				<span id="footerlabelnowarranty">This software and service is provided with no warranty. Use at your own risk.</span><br />
+				<span id="footerlabelcopyright2">This software may be modified and redistributed as per the MIT/GPL/BSD/Apache licenses described in the HTML source code. However, the folding paper wallet design itself may not be modified or redistributed for commercial purposes without permission.</span><br />
+				<span id="footerlabelnowarranty"><strong>This software and service is provided with no warranty. Use at your own risk.</strong></span>
 
 			</div>
 		</div>
@@ -11448,7 +11531,7 @@ ninja.publicKey = {
 				"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
 				"bip38alertpassphraserequired": "Passphrase required for BIP38 key",
 				"detailalertnotvalidprivatekey": "The text you entered is not a valid private key or passphrase.",
-				"detailconfirmsha256": "The text you entered does not appear to be a private key.\n\nWould you like to use this text as a passphrase and create a private key using its SHA256 hash?\n\nWarning: Choosing an extremely strong passphrase (also known as a \"brain wallet\") is important as all common phrases, words, lyrics etc. are regularly scanned by hackers for bitcoin balances worth stealing.",
+				"detailconfirmsha256": "The text you entered does not appear to be a private " + window.currencyName + " key.\n\nWould you like to use this text as a passphrase and create a private key using its SHA256 hash?\n\nWarning: Choosing an extremely strong passphrase (also known as a \"brain wallet\") is important as all common phrases, words, lyrics etc. are regularly scanned by hackers for bitcoin balances worth stealing.",
 				"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.",
 			},
 
@@ -12743,7 +12826,7 @@ ninja.publicKey = {
 		suppliedKey = suppliedKey.trim(); // in case any spaces or whitespace got pasted in
 		document.getElementById('suppliedPrivateKey').value = suppliedKey;
 		if (!ninja.privateKey.isPrivateKey(suppliedKey)) {
-			var message = 'What you entered does not appear to be a Wallet Import Format (WIF) private key.';
+			var message = 'What you entered does not appear to be a ' + window.currencyName + ' Wallet Import Format (WIF) private key.';
 			if (suppliedKey == null || suppliedKey.length == 0) {
 				alert(message);
 				return;
@@ -12798,8 +12881,18 @@ ninja.publicKey = {
 		updateCalibrationInfo();
 	}
 
-function setDesign (whichDesign) {
-	if (!whichDesign) whichDesign = 'default';
+function setDesign (whichDesign, isOnLoad) {
+	if (!whichDesign) whichDesign = 'default';	
+	// if we used the dropdown menu to select an alt-coin, we need to reload the page altogether.
+	if (!isOnLoad && whichDesign.substring(0,4) == 'alt-') window.location='?design=' + whichDesign;
+	// if we're already using an altcoin, reload the page no matter which design we choose.
+	if (!isOnLoad && window.networkVersion != 0x00 ) window.location='?design=' + whichDesign;
+
+	// reload background and add altcoin donation addresses if necessary
+	if (isOnLoad && whichDesign.substring(0,4) == 'alt-') {
+		document.getElementById('logoback').style.backgroundImage = 'url(images/logo-' + whichDesign + '.png)';
+	}
+
 	if (whichDesign == 'default') {
 		var myFront = './images/front-300dpi.jpg';
 		var myBack = './images/back-300dpi.jpg';

@@ -11,11 +11,14 @@ JavaScript powered offline bitcoin address generator.
 This attractive paper wallet design is two-sided and folds up to
 hide the private key. Optional tamper-evident hologram tape and/or a live-boot
 Ubuntu CD with this software pre-installed can be purchased from bitcoinpaperwallet.com 
-to provide extra security against snooping.
+to provide additional security against snooping.
 
 This generator includes the same pseudorandom key generation as bitaddress.org, as
 well as support for creating wallets using "vanity keys", passphrases ("brain wallets")
 or even rolling dice or shuffling cards.
+
+As of March 1, 2014, this generator also includes support and designs for making
+Litecoin and Dogecoin wallets.
 
 Use the "verify" tab to decrypt a BIP38 password-encrypted wallet, check the
 integrity of any private key, or even duplicate an exising wallet by scanning its
@@ -79,6 +82,9 @@ purchasing wallet-making supplies or the Ubuntu LiveCD with this software here:
 
 https://bitcoinpaperwallet.com/#purchase
 https://bitcoinpaperwallet.com/#donate
+
+Special thanks to pointbiz/bitaddress.org and Artiom Chilaru/flexlabs.org for 
+their significant contributions to this software.
 
 *** LICENSE ***
 
