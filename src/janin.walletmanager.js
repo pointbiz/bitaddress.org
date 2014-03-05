@@ -50,17 +50,19 @@ janin.currency.useCurrencyWallet = function(_networkVersion, _privateKeyPrefix, 
 	// 51 characters base58, always starts with a '5'
 	Bitcoin.ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ?
-							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+		var currencyRegEx = new RegExp(_walletImportFormatRegEx);
+		var testnetRegEx = new RegExp("^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$");
+
+		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
 	};
 	
 	// 52 characters base58
 	Bitcoin.ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ?
-							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+		var currencyRegEx = new RegExp(_compressedWalletImportRegEx);
+		var testnetRegEx = new RegExp("^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$");
+
+		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
 	};
 	
 	ninja.wallets.singlewallet.generateNewAddressAndKey();
