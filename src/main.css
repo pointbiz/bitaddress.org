@@ -26,7 +26,7 @@ body { font-family: Arial; background: #F5F5F5; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
-.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #BFBFBF; position: absolute; z-index: 10; }
+.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #699FF5; position: absolute; z-index: 10; }
 #generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
@@ -40,7 +40,7 @@ body { font-family: Arial; background: #F5F5F5; }
 #keyarea .public { width: 30%; display: table-cell; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
-#singleshare { position: relative; top: -110px; float: left; left: 160px; color: #BFBFBF; font-weight: bolder; font-size: 200%;  }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
 #singlesafety { text-align: left; padding: 5px; border-top: 2px solid #BFBFBF; top: -25px; position: relative; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
