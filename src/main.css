@@ -2,9 +2,9 @@
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 .less { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
-a { position: relative; z-index: 20; }
+a { position: relative; z-index: 20; text-decoration: none; }
 .right { text-align: right; }
-.walletarea { display: none; border: 2px solid green; }
+.walletarea { display: none; border: 2px solid #BFBFBF; background-color: white; }
 hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
@@ -15,19 +15,19 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea .qrcode_public { display: inline-block; float: left; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
 .pubkeyhex { word-wrap: break-word; }
-body { font-family: Arial; }
+body { font-family: Arial; background: #F5F5F5; }
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-.faq { border: 0; border-top: 2px solid green; }
+.faq { border: 0; border-top: 2px solid #BFBFBF; }
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
-.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: green; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
+.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #BFBFBF; position: absolute; z-index: 10; }
+#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
@@ -40,14 +40,14 @@ body { font-family: Arial; }
 #keyarea .public { width: 30%; display: table-cell; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
-#singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -25px; position: relative; }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: #BFBFBF; font-weight: bolder; font-size: 200%;  }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #BFBFBF; top: -25px; position: relative; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
 		
 #paperarea { min-height: 120px; display: none; }
-#paperarea .keyarea { border: 2px solid green; border-top: 0; }
+#paperarea .keyarea { border: 2px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public { top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
@@ -111,9 +111,9 @@ body { font-family: Arial; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
 #vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid green; }
+#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid #BFBFBF; }
 #vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 2px solid green; display: block; padding: 15px; }
+#vanitystep2area { border-top: 2px solid #BFBFBF; display: block; padding: 15px; }
 #vanitystep2inputs { padding: 0 15px 10px 15px; }
 #vanitycalc { margin-top: 5px; }
 		
@@ -125,6 +125,10 @@ body { font-family: Arial; }
 #busyblock.busy { display: block; }
 .hide { display: none; }
 .show { display: block; }
+
+#currencyddl { margin: 20px; }
+#walletType { }
+.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #A2BEEB; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
 	
 /* IE8 */
 .qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
@@ -135,13 +139,13 @@ body { font-family: Arial; }
 {
 	#tagline { margin: 0 0 15px 0; font-style: italic; }
 	.menu { text-align: left; }
-	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #6C8C6C;
-					border: 2px solid green; padding: 5px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
+	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #F5F5F5;
+					border: 2px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
 	.menu .tab:hover { color: #FFF; }
 	.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid green;  padding: 10px 2px; margin-bottom: 0; }
+	.commands { border-bottom: 2px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
@@ -150,7 +154,7 @@ body { font-family: Arial; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
     #menu { visibility: hidden; font-size: 90%; }
-    #culturemenu { text-align: right; padding: 0 20px; }
+    #culturemenu { text-align: right; padding: 0 20px; font-size: 14px; margin-bottom: 35px; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
 
@@ -163,7 +167,7 @@ body { font-family: Arial; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper .commands { border: 2px solid green; }
+	.paper .commands { border: 2px solid #BFBFBF; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -182,7 +186,7 @@ body { font-family: Arial; }
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
-	#paperarea .keyarea:first-child { border-top: 2px solid green; }
+	#paperarea .keyarea:first-child { border-top: 2px solid #BFBFBF; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }

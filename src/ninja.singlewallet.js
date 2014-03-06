@@ -4,6 +4,7 @@ ninja.wallets.singlewallet = {
 			ninja.wallets.singlewallet.generateNewAddressAndKey();
 		}
 		document.getElementById("singlearea").style.display = "block";
+		document.getElementById("currencyddl").style.display = "block";
 	},
 
 	close: function () {
