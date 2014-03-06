@@ -139,6 +139,7 @@
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
+      <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Donate</div>
 		</div>
 		
 		<div id="generate">
@@ -425,7 +426,12 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		
+      <div id="donatearea" class="walletarea">
+        <div>To support the development of this wallet generator, you can donate to the following address:</div>
+        <div id="donatelist"></div>
+      </div>
+    </div>
 
 		<div id="footer" class="footer">
 			<div class="authorbtc">
@@ -478,6 +484,9 @@
 	</script>
 	<script type="text/javascript">
 //ninja.detailwallet.js
+	</script>
+  <script type="text/javascript">
+//ninja.donatetab.js
 	</script>
 	<script type="text/javascript">
 //ninja.unittests.js
