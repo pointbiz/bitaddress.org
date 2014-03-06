@@ -46,30 +46,3 @@ janin.currencies = [
                    ];
 
 janin.selectedCurrency = janin.currencies[0];
-
-/*
-janin.currency.useCurrencyWallet = function(_networkVersion, _privateKeyPrefix, _walletImportFormatRegEx, _compressedWalletImportRegEx) {
-	
-	Bitcoin.Address.networkVersion = _networkVersion; 		// mainnet
-	Bitcoin.ECKey.privateKeyPrefix = _privateKeyPrefix; 	// mainnet 0x80    testnet 0xEF
-	
-	// 51 characters base58, always starts with a '5'
-	Bitcoin.ECKey.isWalletImportFormat = function (key) {
-		key = key.toString();
-		var currencyRegEx = new RegExp(_walletImportFormatRegEx);
-		var testnetRegEx = new RegExp("^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$");
-
-		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
-	};
-	
-	// 52 characters base58
-	Bitcoin.ECKey.isCompressedWalletImportFormat = function (key) {
-		key = key.toString();
-		var currencyRegEx = new RegExp(_compressedWalletImportRegEx);
-		var testnetRegEx = new RegExp("^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$");
-
-		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
-	};
-	
-	ninja.wallets.singlewallet.generateNewAddressAndKey();
-}*/

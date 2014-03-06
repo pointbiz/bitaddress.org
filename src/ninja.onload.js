@@ -14,3 +14,10 @@ if (ninja.getQueryString()["culture"] != undefined) {
 if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["showseedpool"] == "1") {
 	document.getElementById("seedpoolarea").style.display = "block";
 }
+// populate currency dropdown list
+var select = document.getElementById("currency");
+var options = "";
+for(i = 0; i < janin.currencies.length; i++) {
+    options += "<option value='"+i+"'>"+janin.currencies[i].name+"</option>";
+}
+select.innerHTML = options;
