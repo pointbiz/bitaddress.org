@@ -5131,8 +5131,6 @@ Bitcoin.ECKey = (function () {
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
 	};
 
-	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
-
 	/**
 	* Whether public keys should be returned compressed by default.
 	*/
@@ -5220,7 +5218,7 @@ Bitcoin.ECKey = (function () {
 	// Sipa Private Key Wallet Import Format 
 	ECKey.prototype.getBitcoinWalletImportFormat = function () {
 		var bytes = this.getBitcoinPrivateKeyByteArray();
-		bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
+		bytes.unshift(janin.selectedCurrency.privateKeyPrefix); // prepend private key prefix
 		if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 		var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 		bytes = bytes.concat(checksum.slice(0, 4));
@@ -5282,7 +5280,8 @@ Bitcoin.ECKey = (function () {
 			throw "Checksum validation failed!";
 		}
 		var version = hash.shift();
-		if (version != ECKey.privateKeyPrefix) {
+        // TODO: detect currency
+		if (version != janin.selectedCurrency.privateKeyPrefix) {
 			throw "Version " + version + " not supported!";
 		}
 		return hash;
@@ -5302,7 +5301,8 @@ Bitcoin.ECKey = (function () {
 			throw "Checksum validation failed!";
 		}
 		var version = hash.shift();
-		if (version != ECKey.privateKeyPrefix) {
+        // TODO: detect currency
+		if (version != janin.selectedCurrency.privateKeyPrefix) {
 			throw "Version " + version + " not supported!";
 		}
 		hash.pop();
@@ -5318,17 +5318,13 @@ Bitcoin.ECKey = (function () {
 	// 51 characters base58, always starts with a '5'
 	ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+		return janin.selectedCurrency.WIF_RegExtest(key);
 	};
 
 	// 52 characters base58
 	ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+		return janin.selectedCurrency.CWIF_RegExtest(key);
 	};
 
 	// 44 characters
@@ -5996,6 +5992,13 @@ body { font-family: Arial; }
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
 				<div class="commands">
+					<select id="walletType" onchange="janin.currency.useCurrency(this);"> 
+					   <option value="0" selected="selected">Bitcoin</option> 
+					   <option value="1">Dogecoin</option> 
+					   <option value="2">Litecoin</option> 
+					</select> 
+				</div>
+				<div class="commands">
 					<div id="singlecommands" class="row">
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
@@ -6295,7 +6298,85 @@ body { font-family: Arial; }
 			</div>
 		</div>
 	</div>
+  
+	<script type="text/javascript">
+var janin = {};
 
+janin.currency = {
+    createCurrency: function (name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start) {
+        var currency = {};
+        currency.name = name;
+        currency.networkVersion = networkVersion;
+        currency.privateKeyPrefix = privateKeyPrefix;
+        currency.WIF_Start = WIF_Start;
+        currency.CWIF_Start = CWIF_Start;
+        return currency;
+    },
+    
+    name: function() {
+        return janin.selectedCurrency.name;
+    },
+
+    networkVersion: function() {
+        return janin.selectedCurrency.networkVersion;
+    },
+    
+    privateKeyPrefix: function() {
+        return janin.selectedCurrency.privateKeyPrefix;
+    },
+    
+    WIF_RegEx: function() {
+        return new RegExp("^" + janin.selectedCurrency.WIF_Start + "[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$");
+    },
+    
+    CWIF_RegEx: function() {
+        return new RegExp("^" + janin.selectedCurrency.CWIF_Start + "[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$");
+    },
+    
+    useCurrency: function(currency) {
+        janin.selectedCurrency = currency;
+        
+        // TODO: regenerate/reset current wallet (single, vanity ...)
+    },
+    
+};
+
+janin.currencies = [
+    janin.currency.createCurrency ("Bitcoin",    0x00, 0x80, "5", "[LK]"),
+    janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6", "T"),
+    janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6", "T")
+                   ];
+
+janin.selectedCurrency = janin.currencies[0];
+
+/*
+janin.currency.useCurrencyWallet = function(_networkVersion, _privateKeyPrefix, _walletImportFormatRegEx, _compressedWalletImportRegEx) {
+	
+	Bitcoin.Address.networkVersion = _networkVersion; 		// mainnet
+	Bitcoin.ECKey.privateKeyPrefix = _privateKeyPrefix; 	// mainnet 0x80    testnet 0xEF
+	
+	// 51 characters base58, always starts with a '5'
+	Bitcoin.ECKey.isWalletImportFormat = function (key) {
+		key = key.toString();
+		var currencyRegEx = new RegExp(_walletImportFormatRegEx);
+		var testnetRegEx = new RegExp("^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$");
+
+		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
+	};
+	
+	// 52 characters base58
+	Bitcoin.ECKey.isCompressedWalletImportFormat = function (key) {
+		key = key.toString();
+		var currencyRegEx = new RegExp(_compressedWalletImportRegEx);
+		var testnetRegEx = new RegExp("^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$");
+
+		return (ECKey.privateKeyPrefix == _privateKeyPrefix) ? (currencyRegEx.test(key)) : (testnetRegEx.test(key));
+	};
+	
+	ninja.wallets.singlewallet.generateNewAddressAndKey();
+}*/
+
+	</script>
 	<script type="text/javascript">
 var ninja = { wallets: {} };
 
@@ -6925,7 +7006,6 @@ ninja.translator = {
 	translations: {
 		"en": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 			"paperlabelbitcoinaddress": "Bitcoin Address:",
 			"paperlabelprivatekey": "Private Key (Wallet Import Format):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
@@ -6946,7 +7026,6 @@ ninja.translator = {
 
 		"es": {
 			// javascript alerts or messages
-			"testneteditionactivated": "Testnet se activa",
 			"paperlabelbitcoinaddress": "Dirección Bitcoin:",
 			"paperlabelprivatekey": "Clave privada (formato para importar):",
 			"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
@@ -7080,7 +7159,6 @@ ninja.translator = {
 
 		"fr": {
 			// javascript alerts or messages
-			"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 			"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 			"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
@@ -7214,7 +7292,6 @@ ninja.translator = {
 
 		"el": {
 			// javascript alerts or messages
-			"testneteditionactivated": "ΕΝΕΡΓΗ ΕΚΔΟΣΗ TESTNET",
 			"paperlabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
@@ -7348,7 +7425,6 @@ ninja.translator = {
 
 	    "it": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET EDITION ATTIVATO",
 			"paperlabelbitcoinaddress": "Indirizzo Bitcoin:",
 			"paperlabelprivatekey": "Chiave privata (Wallet Import Format):",
 			"paperlabelencryptedkey": "Chiave privata criptata (password richiesta)",
@@ -7483,7 +7559,6 @@ ninja.translator = {
 	    
 	    "de": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET AKTIVIERT",
 			"paperlabelbitcoinaddress": "Bitcoin-Adresse:",
 			"paperlabelprivatekey": "Privater Schl&uuml;ssel (Wallet Import Format):",
 			"paperlabelencryptedkey": "Verschl&uuml;sselter privater Schl&uuml;ssel (Passwort ben&ouml;tigt)",
@@ -7617,7 +7692,6 @@ ninja.translator = {
 
 		"cs": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET aktivován",
 			"paperlabelbitcoinaddress": "Bitcoin adresa:",
 			"paperlabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
 			"paperlabelencryptedkey": "Šifrovaný soukromý klíč (Vyžadováno heslo)",
@@ -9084,16 +9158,6 @@ if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
-}
-// testnet, check if testnet edition should be activated
-if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
-	document.getElementById("testnet").innerHTML = ninja.translator.get("testneteditionactivated");
-	document.getElementById("testnet").style.display = "block";
-	document.getElementById("detailwifprefix").innerHTML = "'9'";
-	document.getElementById("detailcompwifprefix").innerHTML = "'c'";
-	Bitcoin.Address.networkVersion = 0x6F; // testnet
-	Bitcoin.ECKey.privateKeyPrefix = 0xEF; // testnet
-	ninja.testnetMode = true;
 }
 if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["showseedpool"] == "1") {
 	document.getElementById("seedpoolarea").style.display = "block";

@@ -145,10 +145,10 @@
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
 				<div class="commands">
-					<select id="walletType" onchange="janin.currency.changeWalletType(this);"> 
-					   <option value="bitcoin" selected="selected">Bitcoin</option> 
-					   <option value="dogecoin">Dogecoin</option> 
-					   <option value="litecoin">Litecoin</option> 
+					<select id="walletType" onchange="janin.currency.useCurrency(this);"> 
+					   <option value="0" selected="selected">Bitcoin</option> 
+					   <option value="1">Dogecoin</option> 
+					   <option value="2">Litecoin</option> 
 					</select> 
 				</div>
 				<div class="commands">
@@ -451,7 +451,10 @@
 			</div>
 		</div>
 	</div>
-
+  
+	<script type="text/javascript">
+//janin.currency.js
+	</script>
 	<script type="text/javascript">
 //ninja.key.js
 	</script>
@@ -479,15 +482,6 @@
 	<script type="text/javascript">
 //ninja.detailwallet.js
 	</script>
-	
-	<!-- Custom code -->
-	
-	<script type="text/javascript">
-//janin.walletmanager.js
-	</script>
-	
-	<!-- End custom code -->
-	
 	<script type="text/javascript">
 //ninja.unittests.js
 	</script>

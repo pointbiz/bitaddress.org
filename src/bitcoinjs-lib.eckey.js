@@ -43,8 +43,6 @@ Bitcoin.ECKey = (function () {
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
 	};
 
-	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
-
 	/**
 	* Whether public keys should be returned compressed by default.
 	*/
@@ -132,7 +130,7 @@ Bitcoin.ECKey = (function () {
 	// Sipa Private Key Wallet Import Format 
 	ECKey.prototype.getBitcoinWalletImportFormat = function () {
 		var bytes = this.getBitcoinPrivateKeyByteArray();
-		bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
+		bytes.unshift(janin.selectedCurrency.privateKeyPrefix); // prepend private key prefix
 		if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 		var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 		bytes = bytes.concat(checksum.slice(0, 4));
@@ -194,7 +192,8 @@ Bitcoin.ECKey = (function () {
 			throw "Checksum validation failed!";
 		}
 		var version = hash.shift();
-		if (version != ECKey.privateKeyPrefix) {
+        // TODO: detect currency
+		if (version != janin.selectedCurrency.privateKeyPrefix) {
 			throw "Version " + version + " not supported!";
 		}
 		return hash;
@@ -214,7 +213,8 @@ Bitcoin.ECKey = (function () {
 			throw "Checksum validation failed!";
 		}
 		var version = hash.shift();
-		if (version != ECKey.privateKeyPrefix) {
+        // TODO: detect currency
+		if (version != janin.selectedCurrency.privateKeyPrefix) {
 			throw "Version " + version + " not supported!";
 		}
 		hash.pop();
@@ -230,17 +230,13 @@ Bitcoin.ECKey = (function () {
 	// 51 characters base58, always starts with a '5'
 	ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^5[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^9[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+		return janin.selectedCurrency.WIF_RegExtest(key);
 	};
 
 	// 52 characters base58
 	ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^c[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+		return janin.selectedCurrency.CWIF_RegExtest(key);
 	};
 
 	// 44 characters

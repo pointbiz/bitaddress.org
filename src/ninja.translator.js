@@ -31,7 +31,6 @@ ninja.translator = {
 	translations: {
 		"en": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 			"paperlabelbitcoinaddress": "Bitcoin Address:",
 			"paperlabelprivatekey": "Private Key (Wallet Import Format):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
@@ -52,7 +51,6 @@ ninja.translator = {
 
 		"es": {
 			// javascript alerts or messages
-			"testneteditionactivated": "Testnet se activa",
 			"paperlabelbitcoinaddress": "Dirección Bitcoin:",
 			"paperlabelprivatekey": "Clave privada (formato para importar):",
 			"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
@@ -186,7 +184,6 @@ ninja.translator = {
 
 		"fr": {
 			// javascript alerts or messages
-			"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 			"paperlabelbitcoinaddress": "Adresse Bitcoin:",
 			"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
@@ -320,7 +317,6 @@ ninja.translator = {
 
 		"el": {
 			// javascript alerts or messages
-			"testneteditionactivated": "ΕΝΕΡΓΗ ΕΚΔΟΣΗ TESTNET",
 			"paperlabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
 			"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
@@ -454,7 +450,6 @@ ninja.translator = {
 
 	    "it": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET EDITION ATTIVATO",
 			"paperlabelbitcoinaddress": "Indirizzo Bitcoin:",
 			"paperlabelprivatekey": "Chiave privata (Wallet Import Format):",
 			"paperlabelencryptedkey": "Chiave privata criptata (password richiesta)",
@@ -589,7 +584,6 @@ ninja.translator = {
 	    
 	    "de": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET AKTIVIERT",
 			"paperlabelbitcoinaddress": "Bitcoin-Adresse:",
 			"paperlabelprivatekey": "Privater Schl&uuml;ssel (Wallet Import Format):",
 			"paperlabelencryptedkey": "Verschl&uuml;sselter privater Schl&uuml;ssel (Passwort ben&ouml;tigt)",
@@ -723,7 +717,6 @@ ninja.translator = {
 
 		"cs": {
 			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET aktivován",
 			"paperlabelbitcoinaddress": "Bitcoin adresa:",
 			"paperlabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
 			"paperlabelencryptedkey": "Šifrovaný soukromý klíč (Vyžadováno heslo)",
