@@ -2,7 +2,7 @@
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 .less { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
-a { position: relative; z-index: 20; text-decoration: none; color: #FF6C00; }
+a { position: relative; z-index: 20; text-decoration: none; color: #d58424; }
 .right { text-align: right; }
 .walletarea { display: none; border: 1px solid #BFBFBF; background-color: white; }
 hr { margin: 20px 0; border-top: 1px dashed #008000; }
@@ -117,7 +117,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 .show { display: block; }
 
 #currencyddl { margin: 20px; }
-.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
+.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); text-align: left; }
 
 #donatearea { text-align: left; padding: 15px; }
 #donatearea .address { font-family: 'Courier New', Courier, monospace; }
@@ -129,11 +129,11 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 		
 @media screen 	
 {
-	#tagline { margin: 0 0 15px 0; font-style: italic; }
+	#tagline { margin: 0 0 15px 0; font-style: italic; text-align: left; }
 	.menu { text-align: left; }
 	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #F5F5F5;
 					border: 1px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 1px; z-index: 110; cursor: pointer; }
-	.menu .tab:hover { color: #FF6C00; }
+	.menu .tab:hover { color: #d58424; }
 	.menu .tab.selected { background-color: #FFF; border-bottom: 1px solid #FFF; cursor: default; }
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
