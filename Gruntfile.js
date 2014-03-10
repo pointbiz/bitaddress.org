@@ -4,8 +4,8 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		combine: {
 			single: {
-				input: "./src/bitaddress-ui.html",
-				output: "./bitaddress.org.html",
+				input: "./src/index.html",
+				output: "./index.html",
 				tokens: [
 					{ token: "//array.map.js", file: "./src/array.map.js" },
 					{ token: "//biginteger.js", file: "./src/biginteger.js" },
