@@ -230,13 +230,13 @@ Bitcoin.ECKey = (function () {
 	// 51 characters base58, always starts with a '5'
 	ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
-		return janin.selectedCurrency.WIF_RegExtest(key);
+		return janin.currency.WIF_RegEx().test(key);
 	};
 
 	// 52 characters base58
 	ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return janin.selectedCurrency.CWIF_RegExtest(key);
+		return janin.currency.CWIF_RegEx().test(key);
 	};
 
 	// 44 characters
