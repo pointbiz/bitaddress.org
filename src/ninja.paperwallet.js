@@ -167,7 +167,7 @@ ninja.wallets.paperwallet = {
 		var walletHtml =
 							"<div class='artwallet' id='artwallet" + i + "'>" +
 		//"<iframe src='bitcoin-wallet-01.svg' id='papersvg" + i + "' class='papersvg' ></iframe>" +
-								"<img id='papersvg" + i + "' class='papersvg' src='images/front-300dpi-french.jpg' />" +
+								"<img id='papersvg" + i + "' class='papersvg' src='images/front-300dpi.jpg' />" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
