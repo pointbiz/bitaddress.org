@@ -22,6 +22,7 @@ for(i = 0; i < janin.currencies.length; i++) {
 }
 select.innerHTML = options;
 // populate donate list
+document.getElementById("donateqrcode").style.display = "none";
 var donatelist = document.getElementById("donatelist");
 var list = "<table>";
 for(i = 0; i < janin.currencies.length; i++) {

@@ -11,6 +11,8 @@ ninja.wallets.donate = {
         var keyValuePair = {};
     	keyValuePair["donateqrcode"] = janin.currencies[currencyid].donate;
 		ninja.qrCode.showQrCode(keyValuePair, 4);
+        
+        document.getElementById("donateqrcode").style.display = "block";
         document.getElementById("donateqrcode").style.top = (e.offsetTop+15) + 'px';
     }
 };
