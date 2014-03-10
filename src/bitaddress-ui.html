@@ -122,14 +122,20 @@
 			<span><a href="?culture=de" id="culturede">Deutsch</a></span> | 
 			<span><a href="?culture=cs" id="culturecs">Česky</a></span>
 		</div>
-		<div class="banner"><img src="images/banner.png" alt="banner" /></div>
+
+		<div class="banner">
+			<img src="images/banner.png" alt="banner" />
+		</div>
+
+		<div id="currencyddl" class="hide">
+			Choose currency :
+      		<select id="currency" onchange="janin.currency.useCurrency(this);"></select> 
+		</div>
 		
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
 
-		<div id="currencyddl" class="hide">
-      <select id="currency" onchange="janin.currency.useCurrency(this);"></select> 
-		</div>
+		
 
 		<div class="menu" id="menu">
 			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>

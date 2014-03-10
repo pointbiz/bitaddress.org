@@ -116,7 +116,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 .hide { display: none; }
 .show { display: block; }
 
-#currencyddl { margin: 20px; }
+#currencyddl { margin: 20px; position: absolute; right: 0; top: 60px; width: 320px; font-size: 14px; }
+#currencyddl select { font-size: 14px; }
+
 .banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); text-align: left; }
 
 #donatearea { text-align: left; padding: 15px; }
