@@ -5764,8 +5764,8 @@ Bitcoin.Util = {
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 a { position: relative; z-index: 20; text-decoration: none; }
 .right { text-align: right; }
-.walletarea { display: none; border: 2px solid #BFBFBF; background-color: white; }
-hr { margin: 20px 0; border-top: 2px dashed #008000; }
+.walletarea { display: none; border: 1px solid #BFBFBF; background-color: white; }
+hr { margin: 20px 0; border-top: 1px dashed #008000; }
 .keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
@@ -5781,13 +5781,13 @@ body { font-family: Arial; background: #F5F5F5; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-.faq { border: 0; border-top: 2px solid #BFBFBF; }
+.faq { border: 0; border-top: 1px solid #BFBFBF; }
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #699FF5; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
@@ -5801,38 +5801,28 @@ body { font-family: Arial; background: #F5F5F5; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #BFBFBF; top: -25px; position: relative; }
+#singlesafety { text-align: left; padding: 5px; border-top: 1px solid #BFBFBF; top: -25px; position: relative; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
 		
 #paperarea { min-height: 120px; display: none; }
-#paperarea .keyarea { border: 2px solid #BFBFBF; border-top: 0; }
+#paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
-#paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .papersvg { width: 1004px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
+#paperarea .artwallet .qrcode_public { top: 121px; left: 42px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 104px; left: 360px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_private { top: 104px; right: 54px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; }
 #paperarea .artwallet .btcaddress  
 {
-	position: absolute; top: 240px; left: 139px; z-index: 100; font-size: 10px; background-color: transparent;
+	position: absolute; bottom: 50px; left: 40px; z-index: 100; font-size: 12px; background-color: transparent;
 	font-weight:bold; color: #000000; margin: 0;
-		-webkit-transform-origin:top left; -webkit-transform:rotate(-90deg);
-		-moz-transform-origin:top left;    -moz-transform:rotate(-90deg);
-		-ms-transform-origin:top left;     -ms-transform:rotate(-90deg);
-		-o-transform-origin:top left;      -o-transform:rotate(-90deg);
-		transform-origin:top left;         transform:rotate(-90deg);
 } 
 #paperarea .artwallet .btcprivwif  
 {
-	position: absolute; top: 236px; left: 346px; z-index: 100; font-size: 7px; background-color: transparent;
+	position: absolute; top: 242px; right: 54px; z-index: 100; font-size: 10px; background-color: transparent;
 	font-weight:bold; color: #000000; margin: 0;  
-		-webkit-transform-origin:top left; -webkit-transform:rotate(-90deg);
-		-moz-transform-origin:top left;    -moz-transform:rotate(-90deg);
-		-ms-transform-origin:top left;     -ms-transform:rotate(-90deg);
-		-o-transform-origin:top left;      -o-transform:rotate(-90deg);
-		transform-origin:top left;         transform:rotate(-90deg);
 }
 #paperarea .artwallet .btcencryptedkey
 {
@@ -5871,9 +5861,9 @@ body { font-family: Arial; background: #F5F5F5; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
 #vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid #BFBFBF; }
+#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 1px solid #BFBFBF; }
 #vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 2px solid #BFBFBF; display: block; padding: 15px; }
+#vanitystep2area { border-top: 1px solid #BFBFBF; display: block; padding: 15px; }
 #vanitystep2inputs { padding: 0 15px 10px 15px; }
 #vanitycalc { margin-top: 5px; }
 		
@@ -5887,8 +5877,7 @@ body { font-family: Arial; background: #F5F5F5; }
 .show { display: block; }
 
 #currencyddl { margin: 20px; }
-#walletType { }
-.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #A2BEEB; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
+.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
 
 #donatearea { text-align: left; padding: 15px; }
 #donatearea .address { font-family: 'Courier New', Courier, monospace; }
@@ -5903,12 +5892,12 @@ body { font-family: Arial; background: #F5F5F5; }
 	#tagline { margin: 0 0 15px 0; font-style: italic; }
 	.menu { text-align: left; }
 	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #F5F5F5;
-					border: 2px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
+					border: 1px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 1px; z-index: 110; cursor: pointer; }
 	.menu .tab:hover { color: #FFF; }
-	.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
+	.menu .tab.selected { background-color: #FFF; border-bottom: 1px solid #FFF; cursor: default; }
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
+	.commands { border-bottom: 1px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
@@ -5930,7 +5919,7 @@ body { font-family: Arial; background: #F5F5F5; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper .commands { border: 2px solid #BFBFBF; }
+	.paper .commands { border: 1px solid #BFBFBF; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -5949,7 +5938,7 @@ body { font-family: Arial; background: #F5F5F5; }
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
-	#paperarea .keyarea:first-child { border-top: 2px solid #BFBFBF; }
+	#paperarea .keyarea:first-child { border-top: 1px solid #BFBFBF; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
@@ -5961,6 +5950,8 @@ body { font-family: Arial; background: #F5F5F5; }
 	#detailarea .notes { display: none; }
 	#seedpoolarea { display: none; }
 	.faq { display: none; }
+	.banner { display: none; }
+	#currency { display: none; }
 }
 	</style>
 </head>
@@ -6284,6 +6275,8 @@ body { font-family: Arial; background: #F5F5F5; }
       <div id="donatearea" class="walletarea">
         <div>To support the development of this wallet generator, you can donate to the following address:</div>
         <div id="donatelist"></div>
+        <div id="donateqrcode"></div>
+        <div id="donateinfo"></div>
       </div>
     </div>
 
@@ -6353,11 +6346,11 @@ janin.currency = {
 };
 
 janin.currencies = [
-    janin.currency.createCurrency ("Bitcoin",    0x00, 0x80, "5",    "[LK]" , "addr1"),
+    janin.currency.createCurrency ("Bitcoin",    0x00, 0x80, "5",    "[LK]" , "1ETGVK8AsA9Xwadm2FARUxSfMhHmk1kmLi"),
     janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "T"    , "addr2"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "addr3"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "addr4"),
-    janin.currency.createCurrency ("Auroracoin", 0x17, 0x97, "6",    "T"    , "addr5"),
+    janin.currency.createCurrency ("Auroracoin", 0x17, 0x97, "6",    "T"    , "1ETGVK8AsA9Xwadm2FARUxSfMhHmk1kmLi"),
     janin.currency.createCurrency ("BBQcoin",    0x55, 0xd5, "6",    "T"    , "addr6"),
     janin.currency.createCurrency ("Catcoin",    0x15, 0x95, "[56]", "P"    , "addr7"),
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "addr8"),    
@@ -6727,7 +6720,7 @@ ninja.seeder = {
 	// number of mouse movements to wait for
 	seedLimit: (function () {
 		var num = Crypto.util.randomBytes(12)[11];
-		return 200 + Math.floor(num);
+		return 1; //200 + Math.floor(num);
 	})(),
 
 	seedCount: 0, // counter
@@ -8066,7 +8059,7 @@ ninja.wallets.paperwallet = {
 		var walletHtml =
 							"<div class='artwallet' id='artwallet" + i + "'>" +
 		//"<iframe src='bitcoin-wallet-01.svg' id='papersvg" + i + "' class='papersvg' ></iframe>" +
-								"<img id='papersvg" + i + "' class='papersvg' src='" + image + "' />" +
+								"<img id='papersvg" + i + "' class='papersvg' src='images/front-300dpi-french.jpg' />" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
@@ -8079,7 +8072,7 @@ ninja.wallets.paperwallet = {
 		var keyValuePair = {};
 		keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
 		keyValuePair["qrcode_private" + idPostFix] = privateKey;
-		ninja.qrCode.showQrCode(keyValuePair, 2.5);
+		ninja.qrCode.showQrCode(keyValuePair, 2.8);
 		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 
 		if (ninja.wallets.paperwallet.encrypt) {
@@ -8547,6 +8540,12 @@ ninja.wallets.donate = {
 
     close: function () {
         document.getElementById("donatearea").style.display = "none";
+    },
+    
+    displayQrCode: function (currencyid) {
+        var keyValuePair = {};
+    	keyValuePair["donateqrcode"] = janin.currencies[currencyid].donate;
+		ninja.qrCode.showQrCode(keyValuePair, 4);
     }
 };
 	</script>
@@ -9174,10 +9173,15 @@ select.innerHTML = options;
 var donatelist = document.getElementById("donatelist");
 var list = "<table>";
 for(i = 0; i < janin.currencies.length; i++) {
-    list += "<tr><td>"+janin.currencies[i].name+"</td><td class='address'>"+janin.currencies[i].donate+"</td></tr>";
+    list += "<tr onmouseover='ninja.wallets.donate.displayQrCode("+i+")'>"
+        +"<td>"+janin.currencies[i].name+"</td>"
+        +"<td class='address'><a href='"+janin.currencies[i].name.toLowerCase()+":"+janin.currencies[i].donate+"'>"
+        +janin.currencies[i].donate+"</a></td></tr>";
 }
 list += "</table>";
 donatelist.innerHTML = list;
+
+
 	</script>
 </body>
 </html>
