@@ -46,7 +46,7 @@
 	GitHub Repository: https://github.com/pointbiz/bitaddress.org
 	-->
 
-	<title>bitaddress.org</title>
+	<title>WalletGenerator.net</title>
 	<meta charset="utf-8">
 
 	<script type="text/javascript">
@@ -5980,9 +5980,6 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 		</div>
 		
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
-		<div id="testnet"></div>
-
-		
 
 		<div class="menu" id="menu">
 			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
@@ -5995,7 +5992,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 		</div>
 		
 		<div id="generate">
-			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
+			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
 			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
@@ -6012,7 +6009,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 				<div id="keyarea" class="keyarea">
 					<div class="public">
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+							<span class="label" id="singlelabelbitcoinaddress">Public Address</span>
 						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
@@ -6033,11 +6030,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 				</div>
 				
 				<div id="singlesafety">
-					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with its corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
-					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
-					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
-					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
-					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					<p id="singletip1"><b>A crypto-currency wallet</b> is as simple as a single pairing of a public address with its corresponding private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
+					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the public address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your private key should be kept a secret. Whomever you share the private key with has access to spend all the coins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send coins to your public address.</p>
+					<p id="singletip5"><b>Spend your coins</b> by downloading one of the popular p2p clients of your preferred currency and importing your private key. Keep in mind when you import your single key to a p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 

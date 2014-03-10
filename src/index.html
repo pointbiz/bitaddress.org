@@ -46,7 +46,7 @@
 	GitHub Repository: https://github.com/pointbiz/bitaddress.org
 	-->
 
-	<title>bitaddress.org</title>
+	<title>WalletGenerator.net</title>
 	<meta charset="utf-8">
 
 	<script type="text/javascript">
@@ -133,9 +133,6 @@
 		</div>
 		
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
-		<div id="testnet"></div>
-
-		
 
 		<div class="menu" id="menu">
 			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
@@ -148,7 +145,7 @@
 		</div>
 		
 		<div id="generate">
-			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
+			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
 			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
@@ -165,7 +162,7 @@
 				<div id="keyarea" class="keyarea">
 					<div class="public">
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+							<span class="label" id="singlelabelbitcoinaddress">Public Address</span>
 						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
@@ -186,11 +183,10 @@
 				</div>
 				
 				<div id="singlesafety">
-					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with its corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
-					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
-					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
-					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
-					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					<p id="singletip1"><b>A crypto-currency wallet</b> is as simple as a single pairing of a public address with its corresponding private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
+					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the public address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your private key should be kept a secret. Whomever you share the private key with has access to spend all the coins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send coins to your public address.</p>
+					<p id="singletip5"><b>Spend your coins</b> by downloading one of the popular p2p clients of your preferred currency and importing your private key. Keep in mind when you import your single key to a p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 
@@ -228,23 +224,23 @@
 				<div class="faqs">
 					<div id="bulkfaq1" class="faq"> 
 						<div id="bulkq1" class="question" onclick="ninja.wallets.bulkwallet.openCloseFaq(1);">
-							<span id="bulklabelq1">Why should I use a Bulk Wallet to accept bitcoins on my website?</span>
+							<span id="bulklabelq1">Why should I use a Bulk Wallet to accept crypto-currency on my website?</span>
 							<div id="bulke1" class="more"></div>
 						</div>
-						<div id="bulka1" class="answer">The traditional approach to accepting bitcoins on your website requires that you install the official bitcoin client daemon ("bitcoind"). Many website hosting packages don't support installing the bitcoin daemon. Also, running the bitcoin daemon on your web server means your private keys are hosted on the server and could get stolen if your web server is hacked. When using a Bulk Wallet you can upload only the bitcoin addresses and not the private keys to your web server. Then you don't have to worry about your bitcoin wallet being stolen if your web server is hacked. </div>
+						<div id="bulka1" class="answer">The traditional approach to accepting crypto-currencies on your website requires that you install the official client daemon. Many website hosting packages don't support installing this daemon. Also, running the daemon on your web server means your private keys are hosted on the server and could get stolen if your web server is hacked. When using a Bulk Wallet you can upload only the public addresses and not the private keys to your web server. Then you don't have to worry about your wallet being stolen if your web server is hacked. </div>
 					</div>
 					<div id="bulkfaq2" class="faq"> 
 						<div id="bulkq2" class="question" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
-							<span id="bulklabelq2">How do I use a Bulk Wallet to accept bitcoins on my website?</span>
+							<span id="bulklabelq2">How do I use a Bulk Wallet to accept crypto-currencies on my website?</span>
 							<div id="bulke2" class="more"></div>
 						</div>
 						<div id="bulka2" class="answer">
 							<ol>
-							<li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of bitcoin addresses (10,000+). Copy and paste the generated comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
-							<li id="bulklabela2li2">Import the bitcoin addresses into a database table on your web server. (Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins. Just the bitcoin addresses as they will be shown to customers.)</li>
-							<li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in Bitcoin. When the customer chooses to pay in Bitcoin you will then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
-							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "bitcoin payment notification" and subscribe to at least one bitcoin payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the bitcoin address you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.<br />http://www.blockexplorer.com/address/THEADDRESSGOESHERE<br /><br />Unconfirmed transactions can be viewed at: http://blockchain.info/ <br />You should see the transaction there within 30 seconds.</li>
-							<li id="bulklabela2li5">Bitcoins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
+							<li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of public addresses (10,000+). Copy and paste the generated comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
+							<li id="bulklabela2li2">Import the public addresses into a database table on your web server. (Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins. Just the public addresses as they will be shown to customers.)</li>
+							<li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in your preferred crypto-currency. When the customer chooses to pay in crypto-currency you will then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
+							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "crypto-currency payment notification" and subscribe to at least one payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use an online blockchain explorer. It could take between 10 minutes to one hour for the transaction to be confirmed. You should see the transaction there within 30 seconds.</li>
+							<li id="bulklabela2li5">Coins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
 							</ol>
 						</div>
 					</div>
@@ -300,7 +296,7 @@
 					<div>
 						<span class="label" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
 						<span class="output" id="vanityprivatekey"></span>
-						<br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Bitcoin Private Key once the Pool has found your prefix.</div>
+						<br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Private Key once the Pool has found your prefix.</div>
 					</div>
 				</div>
 				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
@@ -326,7 +322,7 @@
 				</div>
 				<div id="vanitystep2area">
 					<div>
-						<span class="label" id="vanitylabelbitcoinaddress">Vanity Bitcoin Address:</span>
+						<span class="label" id="vanitylabelbitcoinaddress">Vanity Public Address:</span>
 						<span class="output" id="vanityaddress"></span>
 						<br /><div class="notes" id="vanitylabelnotesbitcoinaddress">The above is your new address that should include your required prefix.</div>
 					</div>
@@ -361,7 +357,7 @@
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64, MINI).</span>
+						<span id="detaillabelnote1">Your Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64, MINI).</span>
 						<br /><br />
 						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
@@ -427,7 +423,7 @@
 							<span id="detaillabelq1">How do I make a wallet using dice? What is B6?</span>
 							<div id="detaile1" class="more"></div>
 						</div>
-						<div id="detaila1" class="answer">An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used.</div>
+						<div id="detaila1" class="answer">An important part of creating a crypto-currency wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a crypto-currency private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the public address associated with your private key. You should also make note of your private key in WIF format since it is more widely used.</div>
 					</div>
 				</div>
 			</div>
