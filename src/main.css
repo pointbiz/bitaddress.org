@@ -165,7 +165,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
 	.paper .commands { border: 1px solid #BFBFBF; }
-	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
+	#bulkstartindex { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
 	.footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }

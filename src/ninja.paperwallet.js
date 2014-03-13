@@ -3,20 +3,14 @@ ninja.wallets.paperwallet = {
 		document.getElementById("main").setAttribute("class", "paper"); // add 'paper' class to main div
 		var paperArea = document.getElementById("paperarea");
 		paperArea.style.display = "block";
-		var perPageLimitElement = document.getElementById("paperlimitperpage");
-		var limitElement = document.getElementById("paperlimit");
-		var pageBreakAt = (ninja.wallets.paperwallet.useArtisticWallet) ? ninja.wallets.paperwallet.pageBreakAtArtisticDefault : ninja.wallets.paperwallet.pageBreakAtDefault;
-		if (perPageLimitElement && perPageLimitElement.value < 1) {
-			perPageLimitElement.value = pageBreakAt;
-		}
-		if (limitElement && limitElement.value < 1) {
-			limitElement.value = pageBreakAt;
-		}
+
+		var pageBreakAt = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
+
 		if (document.getElementById("paperkeyarea").innerHTML == "") {
 			document.getElementById("paperpassphrase").disabled = true;
 			document.getElementById("paperencrypt").checked = false;
 			ninja.wallets.paperwallet.encrypt = false;
-			ninja.wallets.paperwallet.build(pageBreakAt, pageBreakAt, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);
+			ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
 		}
 	},
 
@@ -27,17 +21,15 @@ ninja.wallets.paperwallet = {
 
 	remaining: null, // use to keep track of how many addresses are left to process when building the paper wallet
 	count: 0,
-	pageBreakAtDefault: 7,
-	pageBreakAtArtisticDefault: 3,
-	useArtisticWallet: true,
+	pageBreakAtDefault: 1,
+	pageBreakAtArtisticDefault: 1,
 	pageBreakAt: null,
 
-	build: function (numWallets, pageBreakAt, useArtisticWallet, passphrase) {
-		if (numWallets < 1) numWallets = 1;
-		if (pageBreakAt < 1) pageBreakAt = 1;
+	build: function (passphrase) {
+		var numWallets = 1;
+		var pageBreakAt = 1;
 		ninja.wallets.paperwallet.remaining = numWallets;
 		ninja.wallets.paperwallet.count = 0;
-		ninja.wallets.paperwallet.useArtisticWallet = useArtisticWallet;
 		ninja.wallets.paperwallet.pageBreakAt = pageBreakAt;
 		document.getElementById("paperkeyarea").innerHTML = "";
 		if (ninja.wallets.paperwallet.encrypt) {
@@ -65,14 +57,10 @@ ninja.wallets.paperwallet = {
 			var pageBreakAt = ninja.wallets.paperwallet.pageBreakAt;
 			var div = document.createElement("div");
 			div.setAttribute("id", "keyarea" + i);
-			if (ninja.wallets.paperwallet.useArtisticWallet) {
-				div.innerHTML = ninja.wallets.paperwallet.templateArtisticHtml(i);
-				div.setAttribute("class", "keyarea art");
-			}
-			else {
-				div.innerHTML = ninja.wallets.paperwallet.templateHtml(i);
-				div.setAttribute("class", "keyarea");
-			}
+
+			div.innerHTML = ninja.wallets.paperwallet.templateArtisticHtml(i);
+			div.setAttribute("class", "keyarea art");
+
 			if (paperArea.innerHTML != "") {
 				// page break
 				if ((i - 1) % pageBreakAt == 0 && i >= pageBreakAt) {
@@ -80,9 +68,6 @@ ninja.wallets.paperwallet = {
 					pBreak.setAttribute("class", "pagebreak");
 					document.getElementById("paperkeyarea").appendChild(pBreak);
 					div.style.pageBreakBefore = "always";
-					if (!ninja.wallets.paperwallet.useArtisticWallet) {
-						div.style.borderTop = "2px solid green";
-					}
 				}
 			}
 			document.getElementById("paperkeyarea").appendChild(div);
@@ -97,24 +82,15 @@ ninja.wallets.paperwallet = {
 	generateNewWallet: function (idPostFix) {
 		if (ninja.wallets.paperwallet.encrypt) {
 			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, false, function (address, encryptedKey) {
-				if (ninja.wallets.paperwallet.useArtisticWallet) {
-					ninja.wallets.paperwallet.showArtisticWallet(idPostFix, address, encryptedKey);
-				}
-				else {
-					ninja.wallets.paperwallet.showWallet(idPostFix, address, encryptedKey);
-				}
+				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, address, encryptedKey);
 			});
 		}
 		else {
 			var key = new Bitcoin.ECKey(false);
 			var bitcoinAddress = key.getBitcoinAddress();
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
-			if (ninja.wallets.paperwallet.useArtisticWallet) {
-				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
-			}
-			else {
-				ninja.wallets.paperwallet.showWallet(idPostFix, bitcoinAddress, privateKeyWif);
-			}
+
+			ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
 		}
 	},
 
@@ -218,27 +194,12 @@ ninja.wallets.paperwallet = {
 	},
 
 	resetLimits: function () {
-		var hideArt = document.getElementById("paperart");
 		var paperEncrypt = document.getElementById("paperencrypt");
-		var limit;
-		var limitperpage;
 
 		document.getElementById("paperkeyarea").style.fontSize = "100%";
-		if (!hideArt.checked) {
-			limit = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
-			limitperpage = ninja.wallets.paperwallet.pageBreakAtArtisticDefault;
-		}
-		else if (hideArt.checked && paperEncrypt.checked) {
-			limit = ninja.wallets.paperwallet.pageBreakAtDefault;
-			limitperpage = ninja.wallets.paperwallet.pageBreakAtDefault;
+		if (paperEncrypt.checked) {
 			// reduce font size
 			document.getElementById("paperkeyarea").style.fontSize = "95%";
 		}
-		else if (hideArt.checked && !paperEncrypt.checked) {
-			limit = ninja.wallets.paperwallet.pageBreakAtDefault;
-			limitperpage = ninja.wallets.paperwallet.pageBreakAtDefault;
-		}
-		document.getElementById("paperlimitperpage").value = limitperpage;
-		document.getElementById("paperlimit").value = limit;
 	}
 };
