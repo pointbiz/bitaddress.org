@@ -6297,12 +6297,12 @@ Bitcoin.Util = {
 	</script>
 	<style type="text/css">
 .more { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAAB1UlEQVQ4jYWTS04bQRCGv3q0x8gMYJCwknCGLDgLVwiH4grhLFaUXdhkQ0A8pBg/FOLpnmbhMYzxRKlNS1Vdf/31V5XknGnb+eXJCBjzbzu9OLu+azu845Opysej4wHmshF4uJ2TUrb3CV0gIBAKRboC5C2vdkDE9fdty6/xDegvXz+NgDbFUejZ+PjDgExmtpxS9vYwMe5u5iyX8RRoa5Ic+C4qx9KUN1MGu4E618yqJ5axAp44KA7ZL3eYzp/HKdVIw7WK8d6BuDvcod9TQlBEIOXEdPlElSoUJabIIs4Z7h9yNDwgqOMayLXw7epHVIBggrsgspZPUBQyiCgugRQji7TAVDF1XB2TlQoOYCqovkmpopS9fcoiM3ue0rOCYf8IU8NklWxiiOQ3EPXtWagIqo6KYWYEc4IGvMViA6RrnCJKVS9B8ypRHG1YKNa0Ur+C+MPt/I2BKWVZUO4FgvQ47PcptEDF+T2Z8TiZUMWIyGtpd+Bze5VTSqP57O/4YG+AN/RXbSiPkwmL5z/be/L+mM4vT2JKeUW7EXD1erMz/Lo4u77f0K9DDhdA1XG11jh9vWBb99Z9gAg5QZ2hzpmUa0RSW4f/gqSY0s3Vz+tufEjvHS8Tg6BXC7qVbQAAAABJRU5ErkJggg==)
-			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
+			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; cursor: pointer; }
 .less { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDEvMDIvMTLltnQyAAABuklEQVQ4ja2US25TQRBFT336OSEY5ESyBfEakNiLt0AW5S2QvQQxAiZIYBwSz/yByH7dxcB2bPMME+hJS/W5fetWVUtE8K/HfzdcXfdfqsr4onuGuRz4Jrdzcg6Gg9HfQYAxAqmlSMMlQJO5/oliE4AtQLcR++btZQ+wPVsvVXbTfXFGEMyWU9rVM0yMu/Gc5bJ+DdztxWcH3otKVzbPmyq5LnwfzSgEBMxlhqJEBFWVKKUgG66rur53oH7aOeWkUlJSRCBHZracssorlLXttHpCpzonaYukjmsiivDu08daAZIJ7oLIVg9BUQgQUVwSua5Z5AWmiqnj6pisVXAAU0F1J6WK0q6e024Fs4cplbXonFxgapisk00MkdiBqDd7oSKoOiqGmZHMSZrwPRYHIMfaKaKsyhI01oni6IaFYptSyiOIT27nOwaq5FyQrUAIC/nBhK+UErRSos55z4878CrneJyTnHOvquymf3mOb+hvy/jw+QuLh5/NORkORvsGrq77dc6xpr0RcH07y3oF8G04GN0f6HdEDhdA1XG1vXb6dsAa+3Z8AREiQwkoEeQoiBzocHDkf/wnvwC5IpRVsUDNUgAAAABJRU5ErkJggg==)
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 a { position: relative; z-index: 20; }
 .right { text-align: right; }
-.walletarea { display: none; border: 2px solid green; }
+.walletarea { display: none; border: 2px solid #53c100; }
 hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
@@ -6319,13 +6319,14 @@ body { font-family: Arial; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-.faq { border: 0; border-top: 2px solid green; }
+.faq { border: 0; border-top: 2px solid #53c100; }
 
+#wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
-.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: green; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid green; }
+.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #53c100; position: absolute; z-index: 10; }
+#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #53c100; clear: both; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
@@ -6338,14 +6339,14 @@ body { font-family: Arial; }
 #keyarea .public { width: 30%; display: table-cell; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
-#singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid green; top: -25px; position: relative; }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: #53c100; font-weight: bolder; font-size: 200%;  }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #53c100; top: -25px; position: relative; }
 
-#main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
+#main { position: relative; text-align: center; margin: 0px auto; width: 810px; }
 #logo { width: 578px; height: 80px; }
 		
 #paperarea { min-height: 120px; display: none; }
-#paperarea .keyarea { border: 2px solid green; border-top: 0; }
+#paperarea .keyarea { border: 2px solid #53c100; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public { top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
@@ -6409,12 +6410,16 @@ body { font-family: Arial; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
 #vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid green; }
+#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid #53c100; }
 #vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 2px solid green; display: block; padding: 15px; }
+#vanitystep2area { border-top: 2px solid #53c100; display: block; padding: 15px; }
 #vanitystep2inputs { padding: 0 15px 10px 15px; }
 #vanitycalc { margin-top: 5px; }
-		
+
+#splitcommands { padding: 10px 15px; text-align: left; }
+#splitstep1area { display: none; text-align: left; position: relative; padding: 0; border-bottom: 2px solid #53c100; }
+.splitsharerow { border-bottom: 2px solid #53c100; padding: 15px; }
+
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .unittests { text-align: center; }
 .unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
@@ -6432,14 +6437,31 @@ body { font-family: Arial; }
 @media screen 	
 {
 	#tagline { margin: 0 0 15px 0; font-style: italic; }
-	.menu { text-align: left; }
-	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #6C8C6C;
-					border: 2px solid green; padding: 5px; margin: 0 2px 0 0; position: relative; top: 2px; z-index: 110; cursor: pointer; }
-	.menu .tab:hover { color: #FFF; }
-	.menu .tab.selected { background-color: #FFF; border-bottom: 2px solid #FFF; cursor: default; }
+	.menu  
+	{
+	    text-align: left; margin: 0; padding: 0; display: block;
+	    background-color: #53c100; 
+	    
+	    height: 72px; border-top-left-radius: 5px; border-top-right-radius: 5px;
+	}
+	.menu .tab 
+	{
+	    position: relative; float: left; margin: 0; list-style: none; z-index: 110; cursor: pointer; 
+	    border: 0px solid red; top: 1px; padding: 10px 20px; width: 160px; text-align: center;
+	}
+	.menu .tab.selected  
+	{
+	    cursor: default; 
+	    background-color: #FFF; margin: 6px 16px; padding: 4px; border-radius: 5px; 
+	}
+	.menu .tab:hover  
+	{
+	    background-color: #FFF; margin: 6px 16px; padding: 4px; border-radius: 5px; 
+	}
 	.menu .tab.selected:hover { color: #000; }
-	.pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid green;  padding: 10px 2px; margin-bottom: 0; }
+	
+    .pagebreak { height: 50px; }
+	.commands { border-bottom: 2px solid #53c100;  padding: 10px 2px; margin-bottom: 0; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
@@ -6447,7 +6469,7 @@ body { font-family: Arial; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
-    #menu { visibility: hidden; font-size: 90%; }
+    #menu { visibility: visible; font-size: 90%; }
     #culturemenu { text-align: right; padding: 0 20px; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
@@ -6461,7 +6483,7 @@ body { font-family: Arial; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper .commands { border: 2px solid green; }
+	.paper .commands { border: 2px solid #53c100; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -6480,7 +6502,7 @@ body { font-family: Arial; }
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
-	#paperarea .keyarea:first-child { border-top: 2px solid green; }
+	#paperarea .keyarea:first-child { border-top: 2px solid #53c100; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
@@ -6511,20 +6533,20 @@ body { font-family: Arial; }
 		<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator</div>
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
-		<div class="menu" id="menu">
-			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
-			<div class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
-			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
-			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
-			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
-			<div class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet</div>
-			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
-		</div>
+		<ul class="menu" id="menu">
+			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</li>
+			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</li>
+			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</li>
+			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</li>
+			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</li>
+			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet</li>
+			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</li>
+		</ul>
 		
 		<div id="generate">
 			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
+			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeydown="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
 		</div>
 
@@ -6564,7 +6586,7 @@ body { font-family: Arial; }
 					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
 					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
 					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
-					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 
@@ -6718,17 +6740,23 @@ body { font-family: Arial; }
 					</div>
 				</div>
 			</div>
-			<div id="splitarea" class="walletarea">
-				<div id="splitcommands" class="left">
-					<span>
-						<label id="splitlabelshares">Number of shares</label>
-						<input type="text" id="splitshares" value="4" size="4"/><br/>
-						<label id="splitlabelthreshhold">Minimum share threshhold needed to combine</label>
-						<input type="text" id="splitthreshhold" value="2" size="4"/>
-					</span>
 
+			<div id="splitarea" class="walletarea">
+				
+				<div id="splitcommands" class="commands " >
+					
+						<label id="splitlabelshares">Number of shares</label>
+						<input type="text" id="splitshares" value="4" size="4"/>
+					<br/>
+						<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
+						<input type="text" id="splitthreshold" value="2" size="4"/>
+					
 					<span><input type="button" id="splitview" value="Generate" onclick="ninja.wallets.splitwallet.splitKey();"></span>
+
+					<div id="splitstep1icon" class="more " onclick="ninja.wallets.splitwallet.openCloseStep(1);"></div>
 				</div>
+				<div id="splitstep1area"></div>
+
 				<div id="combinecommands" class="left commands">
 					<span>
 						<label id="combinelabelentershares">Enter Available Shares (whitespace separated)</label> 
@@ -6740,6 +6768,7 @@ body { font-family: Arial; }
 					</span>
 				</div>
 			</div>
+
 			<div id="detailarea" class="walletarea">	
 				<div id="detailcommands" class="commands">
 					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
@@ -6839,7 +6868,7 @@ body { font-family: Arial; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.8.1)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.9.0)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7552,7 +7581,7 @@ ninja.translator = {
 			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
-			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
 
 			// paper wallet html
 			"paperlabelhideart": "Ocultar diseño",
@@ -7686,7 +7715,7 @@ ninja.translator = {
 			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
-			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
 
 			// paper wallet html
 			"paperlabelhideart": "Retirer Le Style?",
@@ -7820,7 +7849,7 @@ ninja.translator = {
 			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
-			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
 
 			// paper wallet html
 			"paperlabelhideart": "Απόκρυψη γραφικού;",
@@ -7954,7 +7983,7 @@ ninja.translator = {
 			"singletip2": "<b>Per mettere in sicurezza questo portafogli</b> devi stampare o quantomeno salvare l'indirizzo bitcoin e la Chiave privata. È molto importante fare una copia di backup della chiave privata e conservarla in un posto sicuro. Questo sito non conosce la tua chiave privata. Se hai familiarità con PGP, puoi scaricare per intero questa pagina HTML e controllare la sua autentiticità. Puoi confrontare il codice SHA1 della pagina scaricata con il codice firmato dall'autore che trovi nella cronologia delle versioni (in fondo alla pagina). Se abbandoni/aggiorni la pagina web oppure premi il tasto Genera, un nuovo indirizzo sostituirà quello vecchio che non potrà più essere recuperato. La chiave privata dovrebbe essere tenuta segreta, chiunque conosca la chiave privata può avere accesso e spendere i tuoi bitcoin. Se stampi il tuo portafogli conservalo in una busta di plastica sigillata per tenerla al riparo dall'acqua. Tratta quanto stampato alla stregua di una banconota.",
 			"singletip3": "<b>Ricevi fondi</b> su questo portafogli mostrando l'indirizzo bitcoin per il versamento.",
 			"singletip4": "<b>Controlla il saldo</b> visitando blockchain.info o blockexplorer.com cercando il tuo indirizzo bitcoin.",
-			"singletip5": "<b>Spendi i tuoi bitcoin</b> aprendo un account su blockchain.info o mtgox.com usando la chiave privata. Puoi anche spendere i tuoi bitcoin scaricando il popolare client p2p ed importando in esso il portafogli. Tieni presente che quando importi una chiave nel client p2p, nel momento in cui spendi le monete, la chiave viene raggruppata insieme alle altre presenti nel programma con i restanti bitcoin. Quando esegui una transazione gli spiccioli verranno invitati verso un altro indirizzo all'interno del tuo portafogli gestito dal client p2p. Quindi dovresti tenere un backup del portafogli contenuto nel client p2p e tenere questo in un posto sicuro fin tanto terrai dei bitcoin lì. Satoshi consiglia di non cancellare mai un portafogli. ",
+			"singletip5": "<b>Spendi i tuoi bitcoin</b> aprendo un account su blockchain.info usando la chiave privata. Puoi anche spendere i tuoi bitcoin scaricando il popolare client p2p ed importando in esso il portafogli. Tieni presente che quando importi una chiave nel client p2p, nel momento in cui spendi le monete, la chiave viene raggruppata insieme alle altre presenti nel programma con i restanti bitcoin. Quando esegui una transazione gli spiccioli verranno invitati verso un altro indirizzo all'interno del tuo portafogli gestito dal client p2p. Quindi dovresti tenere un backup del portafogli contenuto nel client p2p e tenere questo in un posto sicuro fin tanto terrai dei bitcoin lì. Satoshi consiglia di non cancellare mai un portafogli. ",
 
 			// paper wallet html
 			"paperlabelhideart": "Senza grafica?",
@@ -8089,7 +8118,7 @@ ninja.translator = {
 			"singletip2": "<b>Um dieses Wallet zu sch&uuml;tzen,</b> musst du es entweder ausdrucken oder anderweitig die Bitcoin-Adresse und den privaten Schl&uuml;ssel sichern. Fertige auf jeden Fall eine Kopie des privaten Schl&uuml;ssels an und bewahre sie an einem sicheren Ort auf. Der private Schl&uuml;ssel liegt nur lokal auf deinem Rechner vor und wurde nicht ins Internet &uuml;bertragen. Falls du dich mit PGP auskennst, kannst du dir diese all-in-one HTML-Seite herunterladen. Um zu &uuml;berpr&uuml;fen, ob die heruntergeladene Version authentisch ist, kannst du den SHA1-Hash dieser Seite mit dem SHA1-Hash in der signierten Versionsgeschichte am unteren Ende dieser Seite abgleichen. Wenn du diese Seite verl&auml;sst, sie neul&auml;dst bzw. den \"Neues Wallet erstellen\"-Button dr&uuml;ckst, wird ein neues Wallet erstellt und das vorherige wird nicht mehr abrufbar sein. Du solltest deinen privaten Schl&uuml;ssel geheim halten. Wer den privaten Schl&uuml;ssel hat, kann damit auf alle im Wallet befindlichen Bitcoin zugreifen und sie nach Belieben ausgeben. Behandle dein gedrucktes Wallet wie echtes Geld!",
 			"singletip3": "Du kannst <b>Guthaben</b> zu deinem Wallet <b>hinzuf&uuml;gen</b>, indem du genau wie bei anderen &Uuml;berweisungen Bitcoins an die Bitcoin-Adresse deines Wallets schickst.",
 			"singletip4": "<b>&Uuml;berpr&uuml;fe dein Guthaben,</b> indem du deine Bitcoin-Adresse auf blockchain.info bzw. blockexplorer.com eingibst.",
-			"singletip5": "Du kannst deine <b>Bitcoins ausgeben</b>, indem du das gesamte mit deinem privaten Schl&uuml;ssel verbundene Guthaben auf deinen Account bei blockchain.info bzw. mtgox.com &uuml;bertr&auml;gst. Alternativ kannst du dir ein Bitcoinprogramm herunterladen und deinen privaten Schl&uuml;ssel in dieses importieren. Beachte dabei aber, dass, sobald du Bitcoins mit dem Programm sendest, dein privater Schl&uuml;ssel mit den anderen privaten Schl&uuml;sseln, die vom Programm bereitgestellt werden, verbunden wird. Bei einer &Uuml;berweisung wird etwas R&uuml;ckgeld an eine der Bitcoin-Adressen des Programms geschickt. Deswegen musst du, um tats&auml;chlich dein gesamtes Guthaben zu sichern, ein Backup vom gesamten Wallet des Programms, das nun auch deinen importierten privaten Schl&uuml;ssel enth&auml;lt, anfertigen. Satoshi r&auml;t, dass man unter keinen Umst&auml;nden ein Wallet l&ouml;schen sollte.", 
+			"singletip5": "Du kannst deine <b>Bitcoins ausgeben</b>, indem du das gesamte mit deinem privaten Schl&uuml;ssel verbundene Guthaben auf deinen Account bei blockchain.info &uuml;bertr&auml;gst. Alternativ kannst du dir ein Bitcoinprogramm herunterladen und deinen privaten Schl&uuml;ssel in dieses importieren. Beachte dabei aber, dass, sobald du Bitcoins mit dem Programm sendest, dein privater Schl&uuml;ssel mit den anderen privaten Schl&uuml;sseln, die vom Programm bereitgestellt werden, verbunden wird. Bei einer &Uuml;berweisung wird etwas R&uuml;ckgeld an eine der Bitcoin-Adressen des Programms geschickt. Deswegen musst du, um tats&auml;chlich dein gesamtes Guthaben zu sichern, ein Backup vom gesamten Wallet des Programms, das nun auch deinen importierten privaten Schl&uuml;ssel enth&auml;lt, anfertigen. Satoshi r&auml;t, dass man unter keinen Umst&auml;nden ein Wallet l&ouml;schen sollte.", 
 
 			// paper wallet html
 			"paperlabelhideart": "Grafische Gestaltung ausblenden?",
@@ -8223,7 +8252,7 @@ ninja.translator = {
 			"singletip2": "<b>Pro zabezpečení této peněženky</b> musíte tuto Bitcoin adresu a soukromý klíč vytisknout a nebo jinak poznamenat. Je důležité provést zálohu soukromého klíče a jeho uschování na bezpečném místě. Tato webová stránka nemá žádné informace o vašem soukromém klíči. Pokud ovládáte PGP, můžete celou tuto stránku stáhnout v jednom HTML souboru a ověřit její pravost srovnáním SHA1 hashe s podepsaným dokumentem historie verzí. Odkaz naleznete v patičce této stránky. Pokud opustíte či obnovíte tuto stránku nebo kliknete na 'Vytvořit novou adresu' dojde k vygenerování nového soukromého klíče a předtím zobrazený klíč bude ztracen. Váš soukromý klíč musíte uchovat v tajnosti. Každý kdo má tento klíč k dispozici může utratit všechny peníze v této peněžence. Pokud budete peněženku tisknout, uzavřete ji do nepropustného obalu nebo ji zalaminujte. Tím zabráníte jejímu poškození vodou. Chovejte se k této peněžence jako k normálním bankovkám.",
 			"singletip3": "<b>Pro vložení</b> peněz do této peněženky stačí zaslat peníze na Bitcoin adresu.",
 			"singletip4": "<b>Zkontrolovat zůstatek</b> můžete na webové stránce blockchain.info nebo blockexplorer.com po zadání Bitcoin adresy.",
-			"singletip5": "<b>Utratit Bitcoiny</b> můžete pomocí blockchain.info či mtgox.com načtením celého zůstatku pomocí soukromého klíče do vašeho účtu. Utratit zůstatek můžete také pomocí jednoho z P2P Bitcoin klientů naimportováním soukromého klíče. Myslete na to, že importem klíče do klienta se stane součástí jeho peněženky. Pokud převedete někomu peníze, nespotřebovaný zůstatek se zašle na jinou Bitcoin adresu uvedenou v P2P klienta. Tuto novou adresu musíte vyzálohovat a udržovat v bezpečí. Satoshi doporučuje, že by nikdo nikdy neměl mazat peněženku.",
+			"singletip5": "<b>Utratit Bitcoiny</b> můžete pomocí blockchain.info načtením celého zůstatku pomocí soukromého klíče do vašeho účtu. Utratit zůstatek můžete také pomocí jednoho z P2P Bitcoin klientů naimportováním soukromého klíče. Myslete na to, že importem klíče do klienta se stane součástí jeho peněženky. Pokud převedete někomu peníze, nespotřebovaný zůstatek se zašle na jinou Bitcoin adresu uvedenou v P2P klienta. Tuto novou adresu musíte vyzálohovat a udržovat v bezpečí. Satoshi doporučuje, že by nikdo nikdy neměl mazat peněženku.",
 			"singleshare": "SDÍLEJTE",
 			"singlesecret": "SOUKROMÉ",
 
@@ -9034,110 +9063,130 @@ ninja.wallets.detailwallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.splitwallet = {
-    open: function () {
-        document.getElementById("splitarea").style.display = "block";
-        secrets.setRNG();
-        secrets.init(3);
-    },
+	open: function () {
+		document.getElementById("splitarea").style.display = "block";
+		secrets.setRNG();
+		secrets.init(7);
+	},
 
-    close: function () {
-        document.getElementById("splitarea").style.display = "none";
-    },
+	close: function () {
+		document.getElementById("splitarea").style.display = "none";
+	},
 
-    mkOutputRow: function(s,id,lbltxt) {
-        var row = document.createElement("span");
-        var label = document.createElement("label");
-        label.innerHTML= lbltxt + s;
-        var qr = document.createElement("div");
+	mkOutputRow: function (s, id, lbltxt) {
+		var row = document.createElement("div");
+		var label = document.createElement("label");
+		label.innerHTML = lbltxt + s;
+		var qr = document.createElement("div");
 
-        qr.setAttribute("id", id);
-        row.appendChild(label);
-        row.appendChild(qr);
-        row.appendChild(document.createElement("br"));
+		qr.setAttribute("id", id);
+		row.setAttribute("class", "splitsharerow");
+		row.appendChild(label);
+		row.appendChild(qr);
+		row.appendChild(document.createElement("br"));
 
-        return row;
+		return row;
+	},
 
-    },
+	stripLeadZeros: function (hex) { return hex.split(/^0+/).slice(-1)[0]; },
 
-    stripLeadZeros: function(hex) { return hex.split(/^0+/).slice(-1)[0]; },
+	hexToBytes: function (hex) {
+		//if input has odd number of digits, pad it
+		if (hex.length % 2 == 1)
+			hex = "0" + hex;
+		for (var bytes = [], c = 0; c < hex.length; c += 2)
+			bytes.push(parseInt(hex.substr(c, 2), 16));
+		return bytes;
+	},
 
-    hexToBytes: function (hex) {
-        //if input has odd number of digits, pad it
-        if (hex.length % 2 == 1)
-            hex = "0" + hex;
-  	for (var bytes = [], c = 0; c < hex.length; c += 2)
- 	    bytes.push(parseInt(hex.substr(c, 2), 16));
- 	return bytes;
-    },
+	// Split a private key and update information in the HTML
+	splitKey: function () {
+		try {
+			var key = new Bitcoin.ECKey(false);
+			var bitcoinAddress = key.getBitcoinAddress();
 
-    // Split a private key and update information in the HTML
-    splitKey: function () {
-        try {
-            var key = new Bitcoin.ECKey(false);
-            var bitcoinAddress = key.getBitcoinAddress();
-            var element = document.getElementById("splitoutput");
-            if (element != null) element.parentNode.removeChild(element);
+			var numshares = parseInt(document.getElementById('splitshares').value);
+			var threshold = parseInt(document.getElementById('splitthreshold').value);
+			var hexKey = Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray());
+			var shares = secrets.share(hexKey, numshares, threshold).map(this.hexToBytes).map(Bitcoin.Base58.encode);
+			var output = document.createElement("div");
+			output.setAttribute("id", "splitoutput");
+			var m = {};
+			output.appendChild(this.mkOutputRow(bitcoinAddress, "split_addr", "Bitcoin Address:    "));
+			m["split_addr"] = bitcoinAddress;
 
-            var numshares = parseInt(document.getElementById('splitshares').value);
-            var threshhold =  parseInt(document.getElementById('splitthreshhold').value);
-            var shares = secrets.share(Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray()),
-                                       numshares, threshhold).map(this.hexToBytes).map(Bitcoin.Base58.encode);
-            var output = document.createElement("div");
-            output.setAttribute("id", "splitoutput");
-            var m = {};
-            output.appendChild(this.mkOutputRow(bitcoinAddress, "split_addr", "Bitcoin Address:    "));
-            m["split_addr"] = bitcoinAddress;
+			for (var i = 0; i < shares.length; i++) {
+				var id = "split_qr_" + i;
+				output.appendChild(this.mkOutputRow(shares[i], id, "Share " + (i + 1) + ":          "));
+				m[id] = shares[i];
+			}
 
-            for (var i=0; i < shares.length; i++) {
-                var id = "split_qr_"+ i;
-                output.appendChild(this.mkOutputRow(shares[i], id, "Share " + (i+1) + ":          "));
-                m[id]=shares[i];
-            }
+			document.getElementById("splitstep1area").innerHTML = output.innerHTML;
+			ninja.qrCode.showQrCode(m);
 
-            document.getElementById("splitcommands").appendChild(output);
-            ninja.qrCode.showQrCode(m);
+			document.getElementById("splitstep1area").style.display = "block";
+			document.getElementById("splitstep1icon").setAttribute("class", "less");
+		}
+		catch (e) {
+			// browser does not have sufficient JavaScript support to generate a bitcoin address
+			alert(e);
+			document.getElementById("btcaddress").innerHTML = "error";
+			document.getElementById("btcprivwif").innerHTML = "error";
+			document.getElementById("qrcode_public").innerHTML = "";
+			document.getElementById("qrcode_private").innerHTML = "";
+		}
+	},
 
-        }
-        catch (e) {
-            // browser does not have sufficient JavaScript support to generate a bitcoin address
-            alert(e);
-            document.getElementById("btcaddress").innerHTML = "error";
-            document.getElementById("btcprivwif").innerHTML = "error";
-            document.getElementById("qrcode_public").innerHTML = "";
-            document.getElementById("qrcode_private").innerHTML = "";
-        }
-    },
+	// Combine shares of a private key to retrieve the key
+	combineShares: function () {
+		try {
+			var element = document.getElementById("combineoutput");
+			if (element != null) element.parentNode.removeChild(element);
 
-    // Combine shares of a private key to retrieve the key
-    combineShares: function () {
-        try {
-            var element = document.getElementById("combineoutput");
-            if (element != null) element.parentNode.removeChild(element);
+			var shares = document.getElementById("combineinput").value.trim().split(/\W+/);
 
-            var shares = document.getElementById("combineinput").value.trim().split(/\W+/);
+			var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(this.stripLeadZeros));
 
-            var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).
-                                           map(Crypto.util.bytesToHex).
-                                           map(this.stripLeadZeros));
+			var privkeyBase58 = new Bitcoin.ECKey(this.hexToBytes(combined)).getBitcoinWalletImportFormat();
+			var output = document.createElement("div");
+			output.setAttribute("id", "combineoutput");
+			var txt = document.createElement("input");
+			txt.setAttribute("id", "combineoutputtext");
+			txt.setAttribute("value", privkeyBase58);
+			txt.setAttribute("size", 55);
+			var lbl = document.createElement("label");
+			lbl.innerHTML = "Private key";
+			output.appendChild(lbl);
+			output.appendChild(txt);
+			document.getElementById("combinecommands").appendChild(output);
+		}
+		catch (e) {
+			alert(e);
+		}
+	},
 
-            var privkeyBase58 = new Bitcoin.ECKey(this.hexToBytes(combined)).getBitcoinWalletImportFormat();
-            var output = document.createElement("div");
-            output.setAttribute("id", "combineoutput");
-            var txt = document.createElement("input");
-            txt.setAttribute("id","combineoutputtext");
-            txt.setAttribute("value",privkeyBase58);
-            txt.setAttribute("size",55);
-            var lbl = document.createElement("label");
-            lbl.innerHTML="Private key";
-            output.appendChild(lbl);
-            output.appendChild(txt);
-            document.getElementById("combinecommands").appendChild(output);
-        }
-        catch (e) {
-            alert(e);
-        }
+	getFormattedShares: function (key, numshares, threshold) {
+		var shares = secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
+		return shares;
+	},
 
-    }
+	combineFormattedShares: function (shares) {
+		var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
+		return combined;
+	},
+
+	openCloseStep: function (num) {
+		// do close
+		if (document.getElementById("splitstep" + num + "area").style.display == "block") {
+			document.getElementById("splitstep" + num + "area").style.display = "none";
+			document.getElementById("splitstep" + num + "icon").setAttribute("class", "more");
+		}
+		// do open
+		else {
+			document.getElementById("splitstep" + num + "area").style.display = "block";
+			document.getElementById("splitstep" + num + "icon").setAttribute("class", "less");
+		}
+	}
 };
 
 	</script>
@@ -9599,6 +9648,52 @@ ninja.wallets.splitwallet = {
 				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da";
 				var btcKey = new Bitcoin.ECKey(key);
 				if (btcKey.getBitcoinAddress() != "1NAjZjF81YGfiJ3rTKc7jf1nmZ26KN7Gkn") {
+					return false;
+				}
+				return true;
+			},
+
+			// test split wallet
+			testSplitAndCombinePrivateKey: function () {
+				var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B"; //5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  //secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares); // secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
+				
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+				if (btcKey.getBitcoinHexFormat() != key) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey2: function () {
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da   5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey3: function () {
+				var key = "004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; 
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
 					return false;
 				}
 				return true;

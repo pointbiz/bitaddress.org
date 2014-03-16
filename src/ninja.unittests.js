@@ -458,6 +458,52 @@
 					return false;
 				}
 				return true;
+			},
+
+			// test split wallet
+			testSplitAndCombinePrivateKey: function () {
+				var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B"; //5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  //secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares); // secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
+				
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+				if (btcKey.getBitcoinHexFormat() != key) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey2: function () {
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da   5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey3: function () {
+				var key = "004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; 
+				var numshares = 4;
+				var threshold = 2;
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+
+				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
 			}
 		},
 
