@@ -47,9 +47,9 @@ janin.currency = {
         document.getElementById("vanityprivatekey").innerHTML = "";
         document.getElementById("vanityinput1").value = "";
         document.getElementById("vanityinput2").value = "";
-        document.getElementById("vanityaddress").value = "";
-        document.getElementById("vanitypublickeyhex").value = "";
-        document.getElementById("vanityprivatekeywif").value = "";
+        document.getElementById("vanityaddress").innerHTML = "";
+        document.getElementById("vanitypublickeyhex").innerHTML = "";
+        document.getElementById("vanityprivatekeywif").innerHTML = "";
     },
 };
 
