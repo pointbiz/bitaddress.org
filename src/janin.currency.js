@@ -32,12 +32,10 @@ janin.currency = {
         return new RegExp("^" + janin.selectedCurrency.CWIF_Start + "[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$");
     },
     
-    useCurrency: function(currency) {
-        janin.selectedCurrency = currency;
-        
-        // TODO: regenerate/reset current wallet (single, vanity ...)
+    // Switch currency
+    useCurrency: function(index) {
+        janin.selectedCurrency = janin.currencies[index];
     },
-    
 };
 
 janin.currencies = [
