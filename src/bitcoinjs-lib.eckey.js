@@ -130,7 +130,7 @@ Bitcoin.ECKey = (function () {
 	// Sipa Private Key Wallet Import Format 
 	ECKey.prototype.getBitcoinWalletImportFormat = function () {
 		var bytes = this.getBitcoinPrivateKeyByteArray();
-		bytes.unshift(janin.selectedCurrency.privateKeyPrefix); // prepend private key prefix
+		bytes.unshift(janin.currency.privateKeyPrefix()); // prepend private key prefix
 		if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 		var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
 		bytes = bytes.concat(checksum.slice(0, 4));
@@ -193,7 +193,7 @@ Bitcoin.ECKey = (function () {
 		}
 		var version = hash.shift();
         // TODO: detect currency
-		if (version != janin.selectedCurrency.privateKeyPrefix) {
+		if (version != janin.currency.privateKeyPrefix()) {
 			throw "Version " + version + " not supported!";
 		}
 		return hash;
@@ -214,7 +214,7 @@ Bitcoin.ECKey = (function () {
 		}
 		var version = hash.shift();
         // TODO: detect currency
-		if (version != janin.selectedCurrency.privateKeyPrefix) {
+		if (version != janin.currency.privateKeyPrefix()) {
 			throw "Version " + version + " not supported!";
 		}
 		hash.pop();
