@@ -5827,9 +5827,15 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 }
 #paperarea .artwallet .btcencryptedkey
 {
-	position: absolute; top: 236px; left: 812px; z-index: 100; font-size: 8px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0;  
+	position: absolute; top: 16px; right: 357px; z-index: 100; font-size: 12px; background-color: transparent;
+	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center; 
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+	transform: rotate(180deg);
 }
+.paperWalletText { bottom: 8px; height: 175px; left: 339px; padding: 15px 15px 15px 25px; position: absolute; width: 294px; font-size: 10px; }
+.paperWalletText ul { margin: 0px; padding: 0px; }
+
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
 #bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
@@ -5986,7 +5992,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
-			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
+			<!--<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>-->
       <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Donate</div>
 		</div>
 		
@@ -6341,9 +6347,9 @@ janin.currency = {
         document.getElementById("vanityprivatekey").innerHTML = "";
         document.getElementById("vanityinput1").value = "";
         document.getElementById("vanityinput2").value = "";
-        document.getElementById("vanityaddress").value = "";
-        document.getElementById("vanitypublickeyhex").value = "";
-        document.getElementById("vanityprivatekeywif").value = "";
+        document.getElementById("vanityaddress").innerHTML = "";
+        document.getElementById("vanitypublickeyhex").innerHTML = "";
+        document.getElementById("vanityprivatekeywif").innerHTML = "";
     },
 };
 
@@ -8034,6 +8040,7 @@ ninja.wallets.paperwallet = {
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
 								"<div class='" + keyelement + "' id='" + keyelement + i + "'></div>" +
+								"<div class='paperWalletText'><b>Paper Wallet</b><br /><br /><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public key, anytime.</li><li>Verify your balance by searching for the public address using a service such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li><li>When withdrawing funds from this wallet you should remove the ENTIRE BALANCE. If you attempt to spend only some of the funds you will likely lose the remaining cryptocurrency forever.</li></ul></div>" +
 							"</div>";
 		return walletHtml;
 	},
@@ -8330,146 +8337,7 @@ ninja.wallets.vanitywallet = {
 };
 	</script>
 	<script type="text/javascript">
-ninja.wallets.detailwallet = {
-	open: function () {
-		document.getElementById("detailarea").style.display = "block";
-		document.getElementById("detailprivkey").focus();
-	},
-
-	close: function () {
-		document.getElementById("detailarea").style.display = "none";
-	},
-
-	openCloseFaq: function (faqNum) {
-		// do close
-		if (document.getElementById("detaila" + faqNum).style.display == "block") {
-			document.getElementById("detaila" + faqNum).style.display = "none";
-			document.getElementById("detaile" + faqNum).setAttribute("class", "more");
-		}
-		// do open
-		else {
-			document.getElementById("detaila" + faqNum).style.display = "block";
-			document.getElementById("detaile" + faqNum).setAttribute("class", "less");
-		}
-	},
-
-	viewDetails: function () {
-		var bip38 = false;
-		var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
-		document.getElementById("detailprivkey").value = key;
-		var bip38CommandDisplay = document.getElementById("detailbip38commands").style.display;
-		ninja.wallets.detailwallet.clear();
-		if (key == "") {
-			return;
-		}
-		if (ninja.privateKey.isBIP38Format(key)) {
-			document.getElementById("detailbip38commands").style.display = bip38CommandDisplay;
-			if (bip38CommandDisplay != "block") {
-				document.getElementById("detailbip38commands").style.display = "block";
-				document.getElementById("detailprivkeypassphrase").focus();
-				return;
-			}
-			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
-			if (passphrase == "") {
-				alert(ninja.translator.get("bip38alertpassphraserequired"));
-				return;
-			}
-			document.getElementById("busyblock").className = "busy";
-			// show Private Key BIP38 Format
-			document.getElementById("detailprivbip38").innerHTML = key;
-			document.getElementById("detailbip38").style.display = "block";
-			ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
-				document.getElementById("busyblock").className = "";
-				if (btcKeyOrError.message) {
-					alert(btcKeyOrError.message);
-					ninja.wallets.detailwallet.clear();
-				} else {
-					ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
-				}
-			});
-		}
-		else {
-			if (Bitcoin.ECKey.isMiniFormat(key)) {
-				// show Private Key Mini Format
-				document.getElementById("detailprivmini").innerHTML = key;
-				document.getElementById("detailmini").style.display = "block";
-			}
-			else if (Bitcoin.ECKey.isBase6Format(key)) {
-				// show Private Key Base6 Format
-				document.getElementById("detailprivb6").innerHTML = key;
-				document.getElementById("detailb6").style.display = "block";
-			}
-			var btcKey = new Bitcoin.ECKey(key);
-			if (btcKey.priv == null) {
-				// enforce a minimum passphrase length
-				if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
-					var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
-					if (usePassphrase) {
-						var bytes = Crypto.SHA256(key, { asBytes: true });
-						var btcKey = new Bitcoin.ECKey(bytes);
-					}
-					else {
-						ninja.wallets.detailwallet.clear();
-					}
-				}
-				else {
-					alert(ninja.translator.get("detailalertnotvalidprivatekey"));
-					ninja.wallets.detailwallet.clear();
-				}
-			}
-			ninja.wallets.detailwallet.populateKeyDetails(btcKey);
-		}
-	},
-
-	populateKeyDetails: function (btcKey) {
-		if (btcKey.priv != null) {
-			btcKey.setCompressed(false);
-			document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
-			document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
-			var bitcoinAddress = btcKey.getBitcoinAddress();
-			var wif = btcKey.getBitcoinWalletImportFormat();
-			document.getElementById("detailpubkey").innerHTML = btcKey.getPubKeyHex();
-			document.getElementById("detailaddress").innerHTML = bitcoinAddress;
-			document.getElementById("detailprivwif").innerHTML = wif;
-			btcKey.setCompressed(true);
-			var bitcoinAddressComp = btcKey.getBitcoinAddress();
-			var wifComp = btcKey.getBitcoinWalletImportFormat();
-			document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
-			document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
-			document.getElementById("detailprivwifcomp").innerHTML = wifComp;
-
-			ninja.qrCode.showQrCode({
-				"detailqrcodepublic": bitcoinAddress,
-				"detailqrcodepubliccomp": bitcoinAddressComp,
-				"detailqrcodeprivate": wif,
-				"detailqrcodeprivatecomp": wifComp
-			}, 4);
-		}
-	},
-
-	clear: function () {
-		document.getElementById("detailpubkey").innerHTML = "";
-		document.getElementById("detailpubkeycomp").innerHTML = "";
-		document.getElementById("detailaddress").innerHTML = "";
-		document.getElementById("detailaddresscomp").innerHTML = "";
-		document.getElementById("detailprivwif").innerHTML = "";
-		document.getElementById("detailprivwifcomp").innerHTML = "";
-		document.getElementById("detailprivhex").innerHTML = "";
-		document.getElementById("detailprivb64").innerHTML = "";
-		document.getElementById("detailprivb6").innerHTML = "";
-		document.getElementById("detailprivmini").innerHTML = "";
-		document.getElementById("detailprivbip38").innerHTML = "";
-		document.getElementById("detailqrcodepublic").innerHTML = "";
-		document.getElementById("detailqrcodepubliccomp").innerHTML = "";
-		document.getElementById("detailqrcodeprivate").innerHTML = "";
-		document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
-		document.getElementById("detailb6").style.display = "none";
-		document.getElementById("detailmini").style.display = "none";
-		document.getElementById("detailbip38commands").style.display = "none";
-		document.getElementById("detailbip38").style.display = "none";
-	}
-};
+//ninja.detailwallet.js
 	</script>
   <script type="text/javascript">
 ninja.wallets.donate = {
