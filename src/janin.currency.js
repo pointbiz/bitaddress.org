@@ -35,6 +35,21 @@ janin.currency = {
     // Switch currency
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
+        
+        // Regenerate a new wallet when not expensive
+        ninja.wallets.singlewallet.generateNewAddressAndKey();
+        ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
+        ninja.wallets.brainwallet.view();
+        
+        // Reset wallet tab when expensive or not applicable
+        document.getElementById("bulktextarea").value = "";
+        document.getElementById("vanitypubkey").innerHTML = "";
+        document.getElementById("vanityprivatekey").innerHTML = "";
+        document.getElementById("vanityinput1").value = "";
+        document.getElementById("vanityinput2").value = "";
+        document.getElementById("vanityaddress").value = "";
+        document.getElementById("vanitypublickeyhex").value = "";
+        document.getElementById("vanityprivatekeywif").value = "";
     },
 };
 
