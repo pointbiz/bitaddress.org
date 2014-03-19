@@ -12,6 +12,8 @@ ninja.wallets.brainwallet = {
 	minPassphraseLength: 15,
 
 	view: function () {
+        document.getElementById("brainerror").innerHTML = "";
+
 		var key = document.getElementById("brainpassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 		document.getElementById("brainpassphrase").value = key;
 		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
@@ -33,12 +35,12 @@ ninja.wallets.brainwallet = {
 				document.getElementById("brainkeyarea").style.visibility = "visible";
 			}
 			else {
-				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
+                document.getElementById("brainerror").innerHTML = ninja.translator.get("brainalertpassphrasetooshort");
 				ninja.wallets.brainwallet.clear();
 			}
 		}
 		else {
-			alert(ninja.translator.get("brainalertpassphrasedoesnotmatch"));
+			document.getElementById("brainerror").innerHTML = ninja.translator.get("brainalertpassphrasedoesnotmatch");
 			ninja.wallets.brainwallet.clear();
 		}
 	},
