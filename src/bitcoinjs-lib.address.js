@@ -4,13 +4,10 @@ Bitcoin.Address = function (bytes) {
 		bytes = Bitcoin.Address.decodeString(bytes);
 	}
 	this.hash = bytes;
-	this.version = Bitcoin.Address.networkVersion;
 };
 
-Bitcoin.Address.networkVersion = 0x00; // mainnet
-
 /**
-* Serialize this object as a standard Bitcoin address.
+* Serialize this object as a standard currency address.
 *
 * Returns the address as a base58-encoded string in the standardized format.
 */
@@ -19,7 +16,7 @@ Bitcoin.Address.prototype.toString = function () {
 	var hash = this.hash.slice(0);
 
 	// Version
-	hash.unshift(this.version);
+	hash.unshift(janin.currency.networkVersion());
 	var checksum = Crypto.SHA256(Crypto.SHA256(hash, { asBytes: true }), { asBytes: true });
 	var bytes = hash.concat(checksum.slice(0, 4));
 	return Bitcoin.Base58.encode(bytes);
@@ -42,12 +39,6 @@ Bitcoin.Address.decodeString = function (string) {
 			checksum[2] != bytes[23] ||
 			checksum[3] != bytes[24]) {
 		throw "Checksum validation failed!";
-	}
-
-	var version = hash.shift();
-
-	if (version != 0) {
-		throw "Version " + version + " not supported!";
 	}
 
 	return hash;
