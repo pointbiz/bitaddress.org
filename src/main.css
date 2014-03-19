@@ -49,20 +49,29 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
-#paperarea .artwallet .papersvg { width: 1004px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 121px; left: 42px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .papersvg { width: 1004px; height: 420px; border: 0; margin: 0; padding: 0; left: 0; }
+#paperarea .artwallet .qrcode_public { top: 250px; left: 785px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 104px; right: 54px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
-		                                padding: 5px 5px 2px 5px; }
+#paperarea .artwallet .qrcode_private { top: 50px; right: 440px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+		                                padding: 5px 5px 2px 5px;
+	                                	-ms-transform: rotate(180deg); /* IE 9 */
+										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+										transform: rotate(180deg);
+		                                 }
 #paperarea .artwallet .btcaddress  
 {
-	position: absolute; bottom: 50px; left: 40px; z-index: 100; font-size: 12px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0;
+	position: absolute; bottom: 20px; left: 692px; z-index: 100; font-size: 12px; background-color: transparent;
+	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center;
+    word-wrap: break-word;
 } 
 #paperarea .artwallet .btcprivwif  
 {
-	position: absolute; top: 242px; right: 54px; z-index: 100; font-size: 10px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0;  
+	position: absolute; top: 16px; right: 357px; z-index: 100; font-size: 12px; background-color: transparent;
+	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center;
+    word-wrap: break-word;
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+	transform: rotate(180deg);
 }
 #paperarea .artwallet .btcencryptedkey
 {
