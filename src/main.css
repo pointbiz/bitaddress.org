@@ -59,6 +59,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 										transform: rotate(180deg);
 		                                 }
 .supportWalletGenerator { margin: 30px; }
+.errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress  
 {
 	position: absolute; bottom: 20px; left: 692px; z-index: 100; font-size: 12px; background-color: transparent;
