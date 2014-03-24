@@ -58,6 +58,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
 										transform: rotate(180deg);
 		                                 }
+.supportWalletGenerator { margin: 30px; }
 #paperarea .artwallet .btcaddress  
 {
 	position: absolute; bottom: 20px; left: 692px; z-index: 100; font-size: 12px; background-color: transparent;
