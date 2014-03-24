@@ -220,30 +220,6 @@
 					<span class="label" id="bulklabelcsv">Comma Separated Values:</span> <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
 					<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 				</div>
-				<div class="faqs">
-					<div id="bulkfaq1" class="faq"> 
-						<div id="bulkq1" class="question" onclick="ninja.wallets.bulkwallet.openCloseFaq(1);">
-							<span id="bulklabelq1">Why should I use a Bulk Wallet to accept crypto-currency on my website?</span>
-							<div id="bulke1" class="more"></div>
-						</div>
-						<div id="bulka1" class="answer">The traditional approach to accepting crypto-currencies on your website requires that you install the official client daemon. Many website hosting packages don't support installing this daemon. Also, running the daemon on your web server means your private keys are hosted on the server and could get stolen if your web server is hacked. When using a Bulk Wallet you can upload only the public addresses and not the private keys to your web server. Then you don't have to worry about your wallet being stolen if your web server is hacked. </div>
-					</div>
-					<div id="bulkfaq2" class="faq"> 
-						<div id="bulkq2" class="question" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
-							<span id="bulklabelq2">How do I use a Bulk Wallet to accept crypto-currencies on my website?</span>
-							<div id="bulke2" class="more"></div>
-						</div>
-						<div id="bulka2" class="answer">
-							<ol>
-							<li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of public addresses (10,000+). Copy and paste the generated comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
-							<li id="bulklabela2li2">Import the public addresses into a database table on your web server. (Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins. Just the public addresses as they will be shown to customers.)</li>
-							<li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in your preferred crypto-currency. When the customer chooses to pay in crypto-currency you will then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
-							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "crypto-currency payment notification" and subscribe to at least one payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use an online blockchain explorer. It could take between 10 minutes to one hour for the transaction to be confirmed. You should see the transaction there within 30 seconds.</li>
-							<li id="bulklabela2li5">Coins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
-							</ol>
-						</div>
-					</div>
-				</div>
 			</div>
 			
 			<div id="brainarea" class="walletarea">
