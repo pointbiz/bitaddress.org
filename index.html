@@ -5758,7 +5758,7 @@ a { position: relative; z-index: 20; text-decoration: none; color: #d58424; }
 .right { text-align: right; }
 .walletarea { display: none; border: 1px solid #BFBFBF; background-color: white; }
 hr { margin: 20px 0; border-top: 1px dashed #008000; }
-.keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
+.keyarea { height: 110px; text-align: left; position: relative; padding: 25px 25px 10px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
 .keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
@@ -5793,7 +5793,61 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 1px solid #BFBFBF; top: -25px; position: relative; }
+#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
+
+#singlesafety p {
+	font-size: 13px;
+}
+
+.firstHalfSingleSafety, .secondHalfSingleSafety {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+	display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+
+.firstHalfSingleSafety { 
+	width: 50%; 
+    padding: 10px 30px 10px 30px;
+ }
+
+ .secondHalfSingleSafety { 
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 50%;
+    padding: 20px;
+ }
+
+.frontPageImage {
+	width: 100%;
+
+}
+
+.securityChecklist {
+	background-color: #FFE6C9;
+	margin-top: 25px;
+    padding: 20px;
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.securityChecklist ul { padding: 5px 0 0 20px; }
+
+.securityChecklist li {
+	padding-left: 5px;
+	margin-bottom: 10px;
+}
+
+.redText { color: red; }
+.greenText { color: green; }
+
+#coinLogo { width: 55px; height: 55px; padding: 10px; position: absolute; top: 2px; left: 10px; }
+
+#coinLogoImg { width: 100%; height: 100%; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
@@ -5883,7 +5937,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #currencyddl { margin: 20px; position: absolute; right: 0; top: 60px; width: 320px; font-size: 14px; }
 #currencyddl select { font-size: 14px; }
 
-.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); text-align: left; }
+.banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); text-align: left; position: relative; }
 
 #donateqrcode { padding: 8px; position: absolute; left: 550px; margin: 25px; border: black solid 1px; }
 #donatelist { padding: 20px; }
@@ -5978,7 +6032,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 		</div>
 
 		<div class="banner">
-			<img src="images/banner.png" alt="banner" />
+			<div id="coinLogo">
+				<img id="coinLogoImg" src="logos/bitcoin.png" alt="currency_logo" />
+			</div>
+			<img src="images/banner_beta.png" alt="banner" />
 		</div>
 
 		<div id="currencyddl" class="hide">
@@ -6037,10 +6094,52 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 				</div>
 				
 				<div id="singlesafety">
-					<p id="singletip1"><b>A crypto-currency wallet</b> is as simple as a single pairing of a public address with its corresponding private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
-					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the public address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your private key should be kept a secret. Whomever you share the private key with has access to spend all the coins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
-					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send coins to your public address.</p>
-					<p id="singletip5"><b>Spend your coins</b> by downloading one of the popular p2p clients of your preferred currency and importing your private key. Keep in mind when you import your single key to a p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					<div class="firstHalfSingleSafety">
+						<h3>Step 1. Generate new address</h3>
+						<p>
+							Choose your currency and click on the "Generate new address" button.
+						</p>
+						<h3>Step 2. Print the Paper Wallet</h3>
+						<p>
+							Click the Paper Wallet tab and print the page on high quality setting. <span class="redText">Never save the page as a PDF file to print it later since a file is more likely to be hacked than a piece of paper.</span>
+						</p>
+						<h3>Step 3. Fold the Paper Wallet</h3>
+						<p>
+							Fold your new Paper wallet following the lines.
+						</p>
+						<h3>Step 4. Share your public key</h3>
+						<p>
+							Use your public key to receive money from other crypto currency users. You can share your public keys as much as you want.
+						</p>
+						<h3>Step 5. Keep your private key secret</h3>
+						<p>
+							The private key is literally the keys to your coins, if someone was to obtain it, they could withdraw the funds currently in the wallet, and any funds that might be deposited in that wallet.
+						</p>
+						<p>
+							<span class="redText">Please test spending a small amount before receiving any large payments.</span><br /><br />
+						</p>
+
+						<p>
+							<a href="https://blockchain.info/fr/wallet/paper-tutorial" target="_blank">To see blockchain.info's paper wallets tutorial click here</a>
+						</p>
+					</div>
+					<div class="secondHalfSingleSafety">
+						<img class="frontPageImage" src="images/crypto-wallet.png" />
+						<div class="securityChecklist">
+							<b>Security Checklist :</b>
+
+							<ul>
+							<li id="envSecurityCheck"></li>
+
+							<li id="browserSecurityCheck"></li>
+
+							<li>
+								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
+							</li>
+							</ul>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 
@@ -6316,6 +6415,8 @@ janin.currency = {
     // Switch currency
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
+
+        document.getElementById("coinLogoImg").src = "logos/" + janin.selectedCurrency.name + ".png";
         
         // Regenerate a new wallet when not expensive
         ninja.wallets.singlewallet.generateNewAddressAndKey();
@@ -6341,6 +6442,7 @@ janin.currencies = [
 	janin.currency.createCurrency ("BBQcoin",    0x55, 0xd5, "6",    "T"    , "addr6"),
 	janin.currency.createCurrency ("Catcoin",    0x15, 0x95, "[56]", "P"    , "addr7"),
     janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "T"    , "addr2"),
+	janin.currency.createCurrency ("Feathercoin",0x0e, 0x8e, "5",    "N"    , "addr11"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "addr3"),
 	janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "addr8"),
 	janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "addr10"),
@@ -6905,6 +7007,31 @@ ninja.tabSwitch = function (walletTab) {
 		ninja.wallets[walletTab.getAttribute("id")].open();
 	}
 };
+
+ninja.envSecurityCheck = function() {
+	var innerHTML = "";
+	switch(window.location.protocol) {
+		case 'http:':
+		case 'https:':
+			innerHTML = '<span style="color: #990000;">You appear to be running this generator off of a live website, which is not recommended for creating valuable wallets. Instead, use the download link at the bottom of this page to download the ZIP file from GitHub and run this generator offline as a \'local\' HTML file.</span>';
+			break;
+		case 'file:':
+			innerHTML = '<span style="color: #009900;">You are running this generator from your own download.</span>';
+			break;
+		default:
+	} 
+	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
+};
+
+ninja.browserSecurityCheck = function() {
+	var innerHTML = "";
+	if (window.crypto && window.crypto.getRandomValues) {
+		innerHTML = '<span style="color: #009900;">Your browser is capable of generating cryptographically random keys using window.crypto.getRandomValues</span>';
+	} else {
+		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
+	} 
+	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
+}
 
 ninja.getQueryString = function () {
 	var result = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
@@ -8983,7 +9110,8 @@ for(i = 0; i < janin.currencies.length; i++) {
 list += "</table>";
 donatelist.innerHTML = list;
 
-
+ninja.envSecurityCheck();
+ninja.browserSecurityCheck();
 	</script>
 </body>
 </html>
