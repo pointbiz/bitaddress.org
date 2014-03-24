@@ -6,7 +6,7 @@ a { position: relative; z-index: 20; text-decoration: none; color: #d58424; }
 .right { text-align: right; }
 .walletarea { display: none; border: 1px solid #BFBFBF; background-color: white; }
 hr { margin: 20px 0; border-top: 1px dashed #008000; }
-.keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
+.keyarea { height: 110px; text-align: left; position: relative; padding: 25px 25px 10px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
 .keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
@@ -41,7 +41,51 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 1px solid #BFBFBF; top: -25px; position: relative; }
+#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; }
+
+.firstHalfSingleSafety, .secondHalfSingleSafety {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+	display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+
+.firstHalfSingleSafety { 
+	width: 50%; 
+    padding: 10px 30px 10px 30px;
+ }
+
+ .secondHalfSingleSafety { 
+    float: right;
+    width: 50%;
+    padding: 20px;
+ }
+
+.frontPageImage {
+	width: 100%;
+
+}
+
+.securityChecklist {
+	background-color: #FFE6C9;
+	margin-top: 25px;
+    padding: 20px;
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.securityChecklist ul { padding: 5px 0 0 20px; }
+
+.securityChecklist li {
+	padding-left: 5px;
+	margin-bottom: 10px;
+}
+
+.redText { color: red; }
+.greenText { color: green; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }

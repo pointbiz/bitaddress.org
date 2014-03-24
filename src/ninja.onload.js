@@ -39,3 +39,5 @@ for(i = 0; i < janin.currencies.length; i++) {
 list += "</table>";
 donatelist.innerHTML = list;
 
+ninja.envSecurityCheck();
+ninja.browserSecurityCheck();
