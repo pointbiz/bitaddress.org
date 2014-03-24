@@ -18,7 +18,10 @@ if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["
 var select = document.getElementById("currency");
 var options = "";
 for(i = 0; i < janin.currencies.length; i++) {
-    options += "<option value='"+i+"'>"+janin.currencies[i].name+"</option>";
+    options += "<option value='"+i+"'";
+	if(janin.currencies[i].name=="Bitcoin")
+		options += " selected='selected'";
+	options += ">"+janin.currencies[i].name+"</option>";
 }
 select.innerHTML = options;
 // populate donate list
