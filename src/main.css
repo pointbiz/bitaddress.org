@@ -41,7 +41,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; }
+#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
 
 .firstHalfSingleSafety, .secondHalfSingleSafety {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -58,7 +58,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
  }
 
  .secondHalfSingleSafety { 
-    float: right;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     width: 50%;
     padding: 20px;
  }
