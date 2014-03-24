@@ -43,6 +43,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
 #singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
 
+#singlesafety p {
+	font-size: 13px;
+}
+
 .firstHalfSingleSafety, .secondHalfSingleSafety {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
