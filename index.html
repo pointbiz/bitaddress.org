@@ -5810,6 +5810,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
 										transform: rotate(180deg);
 		                                 }
+.supportWalletGenerator { margin: 30px; }
+.errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress  
 {
 	position: absolute; bottom: 20px; left: 692px; z-index: 100; font-size: 12px; background-color: transparent;
@@ -5993,7 +5995,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
 			<!--<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>-->
-      <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Donate</div>
+      <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
 		
 		<div id="generate">
@@ -6088,7 +6090,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
 					</div>
 					<div class="row extra"><span id="brainwarning"></span></div>
-          <div class="row extra"><span id="brainerror"></span></div>
+          <div class="row extra errorMsg"><span id="brainerror"></span></div>
 				</div>
 				<div id="brainkeyarea" class="keyarea">
 					<div class="public">
@@ -6264,11 +6266,14 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
     </div>
 
 		<div id="footer" class="footer">
+			<div>
+				<span class="supportWalletGenerator"><a href="#" onclick="ninja.tabSwitch(document.getElementById('donate'));">Support WalletGenerator.net</a></span>
+				<span><a href="https://github.com/MichaelMure/PaperWallet" target="_blank" id="footerlabelgithub">Download (GitHub Repository)</a></span>
+			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright WalletGenerator.net.</span>
 				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
 				<span id="footerlabelnowarranty">No warranty.</span>
-				<span class="item"><a href="https://github.com/MichaelMure/PaperWallet" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
 			</div>
 		</div>
 	</div>
@@ -6338,6 +6343,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "T"    , "addr2"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "addr3"),
 	janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "addr8"),
+	janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "addr10"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "addr4"),
 	janin.currency.createCurrency ("Vertcoin",   0x47, 0xc7, "7",    "W"    , "addr9"),
 	

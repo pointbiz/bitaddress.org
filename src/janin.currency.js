@@ -62,6 +62,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "T"    , "addr2"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "addr3"),
 	janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "addr8"),
+	janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "addr10"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "addr4"),
 	janin.currency.createCurrency ("Vertcoin",   0x47, 0xc7, "7",    "W"    , "addr9"),
 	
