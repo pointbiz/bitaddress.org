@@ -101,6 +101,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
+
+.backLogo { float: right; width: 50px; height: 50px; }
 		
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
@@ -143,8 +145,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	transform: rotate(180deg);
 }
 
-.paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #867474; }
+.paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #867474; line-height: 15px; }
 .paperWalletText ul { margin: 0px; padding: 0px; }
+.paperWalletText li { line-height: 13px; margin-bottom: 5px; }
 
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
