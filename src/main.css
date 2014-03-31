@@ -71,7 +71,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 
 .frontPageImage {
 	width: 100%;
-
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 }
 
 .securityChecklist {
