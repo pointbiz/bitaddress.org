@@ -133,8 +133,8 @@ ninja.wallets.paperwallet = {
 		if (ninja.wallets.paperwallet.encrypt)
 			keyelement = 'btcencryptedkey'
 		
-		var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
-		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name + ".png";
+		var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
+		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 
 		var walletHtml =
 							"<div class='coinIcoin'> <img id='coinImg' src='" + coinImgUrl + "' alt='currency_logo' /></div><div class='artwallet' id='artwallet" + i + "'>" +

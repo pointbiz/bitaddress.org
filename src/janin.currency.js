@@ -36,7 +36,7 @@ janin.currency = {
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
 
-        var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
+        var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
         document.getElementById("coinLogoImg").src = coinImgUrl;
         
         // Regenerate a new wallet when not expensive
