@@ -67,8 +67,10 @@ janin.currencies = [
 	janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "addr8"),
 	janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "addr10"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "addr4"),
+    janin.currency.createCurrency ("Reddcoin",   0x3d, 0xbd, "7",    "[UV]" , "addr13"),
+    janin.currency.createCurrency ("Topcoin",    0x42, 0xc2, "7",    "V"    , "addr12"),
 	janin.currency.createCurrency ("Vertcoin",   0x47, 0xc7, "7",    "W"    , "addr9"),
-	
+
 	janin.currency.createCurrency ("Testnet Bitcoin", 0x6f, 0xef, "9", "c", null)
                    ];
 
