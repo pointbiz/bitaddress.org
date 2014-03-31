@@ -143,7 +143,7 @@ ninja.wallets.paperwallet = {
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
 								"<div class='" + keyelement + "' id='" + keyelement + i + "'></div>" +
-								"<div class='paperWalletText'><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public key, anytime.</li><li>Verify your balance by searching for the public address using a service such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li><li>When withdrawing funds from this wallet you should remove the ENTIRE BALANCE. If you attempt to spend only some of the funds you will likely lose the remaining cryptocurrency forever.</li></ul></div>" +
+								"<div class='paperWalletText'><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public address, anytime.</li><li>Verify your balance by searching for the public address using a blockain explorer such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li></ul></div>" +
 							"</div>";
 		return walletHtml;
 	},
