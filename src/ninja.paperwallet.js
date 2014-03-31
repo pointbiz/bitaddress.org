@@ -132,15 +132,17 @@ ninja.wallets.paperwallet = {
 		var keyelement = 'btcprivwif';
 		if (ninja.wallets.paperwallet.encrypt)
 			keyelement = 'btcencryptedkey'
-			
+		
+		var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
+
 		var walletHtml =
-							"<div class='artwallet' id='artwallet" + i + "'>" +
-								"<img id='papersvg" + i + "' class='papersvg' src='images/crypto-wallet.png' />" +
+							"<div class='coinIcoin'> <img id='coinImg' src='" + coinImgUrl + "' alt='currency_logo' /></div><div class='artwallet' id='artwallet" + i + "'>" +
+								"<img id='papersvg" + i + "' class='papersvg' src='images/bitcoin_crypto_wallet.png' />" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
 								"<div class='" + keyelement + "' id='" + keyelement + i + "'></div>" +
-								"<div class='paperWalletText'><b>Paper Wallet</b><br /><br /><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public key, anytime.</li><li>Verify your balance by searching for the public address using a service such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li><li>When withdrawing funds from this wallet you should remove the ENTIRE BALANCE. If you attempt to spend only some of the funds you will likely lose the remaining cryptocurrency forever.</li></ul></div>" +
+								"<div class='paperWalletText'><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public key, anytime.</li><li>Verify your balance by searching for the public address using a service such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li><li>When withdrawing funds from this wallet you should remove the ENTIRE BALANCE. If you attempt to spend only some of the funds you will likely lose the remaining cryptocurrency forever.</li></ul></div>" +
 							"</div>";
 		return walletHtml;
 	},

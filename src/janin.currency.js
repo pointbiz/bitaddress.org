@@ -36,7 +36,8 @@ janin.currency = {
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
 
-        document.getElementById("coinLogoImg").src = "logos/" + janin.selectedCurrency.name + ".png";
+        var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
+        document.getElementById("coinLogoImg").src = coinImgUrl;
         
         // Regenerate a new wallet when not expensive
         ninja.wallets.singlewallet.generateNewAddressAndKey();

@@ -94,8 +94,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 .greenText { color: green; }
 
 #coinLogo { width: 55px; height: 55px; padding: 10px; position: absolute; top: 2px; left: 10px; }
-
 #coinLogoImg { width: 100%; height: 100%; }
+
+.coinIcoin { width: 62px; height: 62px; padding: 10px; position: absolute; top: 268px; left: 52px; }
+#coinImg { width: 100%; height: 100%; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
@@ -104,9 +106,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 1004px; height: 420px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 250px; left: 785px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_public { top: 272px; left: 794px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 50px; right: 440px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_private { top: 36px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px;
 	                                	-ms-transform: rotate(180deg); /* IE 9 */
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
@@ -116,18 +118,21 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 .errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress  
 {
-	position: absolute; bottom: 20px; left: 692px; z-index: 100; font-size: 12px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center;
-    word-wrap: break-word;
+	position: absolute; bottom: 84px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
+	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
+    word-wrap: break-word; font-family: Courier, monospace;
+    -ms-transform: rotate(-90deg); /* IE 9 */
+	-webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+	transform: rotate(-90deg); font-family: Courier, monospace;
 } 
 #paperarea .artwallet .btcprivwif  
 {
-	position: absolute; top: 16px; right: 357px; z-index: 100; font-size: 12px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center;
+	position: absolute; top: 84px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word;
-	-ms-transform: rotate(180deg); /* IE 9 */
-	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-	transform: rotate(180deg);
+	-ms-transform: rotate(90deg); /* IE 9 */
+	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+	transform: rotate(90deg); font-family: Courier, monospace;
 }
 #paperarea .artwallet .btcencryptedkey
 {
@@ -137,7 +142,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
 	transform: rotate(180deg);
 }
-.paperWalletText { bottom: 8px; height: 175px; left: 339px; padding: 15px 15px 15px 25px; position: absolute; width: 294px; font-size: 10px; }
+
+.paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #867474; }
 .paperWalletText ul { margin: 0px; padding: 0px; }
 
 #bulkarea .body { padding: 5px 0 0 0; }
@@ -246,6 +252,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 }
 @media print
 {
+	body { -webkit-print-color-adjust: exact; }
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
@@ -263,4 +270,6 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	.faq { display: none; }
 	.banner { display: none; }
 	#currency { display: none; }
+	#paperarea .artwallet .btcaddress, #paperarea .artwallet .btcprivwif { z-index: 999; }
+	.paperWalletText { z-index: 999;}
 }
