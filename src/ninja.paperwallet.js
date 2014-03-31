@@ -150,9 +150,13 @@ ninja.wallets.paperwallet = {
 	showArtisticWallet: function (idPostFix, bitcoinAddress, privateKey) {
 		var keyValuePair = {};
 		keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
-		keyValuePair["qrcode_private" + idPostFix] = privateKey;
-		ninja.qrCode.showQrCode(keyValuePair, 2.8);
-		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
+		ninja.qrCode.showQrCode(keyValuePair, 3.5);
+		
+        var keyValuePair = {};
+        keyValuePair["qrcode_private" + idPostFix] = privateKey;
+        ninja.qrCode.showQrCode(keyValuePair, 2.8);
+        
+        document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 
 		if (ninja.wallets.paperwallet.encrypt) {
 			var half = privateKey.length / 2;
