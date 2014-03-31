@@ -5848,16 +5848,18 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 #coinLogo { width: 55px; height: 55px; padding: 10px; position: absolute; top: 2px; left: 10px; }
 #coinLogoImg { width: 100%; height: 100%; }
 
-.coinIcoin { width: 62px; height: 62px; padding: 10px; position: absolute; top: 268px; left: 49px; }
+.coinIcoin { width: 62px; height: 62px; padding: 10px; position: absolute; top: 273px; left: 49px; }
 #coinImg { width: 100%; height: 100%; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 1005px; }
 #logo { width: 578px; height: 80px; }
+
+.backLogo { float: right; width: 50px; height: 50px; }
 		
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
-#paperarea .artwallet .papersvg { width: 1004px; height: 420px; border: 0; margin: 0; padding: 0; left: 0; }
+#paperarea .artwallet .papersvg { width: 1004px; height: 426px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public { top: 260px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
 #paperarea .artwallet .qrcode_private { top: 36px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
@@ -5895,8 +5897,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	transform: rotate(180deg);
 }
 
-.paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #867474; }
+.paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #867474; line-height: 15px; }
 .paperWalletText ul { margin: 0px; padding: 0px; }
+.paperWalletText li { line-height: 13px; margin-bottom: 5px; }
 
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
@@ -6512,7 +6515,7 @@ janin.currency = {
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
 
-        var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
+        var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
         document.getElementById("coinLogoImg").src = coinImgUrl;
         
         // Regenerate a new wallet when not expensive
@@ -8260,8 +8263,8 @@ ninja.wallets.paperwallet = {
 		if (ninja.wallets.paperwallet.encrypt)
 			keyelement = 'btcencryptedkey'
 		
-		var coinImgUrl = "logos/" + janin.selectedCurrency.name + ".png";
-		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name + ".png";
+		var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
+		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 
 		var walletHtml =
 							"<div class='coinIcoin'> <img id='coinImg' src='" + coinImgUrl + "' alt='currency_logo' /></div><div class='artwallet' id='artwallet" + i + "'>" +
@@ -8270,7 +8273,7 @@ ninja.wallets.paperwallet = {
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
 								"<div class='" + keyelement + "' id='" + keyelement + i + "'></div>" +
-								"<div class='paperWalletText'><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public address, anytime.</li><li>Verify your balance by searching for the public address using a blockain explorer such as blockchain.info.</li><li>DO NOT REVEAL THE PRIVATE KEY until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li></ul></div>" +
+								"<div class='paperWalletText'><img class='backLogo' src='" + coinImgUrl + "' alt='currency_logo' /><ul><li>To deposit funds to this paper wallet, send cryptocurrency to its public address, anytime.</li><li>Verify your balance by searching for the public address using a blockain explorer such as blockchain.info.</li><li><b>DO NOT REVEAL THE PRIVATE KEY</b> until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li></ul><b>Amount :</b> ___________ &nbsp; &nbsp; &nbsp; <b>Date :</b> ________________<br /><b>Notes :</b> ______________________________________</div>" +
 							"</div>";
 		return walletHtml;
 	},
