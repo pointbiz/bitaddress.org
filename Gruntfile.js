@@ -23,6 +23,7 @@ module.exports = function (grunt) {
 					{ token: "//cryptojs.blockmodes.js", file: "./src/cryptojs.blockmodes.js" },
 					{ token: "//cryptojs.ripemd160.js", file: "./src/cryptojs.ripemd160.js" },
 					{ token: "//crypto-scrypt.js", file: "./src/crypto-scrypt.js" },
+                    { token: "//doge.js", file: "./src/doge.js" },
 					{ token: "//ellipticcurve.js", file: "./src/ellipticcurve.js" },
 					{ token: "//ninja.key.js", file: "./src/ninja.key.js" },
 					{ token: "//ninja.misc.js", file: "./src/ninja.misc.js" },

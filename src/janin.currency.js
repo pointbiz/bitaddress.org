@@ -53,6 +53,21 @@ janin.currency = {
         document.getElementById("vanityaddress").innerHTML = "";
         document.getElementById("vanitypublickeyhex").innerHTML = "";
         document.getElementById("vanityprivatekeywif").innerHTML = "";
+        
+        
+        // easter egg doge ;)
+        if(janin.currency.name() == "Dogecoin")
+        {
+            janin.doge = new Doge(['wow', 'so wallet', 'such random', 'very pretty', 'much design']);
+            return;
+        }
+        
+        if(janin.doge != null)
+        {
+            janin.doge.stop();
+            janin.doge = null;
+        }
+        
     },
 };
 

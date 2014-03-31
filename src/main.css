@@ -272,4 +272,5 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); }
 	#currency { display: none; }
 	#paperarea .artwallet .btcaddress, #paperarea .artwallet .btcprivwif { z-index: 999; }
 	.paperWalletText { z-index: 999;}
+    .dogeTag { display: none; }
 }
