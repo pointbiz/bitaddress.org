@@ -5780,9 +5780,14 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #80CF80; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+#generate { font-size: 13px; text-align: left; position: relative; padding: 20px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
+
+#generatelabelbitcoinaddress, #generatelabelmovemouse, #generatelabelkeypress { font-size: 14px; font-family: monospace; }
+#mousemovelimit { font-size: 16px; font-family: monospace; }
+.frontPageText { position: relative; }
+
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
@@ -5796,9 +5801,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
 #singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
 
-#singlesafety p {
-	font-size: 13px;
-}
+#singlesafety p { font-size: 13px; }
 
 .firstHalfSingleSafety, .secondHalfSingleSafety {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -5809,10 +5812,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     position: relative;
 }
 
-.firstHalfSingleSafety { 
-	width: 50%; 
-    padding: 10px 30px 10px 30px;
- }
+.firstHalfSingleSafety { width: 50%; padding: 10px 30px 10px 30px; }
 
  .secondHalfSingleSafety { 
     position: absolute;
@@ -5820,14 +5820,18 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     right: 0px;
     width: 50%;
     padding: 20px;
+    text-align: center;
  }
 
-.frontPageImage {
-	width: 100%;
+.frontPageImage, .seedFrontPageImage {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
+.frontPageImage { width: 100%; }
+.seedFrontPageImage { max-height: 340px; }
+
+.currencyNameColumn { min-width: 120px; }
 
 .securityChecklist {
 	background-color: #FFE6C9;
@@ -5836,14 +5840,11 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     -webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	text-align: left;
 }
 
 .securityChecklist ul { padding: 5px 0 0 20px; }
-
-.securityChecklist li {
-	padding-left: 5px;
-	margin-bottom: 10px;
-}
+.securityChecklist li { padding-left: 5px; margin-bottom: 10px; }
 
 .redText { color: red; }
 .greenText { color: green; }
@@ -5863,9 +5864,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 1004px; height: 426px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 260px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_public { top: 263px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 36px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_private { top: 37px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px;
 	                                	-ms-transform: rotate(180deg); /* IE 9 */
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
@@ -5875,7 +5876,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress  
 {
-	position: absolute; bottom: 84px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
+	position: absolute; bottom: 88px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word; font-family: Courier, monospace;
     -ms-transform: rotate(-90deg); /* IE 9 */
@@ -5884,7 +5885,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 } 
 #paperarea .artwallet .btcprivwif  
 {
-	position: absolute; top: 84px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word;
 	-ms-transform: rotate(90deg); /* IE 9 */
@@ -5951,7 +5952,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 .banner { font-size: 46px; text-shadow: 1px 1px 3px #000; color: #FF9547; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); text-align: left; position: relative; }
 
-#donateqrcode { padding: 8px; position: absolute; left: 550px; margin: 25px; border: black solid 1px; }
+#donateqrcode { padding: 8px; position: absolute; left: 550px; margin: 25px; border: black solid 1px; background-color: white; }
 #donatelist { padding: 20px; }
 
 #donatearea { text-align: left; padding: 15px 15px 120px 15px; position: relative; }
@@ -6073,10 +6074,43 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 		</div>
 		
 		<div id="generate">
+
+
 			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
 			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
+
+			<hr />
+
+			<div class="frontPageText">
+
+				<div class="firstHalfSingleSafety">
+
+					<h3>Step 0. Follow the security checklist recommendation</h3>
+		            <p>
+		              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
+		            </p>
+
+		            <div class="securityChecklist">
+							<b>Security Checklist :</b>
+
+							<ul>
+							<li id="seedEnvSecurityCheck"></li>
+
+							<li id="seedBrowserSecurityCheck"></li>
+
+							<li>
+								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
+							</li>
+							</ul>
+						</div>
+	              
+	            </div>
+	            <div class="secondHalfSingleSafety">
+	            	<img class="seedFrontPageImage" src="images/overview.png" />
+				</div>
+			</div>
 		</div>
 
 		<div id="wallets">
@@ -7155,6 +7189,7 @@ ninja.envSecurityCheck = function() {
 		default:
 	} 
 	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
+	document.getElementById('seedEnvSecurityCheck').innerHTML = innerHTML;
 };
 
 ninja.browserSecurityCheck = function() {
@@ -7165,6 +7200,7 @@ ninja.browserSecurityCheck = function() {
 		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
 	} 
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
+	document.getElementById('seedBrowserSecurityCheck').innerHTML = innerHTML;
 }
 
 ninja.getQueryString = function () {
@@ -9244,7 +9280,7 @@ for(i = 0; i < janin.currencies.length; i++) {
 	if(janin.currencies[i].donate == null)
 		continue;
     list += "<tr onmouseover='ninja.wallets.donate.displayQrCode("+i+", this)'>"
-        +"<td>"+janin.currencies[i].name+"</td>"
+        +"<td class='currencyNameColumn'>"+janin.currencies[i].name+"</td>"
         +"<td class='address'><a href='"+janin.currencies[i].name.toLowerCase()+":"+janin.currencies[i].donate+"'>"
         +janin.currencies[i].donate+"</a></td></tr>";
 }
