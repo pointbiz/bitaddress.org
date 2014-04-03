@@ -28,9 +28,19 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #80CF80; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+#generate { font-size: 13px; text-align: left; position: relative; padding: 20px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
+
+#generatelabelbitcoinaddress, #generatelabelmovemouse, #generatelabelkeypress {
+	font-size: 16px; font-family: monospace;
+}
+#mousemovelimit {
+	font-size: : 18px; font-family: monospace;
+}
+.frontPageText { position: relative; }
+.halfHR { width: 640px; }
+
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
@@ -68,14 +78,16 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     right: 0px;
     width: 50%;
     padding: 20px;
+    text-align: center;
  }
 
-.frontPageImage {
-	width: 100%;
+.frontPageImage, .seedFrontPageImage {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
+.frontPageImage { width: 100%; }
+.seedFrontPageImage { max-height: 340px; }
 
 .securityChecklist {
 	background-color: #FFE6C9;
@@ -84,6 +96,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     -webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	text-align: left;
 }
 
 .securityChecklist ul { padding: 5px 0 0 20px; }

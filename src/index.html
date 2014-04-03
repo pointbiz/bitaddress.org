@@ -149,10 +149,43 @@
 		</div>
 		
 		<div id="generate">
+
+
 			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
 			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
+
+			<hr class="halfHR" />
+
+			<div class="frontPageText">
+
+				<div class="firstHalfSingleSafety">
+
+					<h3>Step 0. Follow the security checklist recommendation</h3>
+		            <p>
+		              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
+		            </p>
+
+		            <div class="securityChecklist">
+							<b>Security Checklist :</b>
+
+							<ul>
+							<li id="seedEnvSecurityCheck"></li>
+
+							<li id="seedBrowserSecurityCheck"></li>
+
+							<li>
+								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
+							</li>
+							</ul>
+						</div>
+	              
+	            </div>
+	            <div class="secondHalfSingleSafety">
+	            	<img class="seedFrontPageImage" src="images/overview.png" />
+				</div>
+			</div>
 		</div>
 
 		<div id="wallets">
