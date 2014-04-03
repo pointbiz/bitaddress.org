@@ -128,9 +128,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 1004px; height: 426px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 260px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_public { top: 263px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 36px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_private { top: 37px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                padding: 5px 5px 2px 5px;
 	                                	-ms-transform: rotate(180deg); /* IE 9 */
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
@@ -140,7 +140,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress  
 {
-	position: absolute; bottom: 84px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
+	position: absolute; bottom: 88px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word; font-family: Courier, monospace;
     -ms-transform: rotate(-90deg); /* IE 9 */
@@ -149,7 +149,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 } 
 #paperarea .artwallet .btcprivwif  
 {
-	position: absolute; top: 84px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word;
 	-ms-transform: rotate(90deg); /* IE 9 */
