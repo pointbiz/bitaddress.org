@@ -89,6 +89,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .frontPageImage { width: 100%; }
 .seedFrontPageImage { max-height: 340px; }
 
+.currencyNameColumn {
+	min-width: 120px;
+}
+
 .securityChecklist {
 	background-color: #FFE6C9;
 	margin-top: 25px;

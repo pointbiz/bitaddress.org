@@ -32,7 +32,7 @@ for(i = 0; i < janin.currencies.length; i++) {
 	if(janin.currencies[i].donate == null)
 		continue;
     list += "<tr onmouseover='ninja.wallets.donate.displayQrCode("+i+", this)'>"
-        +"<td>"+janin.currencies[i].name+"</td>"
+        +"<td class='currencyNameColumn'>"+janin.currencies[i].name+"</td>"
         +"<td class='address'><a href='"+janin.currencies[i].name.toLowerCase()+":"+janin.currencies[i].donate+"'>"
         +janin.currencies[i].donate+"</a></td></tr>";
 }
