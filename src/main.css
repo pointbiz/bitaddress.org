@@ -33,10 +33,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #generatekeyinput { position: relative; z-index: 20; }
 
 #generatelabelbitcoinaddress, #generatelabelmovemouse, #generatelabelkeypress {
-	font-size: 16px; font-family: monospace;
+	font-size: 14px; font-family: monospace;
 }
 #mousemovelimit {
-	font-size: : 18px; font-family: monospace;
+	font-size: 16px; font-family: monospace;
 }
 .frontPageText { position: relative; }
 .halfHR { width: 640px; }
