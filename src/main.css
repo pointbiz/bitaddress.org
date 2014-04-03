@@ -32,14 +32,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
 
-#generatelabelbitcoinaddress, #generatelabelmovemouse, #generatelabelkeypress {
-	font-size: 14px; font-family: monospace;
-}
-#mousemovelimit {
-	font-size: 16px; font-family: monospace;
-}
+#generatelabelbitcoinaddress, #generatelabelmovemouse, #generatelabelkeypress { font-size: 14px; font-family: monospace; }
+#mousemovelimit { font-size: 16px; font-family: monospace; }
 .frontPageText { position: relative; }
-.halfHR { width: 640px; }
 
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
@@ -54,9 +49,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
 #singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
 
-#singlesafety p {
-	font-size: 13px;
-}
+#singlesafety p { font-size: 13px; }
 
 .firstHalfSingleSafety, .secondHalfSingleSafety {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -67,10 +60,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     position: relative;
 }
 
-.firstHalfSingleSafety { 
-	width: 50%; 
-    padding: 10px 30px 10px 30px;
- }
+.firstHalfSingleSafety { width: 50%; padding: 10px 30px 10px 30px; }
 
  .secondHalfSingleSafety { 
     position: absolute;
@@ -89,9 +79,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .frontPageImage { width: 100%; }
 .seedFrontPageImage { max-height: 340px; }
 
-.currencyNameColumn {
-	min-width: 120px;
-}
+.currencyNameColumn { min-width: 120px; }
 
 .securityChecklist {
 	background-color: #FFE6C9;
@@ -104,11 +92,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 }
 
 .securityChecklist ul { padding: 5px 0 0 20px; }
-
-.securityChecklist li {
-	padding-left: 5px;
-	margin-bottom: 10px;
-}
+.securityChecklist li { padding-left: 5px; margin-bottom: 10px; }
 
 .redText { color: red; }
 .greenText { color: green; }
