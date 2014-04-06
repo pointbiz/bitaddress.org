@@ -14,6 +14,13 @@ if (ninja.getQueryString()["culture"] != undefined) {
 if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["showseedpool"] == "1") {
 	document.getElementById("seedpoolarea").style.display = "block";
 }
+// change currency
+if (ninja.getQueryString()["currency"] != undefined) {
+	for(i = 0; i < janin.currencies.length; i++) {
+		if (janin.currencies[i].name == ninja.getQueryString()["currency"])
+			janin.currency.useCurrency(i);
+	}
+}
 // populate currency dropdown list
 var select = document.getElementById("currency");
 var options = "";
