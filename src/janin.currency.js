@@ -90,5 +90,3 @@ janin.currencies = [
 
     janin.currency.createCurrency ("Testnet Bitcoin", 0x6f, 0xef, "9", "c", null)
                    ];
-
-janin.selectedCurrency = janin.currencies[1];
