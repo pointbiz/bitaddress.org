@@ -6302,7 +6302,7 @@ Bitcoin.Util = {
 			no-repeat left center; width: 17px; height: 17px; display: inline-block; float: right; }
 a { position: relative; z-index: 20; }
 .right { text-align: right; }
-.walletarea { display: none; border: 2px solid #53c100; }
+.walletarea { display: none; border: 2px solid #009900; }
 hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
@@ -6319,14 +6319,14 @@ body { font-family: Arial; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
-.faq { border: 0; border-top: 2px solid #53c100; }
+.faq { border: 0; border-top: 2px solid #009900; }
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
-.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #53c100; position: absolute; z-index: 10; }
-#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #53c100; clear: both; }
+.seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #009900; position: absolute; z-index: 10; }
+#generate { font-family: monospace; font-size: 1.25em; height: 305px; text-align: left; position: relative; padding: 5px; border: 2px solid #009900; clear: both; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
 #keyarea { height: 250px; }
@@ -6339,14 +6339,14 @@ body { font-family: Arial; }
 #keyarea .public { width: 30%; display: table-cell; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
-#singleshare { position: relative; top: -110px; float: left; left: 160px; color: #53c100; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #53c100; top: -25px; position: relative; }
+#singleshare { position: relative; top: -110px; float: left; left: 160px; color: #009900; font-weight: bolder; font-size: 200%;  }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #009900; top: -25px; position: relative; }
 
-#main { position: relative; text-align: center; margin: 0px auto; width: 810px; }
+#main { position: relative; text-align: center; margin: 0px auto; width: 808px; }
 #logo { width: 578px; height: 80px; }
 		
 #paperarea { min-height: 120px; display: none; }
-#paperarea .keyarea { border: 2px solid #53c100; border-top: 0; }
+#paperarea .keyarea { border: 2px solid #009900; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public { top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
@@ -6410,15 +6410,23 @@ body { font-family: Arial; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
 #vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid #53c100; }
+#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 2px solid #009900; }
 #vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 2px solid #53c100; display: block; padding: 15px; }
+#vanitystep2area { border-top: 2px solid #009900; display: block; padding: 15px; }
 #vanitystep2inputs { padding: 0 15px 10px 15px; }
 #vanitycalc { margin-top: 5px; }
 
+#splitarea { text-align: left; }
+#splitarea span { padding: 0; }
 #splitcommands { padding: 10px 15px; text-align: left; }
-#splitstep1area { display: none; text-align: left; position: relative; padding: 0; border-bottom: 2px solid #53c100; }
-.splitsharerow { border-bottom: 2px solid #53c100; padding: 15px; }
+#combinecommands { padding: 10px 15px; }
+#splitstep1area { display: none; text-align: left; position: relative; padding: 0; border-bottom: 2px solid #009900; }
+.splitsharerow { border-bottom: 2px solid #009900; padding: 15px; }
+.splitsharerow:last-child { border-bottom: 0; }
+#combinelabelprivatekey { text-decoration: underline; }
+#splitarea .output { display: block; font-family: monospace; font-size: 1.25em; }
+#splitarea span.output { display: inline; }
+#splitstep2area { padding:  10px 15px; }
 
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .unittests { text-align: center; }
@@ -6440,14 +6448,14 @@ body { font-family: Arial; }
 	.menu  
 	{
 	    text-align: left; margin: 0; padding: 0; display: block;
-	    background-color: #53c100; 
-	    
-	    height: 72px; border-top-left-radius: 5px; border-top-right-radius: 5px;
+	    background-color: #009900; /* # 009900 # 53c100 */
+	    border-top-left-radius: 5px; border-top-right-radius: 5px;
 	}
 	.menu .tab 
 	{
-	    position: relative; float: left; margin: 0; list-style: none; z-index: 110; cursor: pointer; 
-	    border: 0px solid red; top: 1px; padding: 10px 20px; width: 160px; text-align: center;
+	    position: relative; display: inline-block; border: 0px solid red;
+	    margin: 0; list-style: none; z-index: 110; cursor: pointer; 
+	    top: 1px; padding: 10px 20px; width: 162px; text-align: center;
 	}
 	.menu .tab.selected  
 	{
@@ -6461,7 +6469,7 @@ body { font-family: Arial; }
 	.menu .tab.selected:hover { color: #000; }
 	
     .pagebreak { height: 50px; }
-	.commands { border-bottom: 2px solid #53c100;  padding: 10px 2px; margin-bottom: 0; }
+	.commands { border-bottom: 2px solid #009900;  padding: 10px 2px; margin-bottom: 0; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
@@ -6469,8 +6477,8 @@ body { font-family: Arial; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
-    #menu { visibility: visible; font-size: 90%; }
-    #culturemenu { text-align: right; padding: 0 20px; }
+    #menu { visibility: hidden; font-size: 90%; }
+    #culturemenu { text-align: right; padding: 0 20px; margin-bottom: 3px; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
 
@@ -6483,7 +6491,7 @@ body { font-family: Arial; }
 	#detailcommands span { padding: 0 10px; }
 	#detailprivkey { width: 250px; }
 	#detailprivkeypassphrase { width: 250px; }
-	.paper .commands { border: 2px solid #53c100; }
+	.paper .commands { border: 2px solid #009900; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
@@ -6502,7 +6510,7 @@ body { font-family: Arial; }
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
-	#paperarea .keyarea:first-child { border-top: 2px solid #53c100; }
+	#paperarea .keyarea:first-child { border-top: 2px solid #009900; }
 	#paperarea .keyarea.art:first-child { border: 0; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
@@ -6534,13 +6542,13 @@ body { font-family: Arial; }
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
 		<ul class="menu" id="menu">
-			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</li>
-			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</li>
-			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</li>
-			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</li>
-			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</li>
-			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet</li>
-			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</li>
+			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet
+			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet
+			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet
+			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet
+			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet
+			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet
+			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details
 		</ul>
 		
 		<div id="generate">
@@ -6742,17 +6750,13 @@ body { font-family: Arial; }
 			</div>
 
 			<div id="splitarea" class="walletarea">
-				
 				<div id="splitcommands" class="commands " >
-					
-						<label id="splitlabelshares">Number of shares</label>
-						<input type="text" id="splitshares" value="4" size="4"/>
+					<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
+					<input type="text" id="splitthreshold" value="2" size="4"/>
 					<br/>
-						<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
-						<input type="text" id="splitthreshold" value="2" size="4"/>
-					
+					<label id="splitlabelshares">Number of shares</label>
+					<input type="text" id="splitshares" value="3" size="4"/>
 					<span><input type="button" id="splitview" value="Generate" onclick="ninja.wallets.splitwallet.splitKey();"></span>
-
 					<div id="splitstep1icon" class="more " onclick="ninja.wallets.splitwallet.openCloseStep(1);"></div>
 				</div>
 				<div id="splitstep1area"></div>
@@ -6762,10 +6766,13 @@ body { font-family: Arial; }
 						<label id="combinelabelentershares">Enter Available Shares (whitespace separated)</label> 
 						<textarea id="combineinput" cols="60" rows="10"></textarea><br/>
 					</span>
-
-					<span>
-						<input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();">
-					</span>
+					<span><input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();"></span>
+				</div>
+				<div id="splitstep2area">
+					<div id="combineoutput">
+						<label id="combinelabelprivatekey">Combined Private Key</label>
+						<div id="combinedprivatekey" class="output"></div>
+					</div>
 				</div>
 			</div>
 
@@ -9066,7 +9073,7 @@ ninja.wallets.splitwallet = {
 	open: function () {
 		document.getElementById("splitarea").style.display = "block";
 		secrets.setRNG();
-		secrets.init(7);
+		secrets.init(7); // 7 bits allows for up to 127 shares
 	},
 
 	close: function () {
@@ -9076,12 +9083,16 @@ ninja.wallets.splitwallet = {
 	mkOutputRow: function (s, id, lbltxt) {
 		var row = document.createElement("div");
 		var label = document.createElement("label");
-		label.innerHTML = lbltxt + s;
+		label.innerHTML = lbltxt;
 		var qr = document.createElement("div");
+		var output = document.createElement("span");
+		output.setAttribute("class", "output");
+		output.innerHTML = s;
 
 		qr.setAttribute("id", id);
 		row.setAttribute("class", "splitsharerow");
 		row.appendChild(label);
+		row.appendChild(output);
 		row.appendChild(qr);
 		row.appendChild(document.createElement("br"));
 
@@ -9102,13 +9113,12 @@ ninja.wallets.splitwallet = {
 	// Split a private key and update information in the HTML
 	splitKey: function () {
 		try {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
-
 			var numshares = parseInt(document.getElementById('splitshares').value);
 			var threshold = parseInt(document.getElementById('splitthreshold').value);
-			var hexKey = Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray());
-			var shares = secrets.share(hexKey, numshares, threshold).map(this.hexToBytes).map(Bitcoin.Base58.encode);
+			var key = new Bitcoin.ECKey(false);
+			var bitcoinAddress = key.getBitcoinAddress();
+			var shares = ninja.wallets.splitwallet.getFormattedShares(key.getBitcoinHexFormat(), numshares, threshold);
+
 			var output = document.createElement("div");
 			output.setAttribute("id", "splitoutput");
 			var m = {};
@@ -9130,49 +9140,33 @@ ninja.wallets.splitwallet = {
 		catch (e) {
 			// browser does not have sufficient JavaScript support to generate a bitcoin address
 			alert(e);
-			document.getElementById("btcaddress").innerHTML = "error";
-			document.getElementById("btcprivwif").innerHTML = "error";
-			document.getElementById("qrcode_public").innerHTML = "";
-			document.getElementById("qrcode_private").innerHTML = "";
 		}
 	},
 
 	// Combine shares of a private key to retrieve the key
 	combineShares: function () {
 		try {
-			var element = document.getElementById("combineoutput");
-			if (element != null) element.parentNode.removeChild(element);
-
+			document.getElementById("combinedprivatekey").innerHTML = "";
 			var shares = document.getElementById("combineinput").value.trim().split(/\W+/);
-
-			var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(this.stripLeadZeros));
-
-			var privkeyBase58 = new Bitcoin.ECKey(this.hexToBytes(combined)).getBitcoinWalletImportFormat();
-			var output = document.createElement("div");
-			output.setAttribute("id", "combineoutput");
-			var txt = document.createElement("input");
-			txt.setAttribute("id", "combineoutputtext");
-			txt.setAttribute("value", privkeyBase58);
-			txt.setAttribute("size", 55);
-			var lbl = document.createElement("label");
-			lbl.innerHTML = "Private key";
-			output.appendChild(lbl);
-			output.appendChild(txt);
-			document.getElementById("combinecommands").appendChild(output);
+			var combinedBytes = ninja.wallets.splitwallet.combineFormattedShares(shares);
+			var privkeyBase58 = new Bitcoin.ECKey(combinedBytes).getBitcoinWalletImportFormat();
+			document.getElementById("combinedprivatekey").innerHTML = privkeyBase58;
 		}
 		catch (e) {
 			alert(e);
 		}
 	},
 
+	// generate shares and format them in base58
 	getFormattedShares: function (key, numshares, threshold) {
 		var shares = secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
 		return shares;
 	},
 
+	// combine base58 formatted shares and return a bitcoin byte array
 	combineFormattedShares: function (shares) {
 		var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
-		return combined;
+		return ninja.wallets.splitwallet.hexToBytes(combined);
 	},
 
 	openCloseStep: function (num) {
@@ -9654,46 +9648,107 @@ ninja.wallets.splitwallet = {
 			},
 
 			// test split wallet
-			testSplitAndCombinePrivateKey: function () {
+			testSplitAndCombinePrivateKey2of2: function () {
+				// lowercase hex key
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 2;
+				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			// Example use case #1:
+			// Division of 3 shares:
+			//   1 share in a safety deposit box ("Box")
+			//   1 share at Home
+			//   1 share at Work
+			// Threshold of 2 can be redeemed in these permutations 
+			//   Home + Box 
+			//   Work + Box 
+			//   Home + Work 
+			testSplitAndCombinePrivateKey2of3: function () {
+				// lowercase hex key
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 3;
+				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				shares.shift();
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey2of4: function () {
+				// uppercase hex key
 				var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B"; //5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb
 				var numshares = 4;
 				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
 
-				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  //secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
-				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares); // secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
-				
-				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				shares.shift();
+				shares.shift();
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
 				if (btcKey.getBitcoinHexFormat() != key) {
 					return false;
 				}
 				return true;
 			},
-			testSplitAndCombinePrivateKey2: function () {
-				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da   5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
-				var numshares = 4;
-				var threshold = 2;
+			// Example use case #2:
+			// Division of 13 shares:
+			//   4 shares in a safety deposit box ("Box")
+			//   3 shares with good friend Angie
+			//   3 shares with good friend Fred
+			//   3 shares with Self at home or office
+			// Threshold of 7 can be redeemed in these permutations 
+			//   Self + Box (no trust to spend your coins but your friends are backing up your shares)
+			//   Angie + Box (Angie will send btc to executor of your will)
+			//   Fred + Box (if Angie hasn't already then Fred will send btc to executor of your will)
+			//   Angie + Fred + Self (bank fire/theft then you with both your friends can spend the coins)
+			testSplitAndCombinePrivateKey7of13: function () {
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da";
+				var numshares = 12;
+				var threshold = 7;
+				secrets.setRNG();
+				secrets.init(7);
 
-				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);  
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
 				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
-
-				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
+				var btcKey = new Bitcoin.ECKey(combined);
 
 				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
 					return false;
 				}
 				return true;
 			},
-			testSplitAndCombinePrivateKey3: function () {
-				var key = "004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; 
-				var numshares = 4;
-				var threshold = 2;
+			testCombinePrivateKeyFromXofYShares: function () {
+				var key = "5K9nHKqbwc1xXpa6wV5p3AaCnubvxQDBukKaFkq7ThAkxgMTMEh";
+				// these are 4 of 6 shares
+				var shares = ["3XxjMASmrkk6eXMM9kAJA7qiqViNVBfiwA1GQDLvg4PVScL", "3Y2DkcPuNX8VKZwpnDdxw55wJtcnCvv2nALqe8nBLViHvck", 
+					"3Y6qv7kyGwgRBKVHVbUNtzmLYAZWQtTPztPwR8wc7uf4MXR", "3YD4TowZn6jw5ss8U89vrcPHonFW4vSs9VKq8MupV5kevG4"]
+				secrets.setRNG();
+				secrets.init(7);
 
-				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
 				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
-
-				var btcKey = new Bitcoin.ECKey(ninja.wallets.splitwallet.hexToBytes(combined));
-
-				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+				var btcKey = new Bitcoin.ECKey(combined);
+				if (btcKey.getBitcoinWalletImportFormat() != key) {
 					return false;
 				}
 				return true;

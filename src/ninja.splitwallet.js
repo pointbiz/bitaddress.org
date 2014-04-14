@@ -2,7 +2,7 @@ ninja.wallets.splitwallet = {
 	open: function () {
 		document.getElementById("splitarea").style.display = "block";
 		secrets.setRNG();
-		secrets.init(7);
+		secrets.init(7); // 7 bits allows for up to 127 shares
 	},
 
 	close: function () {
@@ -12,12 +12,16 @@ ninja.wallets.splitwallet = {
 	mkOutputRow: function (s, id, lbltxt) {
 		var row = document.createElement("div");
 		var label = document.createElement("label");
-		label.innerHTML = lbltxt + s;
+		label.innerHTML = lbltxt;
 		var qr = document.createElement("div");
+		var output = document.createElement("span");
+		output.setAttribute("class", "output");
+		output.innerHTML = s;
 
 		qr.setAttribute("id", id);
 		row.setAttribute("class", "splitsharerow");
 		row.appendChild(label);
+		row.appendChild(output);
 		row.appendChild(qr);
 		row.appendChild(document.createElement("br"));
 
@@ -38,13 +42,12 @@ ninja.wallets.splitwallet = {
 	// Split a private key and update information in the HTML
 	splitKey: function () {
 		try {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
-
 			var numshares = parseInt(document.getElementById('splitshares').value);
 			var threshold = parseInt(document.getElementById('splitthreshold').value);
-			var hexKey = Crypto.util.bytesToHex(key.getBitcoinPrivateKeyByteArray());
-			var shares = secrets.share(hexKey, numshares, threshold).map(this.hexToBytes).map(Bitcoin.Base58.encode);
+			var key = new Bitcoin.ECKey(false);
+			var bitcoinAddress = key.getBitcoinAddress();
+			var shares = ninja.wallets.splitwallet.getFormattedShares(key.getBitcoinHexFormat(), numshares, threshold);
+
 			var output = document.createElement("div");
 			output.setAttribute("id", "splitoutput");
 			var m = {};
@@ -66,49 +69,33 @@ ninja.wallets.splitwallet = {
 		catch (e) {
 			// browser does not have sufficient JavaScript support to generate a bitcoin address
 			alert(e);
-			document.getElementById("btcaddress").innerHTML = "error";
-			document.getElementById("btcprivwif").innerHTML = "error";
-			document.getElementById("qrcode_public").innerHTML = "";
-			document.getElementById("qrcode_private").innerHTML = "";
 		}
 	},
 
 	// Combine shares of a private key to retrieve the key
 	combineShares: function () {
 		try {
-			var element = document.getElementById("combineoutput");
-			if (element != null) element.parentNode.removeChild(element);
-
+			document.getElementById("combinedprivatekey").innerHTML = "";
 			var shares = document.getElementById("combineinput").value.trim().split(/\W+/);
-
-			var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(this.stripLeadZeros));
-
-			var privkeyBase58 = new Bitcoin.ECKey(this.hexToBytes(combined)).getBitcoinWalletImportFormat();
-			var output = document.createElement("div");
-			output.setAttribute("id", "combineoutput");
-			var txt = document.createElement("input");
-			txt.setAttribute("id", "combineoutputtext");
-			txt.setAttribute("value", privkeyBase58);
-			txt.setAttribute("size", 55);
-			var lbl = document.createElement("label");
-			lbl.innerHTML = "Private key";
-			output.appendChild(lbl);
-			output.appendChild(txt);
-			document.getElementById("combinecommands").appendChild(output);
+			var combinedBytes = ninja.wallets.splitwallet.combineFormattedShares(shares);
+			var privkeyBase58 = new Bitcoin.ECKey(combinedBytes).getBitcoinWalletImportFormat();
+			document.getElementById("combinedprivatekey").innerHTML = privkeyBase58;
 		}
 		catch (e) {
 			alert(e);
 		}
 	},
 
+	// generate shares and format them in base58
 	getFormattedShares: function (key, numshares, threshold) {
 		var shares = secrets.share(key, numshares, threshold).map(ninja.wallets.splitwallet.hexToBytes).map(Bitcoin.Base58.encode);
 		return shares;
 	},
 
+	// combine base58 formatted shares and return a bitcoin byte array
 	combineFormattedShares: function (shares) {
 		var combined = secrets.combine(shares.map(Bitcoin.Base58.decode).map(Crypto.util.bytesToHex).map(ninja.wallets.splitwallet.stripLeadZeros));
-		return combined;
+		return ninja.wallets.splitwallet.hexToBytes(combined);
 	},
 
 	openCloseStep: function (num) {

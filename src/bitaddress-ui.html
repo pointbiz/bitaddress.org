@@ -130,13 +130,13 @@
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
 		<ul class="menu" id="menu">
-			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</li>
-			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</li>
-			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</li>
-			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</li>
-			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</li>
-			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet</li>
-			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</li>
+			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet
+			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet
+			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet
+			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet
+			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet
+			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet
+			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details
 		</ul>
 		
 		<div id="generate">
@@ -338,17 +338,13 @@
 			</div>
 
 			<div id="splitarea" class="walletarea">
-				
 				<div id="splitcommands" class="commands " >
-					
-						<label id="splitlabelshares">Number of shares</label>
-						<input type="text" id="splitshares" value="4" size="4"/>
+					<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
+					<input type="text" id="splitthreshold" value="2" size="4"/>
 					<br/>
-						<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
-						<input type="text" id="splitthreshold" value="2" size="4"/>
-					
+					<label id="splitlabelshares">Number of shares</label>
+					<input type="text" id="splitshares" value="3" size="4"/>
 					<span><input type="button" id="splitview" value="Generate" onclick="ninja.wallets.splitwallet.splitKey();"></span>
-
 					<div id="splitstep1icon" class="more " onclick="ninja.wallets.splitwallet.openCloseStep(1);"></div>
 				</div>
 				<div id="splitstep1area"></div>
@@ -358,10 +354,13 @@
 						<label id="combinelabelentershares">Enter Available Shares (whitespace separated)</label> 
 						<textarea id="combineinput" cols="60" rows="10"></textarea><br/>
 					</span>
-
-					<span>
-						<input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();">
-					</span>
+					<span><input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();"></span>
+				</div>
+				<div id="splitstep2area">
+					<div id="combineoutput">
+						<label id="combinelabelprivatekey">Combined Private Key</label>
+						<div id="combinedprivatekey" class="output"></div>
+					</div>
 				</div>
 			</div>
 
