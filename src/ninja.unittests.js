@@ -458,6 +458,113 @@
 					return false;
 				}
 				return true;
+			},
+
+			// test split wallet
+			testSplitAndCombinePrivateKey2of2: function () {
+				// lowercase hex key
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 2;
+				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			// Example use case #1:
+			// Division of 3 shares:
+			//   1 share in a safety deposit box ("Box")
+			//   1 share at Home
+			//   1 share at Work
+			// Threshold of 2 can be redeemed in these permutations 
+			//   Home + Box 
+			//   Work + Box 
+			//   Home + Work 
+			testSplitAndCombinePrivateKey2of3: function () {
+				// lowercase hex key
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da"; //5HpJ4bpHFEMWYwCidjtZHwM2rsMh4PRfmZKV8Y21i7msiUkQKUW
+				var numshares = 3;
+				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				shares.shift();
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			testSplitAndCombinePrivateKey2of4: function () {
+				// uppercase hex key
+				var key = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B"; //5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb
+				var numshares = 4;
+				var threshold = 2;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				shares.shift();
+				shares.shift();
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key) {
+					return false;
+				}
+				return true;
+			},
+			// Example use case #2:
+			// Division of 13 shares:
+			//   4 shares in a safety deposit box ("Box")
+			//   3 shares with good friend Angie
+			//   3 shares with good friend Fred
+			//   3 shares with Self at home or office
+			// Threshold of 7 can be redeemed in these permutations 
+			//   Self + Box (no trust to spend your coins but your friends are backing up your shares)
+			//   Angie + Box (Angie will send btc to executor of your will)
+			//   Fred + Box (if Angie hasn't already then Fred will send btc to executor of your will)
+			//   Angie + Fred + Self (bank fire/theft then you with both your friends can spend the coins)
+			testSplitAndCombinePrivateKey7of13: function () {
+				var key = "0004d30da67214fa65a41a6493576944c7ea86713b14db437446c7a8df8e13da";
+				var numshares = 12;
+				var threshold = 7;
+				secrets.setRNG();
+				secrets.init(7);
+
+				var shares = ninja.wallets.splitwallet.getFormattedShares(key, numshares, threshold);
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+
+				if (btcKey.getBitcoinHexFormat() != key.toUpperCase()) {
+					return false;
+				}
+				return true;
+			},
+			testCombinePrivateKeyFromXofYShares: function () {
+				var key = "5K9nHKqbwc1xXpa6wV5p3AaCnubvxQDBukKaFkq7ThAkxgMTMEh";
+				// these are 4 of 6 shares
+				var shares = ["3XxjMASmrkk6eXMM9kAJA7qiqViNVBfiwA1GQDLvg4PVScL", "3Y2DkcPuNX8VKZwpnDdxw55wJtcnCvv2nALqe8nBLViHvck", 
+					"3Y6qv7kyGwgRBKVHVbUNtzmLYAZWQtTPztPwR8wc7uf4MXR", "3YD4TowZn6jw5ss8U89vrcPHonFW4vSs9VKq8MupV5kevG4"]
+				secrets.setRNG();
+				secrets.init(7);
+
+				var combined = ninja.wallets.splitwallet.combineFormattedShares(shares);
+				var btcKey = new Bitcoin.ECKey(combined);
+				if (btcKey.getBitcoinWalletImportFormat() != key) {
+					return false;
+				}
+				return true;
 			}
 		},
 

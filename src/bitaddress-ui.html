@@ -80,6 +80,9 @@
 //ellipticcurve.js
 	</script>
 	<script type="text/javascript">
+//secrets.js
+	</script>
+	<script type="text/javascript">
 //biginteger.js
 	</script>
 	<script type="text/javascript">
@@ -126,19 +129,20 @@
 		<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator</div>
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
-		<div class="menu" id="menu">
-			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
-			<div class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
-			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
-			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
-			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
-			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
-		</div>
+		<ul class="menu" id="menu">
+			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet
+			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet
+			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet
+			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet
+			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet
+			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet
+			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details
+		</ul>
 		
 		<div id="generate">
 			<span id="generatelabelbitcoinaddress">Generating Bitcoin Address...</span><br />
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
+			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeydown="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
 		</div>
 
@@ -178,7 +182,7 @@
 					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
 					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
 					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
-					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info or mtgox.com and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
 				</div>
 			</div>
 
@@ -333,6 +337,33 @@
 				</div>
 			</div>
 
+			<div id="splitarea" class="walletarea">
+				<div id="splitcommands" class="commands " >
+					<label id="splitlabelthreshold">Minimum share threshold needed to combine</label>
+					<input type="text" id="splitthreshold" value="2" size="4"/>
+					<br/>
+					<label id="splitlabelshares">Number of shares</label>
+					<input type="text" id="splitshares" value="3" size="4"/>
+					<span><input type="button" id="splitview" value="Generate" onclick="ninja.wallets.splitwallet.splitKey();"></span>
+					<div id="splitstep1icon" class="more " onclick="ninja.wallets.splitwallet.openCloseStep(1);"></div>
+				</div>
+				<div id="splitstep1area"></div>
+
+				<div id="combinecommands" class="left commands">
+					<span>
+						<label id="combinelabelentershares">Enter Available Shares (whitespace separated)</label> 
+						<textarea id="combineinput" cols="60" rows="10"></textarea><br/>
+					</span>
+					<span><input type="button" id="combineview" value="Combine Shares" onclick="ninja.wallets.splitwallet.combineShares();"></span>
+				</div>
+				<div id="splitstep2area">
+					<div id="combineoutput">
+						<label id="combinelabelprivatekey">Combined Private Key</label>
+						<div id="combinedprivatekey" class="output"></div>
+					</div>
+				</div>
+			</div>
+
 			<div id="detailarea" class="walletarea">	
 				<div id="detailcommands" class="commands">
 					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
@@ -421,6 +452,7 @@
 			</div>
 		</div>
 
+
 		<div id="footer" class="footer">
 			<div class="authorbtc">
 				<div>
@@ -431,7 +463,7 @@
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.8.1)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.9.0)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -471,6 +503,9 @@
 	</script>
 	<script type="text/javascript">
 //ninja.detailwallet.js
+	</script>
+	<script type="text/javascript">
+//ninja.splitwallet.js
 	</script>
 	<script type="text/javascript">
 //ninja.unittests.js
