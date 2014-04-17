@@ -7488,6 +7488,17 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 ninja.translator = {
 	currentCulture: "en",
 
+	autodetectTranslation: function() {
+		// window.navigator.language for Firefox / Chrome / Opera Safari
+		// window.navigator.userLanguage for IE
+		var language = window.navigator.language || window.navigator.userLanguage;
+		if (!ninja.translator.translate(language)) {
+			// Try to remove part after dash, for example cs-CZ -> cs
+			language = language.substr(0, language.indexOf('-'));
+			ninja.translator.translate(language);
+		}
+	},
+
 	translate: function (culture) {
 		var dict = ninja.translator.translations[culture];
 		if (dict) {
@@ -7507,6 +7518,9 @@ ninja.translator = {
 					document.getElementById(id).innerHTML = dict[id];
 				}
 			}
+			return true;
+		} else {
+			return false;
 		}
 	},
 
@@ -9900,6 +9914,8 @@ if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
+} else {
+	ninja.translator.autodetectTranslation();
 }
 // testnet, check if testnet edition should be activated
 if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
