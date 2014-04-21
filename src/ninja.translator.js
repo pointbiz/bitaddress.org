@@ -1,7 +1,7 @@
 ninja.translator = {
 	currentCulture: "en",
 
-	autodetectTranslation: function() {
+	autoDetectTranslation: function() {
 		// window.navigator.language for Firefox / Chrome / Opera Safari
 		// window.navigator.userLanguage for IE
 		var language = window.navigator.language || window.navigator.userLanguage;
@@ -536,7 +536,6 @@ ninja.translator = {
 			"paperprint": "Stampa",
 			"paperlabelBIPpassphrase": "Passphrase:",
 			"paperlabelencrypt": "BIP38 criptato?",
-			"paperadvancedcommandslabel": "Opzioni avanzate",
 
 			// bulk wallet html
 			"bulklabelstartindex": "Indice iniziale:",
