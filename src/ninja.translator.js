@@ -911,6 +911,7 @@ ninja.translator = {
 			"bulkwallet": "Tömeges pénztárca",
 			"brainwallet": "Fejben tartott pénztárca",
 			"vanitywallet": "Kérkedő pénztárca",
+			"splitwallet": "Részekre bontott ~",
 			"detailwallet": "A pénztárca részletei",
 
 			// footer html
@@ -991,6 +992,14 @@ ninja.translator = {
 			"vanitylabelnotespublickeyhex": "A Publikus Kulcs hexadecimális alakban. ",
 			"vanitylabelprivatekey": "Kérkedő Privát Kulcs (WIF):",
 			"vanitylabelnotesprivatekey": "Ez az Ön Privát Kulcsa, mellyel elérheti a pénzét. ",
+
+			// split wallet html
+			"splitlabelthreshold": "A visszaállításhoz szükséges részek minimális száma",
+			"splitlabelshares": "Részek száma",
+			"splitview": "Előállítás",
+			"combinelabelentershares": "Adja be a meglévő részeket (Enter-rel, szóközzel vagy más whitespace karakterrel elválasztva)",
+			"combineview": "A részek összekombinálása",
+			"combinelabelprivatekey": "Visszaállított Privát Kulcs",
 
 			// detail wallet html
 			"detaillabelenterprivatekey": "Adja meg a Privát Kulcsot",
