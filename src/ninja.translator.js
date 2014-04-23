@@ -887,7 +887,7 @@ ninja.translator = {
 			"bulkwallet": "Tömeges pénztárca",
 			"brainwallet": "Fejben tartott pénztárca",
 			"vanitywallet": "Kérkedő pénztárca",
-			"splitwallet": "Részekre bontott pénztárca",
+			"splitwallet": "Részekre bontott ~",
 			"detailwallet": "A pénztárca részletei",
 
 			// footer html
