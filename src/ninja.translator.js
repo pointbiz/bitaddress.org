@@ -1023,7 +1023,6 @@ ninja.translator = {
 			"detaillabelq1": "Hogyan lehet dobókockával pénztárcát készíteni? Mit jelent a B6 formátum?",
 			"detaila1": "Egy Bitcoin pénztárca előállításakor nagyon fontos, hogy a felhasznált véletlen számok valóban véletlenek legyenek. A fizikai véletlen jobb, mint a számítógéppel előállított pszeudo-véletlen. Fizikai véletlen a legegyszerűbben egy dobókockával állítható elő. Ha szeretne egy Bitcoin privát címet előállítani, akkor csupán egy dobókockára van szüksége, mellyel 99-szer kell dobni. Jegyezze fel minden egyes dobása eredményét. Az eredmények feljegyzésekor a következő szabályokat kövesse: 1->1, 2->2, 3->3, 4->4, 5->5, 6->0. Ha így tesz, akkor a privát kulcshoz tartozó véletlen számot B6 formátumban, vagyis 6-os számrendszerben rögzíti. Írja be ezt a 99 karakterből álló 6-os számrendszerbeli privát kulcsot a fenti szövegmezőbe, majd nyomja meg a 'Részletek megjelenítése' gombot. Ekkor megjelenik az a Bitcoin cím, amely ehhez a privát kulcshoz tartozik. Érdemes felírni a WIF formátumú privát kulcsot is, mivel ezt szélesebb körben használják."
 		},
->>>>>>> 6528084a65e4ddcc94fca96d012bbd15537b3f01
 
 		"jp": {	
 			// javascript alerts or messages
@@ -1135,6 +1134,15 @@ ninja.translator = {
 			"vanitylabelnotespublickeyhex": "パブリックキーを16進で表したものです。",
 			"vanitylabelprivatekey": "カスタムプライベートキー(WIF形式)",
 			"vanitylabelnotesprivatekey": "上記のアドレスに送られたビットコインを使うためのプライベートキーです。",
+
+			// split wallet html
+			"splitwallet": "分散ウォレット",
+			"splitlabelthreshold": "復元に必要なシェア数",
+			"splitlabelshares": "全シェア数",
+			"splitview": "生成",
+			"combinelabelentershares": "お持ちのシェアを入力 (空白区切り)",
+			"combineview": "シェア合わせて復元",
+			"combinelabelprivatekey": "復元された秘密鍵",
 
 			// detail wallet html
 			"detaillabelenterprivatekey": "プライベートキーを入力",
