@@ -6314,7 +6314,7 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
 .pubkeyhex { word-wrap: break-word; }
 body { font-family: Arial; }
-body, html { height: 99%; }
+body, html { min-height: 99%; }
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
@@ -6524,6 +6524,7 @@ body, html { height: 99%; }
 	#seedpoolarea { display: none; }
 	.faq { display: none; }
 }
+
 	</style>
 </head>
 <body onclick="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);">
@@ -6877,7 +6878,7 @@ body, html { height: 99%; }
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.9.1)</a>
+					<a href="pgpsignedmsg.txt" target="_blank"><span id="footerlabelversion">Version History</span> (v2.9.2)</a>
 					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -8400,6 +8401,7 @@ ninja.translator = {
 			"bulkwallet": "Tömeges pénztárca",
 			"brainwallet": "Fejben tartott pénztárca",
 			"vanitywallet": "Kérkedő pénztárca",
+			"splitwallet": "Részekre bontott ~",
 			"detailwallet": "A pénztárca részletei",
 
 			// footer html
@@ -8480,6 +8482,14 @@ ninja.translator = {
 			"vanitylabelnotespublickeyhex": "A Publikus Kulcs hexadecimális alakban. ",
 			"vanitylabelprivatekey": "Kérkedő Privát Kulcs (WIF):",
 			"vanitylabelnotesprivatekey": "Ez az Ön Privát Kulcsa, mellyel elérheti a pénzét. ",
+
+			// split wallet html
+			"splitlabelthreshold": "A visszaállításhoz szükséges részek minimális száma",
+			"splitlabelshares": "Részek száma",
+			"splitview": "Előállítás",
+			"combinelabelentershares": "Adja be a meglévő részeket (Enter-rel, szóközzel vagy más whitespace karakterrel elválasztva)",
+			"combineview": "A részek összekombinálása",
+			"combinelabelprivatekey": "Visszaállított Privát Kulcs",
 
 			// detail wallet html
 			"detaillabelenterprivatekey": "Adja meg a Privát Kulcsot",
