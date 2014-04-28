@@ -160,8 +160,7 @@ ninja.wallets.paperwallet = {
         document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 
 		if (ninja.wallets.paperwallet.encrypt) {
-			var half = privateKey.length / 2;
-			document.getElementById("btcencryptedkey" + idPostFix).innerHTML = privateKey.slice(0, half) + '<br />' + privateKey.slice(half);
+			document.getElementById("btcencryptedkey" + idPostFix).innerHTML = privateKey;
 		}
 		else {
 			document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;

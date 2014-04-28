@@ -142,11 +142,13 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 }
 #paperarea .artwallet .btcencryptedkey
 {
-	position: absolute; top: 16px; right: 357px; z-index: 100; font-size: 12px; background-color: transparent;
-	font-weight:bold; color: #000000; margin: 0; width: 292px; height: 32px; text-align: center; 
-	-ms-transform: rotate(180deg); /* IE 9 */
-	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-	transform: rotate(180deg);
+	position: absolute; top: 86px; right: 544px; z-index: 100; font-size: 11px; background-color: transparent;
+	font-weight:100; color: #000000; margin: 0; width: 100px; height: 32px; text-align: center; 
+	word-wrap: break-word;
+	-ms-transform: rotate(90deg); /* IE 9 */
+	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+	transform: rotate(90deg);
+	font-family: Courier, monospace;
 }
 
 .paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #383838; line-height: 15px; }
