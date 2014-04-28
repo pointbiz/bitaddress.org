@@ -5779,15 +5779,22 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
-#seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
+#seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; min-height: 98px; }
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #80CF80; position: absolute; z-index: 10; }
 
 #seedSkipper { font-size: 11px; text-align: center; line-height: 14px;}
+.skipMessage { margin-top: 8px; }
+
 #generate #mousemovelimit { font-size: 16px; color: #FFF; }
-#rightArea { float: right; width: 170px; }
-#progress-bar { width: 170px; background:#99c31b; position: relative; margin-bottom: 20px; }
-#progress-bar-percentage { background:#ff952d; padding: 3px 0px; text-align: center; height: 18px; } 
+#rightArea { position: absolute; right: 66px; top: 62px; width: 170px; }
+#progress-bar { width: 170px; background:#80CF80; position: relative; margin-bottom: 20px;
+	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+ }
+#progress-bar-percentage { background:#FFA247; padding: 3px 0px; text-align: center; height: 18px;
+	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+ } 
 #progress-bar-percentage span { display: inline-block; position: absolute; width: 100%; left: 0; }
+.nicerButton { font-size: 14px; }
 		
 #generate { font-size: 13px; text-align: left; position: relative; padding: 20px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
@@ -6113,8 +6120,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
                 </div>
   
 				<div id="seedSkipper">
-					<a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a><br />
-					<p>You may skip this step if you do not plan to use the random key generator.</p>
+					<a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
+					<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
 				</div>
 			</div>
 
