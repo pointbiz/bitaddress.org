@@ -156,6 +156,17 @@
 			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
 			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 			<div id="seedpooldisplay"></div>
+			
+			<div id="rightArea">
+				<div id="progress-bar" class="fullyRounded">
+					<div id="progress-bar-percentage" class="fullyRounded" style="width: 1%"><span id="mousemovelimit"> &nbsp; </span></div>
+                </div>
+  
+				<div id="seedSkipper">
+					<a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a><br />
+					<p>You may skip this step if you do not plan to use the random key generator.</p>
+				</div>
+			</div>
 
 			<hr />
 

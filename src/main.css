@@ -28,6 +28,14 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; }
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #80CF80; position: absolute; z-index: 10; }
+
+#seedSkipper { font-size: 11px; text-align: center; line-height: 14px;}
+#generate #mousemovelimit { font-size: 16px; color: #FFF; }
+#rightArea { float: right; width: 170px; }
+#progress-bar { width: 170px; background:#99c31b; position: relative; margin-bottom: 20px; }
+#progress-bar-percentage { background:#ff952d; padding: 3px 0px; text-align: center; height: 18px; } 
+#progress-bar-percentage span { display: inline-block; position: absolute; width: 100%; left: 0; }
+		
 #generate { font-size: 13px; text-align: left; position: relative; padding: 20px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
