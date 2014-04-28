@@ -91,6 +91,21 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 	text-align: left;
 }
 
+.supportedCurrenciesChecklist {
+	background-color: #C2F2C3;
+	margin-top: 25px;
+    padding: 20px;
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	text-align: left;
+}
+
+.supportedCurrenciesChecklist ul {
+	list-style-type: none;
+	padding-left: 14px;
+}
+
 .securityChecklist ul { padding: 5px 0 0 20px; }
 .securityChecklist li { padding-left: 5px; margin-bottom: 10px; }
 
