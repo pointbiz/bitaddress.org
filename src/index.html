@@ -144,7 +144,7 @@
 			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
-			<!--<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>-->
+			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
       <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
 		
@@ -418,18 +418,17 @@
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64, MINI).</span>
+						<span id="detaillabelnote1">Your Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Public Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64, MINI).</span>
 						<br /><br />
-						<span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
 					</div>
 					<div class="pubqr">
 						<div class="item">
-							<span class="label" id="detaillabelbitcoinaddress">Bitcoin Address</span>
+							<span class="label" id="detaillabelbitcoinaddress">Public Address</span>
 							<div id="detailqrcodepublic" class="qrcode_public"></div>
 							<span class="output" id="detailaddress"></span>
 						</div>					
 						<div class="item right">
-							<span class="label" id="detaillabelbitcoinaddresscomp">Bitcoin Address Compressed</span>
+							<span class="label" id="detaillabelbitcoinaddresscomp">Public Address Compressed</span>
 							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
 							<span class="output" id="detailaddresscomp"></span>
 						</div>
