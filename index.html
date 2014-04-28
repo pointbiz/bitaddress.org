@@ -5851,7 +5851,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 .securityChecklist {
 	background-color: #FFE6C9;
-	margin-top: 25px;
+	margin-top: 15px;
     padding: 20px;
     -webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -5861,7 +5861,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 .supportedCurrenciesChecklist {
 	background-color: #C2F2C3;
-	margin-top: 25px;
+	margin-top: 10px;
+	margin-bottom: 10px;
     padding: 20px;
     -webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -5872,6 +5873,15 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .supportedCurrenciesChecklist ul {
 	list-style-type: none;
 	padding-left: 14px;
+}
+
+#supportedcurrencies {
+	line-height: 20px;
+    padding: 12px 12px 0;
+}
+
+.frontPageInstructions {
+	padding: 5px;
 }
 
 .securityChecklist ul { padding: 5px 0 0 20px; }
@@ -6135,10 +6145,13 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 						<b>Supported currencies :</b>
 						<div id="supportedcurrencies"></div>
 					</div>
-					<h3>Step 0. Follow the security checklist recommendation</h3>
-		            <p>
-		              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
-		            </p>
+
+					<div class="frontPageInstructions">
+						<h3>Step 0. Follow the security checklist recommendation</h3>
+			            <p>
+			              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
+			            </p>
+		            </div>
 
 		            <div class="securityChecklist">
 						<b>Security Checklist :</b>
