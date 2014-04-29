@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="Universal Open Source Client-Side Paper Wallet Generator for BitCoins and other cryptocurrencies. Create your own paper wallet in a few easy steps : Generate, Print and Fold ! Supported currencies : Auroracoin, Bitcoin, Blackcoin, BBQcoin, Catcoin, Dogecoin, Feathercoin, Litecoin, Marscoin, NameCoin, Peercoin, Primecoin, Reddcoin, Topcoin, Vertcoin.">
+	<meta charset="utf-8">
+	<meta name="description" content="Universal Open Source Client-Side Paper Wallet Generator for BitCoins and other cryptocurrencies. Create your own paper wallet in a few easy steps : Generate, Print and Fold ! Supported currencies : Auroracoin, Bitcoin, Blackcoin, BBQcoin, Catcoin, Dogecoin, Feathercoin, Litecoin, Marscoin, NameCoin, Peercoin, Primecoin, Reddcoin, Topcoin, Vertcoin.">
 	<!--
 
 	Notice of Copyrights and Licenses:
@@ -6101,7 +6101,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 		<div id="currencyddl" class="hide">
 			Choose currency :
-      		<select id="currency" onchange="janin.currency.useCurrency(this.selectedIndex);"></select> 
+					<select id="currency" onchange="janin.currency.useCurrency(this.selectedIndex);"></select> 
 		</div>
 		
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -6113,7 +6113,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
-      <div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
+			<div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
 		
 		<div id="generate">
@@ -6127,8 +6127,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 			<div id="rightArea">
 				<div id="progress-bar" class="fullyRounded">
 					<div id="progress-bar-percentage" class="fullyRounded" style="width: 1%"><span id="mousemovelimit"> &nbsp; </span></div>
-                </div>
-  
+								</div>
+	
 				<div id="seedSkipper">
 					<a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
 					<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
@@ -6143,17 +6143,33 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 					<div class="supportedCurrenciesChecklist">
 						<b>Supported currencies :</b>
-						<div id="supportedcurrencies"></div>
+						<div id="supportedcurrencies">
+							<a href="?currency=Auroracoin">Auroracoin</a>
+							<a href="?currency=Bitcoin">Bitcoin</a>
+							<a href="?currency=Blackcoin">Blackcoin</a>
+							<a href="?currency=BBQcoin">BBQcoin</a>
+							<a href="?currency=Catcoin">Catcoin</a>
+							<a href="?currency=Dogecoin">Dogecoin</a>
+							<a href="?currency=Feathercoin">Feathercoin</a>
+							<a href="?currency=Litecoin">Litecoin</a>
+							<a href="?currency=Marscoin">Marscoin</a>
+							<a href="?currency=NameCoin">NameCoin</a>
+							<a href="?currency=Peercoin">Peercoin</a>
+							<a href="?currency=Primecoin">Primecoin</a>
+							<a href="?currency=Reddcoin">Reddcoin</a>
+							<a href="?currency=Topcoin">Topcoin</a>
+							<a href="?currency=Vertcoin">Vertcoin</a>
+							</div>
 					</div>
 
 					<div class="frontPageInstructions">
 						<h3>Step 0. Follow the security checklist recommendation</h3>
-			            <p>
-			              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
-			            </p>
-		            </div>
+									<p>
+										First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
+									</p>
+								</div>
 
-		            <div class="securityChecklist">
+								<div class="securityChecklist">
 						<b>Security Checklist :</b>
 
 						<ul>
@@ -6166,10 +6182,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 						</li>
 						</ul>
 					</div>
-	              
-	            </div>
-	            <div class="secondHalfSingleSafety">
-	            	<img class="seedFrontPageImage" src="images/overview.png" />
+								
+							</div>
+							<div class="secondHalfSingleSafety">
+								<img class="seedFrontPageImage" src="images/overview.png" />
 				</div>
 			</div>
 		</div>
@@ -6207,10 +6223,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 				
 				<div id="singlesafety">
 					<div class="firstHalfSingleSafety">
-            <h3>Step 0. Follow the security checklist recommendation</h3>
-            <p>
-              First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
-            </p>
+						<h3>Step 0. Follow the security checklist recommendation</h3>
+						<p>
+							First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
+						</p>
 						<h3>Step 1. Generate new address</h3>
 						<p>
 							Choose your currency and click on the "Generate new address" button.
@@ -6222,10 +6238,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 						<h3>Step 3. Fold the Paper Wallet</h3>
 						<p>
 							Fold your new Paper wallet following the lines.
-              <img src="images/foldinginstructions.png" alt="Fold in half lengthwise, and then in three widthwise." /><br />
-              You can insert one side inside the other to lock the wallet.
+							<img src="images/foldinginstructions.png" alt="Fold in half lengthwise, and then in three widthwise." /><br />
+							You can insert one side inside the other to lock the wallet.
 						</p>
-            
+						
 						<h3>Step 4. Share your public key</h3>
 						<p>
 							Use your public key to receive money from other crypto-currency users. You can share your public keys as much as you want.
@@ -6309,7 +6325,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
 					</div>
 					<div class="row extra"><span id="brainwarning"></span></div>
-          <div class="row extra errorMsg"><span id="brainerror"></span></div>
+					<div class="row extra errorMsg"><span id="brainerror"></span></div>
 				</div>
 				<div id="brainkeyarea" class="keyarea">
 					<div class="public">
@@ -6475,11 +6491,11 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 				</div>
 			</div>
 		
-      <div id="donatearea" class="walletarea">
-        <div>To support the development of this wallet generator, you can donate to the following address:</div>
-        <div id="donatelist"></div>
-        <div id="donateqrcode"></div>
-        <div id="donateinfo"></div>
+			<div id="donatearea" class="walletarea">
+				<div>To support the development of this wallet generator, you can donate to the following address:</div>
+				<div id="donatelist"></div>
+				<div id="donateqrcode"></div>
+				<div id="donateinfo"></div>
 		<div id="changelog">
 			<hr/>
 			<h3>Release notes</h3>
@@ -6508,8 +6524,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 				</ul>
 			</p>
 		</div>
-      </div>
-    </div>
+			</div>
+		</div>
 
 		<div id="footer" class="footer">
 			<div>
@@ -6523,8 +6539,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 			</div>
 		</div>
 	</div>
-  
-  <script type="text/javascript">
+	
+	<script type="text/javascript">
 (function (window) {
 	var muchIndex    = 0;
 	var wowLength    = 0;
@@ -6602,7 +6618,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 	window.Doge = Doge;
 
 }(window));
-  </script>
+	</script>
 	<script type="text/javascript">
 var janin = {};
 
@@ -8851,7 +8867,7 @@ ninja.wallets.detailwallet = {
 	}
 };
 	</script>
-  <script type="text/javascript">
+	<script type="text/javascript">
 ninja.wallets.donate = {
     open: function () {
         document.getElementById("donatearea").style.display = "block";
@@ -9502,16 +9518,6 @@ for(i = 0; i < janin.currencies.length; i++) {
 	options += ">"+janin.currencies[i].name+"</option>";
 }
 select.innerHTML = options;
-// populate supported currency list
-var supportedcurrencies = document.getElementById("supportedcurrencies");
-var currencieslist = "";
-for(i = 0; i < janin.currencies.length; i++) {
-	if(janin.currencies[i].donate == null)
-		continue;
-    currencieslist += "<a href='?currency="+janin.currencies[i].name;
-	currencieslist += "'>"+janin.currencies[i].name+"</a> ";
-}
-supportedcurrencies.innerHTML = currencieslist;
 // populate donate list
 document.getElementById("donateqrcode").style.display = "none";
 var donatelist = document.getElementById("donatelist");
