@@ -1135,6 +1135,15 @@ ninja.translator = {
 			"vanitylabelprivatekey": "カスタムプライベートキー(WIF形式)",
 			"vanitylabelnotesprivatekey": "上記のアドレスに送られたビットコインを使うためのプライベートキーです。",
 
+			// split wallet html
+			"splitwallet": "分散ウォレット",
+			"splitlabelthreshold": "復元に必要なシェア数",
+			"splitlabelshares": "全シェア数",
+			"splitview": "生成",
+			"combinelabelentershares": "お持ちのシェアを入力 (空白区切り)",
+			"combineview": "シェア合わせて復元",
+			"combinelabelprivatekey": "復元された秘密鍵",
+
 			// detail wallet html
 			"detaillabelenterprivatekey": "プライベートキーを入力",
 			"detailkeyformats": "受け付けるキーの形式 WIF, WIFC, HEX, B64, B6, MINI, BIP38",
