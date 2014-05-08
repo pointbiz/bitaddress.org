@@ -36,8 +36,11 @@ janin.currency = {
     useCurrency: function(index) {
         janin.selectedCurrency = janin.currencies[index];
 
-        var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
+        var coinImgUrl = "logos/" + janin.currency.name().toLowerCase() + ".png";
         document.getElementById("coinLogoImg").src = coinImgUrl;
+        
+        // Update title depending on currency
+        document.title = janin.currency.name() + "'s paper wallet generator";
         
         // Regenerate a new wallet when not expensive
         ninja.wallets.singlewallet.generateNewAddressAndKey();
