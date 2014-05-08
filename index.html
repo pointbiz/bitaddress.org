@@ -9507,7 +9507,7 @@ if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["
 janin.selectedCurrency = janin.currencies[1];
 if (ninja.getQueryString()["currency"] != undefined) {
 	for(i = 0; i < janin.currencies.length; i++) {
-		if (janin.currencies[i].name == ninja.getQueryString()["currency"])
+		if (janin.currencies[i].name.toLowerCase() == ninja.getQueryString()["currency"].toLowerCase())
 			janin.currency.useCurrency(i);
 	}
 }
