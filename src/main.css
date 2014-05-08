@@ -176,12 +176,13 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     word-wrap: break-word;
 	-ms-transform: rotate(90deg); /* IE 9 */
 	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-	transform: rotate(90deg); font-family: Courier, monospace;
+	transform: rotate(90deg);
+    font-family: Courier, monospace;
 }
 #paperarea .artwallet .btcencryptedkey
 {
-	position: absolute; top: 86px; right: 544px; z-index: 100; font-size: 11px; background-color: transparent;
-	font-weight:100; color: #000000; margin: 0; width: 100px; height: 32px; text-align: center; 
+	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+	font-weight:100; color: #000000; margin: 0; width: 110px; height: 32px; text-align: center;
 	word-wrap: break-word;
 	-ms-transform: rotate(90deg); /* IE 9 */
 	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
