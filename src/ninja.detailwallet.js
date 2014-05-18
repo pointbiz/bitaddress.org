@@ -37,7 +37,7 @@ ninja.wallets.detailwallet = {
 				document.getElementById("detailprivkeypassphrase").focus();
 				return;
 			}
-			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
 			if (passphrase == "") {
 				alert(ninja.translator.get("bip38alertpassphraserequired"));
 				return;
