@@ -301,7 +301,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 	#bulklimit { width: 45px; }
 
 	.footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
-	.footer div span.item { padding: 10px; }
+	.footer div span.item { margin: 10px; }
 	.footer .authorbtc { float: left; width: 470px; }
 	.footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
 	.footer .authorbtc div { position: relative; z-index: 100; }
