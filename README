@@ -40,6 +40,8 @@ window.EllipticCurve	BSD License
 window.BigInteger   	BSD License
 window.QRCode       	MIT License
 window.Bitcoin      	MIT License
+jsqrcode            	Apache License, 2.0
+
 
 The WalletGenerator.net software is available under The MIT License (MIT)
 Copyright (c) 2014 WalletGenerator.net

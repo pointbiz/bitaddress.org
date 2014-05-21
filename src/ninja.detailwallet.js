@@ -1,7 +1,53 @@
 ninja.wallets.detailwallet = {
+	qrscanner: {
+		scanner: null,
+
+		start: function() {
+			document.getElementById('paperqrscanner').className = 'show';
+			ninja.wallets.detailwallet.qrscanner.showError(null);
+			var supported = ninja.wallets.detailwallet.qrscanner.scanner.isSupported();
+			if (!supported) {
+				document.getElementById('paperqrnotsupported').className = '';
+			} else {
+				ninja.wallets.detailwallet.qrscanner.scanner.start();
+			}
+		},
+
+		stop: function() {
+			ninja.wallets.detailwallet.qrscanner.scanner.stop();
+			document.getElementById('paperqrscanner').className = '';
+		},
+
+		showError: function(error) {
+			if (error) {
+				if (error == 'PERMISSION_DENIED' || error == 'PermissionDeniedError') {
+					document.getElementById('paperqrerror').innerHTML = '';
+					document.getElementById('paperqrpermissiondenied').className = '';
+				} else {
+					document.getElementById('paperqrerror').innerHTML = error;
+					document.getElementById('paperqrpermissiondenied').className = 'hide';
+				}
+			} else {
+				document.getElementById('paperqrerror').innerHTML = '';
+				document.getElementById('paperqrpermissiondenied').className = 'hide';
+			}
+		}
+	},
+
 	open: function () {
 		document.getElementById("detailarea").style.display = "block";
 		document.getElementById("detailprivkey").focus();
+		if (!ninja.wallets.detailwallet.qrscanner.scanner) {
+			ninja.wallets.detailwallet.qrscanner.scanner = new QRCodeScanner(320, 240, 'paperqroutput', 
+				function(data) {
+					document.getElementById('detailprivkey').value = data;
+					document.getElementById('paperqrscanner').className = '';
+					ninja.wallets.detailwallet.viewDetails();
+				},
+				function(error) {
+					ninja.wallets.detailwallet.qrscanner.showError(error);
+				});
+		}
 	},
 
 	close: function () {

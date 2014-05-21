@@ -37,10 +37,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
  }
 #progress-bar-percentage { background:#FFA247; padding: 3px 0px; text-align: center; height: 18px;
 	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
- } 
+ }
 #progress-bar-percentage span { display: inline-block; position: absolute; width: 100%; left: 0; }
 .nicerButton { font-size: 14px; }
-		
+
 #generate { font-size: 13px; text-align: left; position: relative; padding: 20px; border: 1px solid #BFBFBF; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
 #generate span { padding: 5px 5px 0 5px; }
 #generatekeyinput { position: relative; z-index: 20; }
@@ -75,7 +75,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 .firstHalfSingleSafety { width: 50%; padding: 10px 30px 10px 30px; }
 
- .secondHalfSingleSafety { 
+ .secondHalfSingleSafety {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -145,14 +145,14 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #logo { width: 578px; height: 80px; }
 
 .backLogo { float: right; width: 50px; height: 50px; }
-		
+
 #paperarea { min-height: 120px; display: none; }
 #paperarea .keyarea { border: 1px solid #BFBFBF; border-top: 0; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 1004px; height: 426px; border: 0; margin: 0; padding: 0; left: 0; }
-#paperarea .artwallet .qrcode_public { top: 263px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
-		                                padding: 5px 5px 2px 5px; } 
-#paperarea .artwallet .qrcode_private { top: 37px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+#paperarea .artwallet .qrcode_public { top: 263px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF;
+		                                padding: 5px 5px 2px 5px; }
+#paperarea .artwallet .qrcode_private { top: 37px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF;
 		                                padding: 5px 5px 2px 5px;
 	                                	-ms-transform: rotate(180deg); /* IE 9 */
 										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
@@ -160,7 +160,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 		                                 }
 .supportWalletGenerator { margin: 30px; }
 .errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
-#paperarea .artwallet .btcaddress  
+#paperarea .artwallet .btcaddress
 {
 	position: absolute; bottom: 88px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
@@ -168,8 +168,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
     -ms-transform: rotate(-90deg); /* IE 9 */
 	-webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
 	transform: rotate(-90deg); font-family: Courier, monospace;
-} 
-#paperarea .artwallet .btcprivwif  
+}
+#paperarea .artwallet .btcprivwif
 {
 	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
 	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
@@ -194,19 +194,27 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .paperWalletText ul { margin: 0px; padding: 0px; }
 .paperWalletText li { line-height: 13px; margin-bottom: 5px; }
 
+.qrzone { margin: 20px 0px 20px 20px; }
+#detaillabelenterprivatekey { margin-right: 15px; }
+
+.qrcodeinputwrapper { position: relative; margin-right: 15px; }
+.qrcodeinputwrapper img { position: absolute; display: block; top: 3px; right: 20px; width: 16px; height: 16px;background: url("./images/qrcode.png"); cursor: pointer; padding: 0; }
+
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
 #bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
 #brainarea .keyarea { visibility: hidden; min-height: 110px; }
+#detailarea span.qrinput { position: relative; padding: 10px; }
+#detailarea span.qrinput #detailprivkey { width: 420px; height: 20px; }
 #detailkeyarea { padding: 10px; }
 #detailarea { margin: 0; text-align: left; }
 #detailarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
 #detailarea .pubqr .item .label { text-decoration: none; }
 #detailarea .pubqr .item { float: left; margin: 10px 0; position: relative; }
-#detailarea .pubqr .item.right { float: right; position: relative; top: 0; } 
+#detailarea .pubqr .item.right { float: right; position: relative; top: 0; }
 #detailarea .privqr .item .label { text-decoration: none; }
 #detailarea .privqr .item { float: left; margin: 0; position: relative; }
-#detailarea .privqr .item.right { float: right; position: relative; } 
+#detailarea .privqr .item.right { float: right; position: relative; }
 #detailarea .item { margin: 10px 0; position: relative; font-size: 90%; padding: 1px 0; }
 #detailarea .item.clear { clear: both; padding-top: 10px; }
 #detailarea .label { display: block; font-weight: bold; }
@@ -216,7 +224,9 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
 #detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
 #detailpubkey { width: 590px; }
-#detailbip38commands { display: none; padding-top: 5px; }	
+#detailbip38commands { display: none; padding-top: 5px; }
+#paperqrscanner { position: absolute; display: none; width: 100%; height: 100%; top: 0; left: 0; z-index: 5000; vertical-aligh: middle; }
+#paperqrscanner.show { display: block; }
 #vanityarea { text-align: left; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
@@ -226,7 +236,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #vanitystep2area { border-top: 1px solid #BFBFBF; display: block; padding: 15px; }
 #vanitystep2inputs { padding: 0 15px 10px 15px; }
 #vanitycalc { margin-top: 5px; }
-		
+
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .unittests { text-align: center; }
 .unittests div { width: 894px; font-family: monospace; text-align: left; margin: auto; padding: 5px; border: 1px solid black; }
@@ -235,6 +245,8 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #busyblock.busy { display: block; }
 .hide { display: none; }
 .show { display: block; }
+.dialog { z-index: 6000; position: relative; background: white; border: 2px solid #f7931a; width: 600px; margin: 150px auto; padding: 1em; }
+.dialog-narrow { width: 300px; }
 
 #currencyddl { margin: 20px; position: absolute; right: 0; top: 60px; width: 320px; font-size: 14px; }
 #currencyddl select { font-size: 14px; }
@@ -246,13 +258,13 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 #donatearea { text-align: left; padding: 15px 15px 120px 15px; position: relative; }
 #donatearea .address { font-family: 'Courier New', Courier, monospace; }
-	
+
 /* IE8 */
 .qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
 .qrcodetddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
 .qrcodetdlight { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #ffffff; }
-		
-@media screen 	
+
+@media screen
 {
 	#tagline { margin: 0 0 15px 0; font-style: italic; text-align: left; }
 	.menu { text-align: left; }
@@ -263,7 +275,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 	.menu .tab.selected:hover { color: #000; }
 	.pagebreak { height: 50px; }
 	.commands { border-bottom: 1px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
-	.commands .row { padding: 0 0; text-align: left; } 
+	.commands .row { padding: 0 0; text-align: left; }
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
 	.commands span.print { float: right; }
@@ -282,12 +294,12 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 250px; }
+	#detailprivkey { width: 300px; }
 	#detailprivkeypassphrase { width: 250px; }
 	.paper .commands { border: 1px solid #BFBFBF; }
-	#bulkstartindex { width: 35px; } 
+	#bulkstartindex { width: 35px; }
 	#bulklimit { width: 45px; }
-			
+
 	.footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
 	.footer div span.item { padding: 10px; }
 	.footer .authorbtc { float: left; width: 470px; }

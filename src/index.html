@@ -5,45 +5,45 @@
 	<meta name="description" content="Universal Open Source Client-Side Paper Wallet Generator for BitCoins and other cryptocurrencies. Create your own paper wallet in a few easy steps : Generate, Print and Fold ! Supported currencies : Auroracoin, Bitcoin, Blackcoin, BBQcoin, Catcoin, Dogecoin, Feathercoin, Litecoin, Marscoin, NameCoin, Peercoin, Primecoin, Reddcoin, Topcoin, Vertcoin.">
 	<!--
 
-	Notice of Copyrights and Licenses:
+Notice of Copyrights and Licenses:
+---------------------------------------
+The WalletGenerator.net project, software and embedded resources are copyright WalletGenerator.net. 
+The WalletGenerator.net name and logo are not part of the open source license.
 
-	The WalletGenerator.net project, software and embedded resources are copyright WalletGenerator.net. 
-	The WalletGenerator.net name and logo are not part of the open source license.
+Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others.
+The individual copyrights are included throughout the document along with their licenses. Included
+JavaScript libraries are separated with HTML script tags.
 
-	Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights 
-	of others. The individual copyrights are included throughout the document along with their 
-	licenses. Included JavaScript libraries are separated with HTML script tags.
+Summary of JavaScript functions with a redistributable license:
+JavaScript function 	License
+------------------- 	--------------
+Array.prototype.map 	Public Domain
+window.Crypto       	BSD License
+window.SecureRandom 	BSD License
+window.EllipticCurve	BSD License
+window.BigInteger   	BSD License
+window.QRCode       	MIT License
+window.Bitcoin      	MIT License
+jsqrcode            	Apache License, 2.0
 
-	Summary of JavaScript functions with a redistributable license:
-	JavaScript function		License
 
-	Array.prototype.map		Public Domain
-	window.Crypto			BSD License
-	window.SecureRandom		BSD License
-	window.EllipticCurve	BSD License
-	window.BigInteger		BSD License
-	window.QRCode			MIT License
-	window.Bitcoin			MIT License
+The WalletGenerator.net software is available under The MIT License (MIT)
+Copyright (c) 2014 WalletGenerator.net
 
-	The WalletGenerator.net software is available under The MIT License (MIT)
-	Copyright (c) 2014 WalletGenerator.net
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-	software and associated documentation files (the "Software"), to deal in the Software 
-	without restriction, including without limitation the rights to use, copy, modify, 
-	merge, publish, distribute, sublicense, and/or sell copies of the Software, and to 
-	permit persons to whom the Software is furnished to do so, subject to the following 
-	conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
 
-	The above copyright notice and this permission notice shall be included in all copies 
-	or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 	GitHub Repository: https://github.com/MichaelMure/PaperWallet
@@ -108,6 +108,9 @@
 	<script type="text/javascript">
 //crypto-scrypt.js
 	</script>
+	<script type="text/javascript">
+//jsqrcode.js
+	</script>
 	<style type="text/css">
 //main.css
 	</style>
@@ -160,7 +163,7 @@
 			<div id="rightArea">
 				<div id="progress-bar" class="fullyRounded">
 					<div id="progress-bar-percentage" class="fullyRounded" style="width: 1%"></div>
-								</div>
+				</div>
 	
 				<div id="seedSkipper">
 					<a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
@@ -438,14 +441,37 @@
 				</div>
 			</div>
 
-			<div id="detailarea" class="walletarea">	
+			<div id="detailarea" class="walletarea">
 				<div id="detailcommands" class="commands">
-					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
-					<input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
-					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
-					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
-					<div class="row extra">
-						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
+
+					<div class="row extra qrzone">
+						<span class="qrinput">
+						<label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label>
+						
+							<span class="qrcodeinputwrapper">
+								<input type="text" id="detailprivkey" value="" placeholder="Enter a private key, or click the QR icon to scan" autocomplete="off" onFocus="this.select();" onKeyPress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
+								<img onClick="ninja.wallets.detailwallet.qrscanner.start()" />
+							</span>
+						
+						<input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" />
+					</span>
+					<span class="print">
+						<input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" />
+					</span>
+					</div>
+					
+					<div id="paperqrscanner">
+						<div class="background"></div>
+						<div id="mainbody" class="dialog instructionsarea">
+							<h2>Scan QR code using your camera</h2>
+							<div id="paperqrnotsupported" style="color: red" class="hide">Sorry, but your web browser does not support the HTML5 camera controls. Try using a recent version of Firefox (recommended), Chrome or Opera.</div>
+							<div id="paperqrpermissiondenied" style="color: red" class="hide">
+								<p>Permission denied. Your browser should display a message requesting access to your camera. Please click the "Allow" button to enable the camera.</p>
+							</div>
+							<div id="paperqrerror" style="color: red"></div>
+							<div id="paperqroutput"></div>
+							<button onClick="ninja.wallets.detailwallet.qrscanner.stop()">Cancel</button>
+						</div>
 					</div>
 					<div id="detailbip38commands">
 						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
