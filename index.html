@@ -9704,16 +9704,27 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 					<div class="supportedCurrenciesChecklist">
 						<b>Supported currencies :</b>
 						<div id="supportedcurrencies">
+							<a href="?currency=42coin">42coin</a>
+							<a href="?currency=Alphacoin">Alphacoin</a>
+							<a href="?currency=Anoncoin">Anoncoin</a>
 							<a href="?currency=Auroracoin">Auroracoin</a>
 							<a href="?currency=Bitcoin">Bitcoin</a>
 							<a href="?currency=Blackcoin">Blackcoin</a>
 							<a href="?currency=BBQcoin">BBQcoin</a>
 							<a href="?currency=Catcoin">Catcoin</a>
+							<a href="?currency=Corgicoin">Corgicoin</a>
+							<a href="?currency=Darkcoin">Darkcoin</a>
+							<a href="?currency=Devcoin">Devcoin</a>
+							<a href="?currency=Digitalcoin">Digitalcoin</a>
 							<a href="?currency=Dogecoin">Dogecoin</a>
 							<a href="?currency=Feathercoin">Feathercoin</a>
+							<a href="?currency=HTMLcoin">HTMLcoin</a>
 							<a href="?currency=Litecoin">Litecoin</a>
+							<a href="?currency=MagicInternetMoney">MagicInternetMoney</a>
 							<a href="?currency=Marscoin">Marscoin</a>
-							<a href="?currency=NameCoin">NameCoin</a>
+							<a href="?currency=Megacoin">Megacoin</a>
+							<a href="?currency=Namecoin">Namecoin</a>
+							<a href="?currency=Novacoin">Novacoin</a>
 							<a href="?currency=Peercoin">Peercoin</a>
 							<a href="?currency=Primecoin">Primecoin</a>
 							<a href="?currency=Reddcoin">Reddcoin</a>
@@ -10278,16 +10289,27 @@ janin.currency = {
 
 janin.currencies = [
     //                    name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start, donate
+    janin.currency.createCurrency ("42coin",     0x08, 0x88, "5",    "M"    , "4Fs42jYtLYrUMfKEXc6arojuhRsnYnerxN"),
+    janin.currency.createCurrency ("Alphacoin",  0x52, 0xd2, "8",    "Y"    , "aAWhiGBDUugXC9ZBvw8CDNQH7KRurjy4Nq"),
+    janin.currency.createCurrency ("Anoncoin",   0x17, 0x97, "6",    "P"    , "AS3BvkE4wvsXJpn1bGhQni5vZajthnrWQE"),
     janin.currency.createCurrency ("Auroracoin", 0x17, 0x97, "6",    "T"    , "AVWH1ZutLd4Y5LPDDj5FkBjbm2Gci4iFx3"),
     janin.currency.createCurrency ("Bitcoin",    0x00, 0x80, "5",    "[LK]" , "15DHZzv7eBUwss77qczZiL3DUEZLjDYhbM"),
     janin.currency.createCurrency ("Blackcoin",  0x19, 0x99, "6",    "P"    , "BFeJrZGyJ6bntd7RLXoNGvdn1HB5AQeiz4"),
     janin.currency.createCurrency ("BBQcoin",    0x55, 0xd5, "6",    "T"    , "bTFFC3Gg2XzQygLxxakHkNM3ravBZby1y9"),
     janin.currency.createCurrency ("Catcoin",    0x15, 0x95, "[56]", "P"    , "9rEXDemG6S3k2ddAsKFzRpnMVz3bVryYXZ"),
-    janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "T"    , "D74Npoqhwhjw9fShkm5wbj6DD2BJXpmzPj"),
+    janin.currency.createCurrency ("Corgicoin",  0x1c, 0x9c, "6",    "Q"    , "CNwV11TaKrfB3TnBS8vQjNbWT6CNxV8GBi"),
+    janin.currency.createCurrency ("Darkcoin",   0x4c, 0xcc, "7",    "X"    , "XdYX6AbDzjb3AVL1tAmWjuYMD28LD9fcWS"),
+    janin.currency.createCurrency ("Devcoin",    0x00, 0x80, "5",    "[LK]" , "1GUeBfpVhN7xySQej3HiSe5c8jQoVQPosv"),
+    janin.currency.createCurrency ("Digitalcoin",0x1e, 0x9e, "6",    "Q"    , "D7fJwPfW4dFSJNq4NHbMiYJhYnrZehMpqx"),
+    janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "Q"    , "D74Npoqhwhjw9fShkm5wbj6DD2BJXpmzPj"),
     janin.currency.createCurrency ("Feathercoin",0x0e, 0x8e, "5",    "N"    , "6dxAP6oacHsove5X2kZPpddcT1Am167YzC"),
+    janin.currency.createCurrency ("HTMLCoin",   0x1e, 0x9e, "6",    "Q"    , "DP4AVuekGEatNmpCL99m46k8THwS9yNVqy"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
+    janin.currency.createCurrency ("MagicInternetMoney", 0x30, 0xb0,"6", "T", "LPRqCTYEy53FkEzhRTCauLc7Qq23Z5mxZU"),
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "M8caDttyKt2r7V7WHMMkRZ1jEzxj16fgCn"),
+    janin.currency.createCurrency ("Megacoin",   0x32, 0xb2, "6",    "T"    , "MPeVmJHvkXN3caneWCB5zGgtGHRRBSLmWd"),
     janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "NASxLK4nt5hgX9wQEny5qPPJ2q4uSGCvT9"),
+    janin.currency.createCurrency ("Novacoin",   0x08, 0x88, "5",    "M"    , "4EZMrEA5LnmwtcK5b2JfCq9k5YS4ZVZrtT"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "PSnwUwknbmqUU1GCcM1DNxcANqihpdt3tW"),
     janin.currency.createCurrency ("Primecoin",  0x17, 0x97, "6",    "P"    , "AbXChfoHyFESePFuVh1xLZdn7Rj1mfD2a4"),
     janin.currency.createCurrency ("Reddcoin",   0x3d, 0xbd, "7",    "[UV]" , "RmAB99NsX6Wbjk5WdqNeEab83y72d7zkqZ"),
