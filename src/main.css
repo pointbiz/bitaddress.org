@@ -192,6 +192,11 @@ h1 { display: none; }
 	font-family: Courier, monospace;
 }
 
+.displayNone { displa: none; }
+.redColor { color: red; }
+.1percentwidth { width: 1%; }
+.100pxwidth { width: 100px; }
+
 .paperWalletText { bottom: 8px; height: 156px; left: 339px; padding: 15px 15px 17px 37px; position: absolute; width: 265px; font-size: 10px; color: #383838; line-height: 15px; }
 .paperWalletText ul { margin: 0px; padding: 0px; }
 .paperWalletText li { line-height: 13px; margin-bottom: 5px; }

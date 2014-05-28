@@ -62,7 +62,7 @@ janin.currency = {
         // easter egg doge ;)
         if(janin.currency.name() == "Dogecoin")
         {
-            janin.doge = new Doge(['wow', 'so paper wallet', 'such random', 'very pretty', 'much design', 'awesome', 'much crypto', 'such coin', 'wow!!', 'to da moon']]]]);
+            janin.doge = new Doge(['wow', 'so paper wallet', 'such random', 'very pretty', 'much design', 'awesome', 'much crypto', 'such coin', 'wow!!', 'to da moon']);
             return;
         }
         
