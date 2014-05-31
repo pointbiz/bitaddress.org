@@ -49,7 +49,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #mousemovelimit { font-size: 16px; font-family: monospace; }
 .frontPageText { position: relative; }
 
-h1 { display: none; }
+h1 { margin: 0px; height: 91px; }
 
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }

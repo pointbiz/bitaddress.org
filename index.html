@@ -9353,7 +9353,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #mousemovelimit { font-size: 16px; font-family: monospace; }
 .frontPageText { position: relative; }
 
-h1 { display: none; }
+h1 { margin: 0px; height: 91px; }
 
 #keyarea { height: 250px; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
@@ -9665,10 +9665,10 @@ h1 { display: none; }
 			<div id="coinLogo">
 				<img id="coinLogoImg" src="logos/bitcoin.png" alt="Universal Open Source Client-Side Wallet Generator" />
 			</div>
-			<img src="images/banner_beta.png" alt="banner" />
+			<h1>
+				<img id="siteTitle" src="images/banner_beta.png" alt="Bitcoin Paper Wallet Generator" />
+			</h1>
 		</div>
-
-		<h1 id="siteTitle">Bitcoin Paper Wallet Generator</h1>
 
 		<div id="currencyddl" class="hide">
 			Choose currency :
@@ -10280,7 +10280,7 @@ janin.currency = {
         
         // Update title depending on currency
         document.title = janin.currency.name() + "'s paper wallet generator";
-        document.getElementById("siteTitle").innerHTML = janin.currency.name() + " Paper Wallet Generator";
+        document.getElementById("siteTitle").alt = janin.currency.name() + " Paper Wallet Generator";
         
         // Regenerate a new wallet when not expensive
         ninja.wallets.singlewallet.generateNewAddressAndKey();
