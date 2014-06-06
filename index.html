@@ -9730,18 +9730,21 @@ h1 { margin: 0px; height: 91px; }
 							<a href="?currency=Dogecoin">Dogecoin</a>
 							<a href="?currency=Fastcoin">Fastcoin</a>
 							<a href="?currency=Feathercoin">Feathercoin</a>
+							<a href="?currency=Goodcoin">Goodcoin</a>
 							<a href="?currency=Gridcoin">Gridcoin</a>
 							<a href="?currency=HTMLcoin">HTMLcoin</a>
 							<a href="?currency=Litecoin">Litecoin</a>
 							<a href="?currency=MagicInternetMoney">MagicInternetMoney</a>
 							<a href="?currency=Marscoin">Marscoin</a>
 							<a href="?currency=Megacoin">Megacoin</a>
+							<a href="?currency=Megacoin">Monocle</a>
 							<a href="?currency=Namecoin">Namecoin</a>
 							<a href="?currency=Novacoin">Novacoin</a>
 							<a href="?currency=Peercoin">Peercoin</a>
 							<a href="?currency=Primecoin">Primecoin</a>
 							<a href="?currency=Reddcoin">Reddcoin</a>
 							<a href="?currency=Topcoin">Topcoin</a>
+							<a href="?currency=TreasureHuntCoin">TreasureHuntCoin</a>
 							<a href="?currency=Vertcoin">Vertcoin</a>
 							</div>
 					</div>
@@ -10107,6 +10110,11 @@ h1 { margin: 0px; height: 91px; }
 			<hr/>
 			<h3>Release notes</h3>
 			<p>
+			06.2014 --
+				<ul>
+					<li>Add support for Monocle, TreasureHuntCoin and GoodCoin.</li>
+				</ul>
+			<p>
 			05.2014 --
 				<ul>
 					<li>Add support for Gridcoin and Fastcoin.</li>
@@ -10331,20 +10339,21 @@ janin.currencies = [
     janin.currency.createCurrency ("Dogecoin",   0x1e, 0x9e, "6",    "Q"    , "D74Npoqhwhjw9fShkm5wbj6DD2BJXpmzPj"),
     janin.currency.createCurrency ("Fastcoin",   0x60, 0xe0, "8",    "a"    , "frxe8F7gQdiAVgy4mRXjpXH5vN1wyta1db"),
     janin.currency.createCurrency ("Feathercoin",0x0e, 0x8e, "5",    "N"    , "6dxAP6oacHsove5X2kZPpddcT1Am167YzC"),
-    janin.currency.createCurrency ("Goodcoin",   0x26, 0xa6, "6",    "R"    , ""),
+    janin.currency.createCurrency ("Goodcoin",   0x26, 0xa6, "6",    "R"    , "GM3kAbQGaMVAYk8U3CrVGhSwz1hZaF6gVM"),
     janin.currency.createCurrency ("Gridcoin",   0x25, 0xa5, "6",    "R"    , "FyYkg3xhJVcVzMMw8JKfQaBxA9DAVhivq4"),
-	janin.currency.createCurrency ("HTMLCoin",   0x1e, 0x9e, "6",    "Q"    , "DP4AVuekGEatNmpCL99m46k8THwS9yNVqy"),
+    janin.currency.createCurrency ("HTMLCoin",   0x1e, 0x9e, "6",    "Q"    , "DP4AVuekGEatNmpCL99m46k8THwS9yNVqy"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
     janin.currency.createCurrency ("MagicInternetMoney", 0x30, 0xb0,"6", "T", "LPRqCTYEy53FkEzhRTCauLc7Qq23Z5mxZU"),
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "M8caDttyKt2r7V7WHMMkRZ1jEzxj16fgCn"),
     janin.currency.createCurrency ("Megacoin",   0x32, 0xb2, "6",    "T"    , "MPeVmJHvkXN3caneWCB5zGgtGHRRBSLmWd"),
+    janin.currency.createCurrency ("Monocle",    0x32, 0xb2, "6",    "T"    , "M9CFHZjyCipuKqByD5K1sCHmt7etuCFGsc"),
     janin.currency.createCurrency ("NameCoin",   0x34, 0x80, "5",    "[LK]" , "NASxLK4nt5hgX9wQEny5qPPJ2q4uSGCvT9"),
     janin.currency.createCurrency ("Novacoin",   0x08, 0x88, "5",    "M"    , "4EZMrEA5LnmwtcK5b2JfCq9k5YS4ZVZrtT"),
     janin.currency.createCurrency ("Peercoin",   0x37, 0xb7, "7",    "[LK]" , "PSnwUwknbmqUU1GCcM1DNxcANqihpdt3tW"),
     janin.currency.createCurrency ("Primecoin",  0x17, 0x97, "6",    "P"    , "AbXChfoHyFESePFuVh1xLZdn7Rj1mfD2a4"),
     janin.currency.createCurrency ("Reddcoin",   0x3d, 0xbd, "7",    "[UV]" , "RmAB99NsX6Wbjk5WdqNeEab83y72d7zkqZ"),
     janin.currency.createCurrency ("Topcoin",    0x42, 0xc2, "7",    "V"    , "TmDTsQqqv1LWGw4xjGNiJ7ABwdCenf2BFF"),
-    janin.currency.createCurrency ("TreasureHuntCoin",    0x32, 0xb2, "6",    "T"    , ""),
+    janin.currency.createCurrency ("TreasureHuntCoin",0x32,0xb2,"6", "T"    , "MKnC2upgCNfVMS2phkV8SqGaXUGkn39EaX"),
     janin.currency.createCurrency ("Vertcoin",   0x47, 0xc7, "7",    "W"    , "VkmBz8JJWLP1sVH9sGwc1Fz7o5RtXLW4J5"),
 
     janin.currency.createCurrency ("Testnet Bitcoin", 0x6f, 0xef, "9", "c", null)
