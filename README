@@ -17,10 +17,10 @@ This generator includes the same pseudorandom key generation as bitaddress.org, 
 well as support for creating wallets using "vanity keys", passphrases ("brain wallets")
 or even rolling dice or shuffling cards.
 
-As of March 1, 2014, this generator also includes support and designs for making
+This generator also includes support and designs for making
 Litecoin and Dogecoin wallets.
 
-Use the "verify" tab to decrypt a BIP38 password-encrypted wallet, check the
+Use the "Verify or Decrypt" tab to decrypt a BIP38 password-encrypted wallet, check the
 integrity of any private key, or even duplicate an exising wallet by scanning its
 QR code.
 
@@ -35,7 +35,7 @@ QR code.
 Rendering and printing seems to work best using: 
 
    OS X:     Safari or Chrome or Firefox
-   Windows:  Chrome or Firefox
+   Windows:  Firefox or Chrome
    Linux:    Firefox
 
 When using Chrome on Windows, use the Chrome print dialog. Switching to the
