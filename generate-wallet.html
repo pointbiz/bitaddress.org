@@ -22,14 +22,14 @@
     This software (HTML and JavaScript) is ©Copyright 2014 Canton Becker and bitaddress.org
     and licensed under the MIT license.
     
-    Special thanks to pointbiz/bitaddress.org and Artiom Chilaru/flexlabs.org for significant
-    contributions to this software.
+    Special thanks to pointbiz/bitaddress.org, Artiom Chilaru/flexlabs.org, and Martin Ankerl
+    for significant contributions to this software.
     
-    Portions of this code are copyrighted by their respective authors - see below.
-
     ****************************************************************************************
     ****************************************************************************************
     * Contributions to support the bitcoinpaperwallet.com developers are extremely welcome.
+    * Donations are shared between Canton Becker, Artiom Chilaru (BIP38 implementation)
+    * Martin Ankerl (guilloche patterns), and 'pointbiz' (original bitaddress.org code)
     * Bitcoin Donation Address: 1Pjg628vjMLBvADrPHsthtzKiryM2y46DG
 	* GitHub Repository: 	https://github.com/cantonbecker/bitcoinpaperwallet
     ****************************************************************************************
@@ -39,6 +39,7 @@
     ****************************************************************************************
     ****************************************************************************************
 
+    Portions of this code are copyrighted by their respective authors - see below.
 
 	Notice of Copyrights and Licenses:
 	***********************************
@@ -54,11 +55,11 @@
 	Array.prototype.map		Public Domain
 	window.Crypto			BSD License
 	window.SecureRandom		BSD License
-	window.EllipticCurve		BSD License
+	window.EllipticCurve	BSD License
 	window.BigInteger		BSD License
 	window.QRCode			MIT License
 	window.Bitcoin			MIT License
-	window.Crypto_scrypt		MIT License
+	window.Crypto_scrypt	MIT License
 	ninja.(*)				MIT License				// from bitaddress.org
 	parser.setUA			GPLv2 & MIT				// Browser User Agent detection
 	jsqrcode				Apache License, 2.0		// QR Code scanning from webcam
@@ -87,6 +88,7 @@
 
 <script type="text/javascript">
 
+// Basic initialization and switching for bitcoin vs. alternative cryptocurrencies
 function setCryptoCurrency(toThis) {
 	window.currencyName = toThis;
 	switch (toThis)
@@ -9974,17 +9976,20 @@ Bitcoin.Util = {
 		#generatelabelmovemouse { background-color:#EFFFDD; position: absolute; z-index: 20; top: -10px; left: 0; margin: 0;  padding: 25px 55px; width: 901px; text-align: left;
 		-webkit-box-shadow: #B3B3B3 1px 0px 1px; -moz-box-shadow: #B3B3B3 1px 0px 1px; box-shadow: #B3B3B3 1px 0px 1px; }
 
-		#generate { height: 350px; text-align: left; position: relative; padding: 5px; border: none; line-height: 24px;}
+		#generate { height: 450px; text-align: left; position: relative; padding: 5px; border: none; line-height: 24px;}
 		
 		#generate input { font-size: 10px; }
 		
+		#papergenerate1 { font-weight: bold; color: #006806; }
+		.helpDivider { display: block; border-bottom: 1px dotted #999999; margin: 10px 0; }
+		.helpTitle { color: #029B15; font-size: 120%;}
 		#generatelabelbitcoinaddress { font-size: 90%;}
 				
 		#seedpoolarea { display: none; }
 		#seedpooldisplay {  font-family: monospace; font-size: 12px; width: 680px; padding: 0 0 0 0; word-wrap: break-word; color: #FF9637; line-height: 16px;}
 
 		#seedSkipper { font-size: 11px; text-align: center; line-height: 14px;}
-		.seedpoint { width: 12px; height: 12px; display: block; border-radius: 6px; background-color: #EAFEC8; border: 1px solid #FF970A; position: absolute; z-index: 10; }
+		.seedpoint { width: 12px; height: 12px; display: block; border-radius: 6px; background-color: #EAFEC8; border: 1px solid #EEEEEE; position: absolute; z-index: -10; }
 		#generate #mousemovelimit { font-size: 16px; color: #FFF; }
 
 		#rightArea { float: right; width: 170px; }
@@ -10006,6 +10011,9 @@ Bitcoin.Util = {
 
 		#calibratearea .calibratesvg { width: 1010px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
 		#calibratearea #calibrationinfo { clear: both; text-align: center; color: #990000; padding: 10px 0;}
+		
+		#backarea .commands, #paperarea .commands { height: 120px; } /* identical so back and front line up */
+			
 		#backarea .backsvg { width: 1010px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
 
 		#printeradjust { color: #060; font-size: 12px; }
@@ -10014,6 +10022,7 @@ Bitcoin.Util = {
 		#printeradjust a, #printeradjust a:hover {text-decoration: none;}
 		#printeradjust input { text-align: center; margin: 0 2px;}
 		
+		#detailwallet { margin-left: 30px; }
 		
 		#paperarea { min-height: 120px; display: none; }
 		#paperarea .keyarea { border: 2px solid #f7931a; border-top: 0; }
@@ -10024,12 +10033,21 @@ Bitcoin.Util = {
 		#paperarea .artwallet .papersvg { width: 1010px; height: 331px; border: 0; margin: 0; padding: 0; left: 0; }
 		#paperarea .artwallet .qrcode_public { top: 120px; left: 41px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                       padding: 5px 5px 2px 5px; } 
-		#paperarea .artwallet .qrcode_private { top: 105px; left: 827px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
+		#paperarea .artwallet .qrcode_private { top: 103px; left: 828px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; 
 		                                        padding: 5px 5px 2px 5px; }
+
+		#paperarea .artwallet .btcaddress, #paperarea .artwallet .dupbtcaddress, #paperarea .artwallet .btcprivwif, #paperarea .artwallet .btcencryptedkey, #paperarea .artwallet .dupbtcprivwif, #paperarea .artwallet .dupbtcencryptedkey, #paperarea .artwallet .wallettype {
+		-webkit-stroke-width: 2px;
+      	-webkit-stroke-color: #FFFFFF;
+      	-webkit-fill-color: #FFFFFF;
+      	text-shadow: 1px 1px 1px white;
+		}
+
+
 		#paperarea .artwallet .btcaddress  
 		{
 		    position: absolute; top: 275px; left: 40px; z-index: 100; background-color: transparent;
-		    color: #1739ad; margin: 0;
+		    color: #000000; margin: 0;
 				-webkit-transform-origin:top left; 
 				/* -webkit-transform:rotate(-90deg); */
 				-moz-transform-origin:top left;    
@@ -10045,7 +10063,7 @@ Bitcoin.Util = {
 		#paperarea .artwallet .dupbtcaddress  
 		{
 		    position: absolute; top: 45px; left: 40px; z-index: 100; background-color: transparent;
-		    color: #1739ad; margin: 0;
+		    color: #000000; margin: 0;
 				/* -webkit-transform-origin:top left; */
 				-webkit-transform:rotate(-180deg); 
 				/* -moz-transform-origin:top left; */   
@@ -10110,6 +10128,30 @@ Bitcoin.Util = {
 				/* transform-origin:top left; */    
 				transform:rotate(90deg);
 		}
+
+		/* Back side */
+		#backText { position: absolute; margin-top: 73px; left: 260px; width: 600px; font-size: 8px; }
+		#backText #backPaperWallet { position: absolute; margin-left: 202px; color: #fb9300; font-size: 11px; text-transform: uppercase; font-style: italic; }
+		#backText #backAmount { position: absolute; margin-left: 421px; margin-top: 7px; color: #666666;}
+		#backText #backDate { position: absolute; margin-left: 558px; margin-top: 7px; color: #666666; }
+		#backText #backLines { position: absolute; margin-left: 416px; margin-top: 1px; }
+		#backText #backLines p { border-bottom: 1px dotted #999; line-height: 11px; width: 174px;}
+		#backText #backNotes { position: absolute; margin-left: 421px; margin-top: 105px; color: #666666; }
+		#backText #backLongText { position: absolute; margin-left: 200px; width: 210px; margin-top: 16px; font-size: 8px;}
+		#backText #backLongText ul { margin: 0 0 0 14px; padding: 0; list-style: square outside none; }
+		#backText #backLongText li { margin: 0; padding: 0 0 3px 0; }
+		#backText #backLongText li strong { font-weight: 400; color: red; }
+		
+		#backText #backSeal { position: absolute; margin-top: 53px; margin-left: 10px; z-index: 1100; display: none;}
+		#backText #backSealBig { position: absolute; margin: 18px 0 0 0; padding: 0 0 0 0; z-index: 1200; width: 105px; 
+								  text-shadow: rgb(201, 251, 135) 2px 2px 0px, rgb(156, 156, 156) 4px 4px 0px;
+								  text-align: center; font-size: 28px; color: #000000;
+								  font-weight: bold; font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif; }
+		#backText #backSealSmall { position: absolute; margin: 53px 0 0 0; padding: 0 0 0 0; z-index: 1200; width: 105px; 
+		font-family: ubuntu_mono_bold, Arial, Helvetica, sans-serif; text-align: center; font-size: 10px; letter-spacing: .1em; color: #22461b;
+		text-shadow: rgb(255, 255, 255) 1px 1px 1px }
+		#backText #backCustomMessageEntry { background-color: #EEE; width: 195px; height: 150px; font-size: 10px; } 
+		#backText #backCustomMessage { display: none; position: absolute; overflow: hidden; margin-left: 210px; width: 195px; margin-top: 20px; font-size: 11px; line-height: 15px; height: 150px; }
 
 		.nicerButton { /* thanks http://www.cssbuttongenerator.com */
 			-moz-box-shadow:inset 0px 1px 0px 0px #c1ed9c;
@@ -10242,28 +10284,30 @@ Bitcoin.Util = {
 		#detailpubkey { width: 590px; }
 		#detailbip38commands { display: none; padding-top: 5px; }	
 		.answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
+
+		#paperadvancedcommands { float: left; font-size: 12px; margin-left: 10px; padding: 4px; border: 1px dotted #CCC;}
 		
 		#paperencryptstatus { margin-top: 5px; font-size: 12px; line-height: 20px; }
 			
 		#paperencryptpassphrase {
-			background-color: #FF9605;
+			background-color: #0086a6;
 			color: #FFF;
 			font-weight: bold;
-			padding: 5px 0;
+			padding: 4px;
 			font-size: 12px;
-			margin: 4px;
+			margin-top 4px;
 		}
 
 		#suppliedPrivateKey {
-			width: 420px;
+			width: 440px;
 			font-size: 11px;
 		}
 
 		@media screen 	
 		{
-			#tagline { margin: 10px 0 0 250px; font-style: italic; font-size: 18px; color: #666; }
+			#tagline { margin: 10px 0 0 310px; font-style: italic; font-size: 18px; color: #666; }
 			#tagline span {padding-left: 10px; font-size: 11px; color: #999;}
-			#tagsite { margin: 5px 0 20px 252px; font-size: 14px; color: #666; }
+			#tagsite { margin: 5px 0 20px 310px; font-size: 14px; color: #666; }
 			
 
 			#tagwarning { position: absolute; left: 250px; top: 25px; font-size: 12px; color: red; }
@@ -10288,7 +10332,7 @@ Bitcoin.Util = {
 			.commands span.right { float: right; }
 			.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 			
-			.commands p.instructions { width: 700px; float: left; font-size: 13px; }
+			.commands p.instructions { width: 650px; float: left; font-size: 13px; }
 			
 			#detailcommands { padding: 10px 0; }
 			#detailcommands span { padding: 0 10px; }
@@ -10335,12 +10379,14 @@ Bitcoin.Util = {
 			#detailarea .privqr .item { width: 285px; }
 			#detailarea .notes { display: none; }
 			.faq { display: none; }
+			#backCustomMessageContent { display: block !important; }
+			#backCustomMessageEntry { display: none; }
 		}
 	</style>
     
 </head>
 <body onclick="SecureRandom.seedTime();" onmousemove="ninja.seeder.seed(event);" ontouchmove="ninja.seeder.seed(event);" 
-	  onLoad="setDesign(ninja.getQueryString()['design'], true); guessPrinterSettings(); ">
+	  onLoad="setDesign(ninja.getQueryString()['design'], true, ninja.getQueryString()['lang']); guessPrinterSettings(); ">
 	<div id="busyblock">
 		<div class="background"></div>
 		<div class="dialog dialog-narrow">
@@ -10364,7 +10410,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Wallet Generator <span>Updated March 1, 2014</span></div>
+			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated June 25, 2014</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
 			<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -10379,11 +10425,11 @@ Bitcoin.Util = {
             </div>
             
 			<div class="tab selected" id="landwallet" onClick="ninja.tabSwitch(this);">Instructions</div>
-			<div class="tab" id="calibratewallet" onClick="ninja.tabSwitch(this);">1. Calibrate Printer</div>
+			<div class="tab" id="calibratewallet" onClick="ninja.tabSwitch(this);">1. Calibrate</div>
 			<div class="tab" id="paperwallet" onClick="ninja.tabSwitch(this);">2. Print Front</div>
 			<div class="tab" id="backwallet" onClick="ninja.tabSwitch(this);">3. Print Back</div>
-			<div class="tab" id="foldwallet" onClick="ninja.tabSwitch(this);">4. Cut, Fold, &amp; Seal</div>
-			<div class="tab" id="detailwallet" onClick="ninja.tabSwitch(this);">&#x2713; Validate</div>
+			<div class="tab" id="foldwallet" onClick="ninja.tabSwitch(this);">4. Cut, Fold &amp; Seal</div>
+			<div class="tab" id="detailwallet" onClick="ninja.tabSwitch(this);">&#x2713; Validate or Decrypt</div>
 		</div>
 
 
@@ -10401,11 +10447,11 @@ Bitcoin.Util = {
   
                   <div id="seedSkipper">
                       <a href="#" class="nicerButton" style="width: 100px;" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a><br />
-                      <p>You may skip this step if you do not plan to use the random key generator.</p>
+                      <p>You may safely skip this step if you do not need to use the random wallet generator.</p>
                   </div>
                 </div>
             	
-                Secure wallet generation requires that you provide some "entropy", or random data.<br />
+                Secure random number generation requires that you provide some unpredictable data, also called "entropy".<br />
                 <blink>Please move your mouse around and/or type random keystrokes into this box:</blink>
             	<input type="text" size="4" id="generatekeyinput" onKeyPress="ninja.seeder.seed(event);" />
                 
@@ -10426,11 +10472,8 @@ Bitcoin.Util = {
 				<div class="instructionsarea">
 					<div class="notes">
 						<h1><span id="instructions0">Welcome! Let's print out a beautiful and secure wallet for your <script type="text/javascript">document.write(window.currencyName);</script>s.</span></h1>
-						                        
-						<span id="instructions1"><em>Here's an overview of what will happen, step by step.</em></span>
-
-						<br /><br />
-
+						<span id="instructions1"><em>Here's an overview of what will happen, step by step.</em></span> <br>
+						<br>
 						<div style="float: right; width: 410px; padding-left: 30px; margin-left: 20px; border-left: 4px solid #EEE;">
 
 
@@ -10462,60 +10505,63 @@ Bitcoin.Util = {
 						  }
 						</script>
                         </li>
-                        <li><strong>?</strong> Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;">Ubuntu LiveCD</a>?</li>
+                        <li><strong>?</strong> Are you using a secure operating system installation guaranteed to be free of spyware and viruses, for example, the <a href="#" onClick="window.open('https://bitcoinpaperwallet.com/ubuntu-linux-live-bootable-cd/', '_blank'); return false;">Ubuntu LiveCD?</a></li>
                         </ul>
                         
                         <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips and answers to frequently asked questions &raquo;</a></p>
                         
-						<span><a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;" class="nicerButton" style="width: 400px;">Order hologram stickers / zip bags / Ubuntu CD &raquo;</a></span>
-
                         </div>
-
 						<span id="instructions2">
-
-
-						<div style="float: left;">
-                        <img src="images/flags.png" width="65" height="25" alt="Flags" style="padding-right: 20px; padding-top: 5px;">
-
-						</div>
-                        <p style="margin-top: 0;"><strong>Change your wallet design, language, or cryptocurrency?</strong>
-    					<select id="designPicker" onChange="setDesign(this.value, false);" style="font-size: 12px;">
-                  		  <option value="default">--- Bitcoin Wallet Designs ---</option>
-                          <option value="default">Standard Bitcoin Design (English)</option>
-                          <option value="holiday">Holiday / Christmas Design (English)</option>
-                          <option value="chinese-new-year">Chinese New Year (Simplified Chinese)</option>
-                          <option value="traditional-chinese-new-year">Chinese New Year (Traditional Chinese)</option>
-                          <option value="chinese">Standard (Simplified Chinese)</option>
-                          <option value="traditional-chinese">Standard (Traditional Chinese/zh-tw)</option>
-                          <option value="czech">Standard (Czech)</option>
-                          <option value="dutch">Standard (Dutch)</option>
-                          <option value="french">Standard (French)</option>
-                          <option value="german">Standard (German)</option>
-                          <option value="italian">Standard (Italian)</option>
-                          <option value="portuguese">Standard (Portuguese)</option>
-                          <option value="russian">Standard (Russian)</option>
-                  		  <option value="spanish">Standard (Spanish)</option>
-                  		  <option value="default">--- Other Cryptocurrencies ---</option>
-                  		  <option value="alt-litecoin">Litecoin</option>
-                  		  <option value="alt-dogecoin">Dogecoin</option>
-                  		  <option value="alt-testnet">"Testnet"</option>
-                        </select>
+                        <p style="margin-top: 0;"><strong>Change your wallet's design, language, or cryptocurrency here:</strong>
+                          <select name="designPicker" id="designPicker" style="font-size: 12px;" onChange="setDesign(this.value, false);">
+                            <option value="default">Bitcoin</option>
+                            <option value="holiday">Holiday / Christmas Bitcoin (English)</option>
+                            <option value="chinese-new-year">Chinese New Year Bitcoin (Simplified Chinese)</option>
+                            <option value="traditional-chinese-new-year">Chinese New Year Bitcoin (Traditional Chinese)</option>
+                            <option value="hobbit">"Hobbitcoin" :)</option>
+                            <option value="custom">Your own custom Bitcoin design</option>
+                            <option value="default">--- Other Cryptocurrencies ---</option>
+                            <option value="alt-litecoin">Litecoin LTC</option>
+                            <option value="alt-dogecoin">Dogecoin DOGE</option>
+                            <option value="counterparty">Counterparty XCP</option>
+                            <option value="alt-testnet">"Testnet"</option>
+                          </select>
+                          <select name="langPicker" id="langPicker" style="font-size: 12px; display: inline;" onChange="setDesign('default', false, this.value);">
+                            <option value="english">English</option>
+                            <option value="chinese">Chinese</option>
+                            <!-- <option value="traditional-chinese">Traditional Chinese</option> -->
+                            <option value="czech">Czech</option>
+                            <option value="dutch">Dutch</option>
+                            <option value="french">French</option>
+                            <option value="german">German</option>
+                            <option value="hebrew">Hebrew</option>
+                            <option value="italian">Italian</option>
+                            <option value="japanese">Japanese</option>
+                            <option value="portuguese">Portuguese</option>
+                            <option value="russian">Russian</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="swedish">Swedish</option>
+                          </select>
                         </p>
-                        <b>Step 1: Calibrate Printer</b><br />
-                        Before printing out a wallet you'll need to "calibrate" your output using the <em>zoom</em> and <em>horizontal&nbsp;shift</em> adjustments to accommodate your particular browser / printer combination. Without adjustment, your wallet may print out too small or with a misaligned reverse side.</span>
-						<br /><br />
-						<span id="instructions3"><b>Step 2: Print Front</b><br />
-                        Next you will print out the front side of your wallet. A public address and private key will automatically be generated, or you can supply your own key by rolling dice, shuffling cards, etc. You may also duplicate an existing paper wallet or provide a "vanity" address if you have one. If you are printing several wallets, it's possible to <a href="https://bitcoinpaperwallet.com/printing-and-paper-tips/" target="_blank">print two per page</a>.</span>
-						<br /><br />	
-						<span id="instructions4"><b>Step 3: Print Back</b><br />
-                        You will put the same page back in your printer (but flipped over) to print out the back side of your wallet. This isn't just for good looks: the back side design includes additional tamper-resistant safeguards.</span>
-						<br /><br />	
-						<span id="instructions5"><b>Step 4: Cut, Fold, Seal &amp; Fund</b><br />
-                        Find your scissors! The final step is to cut out your wallet, fold it, and seal it  with tamper-evident <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;">hologram stickers</a> or at least opaque (light-blocking) tape. Now you're ready to transfer funds from your online holdings to your new wallet.</span>
-                        <br /><br />
-						<span><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second tutorial video on YouTube &raquo;</a></span>
-                                                
-					</div>
+                        <strong>Step 1: Calibrate Printer</strong><br>
+Before printing out a wallet you may need to calibrate your output using the <em>zoom</em> and <em>horizontal&nbsp;shift</em> adjustments to account for your particular browser and printer combination. Otherwise, your wallet's back side may not line up with the front side.</span> <br>
+<br>
+<span id="instructions3"><strong>Step 2: Print Front</strong><br>
+Next you will print out the front side of your wallet. The public address and private key will be random-generated, <em>or</em> you can supply your own key by rolling dice, shuffling cards, etc. You may also duplicate an existing paper wallet or provide a "vanity" address if you have one. Tip: If you are printing several wallets, it's possible to <a href="https://bitcoinpaperwallet.com/printing-and-paper-tips/" target="_blank">print two per page</a>.</span> <br>
+<br>
+<span id="instructions4"><strong>Step 3: Print Back</strong><br>
+Flip the front page over and put it back in your printer. This isn't just for good looks! The reverse design includes important tamper-resistant safeguards.</span> <br>
+<br>
+<span id="instructions5"><strong>Step 4: Cut, Fold, Seal &amp; Fund</strong><br>
+Find your scissors! The final step is to cut out your wallet, fold it, and seal it  with tamper-evident <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;">hologram stickers</a> or at least opaque (light-blocking) tape. Now you're ready to transfer funds from your online holdings to your new wallet.</span> <br>
+<br>
+<span><a href="http://www.youtube.com/watch?v=a47rrYBWjWQ" target="_blank" class="nicerButton" style="width: 400px;">90 second tutorial video on YouTube &raquo;</a></span>
+<br /><br />
+						<span><a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;" class="nicerButton" style="width: 400px; margin-bottom: 10px;">Order hologram stickers / zip bags / Ubuntu CD &raquo;</a></span>
+
+
+
+</div>
 				</div>
 			</div><!-- end landarea -->
                     
@@ -10524,9 +10570,11 @@ Bitcoin.Util = {
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">The calibration step helps line up the front and back sides of your printout. <a href="#" onClick="doPrint('calibration');">Print out this page</a> in LANDSCAPE (wide) format. Based on the results, adjust the "zoom" and "horizontal shift" until your printed ruler (1) approximates a real ruler, and (2) is horizontally centered, leaving approximately equal margins on the left and right sides of the page.<br />
+						<p id="calibrateinstructions" class="instructions">The calibration step helps line up the front and back sides of your printout. <a href="#" onClick="doPrint('calibration');">Print out this page</a> in LANDSCAPE FORMAT (wide instead of tall.) Based on the results, adjust the "zoom" and "horizontal shift" in the upper-right corner of this page and keep printing tests until:<br /><br />
+                        (1) Your printed ruler more or less measures like a real ruler. (REDUCE the zoom to increase the ruler size.)<br /><br />
+                        (2) Your printed ruler is horizontally centered on the page, leaving approximately equal margins on the left and right sides of the page. (INCREASE the horizontal shift to push the ruler to the right.)<br />
                         <br />
-                        What settings worked best for you? <a href="https://bitcoinpaperwallet.com/feedback/">Feedback form &raquo;</a></p>
+                        What settings worked best for you? <a href="https://bitcoinpaperwallet.com/feedback/" target="_blank">Feedback form &raquo;</a></p>
 						<span class="print">
                         <a href="#" class="nicerButton" onClick="doPrint('calibration');">Print Calibration Test</a>
                         </span>
@@ -10553,33 +10601,34 @@ Bitcoin.Util = {
                     </div>
                     
                     <div id="keyButtons" style="display: block; float: left;">
-                    <input type="button" id="papergenerate" value="Random-generate new keys" onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value); printCounter=0;" />
+                    <input type="button" id="papergenerate1" value="RANDOM GENERATE NEW WALLET" onClick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value); printCounter=0;" />
 
-                    <input type="button" id="papergenerate" value="Supply my own private key, brain wallet, dice rolls, etc." onClick="ninja.wallets.paperwallet.toggleVanityField(true);" />
+                    <input type="button" id="papergenerate2" value="Enter my own key, dice rolls, brain wallet, etc..." onClick="ninja.wallets.paperwallet.toggleVanityField(true);" />
                     </div>
 
                 <div id="selfinfo" style="display: none; position: absolute; top: 15px;">
 
-                   <b>If you are making a paper wallet for a <a href="https://en.bitcoin.it/wiki/Vanitygen" target="_blank">vanity address</a>, or duplicating an existing paper wallet:</b>
+                   <b class="helpTitle">If you are making a paper wallet for a <a href="https://en.bitcoin.it/wiki/Vanitygen" target="_blank">vanity address</a>, or duplicating an existing paper wallet:</b>
                    <br />
                    <br />
                    In this case, simply enter your private key in Wallet Import Format (or scan it using the "validate" feature on this web page.) WIF keys always begin with the number 5 and look something like this: '5JnwJNC7q3...' <em>The public address, e.g. '1vanityABC456...' is automatically calculated using the private key, so you only need to provide the private key.</em>
-                   <br />
-                   <br />
                    
-                   <b>If you want to roll dice or shuffle a deck of cards to generate a key:</b>
+                   <div class="helpDivider"></div>
+                   
+                   <b class="helpTitle">If you want to roll dice or shuffle a deck of cards to generate a key:</b>
                    <br />
                    <br />
-                   Maybe you don't trust that this software (or computers in general) can generate sufficiently random numbers. In this case, you can supply your own random data points from virtually any source. For example, you can roll a six sided die at least 62 times and enter each roll in sequence, e.g. '15249385...' Or, you can mix up a deck of 52 playing cards (after thoroughly shuffling it at least 10 times) and enter at least the top 31 cards in this format: 5S-10H-AC-... (where 5S = 5 of Spades, 10H = 10 of Hearts, AC = Ace of Clubs, etc.)
+                   Maybe you don't trust that this software (or computers in general) can generate sufficiently random numbers. In this case, you can supply your own random data points from virtually any source. For example, you can roll a six sided die at least 62 times and enter each roll in sequence, e.g. '<strong>15249385616</strong>...' Or, you can mix up a deck of 52 playing cards (shuffle at least 10 times!) and enter at least the top 31 cards in this format: <strong>5S10HAC</strong>-... (where <strong>5S</strong> = 5 of Spades, <strong>10H</strong> = 10 of Hearts, <strong>AC</strong> = Ace of Clubs, etc.)
                    <br />
                    <br />
                    <em>No special formatting is required</em>. Just type in a great deal of (truly) random text from any source, and whatever you supply will be SHA256 hashed and converted into a private key and public address.
-                <br />
+
+                   <div class="helpDivider"></div>
+
+                   <b class="helpTitle">If you want to make a paper wallet which can <em>also</em> be accessed using a passphrase (AKA a "brain wallet"):</b>
                    <br />
-                   <b>If you want to make a paper wallet which can <em>also</em> be accessed using a passphrase (AKA a "brain wallet"):</b>
                    <br />
-                   <br />
-                   You can make a so-called "brain wallet" by supplying a VERY secure passphrase like '1852 Adobe Cloud SMASH fuzzy steamzonk'. <em>Be extremely careful doing this because a wallet generated using an insecure passphrase is virtually guaranteed to have its balance stolen within minutes of receiving funds!</em>.
+                   You can make a so-called "brain wallet" by supplying a VERY secure passphrase like '1852 Adobe Cloud SMASH fuzzy steamzonk'. <em>Be extremely careful doing this because a wallet generated using an insecure passphrase is virtually guaranteed to have its balance stolen!</em>.
                    <br />
                    <br />The resulting paper wallet will still have an ordinary crypto-looking private key and public address, but you will <em>also</em> be able to retrieve your wallet contents by entering your passphrase into the 'verify' tab of this service or a similar service such as <a href="https://brainwallet.org" target="_blank">brainwallet.org</a>.<br /><br />
                     <strong>Note:</strong> supplying a brain wallet passphrase is different from BIP38-encrypting your wallet with a passphrase.
@@ -10589,20 +10638,22 @@ Bitcoin.Util = {
                 </div>
                     
                     <div id="supplyKeys" style="display: none; float: left;">
-                    <p style="padding: 0; margin: 0;"><input placeholder="Enter WIF private key OR passphrase, dice rolls, shuffled cards, etc." autocomplete="off" id="suppliedPrivateKey" name="suppliedPrivateKey" spellcheck="false" style="font-family: ubuntu_mono_bold, 'Courier New', Courier, monospace;" />&nbsp;<input type="button" id="papergenerate" value="Apply &raquo;" onClick="testAndApplyVanityKey();" />
+                    <p style="padding: 0; margin: 0;"><input placeholder="Enter WIF private key (or brain wallet, dice rolls, shuffled cards, etc.)" autocomplete="off" id="suppliedPrivateKey" name="suppliedPrivateKey" spellcheck="false" style="font-family: ubuntu_mono_bold, 'Courier New', Courier, monospace;" />&nbsp;<input type="button" id="papergenerate3" value="Apply &raquo;" onClick="testAndApplyVanityKey();" />
                     </p>
-                    <p style="margin: 10px 0 0 0; padding:0; font-size: 12px">
-                    <a href="#" onClick="ninja.wallets.paperwallet.toggleVanityField(false);">&laquo; Back to the automatic generator</a>
-                    |
-                    <a href="#" onClick="document.getElementById('selfinfo').style.display='block'; return(false);"><strong>HELP!</strong> (Explain how to use this feature.)</a>
+                    <p style="margin: 10px 0 0 0; padding:0;">
+                    <div style="float: right;">
+                    <input type="button" id="papergenerate4" value="&laquo; Back to random generator" onClick="ninja.wallets.paperwallet.toggleVanityField(false);" />
+                    </div>
+                    
+                    <div style="float: left; font-size: 12px;"><a href="#" onClick="document.getElementById('selfinfo').style.display='block'; return(false);"><strong>Help me!</strong> (How to enter keys, roll dice...)</a></div>
                     </p>
                     </div>
 
-					<div id="paperadvancedcommands" class="row extra" style="float: left">
-						<span><label id="paperlabelencrypt" for="paperencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onChange="ninja.wallets.paperwallet.toggleEncryptSettings(this.checked);" /></span><br />
+					<div id="paperadvancedcommands">
+						<input type="checkbox" id="paperencrypt" onChange="ninja.wallets.paperwallet.toggleEncryptSettings(this.checked);" />BIP38 Encrypt
 						<div id="paperencryptstatus" class="hide">
-							<span><span id="paperencryptpassphrase"></span></span><br />
-							<div style="text-align: center;"><a onClick="ninja.wallets.paperwallet.toggleEncryptSettings(true);">Change passphrase</a></div>
+							<div id="paperencryptpassphrase"></div>
+                            <input type="button" value="Change Passphrase" onClick="ninja.wallets.paperwallet.toggleEncryptSettings(true);" style="font-size: 10px;">
 						</div>
 					</div>
 					
@@ -10611,17 +10662,17 @@ Bitcoin.Util = {
 						<div class="dialog instructionsarea">
                         	<p style="float: right;"><a href="https://bitcoinpaperwallet.com/wallet-tutorial-add-withdraw-funds/" target="_blank">Help / Instructions &raquo;</a></p>
 							<h2>About "BIP38" Encryption</h2>
-							<p>
-								The advantage to encrypting your paper wallet is that if your paper wallet is stolen or otherwise exposed, the balance on the wallet is safe unless the passphrase used to encrypt the wallet is guessed. However, if you encrypt your private key with BIP38 and you lose your passphrase, it will be impossible for you to recover the funds you have sent to this wallet.</p>
-                            <p>Also, note that not many <script type="text/javascript">document.write(window.currencyName);</script> wallet applications or web services are able to import BIP38 private keys. In this case, you will have to use the "Validate" feature on this webpage to extract the unencrypted Wallet Import Format (WIF) key as an intermediate step before sweeping the balance.</p>
+							<p>The advantage with BIP38 is that if your paper wallet is stolen or compromised, the private key cannot be recovered without your password. <em>Even a very short password adds a strong degree of protection</em>. However, if you encrypt your private key with BIP38 and you lose your password, it will be impossible for you to recover the funds you have sent to this wallet.</p>
+                            <p>Also, note that not all <script type="text/javascript">document.write(window.currencyName);</script> wallet applications or web services are able to import or "sweep" BIP38 encrypted keys. In this case, you will have to use the <strong>Validate or Decrypt</strong> feature on this webpage to reveal the unencrypted Wallet Import Format (WIF) key as an intermediate step before sweeping the balance.</p>
                             
                             <p style="color: red;">WARNING: Before sending any funds to a BIP38-encrypted wallet, first do a test make sure you are able to decrypt the printed private key back to ordinary WIF format.</p>
-							<p>In short, if you do not have a strong understanding of the BIP38 encryption and decryption workflow, <strong>click cancel</strong>, print your paper wallet out without encryption, and keep it safe the same way you would jewels or cash.
+							<p>Unless you have a strong understanding of the BIP38 encryption and decryption workflow, <strong>click cancel</strong>, print your paper wallet without BIP38, and just keep it safe and hidden like you would jewels or cash.
 							</p>
 							<p>
 								<button id="paperbip38activate" disabled onClick="ninja.wallets.paperwallet.toggleEncryptSettings(false);">TURN ON BIP38 ENCRYPTION</button>
-								<label id="paperlabelBIPpassphrase" for="paperpassphrase"><strong>using passphrase:</strong></label>
-								<input type="text" id="paperpassphrase" autocomplete="off" onKeyUp="document.getElementById('paperbip38activate').disabled = this.value.length < 3" />
+								<label id="paperlabelBIPpassphrase" for="paperpassphrase"><strong>using password / passphrase:</strong></label>
+								<input type="text" id="paperpassphrase" autocomplete="off" onKeyUp="document.getElementById('paperbip38activate').disabled = this.value.length < 3" 
+                                onChange="this.value = this.value.toString().replace(/^\s+|\s+$/g, '');"/>
 							</p>
 							<p><button onClick="ninja.wallets.paperwallet.toggleEncryptSettings(false, true);">CANCEL</button></p>
 						</div>
@@ -10642,17 +10693,104 @@ Bitcoin.Util = {
 			<div id="backarea" class="walletarea">
 				<div class="commands"> 
 					<div id="backcommands">
-						<p id="backinstructions" class="instructions highlighted"><strong>Reload the front page into your printer first.</strong> Note: The back design is intentionally larger than the front side. (Use the front side as your guide when cutting to trim off the excess.)</p>
-						<span class="print">
-                        <a href="#" class="nicerButton" onClick="doPrint();">Print Wallet Back</a>
-                        </span>
-					</div>
+						<p id="backinstructions" class="instructions highlighted"><strong>Reload the front page into your printer first.</strong> Note: The back design is intentionally larger than the front side. Use the front side as your guide when cutting out your wallet.</p>			
+                                   
+                        <span class="print"><a href="#" class="nicerButton" onClick="doPrint();">Print Wallet Back</a></span>
                     <br clear="all" />
 				</div>
-                
+
+				<div id="backTextControl" style="font-size: 12px;">
+                   <div style="float: left; width: 375px; text-align: right;">
+                  Denomination: 
+                  <select id="backDenominationSelect" onChange="setDenomination(this.value);">
+                    <option value="">*** None ***</option>
+                    <option value="10 BTC">10 BTC</option>
+                    <option value="5 BTC">5 BTC</option>
+                    <option value="2 BTC">2 BTC</option>
+                    <option value="1 BTC">1 BTC</option>
+                    <option value="10000 mBTC">10000 mBTC</option>
+                    <option value="5000 mBTC">5000 mBTC</option>
+                    <option value="1000 mBTC">1000 mBTC</option>
+                    <option value="500 mBTC">500 mBTC</option>
+                    <option value="200 mBTC">200 mBTC</option>
+                    <option value="100 mBTC">100 mBTC</option>
+                    <option value="50 mBTC">50 mBTC</option>
+                    <option value="20 mBTC">20 mBTC</option>
+                    <option value="10 mBTC">10 mBTC</option>
+                    <option value="5 mBTC">5 mBTC</option>
+                    <option value="1 mBTC">1 mBTC</option>
+                    <option value="50000 &mu;BTC">50000 &mu;BTC</option>
+                    <option value="10000 &mu;BTC">10000 &mu;BTC</option>
+                    <option value="5000 &mu;BTC">5000 &mu;BTC</option>
+                    <option value="1000 &mu;BTC">1000 &mu;BTC</option>
+                    <option value="500 &mu;BTC">500 &mu;BTC</option>
+                    <option value="100 &mu;BTC">100 &mu;BTC</option>
+                    <option value="other">Other...</option>
+                  </select>
+                  <div id="backDenominationOther" style="display: none;">
+                  <input id="backDenominationOtherAmount" maxlength="5" size="6" value="1" onChange="setDenomination('other');">
+                  <select id="backDenominationOtherUnit" onChange="setDenomination('other');">
+                  	<option value="BTC">BTC</option>
+                  	<option value="mBTC">mBTC</option>
+                  	<option value="&mu;BTC">&mu;BTC</option>
+                  	<option value="bits">bits</option>
+                  </select>
+                  </div><!-- end backDenominationOther -->
+                              </div>
+                              
+                        <div style="float: left; margin: 0 0 0 80px;">
+                       Message: 
+                       <select id="backTextChooser" onChange="
+                       		var toggleBackLongText = (this.value == 'instructions' ? 'block' : 'none'); 				
+                       		var toggleBackCustomMessage = (this.value == 'message' ? 'block' : 'none'); 				
+                           document.getElementById('backLongText').style.display=toggleBackLongText;
+                           document.getElementById('backCustomMessage').style.display=toggleBackCustomMessage;">
+                            <option value="instructions">Instructions</option>
+                            <option value="message">Write your own...</option>
+                            <option value="">Blank</option>
+                       </select>
+
+                        </div>
+                        
+                        <div style="float: left; margin: 0 0 0 50px;">
+                           <input type="checkbox" checked id="backTextCheckbox2" 
+                   			 onClick="var toggleStatus = (this.checked ? 'block' : 'none'); 				
+                              document.getElementById('backAmount').style.display=toggleStatus;
+                              document.getElementById('backDate').style.display=toggleStatus;
+                              document.getElementById('backNotes').style.display=toggleStatus;
+                              document.getElementById('backLines').style.display=toggleStatus;">
+                              Include notes area
+                         </div>
+                </div><!-- backTextControl -->
+			</div><!-- end commands -->
+
+                <div id="backText">
+					<div id="backSeal"><p id="backSealBig">1000</p><p id="backSealSmall">mBTC</p><img src="images/front-seal.png" width="105" height="78"></div>
+                    
+                    <div id="backPaperWallet"></div>
+                	<div id="backAmount"></div>
+                	<div id="backDate"></div>
+                	<div id="backNotes"></div>
+                    <div id="backLines"><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
+                    
+                    <div id="backCustomMessage">
+                    	<div id="backCustomMessageContent" style="display: none;"></div>
+                        <textarea id="backCustomMessageEntry" placeholder="Enter message here" onChange="document.getElementById('backCustomMessageContent').innerHTML=this.value.replace(/(?:\r\n|\r|\n)/g, '<br />');"></textarea>
+                    </div>
+                    <div id="backLongText">
+                      <ul>
+                          <li id="backInst1"></li>
+                          <li id="backInst2"></li>
+                          <li id="backInst3"></li>
+                          <li id="backInst4"></li>
+                      </ul>
+                  </div><!-- end backLongText -->
+                </div><!-- end backText -->
+
 				<img id="backsvg1" class="backsvg" src="./images/back-300dpi.jpg">
-                
 			</div><!-- end backarea -->
+
+
 
 
 
@@ -10667,21 +10805,21 @@ Bitcoin.Util = {
                         <div style="float: right; margin: 0 0 20px 30px; padding-left: 30px; border-left: 4px solid #eee;">
                          <img src="images/finished-folds.png" width="355" height="144" alt="Folding Diagram"><br /><br />
                          <img src="images/finished-sample.jpg" width="400" height="203" alt="Sample Wallet"><br /><br />
-                         <img src="images/finished-sample-sealed.jpg" width="400" height="203" alt="Sealed Wallet">
+                         <img src="images/finished-sample-bagged.jpg" width="400" height="203" alt="Sealed Wallet">
 						</div>
 
-						<span id="instructions22">Cut out your wallet <em>using the dotted lines on the front as a guide, not the back!</em>
+						<span id="instructions22">Cut out your wallet <em>using the front side as a guide, not the back!</em>
                        
-                        Note that the design on the back side is intentionally larger than the front side so that back design will "bleed" to the edges even if your front and back sides are misaligned up to 1cm.
+                        The design on the reverse side is intentionally larger than the front side so that back design will "bleed" to the edges even if your front and back sides are somewhat misaligned.
                         <br /><br />
-                        Now fold the more narrow private key area in half, and then over again as indicated by the dotted lines in this diagram. The unusual "butterfly" shape can be a bit of a pain to cut out, but it's essential to keep your private key safe.</span>
+                        Now fold the more narrow private key area in half, and then over again as indicated by the dotted lines in this diagram. The "butterfly" shape is time-consuming to cut out, but <em>without all those cuts and angles, someone can reveal your private key without removing the tape</em>!</span>
                         <br />
 						<br />
 						<span id="instructions23">The final wallet will be a rectangle shape with the more narrow private key area folded over it.</span>
 						<br />
                                                 
                         <br />
-						<span id="instructions13">Seal your wallet by placing two strips of sturdy <strong>light-blocking</strong> tape over the top and bottom edges of the private (folded) area. A zip-seal bag will keep it safe from moisture (especially important for inkjet prints.)</span>
+						<span id="instructions13">Seal your wallet by placing two strips of sturdy <strong>light-blocking</strong> tape over the top and bottom edges of the private (folded) area. A zip-seal bag will keep it safe from moisture, which is especially important when using an inkjet printer.</span>
 						<br /><br />	
                         <a href="#" onClick="window.open(window.suppliesURL, '_blank'); return false;" class="nicerButton" style="width: 400px;">Purchase hologram stickers and/or zip-sealing bags &raquo;</a>	
 
@@ -10699,7 +10837,13 @@ Bitcoin.Util = {
                         <br />
                         <strong>If you elected to BIP38-encrypt your wallet</strong>, you may need to recover your unencrypted WIF "Wallet Import Format" private key by using the "validate" tab on this web page.
                         <br />
-                        <br /><a href="https://bitcoinpaperwallet.com/wallet-tutorial-add-withdraw-funds/" target="_blank">Visit BitcoinPaperWallet.com for detailed information on adding to and spending from a paper wallet &raquo;</a></span>
+                        <br />
+						<h1><span id="instructions20">Tips &amp; FAQ's</span></h1>
+                        &bull; <a href="https://bitcoinpaperwallet.com/printing-and-paper-tips/" target="_blank">What kind of printer and paper to use &raquo;</a><br />
+                        &bull; <a href="https://bitcoinpaperwallet.com/wallet-tutorial-add-withdraw-funds/" target="_blank">Adding to and spending from a paper wallet &raquo;</a><br />
+                        &bull; <a href="https://bitcoinpaperwallet.com/bip38-password-encrypted-wallets/" target="_blank">How and when to use BIP38 encryption &raquo;</a><br />
+                        
+                        </span>
                         
 					</div>
 				</div>
@@ -10713,9 +10857,11 @@ Bitcoin.Util = {
 			<div class="instructionsarea">	
 					<h1>Validate or decrypt private key</h1>
 					<div style="width: 45%; float: left; padding: 0 15px; border-right: 3px solid #ccc;">
-						<p>Enter or <a onClick="ninja.wallets.detailwallet.qrscanner.start()">scan</a> any private key into this form to display all available details in various formats. If your private key decodes properly, then you have verified that you should be able to retrieve any funds sent to that wallet. This should work for private keys generated by BitcoinPaperWallet.com as well as any other Bitcoin service.</p>
- 						<p>For example, if you have a wallet encrypted with a BIP38 passphrase, you can use this form to decrypt your private key and retrieve the standard Wallet Import Format (WIF) key suitable for wallet software and services that don't directly support BIP38 importing.</p>
-                        <p>You may also enter a passphrase (or "brain wallet") to see the corresponding SHA256 hashed keys.</p>
+                    	<p><em>This feature works for private keys made here as well as those generated using any other Bitcoin service or software, e.g. bitaddress.org or brainwallet.org</em></p>
+						<p><strong>Enter or <a onClick="ninja.wallets.detailwallet.qrscanner.start()">scan</a> any private key to verify that the key is valid</strong> and show its corresponding public key. If your private key validates, then you may be reassured that you will able to retrieve any funds sent to that wallet.</p>
+						<p><strong>To duplicate or BIP38-encrypt any paper wallet</strong>, just validate its private key and click the "Use these details to print a paper wallet" button.</p>
+ 						<p><strong>Is your wallet BIP38 encrypted?</strong> If so, you can use this form to decrypt your private key and recover the standard Wallet Import Format (WIF) key suitable for wallet software and services that don't directly support BIP38 importing.</p>
+                        <p><strong>You may also type in a "brain wallet" passphrase</strong> to see the corresponding SHA256 hashed keys.</p>
 					</div>
 					<div style="width: 45%; float: left; padding: 0 15px;">
 						<span class="qrinput">
@@ -10858,8 +11004,8 @@ Bitcoin.Util = {
                 </div>
 
             	<span class="item"><b>Security &amp; signatures</b></span>
-                <span class="item" style="font-size: 90%;">For <a href="https://bitcoinpaperwallet.com/#security" target="_blank">secure wallet generation</a>, do not print wallets using https://bitcoinpaperwallet.com.<br />Instead, <a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank">download</a> the generator and run the HTML as a local file in your browser instead.</span>
-				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub"><strong>Download</strong> (GitHub ZIP file)</a></span>
+                <span class="item" style="font-size: 90%;">For <a href="https://bitcoinpaperwallet.com/#security" target="_blank">secure wallet generation</a>, do not print wallets "live" from bitcoinpaperwallet.com.<br />Instead, download this generator from GitHub and run the HTML as a "local" file:</span>
+				<span class="item"><a href="https://github.com/cantonbecker/bitcoinpaperwallet" target="_blank" id="footerlabelgithub"><strong>Secure Download</strong> (GitHub ZIP file)</a></span>
                 
 				<span class="item" id="footerlabelsig" style="font-size: 90%;"><a href="#" onClick="document.getElementById('siginfo').style.display='block'; return(false);">Validate PGP/GPG signature</a></span>
 
@@ -11321,7 +11467,7 @@ ninja.publicKey = {
 			// let's make the entropy 'points' grow and change color!
 			percentageComplete = ninja.seeder.seedCount / ninja.seeder.seedLimit;
 			pointSize = 2 + Math.ceil(9*percentageComplete) + 'px'
-			pointColor = 255 - Math.ceil(140 * percentageComplete);
+			pointColor = 255 - Math.ceil(110 * percentageComplete);
 			div.style.backgroundColor = '#' + pointColor.toString(16) + 'FF' + pointColor.toString(16);
 			div.style.width = pointSize;
 			div.style.height = pointSize;
@@ -11561,7 +11707,7 @@ ninja.publicKey = {
 				// paper wallet html
 				"paperlabeladdressesperpage": "Direcciones por página:",
 				"paperlabeladdressestogenerate": "Direcciones en total:",
-				"papergenerate": "Generar",
+				"papergenerate1": "Generar",
 				"paperprint": "Imprimir"
 			},
 				
@@ -11592,7 +11738,7 @@ ninja.publicKey = {
 				// paper wallet html
 				"paperlabeladdressesperpage": "Adresses par page:",
 				"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
-				"papergenerate": "Générer",
+				"papergenerate1": "Générer",
 				"paperprint": "Imprimer"
 			}
 		}
@@ -11841,6 +11987,33 @@ ninja.publicKey = {
 		},
 
 		showArtisticWallet: function (idPostFix, bitcoinAddress, privateKey) {
+
+			// BIP38 coloration
+			var colors = {
+				'bip38': {
+					publicUpper: "#fff57c",
+					publicLower: "#f7931a",
+					privateLeft: "#78bad6",			
+					privateRight: "#fff67d",
+					pointer: "#0084a8",
+					guilloche: "white",
+					text: "#1937a9",
+					textShadow: "white",
+					textPointer: "white",
+				},
+				'default': {
+					publicUpper: "#fff57c",
+					publicLower: "#f7931a",
+					privateLeft: "#8cd96f",			
+					privateRight: "#fff67d",
+					pointer: "#02ab5c",
+					guilloche: "white",
+					text: "#1937a9",
+					textShadow: "white",
+					textPointer: "white",
+				}
+			};
+			
 			var keyValuePair = {};
 			keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
 			keyValuePair["qrcode_private" + idPostFix] = privateKey;
@@ -11852,14 +12025,22 @@ ninja.publicKey = {
 				var half = privateKey.length / 2;
 				document.getElementById("btcencryptedkey" + idPostFix).innerHTML = privateKey;
 				document.getElementById("dupbtcencryptedkey" + idPostFix).innerHTML = privateKey;
-				document.getElementById("wallettype" + idPostFix).innerHTML = 'BIP38 Encrypted';
+				if (window.designChoice != 'default') document.getElementById("wallettype" + idPostFix).innerHTML = 'BIP38 ENCRYPTED'; // only add for special designs
+				drawOpts.text['walletImportFormat'] = 'BIP38 ENCRYPTED';
+				drawOpts.color = colors['bip38'];
 			}
 			else {
 				document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
 				document.getElementById("dupbtcprivwif" + idPostFix).innerHTML = privateKey;
 				document.getElementById("wallettype" + idPostFix).innerHTML = '';
+				drawOpts.color = colors['default'];
+				if (window.designChoice != 'default') document.getElementById("wallettype" + idPostFix).innerHTML = ''; // special designs should have this burned into the JPG
+				drawOpts.text['walletImportFormat'] = 'WALLET IMPORT FORMAT';
 			}
 
+			if (window.designChoice == 'default') { // if we are not loading up a special JPG-based design, render the canvas
+				document.getElementById("papersvg1").src = PaperWallet.draw.frontImage(bitcoinAddress, drawOpts);
+			}
 			// CODE to modify SVG DOM elements
 			//var paperSvg = document.getElementById("papersvg" + idPostFix);
 			//if (paperSvg) {
@@ -11897,7 +12078,7 @@ ninja.publicKey = {
 			}
 				
 			document.getElementById('paperbip38settings').className = show ? 'show' : '';
-			document.getElementById('paperencryptpassphrase').innerText = 
+			if (!cancelSave) document.getElementById('paperencryptpassphrase').innerText = 
 				document.getElementById('paperencryptpassphrase').textContent = document.getElementById('paperpassphrase').value;
 			
 			if (!show && !cancelSave) {
@@ -12765,6 +12946,424 @@ ninja.publicKey = {
 	 Brand new JS functions added for bitcoinpaperwallet.com
 	 ********************************************************/
 
+
+// Dynamic drawing of standard bitcoin design
+		if (typeof PaperWallet == "undefined") {
+			// global PaperWallet object
+			var PaperWallet = window.PaperWallet = {};
+		} 
+		if (!PaperWallet.draw) {
+			(function() {
+				// images minimized with https://tinypng.com/ and http://pnggauntlet.com/ and encoded with http://www.base64-image.de/		
+				var imgBitcoinLogo = new Image();
+				imgBitcoinLogo.src = "images/front-logo.png";
+				
+				var draw = PaperWallet.draw = {
+					imgBitcoinLogo: imgBitcoinLogo,
+				
+					/**
+					 * Draw guilloche pattern with the given parameters into the canvas.
+					 * Source: https://gist.github.com/3n/803329
+					 */
+					guilloche: function(ctx, opts) {
+						ctx.save();
+						
+						var opts = opts || {};
+						var scale = opts.scale || 1,
+							majorR = opts.majorR || 49,
+							minorR = opts.minorR || 20.4324,
+							angleMultiplier = opts.angleMultiplier || 1,
+							radiusEffectConstant = opts.radiusEffectConstant || 33,
+							steps = opts.steps || 1000,
+							centerPoint = opts.centerPoint || { x: 0, y:0 },
+							color = opts.color || 'rgb(0,0,255)',
+							width = opts.width || 0.5;
+							globalAlpha = opts.globalAlpha || 1.0;
+					 
+						ctx.globalAlpha = globalAlpha;
+					 
+						var	diff = majorR - minorR,
+							s = diff / minorR,
+							theta = 0,
+							radiusEffect = radiusEffectConstant + minorR,
+							oldX, oldY;
+
+						for (var i = steps; i>0; --i) {
+							var new_theta = angleMultiplier * theta,
+								x = (diff * Math.sin(new_theta) + radiusEffect * Math.sin(new_theta * s))*scale + (centerPoint.x),
+								y = (diff * Math.cos(new_theta) - radiusEffect * Math.cos(new_theta * s))*scale + (centerPoint.y);
+
+							theta += Math.PI * 4 / steps;
+
+							if (oldX) {
+								ctx.strokeStyle = color;
+								ctx.lineWidth = width;
+								ctx.beginPath();
+								ctx.moveTo(oldX, oldY);
+								ctx.lineTo(x, y);
+								ctx.closePath();
+								ctx.stroke();
+							}
+
+							oldX = x;
+							oldY = y;
+						}
+						
+						ctx.restore();
+					},
+					
+					
+					/**
+					 * Calculate unique parameters for pattern drawing.
+					 * @param {String} msg Message to extract parameters from.
+					 */
+					guillocheParams: function(msg) {			
+						/** 
+						 * Extracts a float in range [0, 1[ from first 4 bytes of the given bytearray.
+						 * This treats the first 4 bytes as a signed integer value, scales it to size 1,
+						 * and adds 0.5 to move to the range [0, 1[.
+						 *
+						 * @param {bytearray} Byte array, at least 4 bytes
+						 */
+						function float01(bytearray) {
+							var v = bytearray[0] << 24;
+							v |= bytearray[1] << 16;
+							v |= bytearray[2] << 8;
+							v |= bytearray[3];			
+							v /= 4294967296;
+								
+							// since v is signed, just add 0.5 to remap to [0, 1[.
+							return v + 0.5;
+						}
+
+						/**
+						 * Linear interpolation between min and max based on v [0, 1[.
+						 */
+						function scaled_between(v, min, max) {
+							return v*(max - min) + min;
+						};			
+					
+						// this contains some hand tuned constant to make the generated patterns look pretty.
+						var msg = Crypto.SHA256(msg, {asBytes: true});
+						var majorR = scaled_between(float01(msg), 55, 300); // overall radius.
+												
+						var msg = Crypto.SHA256(msg, {asBytes: true});
+						var scale = scaled_between(float01(msg), 5, 15);
+
+						msg = Crypto.SHA256(msg, {asBytes: true}); 
+						var minorR = scaled_between(float01(msg), 0.01, 10); // a large minorR makes for a sparser design, bigger holes in the spiderweb.
+						
+						
+						msg = Crypto.SHA256(msg, {asBytes: true}); 
+						var steps = scaled_between(float01(msg), 1500, 7000); 
+						
+						var width = (5000/steps) * .5; 
+						width = Math.min(width,1.2); // prevent overly chunky lines
+						
+						msg = Crypto.SHA256(msg, {asBytes: true});
+						var radiusEffectConstant = scaled_between(float01(msg), majorR*0.9, majorR); 
+						
+						msg = Crypto.SHA256(msg, {asBytes: true});
+						var angleMultiplier = Math.ceil(scaled_between(float01(msg), 0, 3));
+
+						// majorR = 110; scale = 11; minorR = .5; steps = 5000; width = .3; radiusEffectConstant = 100; angleMultiplier = 2; // test suite
+					
+						return  {
+							angleMultiplier: angleMultiplier,
+							majorR: majorR,
+							minorR: minorR,
+							radiusEffectConstant: radiusEffectConstant,
+							scale: scale,
+							steps: steps,		
+							width: width
+						}
+					},
+					
+					
+					/**
+					 * Draws a rounded rectangle using the current state of the canvas. 
+					 * If you omit the last three params, it will draw a rectangle 
+					 * outline with a 5 pixel border radius 
+					 *
+					 * Source: http://stackoverflow.com/a/3368118
+					 *
+					 * @param {CanvasRenderingContext2D} ctx
+					 * @param {Number} x The top left x coordinate
+					 * @param {Number} y The top left y coordinate 
+					 * @param {Number} width The width of the rectangle 
+					 * @param {Number} height The height of the rectangle
+					 * @param {Number} radius The corner radius. Defaults to 5;
+					 * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
+					 * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
+					 */
+					roundRect: function(ctx, x, y, w, h, opts) {
+						ctx.save();
+						
+						ctx.beginPath();
+						ctx.moveTo(x + opts.radius, y);
+						ctx.lineTo(x + w - opts.radius, y);
+						ctx.quadraticCurveTo(x + w, y, x + w, y + opts.radius);
+						ctx.lineTo(x + w, y + h - opts.radius);
+						ctx.quadraticCurveTo(x + w, y + h, x + w - opts.radius, y + h);
+						ctx.lineTo(x + opts.radius, y + h);
+						ctx.quadraticCurveTo(x, y + h, x, y + h - opts.radius);
+						ctx.lineTo(x, y + opts.radius);
+						ctx.quadraticCurveTo(x, y, x + opts.radius, y);
+						ctx.closePath();
+
+						if (typeof opts.lineWidth != "undefined") {
+							ctx.lineWidth = opts.lineWidth;
+						}
+						if (typeof opts.strokeStyle != "undefined") {
+							ctx.strokeStyle = opts.strokeStyle;
+							ctx.stroke();
+						}
+						if (typeof opts.fillStyle != "undefined") {
+							ctx.fillStyle = opts.fillStyle;
+							ctx.fill();
+						}
+						
+						ctx.restore();
+					},			
+					
+					
+					/**
+					 * Draw text with strong blur around it.
+					 * This is quite a hack, but I couldn't find a better way.
+					 */
+					fillTextStrongBlur: function(ctx, msg, x, y, offset, opts) {
+						ctx.save();
+						
+						ctx.shadowColor = opts.color.textShadow;
+						ctx.shadowBlur = 7;
+						ctx.shadowOffsetX = 4;
+						ctx.shadowOffsetY = 4;
+						
+						// run multiple times for stronger blur
+						for (var i=0; i<1; ++i) {
+							ctx.shadowOffsetX = offset;
+							ctx.shadowOffsetY = offset;
+							ctx.fillText(msg, x, y);
+							
+							ctx.shadowOffsetX = -offset;
+							ctx.shadowOffsetY = offset;
+							ctx.fillText(msg, x, y);
+							
+							ctx.shadowOffsetX = offset;
+							ctx.shadowOffsetY = -offset;
+							ctx.fillText(msg, x, y);
+							
+							ctx.shadowOffsetX = -offset;
+							ctx.shadowOffsetY = -offset;
+							ctx.fillText(msg, x, y);
+						}
+						
+						ctx.restore();
+					},			
+					
+					text: function(ctx, opts) {
+						ctx.save();
+						
+						ctx.font = opts.font;
+						ctx.textAlign = "center";
+						ctx.fillStyle = opts.color.text;
+						draw.fillTextStrongBlur(ctx, opts.text.publicAddress, 268, 320, 4, opts);
+						draw.fillTextStrongBlur(ctx, opts.text.depositVerify, 268, 696, 4, opts);
+						
+						ctx.rotate(-Math.PI*2/4);
+						draw.fillTextStrongBlur(ctx, opts.text.privateKey, -482, 2396, 4, opts);
+						draw.fillTextStrongBlur(ctx, opts.text.walletImportFormat, -482, 2844, 4, opts);
+						
+						
+						// text for green pointer
+						ctx.fillStyle = opts.color.textPointer;
+						ctx.fillText(opts.text.withdraw, -482, 1015);
+						
+						ctx.restore();
+					},
+					
+					obfuscation: function(ctx, x, y, w, h) {
+						ctx.save();
+						ctx.font = "18px Courier";
+						ctx.textAlign = "center";
+						var obfuscationColors = ["#000000","#222222","#333333","#666666"];
+						
+						// create random text to black out private key pattern
+						var possible_letters = "฿#";
+						// var possible_letters = "■•";
+						for (var i=0; i<1500; ++i) {
+							ctx.fillStyle = obfuscationColors[Math.floor(Math.random() * obfuscationColors.length)];
+							var letter = possible_letters[Math.floor(Math.random()*possible_letters.length)];
+							ctx.fillText(letter, x + Math.random()*w, y + Math.random()*h);
+						}
+						ctx.restore();
+					},
+					
+					gradients: function(ctx, opts) {
+						ctx.save();
+						
+						// draw background gradients
+						var grd = ctx.createLinearGradient(55, 82, 55, 807);
+						grd.addColorStop(0, opts.color.publicUpper);
+						grd.addColorStop(1, opts.color.publicLower);
+						ctx.fillStyle = grd;
+						ctx.fillRect(55, 82, 958, 807);
+						
+						grd = ctx.createLinearGradient(1013, 0, 2961, 0)
+						grd.addColorStop(0, opts.color.privateLeft);
+						grd.addColorStop(1, opts.color.privateRight);
+						ctx.fillStyle = grd;
+						ctx.fillRect(1013, 82, 2961, 807);
+						ctx.restore();
+					},
+					
+					logos: function(ctx, cp) {
+						var w = 90;
+						
+						/* draw circle for bitcoin logo
+						ctx.arc(cp.x, cp.y, w/2+5, 0, 2*Math.PI, false);
+						ctx.fillStyle = "white";
+						ctx.fill();
+						*/
+
+						// logo
+						ctx.drawImage(PaperWallet.draw.imgBitcoinLogo, (cp.x-w/2)-4, (cp.y-w/2)-4, 305, 101);
+					},
+
+					pointer: function(ctx, colorPointer) {
+						ctx.save();
+						ctx.beginPath();
+						ctx.moveTo(980, 82);
+						ctx.lineTo(1030, 82);
+						ctx.lineTo(1030, 355);
+						ctx.quadraticCurveTo(1030, 466, 1070, 486);
+						ctx.quadraticCurveTo(1030, 506, 1030, 617);
+						ctx.lineTo(1030, 889);
+						ctx.lineTo(980, 889);
+						ctx.closePath();
+						ctx.fillStyle = colorPointer;
+						ctx.shadowColor = "#555";
+						ctx.shadowBlur = 5;
+						ctx.shadowOffsetX = 5;
+						ctx.shadowOffsetY = 0;
+						ctx.fill();
+						ctx.restore();		
+					},
+
+					clearSurroundings: function(ctx) {
+						ctx.save();
+						
+						ctx.beginPath();
+						ctx.moveTo(55, 82);
+						ctx.lineTo(1708, 82);
+						ctx.lineTo(1708, 182);
+						ctx.lineTo(2308, 182);
+						ctx.lineTo(2809, 90);
+						ctx.lineTo(2906, 182);
+						
+						ctx.lineTo(2906, 971-182);	
+						ctx.lineTo(2809, 971-90);
+						ctx.lineTo(2308, 971-182);
+						ctx.lineTo(1708, 971-182);
+						ctx.lineTo(1708, 971-82);
+						ctx.lineTo(55, 971-82);
+						
+						// surroundings,  move back
+						ctx.lineTo(0, 971);
+						ctx.lineTo(2962, 971);
+						ctx.lineTo(2962, 0);
+						ctx.lineTo(0, 0);
+						ctx.lineTo(0, 971);
+						ctx.lineTo(55, 971);
+						ctx.closePath();
+						
+						ctx.lineWidth = 0.2;	
+						ctx.strokeStyle = "black";
+						ctx.fillStyle = "white";
+						
+						ctx.stroke();	
+						ctx.fill();
+						
+						ctx.restore();
+					},
+					
+					// Creates an image based on the given public key.
+					frontImage: function(key, opts) {
+						// create the temporary draw canvas
+						var canvas = document.createElement('canvas');
+						canvas.width = 2962;
+						canvas.height = 971;
+						
+						var key = key || "";
+						
+						var ctx = canvas.getContext('2d');
+						var cp = {x: 665, y: 389};
+						
+						PaperWallet.draw.gradients(ctx, opts);
+						
+						// draw guilloche
+						guillocheParams = PaperWallet.draw.guillocheParams(key);
+						guillocheParams.color = opts.color.guilloche;
+						guillocheParams.centerPoint = cp;
+						PaperWallet.draw.guilloche(ctx,  guillocheParams);
+						
+						PaperWallet.draw.logos(ctx, cp);
+						PaperWallet.draw.pointer(ctx, opts.color.pointer);
+						
+						PaperWallet.draw.clearSurroundings(ctx);
+						
+						// draw empty rectangle for public QR code
+						var qrOpts = {
+							lineWidth: 0.2,
+							strokeStyle: "black",
+							fillStyle: "white",
+							radius: 20,
+						};
+						
+						PaperWallet.draw.roundRect(ctx, 113, 344, 310, 310, qrOpts);
+						PaperWallet.draw.roundRect(ctx, 1816, 290, 384, 384, qrOpts);
+						PaperWallet.draw.roundRect(ctx, 2416, 290, 384, 384, qrOpts);
+						
+						PaperWallet.draw.text(ctx, opts);
+						
+						PaperWallet.draw.obfuscation(ctx, 1831, 310, 350, 350);
+
+						return canvas.toDataURL();
+					}
+				};
+			})();
+		}
+
+	// global drawing options, most of which will be replaced in setDesign() for translation
+	
+	var drawOpts = {
+		color: {
+			publicUpper: "#fff57c",
+			publicLower: "#f7931a",
+			privateLeft: "#8cd96f",			
+			privateRight: "#fff67d",
+			pointer: "#03ab5d",
+			guilloche: "white",
+			
+			text: "#1937a9",
+			textShadow: "white",
+			textPointer: "white",				
+		},
+
+		font: "bold 20pt sans-serif",			
+		
+		text: {
+			publicAddress: "",
+			depositVerify: "",
+			privateKey: "",
+			walletImportFormat: "",
+			withdraw: "",
+		},
+	};
+
+
+	// Functions for printer calibration
+
 	var inlineMediaStyle = null;
 
 	function printZoom (changeBy) { /* handle +/- buttons for print zoom */
@@ -12881,8 +13480,265 @@ ninja.publicKey = {
 		updateCalibrationInfo();
 	}
 
-function setDesign (whichDesign, isOnLoad) {
+function setDesign (whichDesign, isOnLoad, whichLanguage) {
+	
+    whichLanguage = typeof whichLanguage !== 'undefined' ? whichLanguage : 'english';
+
+	// these translations are only applicable to the standard bitcoin wallet. 
+	// alt-currencies and special holiday/theme designs use JPGs instead.
+	
+	var translations = {
+		
+		'english': {
+			publicAddress: "PUBLIC ADDRESS",
+			depositVerify: "DEPOSIT / VERIFY",
+			privateKey: "PRIVATE KEY",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "PRIVATE KEY / WITHDRAW",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN PAPER WALLET",
+			backAmount: "Amount Added",
+			backDate: "Date",
+			backNotes: "Notes:",
+			backInst1: "To deposit additional funds to this paper wallet, send bitcoins to its public address, anytime.",
+			backInst2: "Verify your balance by searching for the public address using a service such as blockchain.info",
+			backInst3: "<strong>Do not reveal the private key</strong> until you are ready to import the balance on this wallet to a bitcoin client, exchange, or online wallet.",
+			backInst4: "When withdrawing your funds from this wallet you should remove the <strong>ENTIRE BALANCE</strong>. If you attempt to spend only some of the funds you will likely lose the remaining bitcoins forever.<br />For instructions visit bitcoinpaperwallet.com",
+		},
+
+		'chinese': {
+			publicAddress: "公开地址",
+			depositVerify: "存款/查询余额",
+			privateKey: "钱包导入格式",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "私钥/取款",
+			backLongTextFontSize: "10px",
+			backPaperWallet: "BITCOIN 纸钱包",
+			backAmount: "添加数量",
+			backDate: "日期",
+			backNotes: "注释",
+			backInst1: "可以随时向公开地址发送比特币为该纸钱包添加资金。",
+			backInst2: "使用例如blockchain.info这样的服务，通过搜索公开地址来查询你的余额。",
+			backInst3: "在你准备将余额导入到比特币客户端、交易平台或者在线钱包之前，<strong>请勿泄露私钥</strong>。",
+			backInst4: "从此钱包取出资金时，请将<strong>全部余额一次性</strong>取走。如果你试图只取走一部分，那么你很有可能永远失去剩余的比特币。<br /><br />有疑问？请访问 : bitcoinpaperwallet.com",
+		},
+
+		'traditional-chinese': {
+			publicAddress: "公开地址",
+			depositVerify: "存款/查询余额",
+			privateKey: "钱包导入格式",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "私钥/取款",
+			backLongTextFontSize: "10px",
+			backPaperWallet: "BITCOIN 纸钱包",
+			backAmount: "添加数量",
+			backDate: "日期",
+			backNotes: "注释",
+			backInst1: "可以随时向公开地址发送比特币为该纸钱包添加资金。",
+			backInst2: "使用例如blockchain.info这样的服务，通过搜索公开地址来查询你的余额。",
+			backInst3: "在你准备将余额导入到比特币客户端、交易平台或者在线钱包之前，<strong>请勿泄露私钥</strong>。",
+			backInst4: "从此钱包取出资金时，请将<strong>全部余额一次性</strong>取走。如果你试图只取走一部分，那么你很有可能永远失去剩余的比特币。<br /><br />有疑问？请访问 : bitcoinpaperwallet.com",
+		},
+
+		'czech': {
+			publicAddress: "VEŘEJNÁ ADRESA",
+			depositVerify: "VLOŽIT / OVĚŘIT",
+			privateKey: "SOUKROMÝ KLÍČ",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "SOUKROMÝ KLÍČ / VYBRAT",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN Papírová peněženka",
+			backAmount: "Částka",
+			backDate: "Datum",
+			backNotes: "Poznámky:",
+			backInst1: "Pokud chcete vložit více peněz do této peněženky, můžete kdykoli použít stejnou veřejnou adresu.",
+			backInst2: "Pokud chcete ověřit zůstatek v peněžence, můžete použít službu blockchain.info a zadat veřejnou adresu.",
+			backInst3: "<strong>NEUKAZUJTE NIKOMU SOUKROMÝ KLÍČ</strong> dokud se nerozhodnete opravdu převést zůstatek do klienta,na burzu nebo do online peněženky. ",
+			backInst4: "Při výběru z této peněženky byste měli převést <strong>CELÝ ZŮSTATEK</strong>. Pokud převedete jen část, je možné že příjdete o zbytek.<br />Dotazy? Navštivte bitcoinpaperwallet.com",
+		},
+
+		'dutch': {
+			publicAddress: "PUBLIEK ADRES",
+			depositVerify: "STORTING / VERIFICATIE",
+			privateKey: "PRIVÉ SLEUTEL",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "PRIVÉ SLEUTEL",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN Papieren portemonnee",
+			backAmount: "Bedrag toegevoegd",
+			backDate: "Datum",
+			backNotes: "Notities:",
+			backInst1: "Om meer geld naar deze papieren portemonnee over te maken kun je altijd bitcoins naar het publieke adres sturen.",
+			backInst2: "Verifieer je saldo door het publieke adress op te zoeken met een service zoals blockchain.info",
+			backInst3: "<strong>LAAT JE PRIVÉ SLEUTEL NIET ZIEN</strong> totdat je het saldo van deze portemonnee over wilt maken naar een bitcoin client, exchange of online portemonnee.",
+			backInst4: "Als je het saldo van deze portemonnee uit wilt laten betalen, dan kun je het beste het <strong>HELE BEDRAG</strong> opnemen. Als je probeert een beetje op te nemen ben je waarschijnlijk de overige bitcoins kwijt.<br /><br />Vragen? Ga naar bitcoinpaperwallet.com",
+		},
+
+		'french': {
+			publicAddress: "ADRESSE PUBLIQUE",
+			depositVerify: "Faire un Dépôt/Vérifier",
+			privateKey: "CLÉ SECRÈTE",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "CLÉ SECRÈTE / FAIRE UN RETRAIT",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN Portefeuille papier",
+			backAmount: "Montant ajouté",
+			backDate: "Date",
+			backNotes: "Notes:",
+			backInst1: "Pour déposer plus de fonds dans ce portefeuille papier, envoyer des Bitcoins à son adresse publique n'importe quand.",
+			backInst2: "Vérifiez le solde en faisant une recherche de l'adresse publique en utilisant un service tel que blockchain.info",
+			backInst3: "<strong>NE RÉVÉLEZ PAS VOTRE CLÉ SECRÈTE</strong> jusqu'à ce que vous soyez prêt à transférer le solde de ce portefeuille à un client Bitcoin, une plate-forme d'échange ou un portefeuille en-ligne.",
+			backInst4: "Lorsque vous allez retirer des fonds de ce portefeuille, vous devriez transférer le <strong>SOLDE EN ENTIER</strong>. Si vous essayez de ne dépenser qu'une partie des fonds, vous risquez de perdre le reste des Bitcoins à tout jamais.<br /><br />Questions ? Visitez : bitcoinpaperwallet.com",
+		},
+		
+		'german': {
+			publicAddress: "ÖFFENTLICHE ADRESSE",
+			depositVerify: "EINZAHLEN / BESTÄTIGEN",
+			privateKey: "PRIVATER SCHLÜSSEL",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "PRIVATER SCHLÜSSEL / ABHEBEN",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN PAPIERBRIEFTASCHE",
+			backAmount: "Gutschriften",
+			backDate: "Datum",
+			backNotes: "Notizen:",
+			backInst1: "Um das Guthaben auf dieser Papierbrieftasche zu erhöhen, sende bitcoins an ihre öffentliche Adresse, jederzeit.",
+			backInst2: "Um das Guthaben zu bestätigen suche nach der öffentlichen Adresse auf einem Service wie blockchain.info",
+			backInst3: "<strong>Mache den privaten schlüssel nie bekannt</strong> bis du bereit bist das Guthaben auf dieser Brieftasche abzuheben auf einen Bitcoin-Client, eine Wechselbörse oder eine Onlinebrieftasche.",
+			backInst4: "Beim Abheben des Guthabens sollte das <strong>Ganze Guthaben</strong> auf einmal abgehoben werden. Beim Versuch nur einen Teil des Guthaben auszugeben kann es zum dauerhaften Verlust des restlichen Guthabens kommen. <br /><br />Fragen? Geh auf bitcoinpaperwallet.com",
+		}, 
+
+		'hebrew': {
+			publicAddress: "כתובת פומבית",
+			depositVerify: "הפקדה / וידוא מאזן",
+			privateKey: "מפתח פרטי",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "מפתח פרטי / משיכה",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN ארנק נייר",
+			backAmount: "כמות שנטענה",
+			backDate: "תאריך",
+			backNotes: "הערות",
+			backInst1: "כדי להפקיד לארנק זה, שלחו ביטקוינים לכתובת הפומבית, בכל זמן",
+			backInst2: "ודאו את המאזן שלכם ע\"י חיפוש הכתובת הפומבית בעזרת שירות כמו blockchain.info",
+			backInst3: "אף פעם אל תגלו לאף אחד את המפתח הפרטי שלכם עד שאתם מוכנים לייצא את המטבעות לארנק ביטקוין ממוחשב, בורסאת ביטקוין או ארנק מקוון",
+			backInst4: "בעת משיכת המטבעות, יש למשוך את -כל המטבעות- שבארנק. אם תנסו להוציא רק חלק מהמטבעות, תאבדו את המטבעות הנשארים לנצח שאלות? פנו ל: bitcoinpaperwallet.com",
+		},
+
+		'italian': {
+			publicAddress: "INDIRIZZO PUBBLICO",
+			depositVerify: "DEPOSITA / VERIFICA",
+			privateKey: "CHIAVE PRIVATA",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "CHIAVE PRIVATA / PRELEVA",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN PORTAFOGLIO CARTACEO",
+			backAmount: "Importo depositato",
+			backDate: "Data",
+			backNotes: "Note:",
+			backInst1: "Per depositare altri fondi su questo portafoglio cartaceo, invia bitcoins al suo indirizzo pubblico, in qualsiasi momento.",
+			backInst2: "Puoi verificare il saldo cercando l'indirizzo pubblico su un servizio tipo blockchain.info",
+			backInst3: "<strong>NON ESPORRE LA CHIAVE PRIVATA</strong> se non per importare immediatamente il contenuto del portafoglio su un client bitcoin, un exchange o un portafoglio online.",
+			backInst4: "Se prelevi i fondi depositati su questo portafoglio, ti consigliamo di prelevare l'<strong>INTERO IMPORTO</strong> depositato. Se cerchi di spendere i fondi solo in parte, probabilmente perderai i bitcoins residui.<br />Domande? Visita : bitcoinpaperwallet.com",
+		},
+
+		'japanese': {
+			publicAddress: "公 開 ア ド レ ス",
+			depositVerify: "入 金 / 残 高 確 認",
+			privateKey: "秘 密 鍵",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "秘 密 鍵 / 出 金",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN ペーパーウォレット",
+			backAmount: "入金金額",
+			backDate: "日付",
+			backNotes: "メモ:",
+			backInst1: "公開アドレス宛てに入金することで、このウォレットにいつでもビットコインを追加することができます。",
+			backInst2: "blockchain.infoのようなサービスで公開アドレスを検索することで、残高を確認することができます。",
+			backInst3: "ビットコインクライアントやオンラインウォレット、交換所にビットコインを移動する必要があるまで、<strong>秘密鍵を開封しないでください</strong>。",
+			backInst4: "このウォレットからビットコインを出金する際には、<strong>全ての残高</strong>を出金してください。一部を残して出金した場合、残ったビットコインが永遠に失われる恐れがあります。<br /><br />詳しい情報は、bitcoinpaperwallet.comを参照してください。",
+		},
+
+		'portuguese': {
+			publicAddress: "ENDEREÇO PÚBLICO",
+			depositVerify: "DEPOSITE / VERIFIQUE",
+			privateKey: "CHAVE PRIVADA",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "CHAVE PRIVADA / SAQUE",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN PAPER WALLET",
+			backAmount: "Saldo",
+			backDate: "Data",
+			backNotes: "Anotações:",
+			backInst1: "Para depositar fundos adicionais na sua paper wallet deve-se enviar os bitcoins para seu endereço público, a qualquer hora.",
+			backInst2: "Verifique o saldo através do seu endereço público usando um serviço como o blockchain.info",
+			backInst3: "<strong>NÃO REVELE A SUA CHAVE PRIVADA</strong> até que você esteja pronto a importar o saldo total para um cliente bitcoin ou uma carteira online ou, ainda, trocar sua paper wallet com alguém.",
+			backInst4: "<strong>TRANSFIRA TODO O SALDO</strong> dessa carteira ao importá-la. Se você tentar importar somente uma parcela provavelmente o risco de perder o restante dos bitcoins é alto.<br /><br />Para mais informações visite bitcoinpaperwallet.com",
+		},
+
+		'russian': {
+			publicAddress: "ОТКРЫТЫЙ АДРЕС",
+			depositVerify: "ДЕПОЗИТ / ПРОВЕРКА",
+			privateKey: "ЗАКРЫТЫЙ КЛЮЧ",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "ЗАКРЫТЫЙ КЛЮЧ / ВЫВОД",
+			backLongTextFontSize: "8px",
+			backPaperWallet: "BITCOIN БУМАЖНЫЙ КОШЕЛЁК",
+			backAmount: "Внесено",
+			backDate: "Дата",
+			backNotes: "Заметки:",
+			backInst1: "Для внесения дополнительных финансов на этот бумажный кошелёк отправьте биткоины на его открытый адрес в любое время.",
+			backInst2: "Проверьте баланс найдя открытый адрес в таком сервисе, как blockchain.info",
+			backInst3: "<strong>НЕ ВСКРЫВАЙТЕ СВОЙ ЗАКРЫТЫЙ КЛЮЧ</strong> до тех пор, пока вы не будете готовы импортировать баланс этого кошелька в свой bitcoin-клиент, обменник, или онлайн-кошелёк.",
+			backInst4: "Вы должны снять <strong>ВСЕ</strong> свои средства с этого кошелька единовременно. Если вы попытаетесь истратить только некую часть своих финансов, то, скорее всего, потеряете оставшиеся биткоины навсегда.<br /><br />Вопросы? Посетите: bitcoinpaperwallet.com.",
+		},
+
+		'spanish': {
+			publicAddress: "DIRECCIÓN PÚBLICA",
+			depositVerify: "DEPOSITAR / VERIFICAR",
+			privateKey: "CLAVE PRIVADA",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "CLAVE PRIVADA / RETIRAR",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN Cartera de papel",
+			backAmount: "Cantidad añadida",
+			backDate: "Fecha",
+			backNotes: "Notas:",
+			backInst1: "Para depositar fondos adicionales en esta cartera de papel, envíe unos Bitcoins a su dirección pública.",
+			backInst2: "Para verificar su saldo, busque su dirección pública en un sitio web como blockchain.info",
+			backInst3: "<strong>NUNCA DEBE MOSTRAR SU CLAVE PRIVADA</strong> hasta que este preparado para importar el saldo de esta cartera a un cliente de bitcoin, un sitio de cambio, o una cartera de internet.",
+			backInst4: "Cuando este sacando sus fondos, debe sacar <strong>LA TOTALIDAD DE SU SALDO</strong>. Si no hace esto, es posible que pierda sus Bitcoin.<br /><br />¿Dudas? Vaya a bitcoinpaperwallet.com",
+		},
+
+		'swedish': {
+			publicAddress: "PUBLIK ADRESS",
+			depositVerify: "SÄTT IN / VERIFIERA",
+			privateKey: "PRIVAT NYCKEL",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "PRIVAT NYCKEL / TA UT",
+			backLongTextFontSize: "9px",
+			backPaperWallet: "BITCOIN PAPER WALLET",
+			backAmount: "Insatt belopp",
+			backDate: "Datum",
+			backNotes: "Anteckningar:",
+			backInst1: "För att sätta in bitcoin: använd den publika adressen.",
+			backInst2: "Kontrollera saldot genom att söka efter den publika adressen på till exempel blockchain.info",
+			backInst3: "<strong>ANVÄND ELLER VISA INTE DEN PRIVATA NYCKELN</strong> förrän det är dags att flytta saldot till en bitcoinklient, börs eller online-plånbok.",
+			backInst4: "När du flyttar bitcoin från en paperwallet bör du alltid <strong>TÖMMA DEN HELT</strong>. Om du inte gör det riskerar du att förlora kvarvarande bitcoin.<br /><br />Frågor? Besök bitcoinpaperwallet.com",
+		}
+	};
+	
+	drawOpts.text = translations[whichLanguage];
+
 	if (!whichDesign) whichDesign = 'default';	
+
+	// show the language menu if we're using the default design
+	if (whichDesign == 'default') {
+		document.getElementById('langPicker').style.display = 'inline';
+	} else {
+		document.getElementById('langPicker').style.display = 'none';
+	}
+
 	// if we used the dropdown menu to select an alt-coin, we need to reload the page altogether.
 	if (!isOnLoad && whichDesign.substring(0,4) == 'alt-') window.location='?design=' + whichDesign;
 	// if we're already using an altcoin, reload the page no matter which design we choose.
@@ -12893,20 +13749,68 @@ function setDesign (whichDesign, isOnLoad) {
 		document.getElementById('logoback').style.backgroundImage = 'url(images/logo-' + whichDesign + '.png)';
 	}
 
+	// now deal with JPG-style backgrounds, and apply instructions to default design
+
 	if (whichDesign == 'default') {
 		var myFront = './images/front-300dpi.jpg';
 		var myBack = './images/back-300dpi.jpg';
 		var myPreview = './images/finished-sample-sealed.jpg';
+		// setup proper back text translation & controls
+		document.getElementById('backTextControl').style.display='block';
+		document.getElementById('backText').style.display='block';
+		document.getElementById("backPaperWallet").innerHTML = translations[whichLanguage]['backPaperWallet'];
+		document.getElementById("backAmount").innerHTML = translations[whichLanguage]['backAmount'];
+		document.getElementById("backDate").innerHTML = translations[whichLanguage]['backDate'];
+		document.getElementById("backNotes").innerHTML = translations[whichLanguage]['backNotes'];
+		document.getElementById("backLongText").style.fontSize = translations[whichLanguage]['backLongTextFontSize'];
+		document.getElementById("backInst1").innerHTML = translations[whichLanguage]['backInst1'];
+		document.getElementById("backInst2").innerHTML = translations[whichLanguage]['backInst2'];
+		document.getElementById("backInst3").innerHTML = translations[whichLanguage]['backInst3'];
+		document.getElementById("backInst4").innerHTML = translations[whichLanguage]['backInst4'];
+
 	} else {
 		var myFront = './images/front-300dpi-' + whichDesign + '.jpg';
 		var myBack = './images/back-300dpi-' + whichDesign + '.jpg';
 		var myPreview = './images/finished-sample-' + whichDesign + '.jpg';
+		document.getElementById('backTextControl').style.display='none';
+		document.getElementById('backText').style.display='none';
 	}
+
 	window.frontJPG=myFront;
-	if (document.getElementById('papersvg1') != null) document.getElementById('papersvg1').src=myFront;
+	window.designChoice=whichDesign;
+	
+	// if the front artwork is ready, set it to either the correspondong JPG, or draw it	
+	if (document.getElementById('papersvg1') != null) {
+		if (whichDesign == 'default') {
+			document.getElementById("papersvg1").src = PaperWallet.draw.frontImage(document.getElementById("btcaddress1").innerHTML, drawOpts);
+			} else {
+			document.getElementById('papersvg1').src=myFront;
+		}
+	}
+	
+	// set back
 	document.getElementById('backsvg1').src=myBack;
 	document.getElementById('designPreview').src=myPreview;
 	document.getElementById('designPicker').value = whichDesign; // force menu option in case it was picked during onload.
+	document.getElementById('langPicker').value = whichLanguage; 
+}
+
+function setDenomination(valueAndUnit) {
+	if (!valueAndUnit) {
+		document.getElementById('backSeal').style.display = 'none';
+		document.getElementById('backDenominationOther').style.display = 'none';
+	} else if (valueAndUnit == 'other') {
+		document.getElementById('backDenominationOther').style.display = 'block';
+		document.getElementById('backSeal').style.display = 'block';
+		document.getElementById('backSealBig').innerHTML = document.getElementById('backDenominationOtherAmount').value;
+		document.getElementById('backSealSmall').innerHTML = document.getElementById('backDenominationOtherUnit').value;
+	} else {
+		denominationParts = valueAndUnit.split(' ');
+		document.getElementById('backSeal').style.display = 'block';
+		document.getElementById('backSealBig').innerHTML = denominationParts[0];
+		document.getElementById('backSealSmall').innerHTML = denominationParts[1];
+		document.getElementById('backDenominationOther').style.display = 'none'
+	}
 }
 
 </script>
