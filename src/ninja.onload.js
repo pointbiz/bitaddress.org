@@ -1,12 +1,3 @@
-// run unit tests
-if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-	ninja.unitTests.runSynchronousTests();
-	ninja.translator.showEnglishJson();
-}
-// run async unit tests
-if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
-	ninja.unitTests.runAsynchronousTests();
-}
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
@@ -56,6 +47,16 @@ for(i = 0; i < janin.currencies.length; i++) {
 }
 list += "</table>";
 donatelist.innerHTML = list;
+
+// run unit tests
+if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
+	ninja.unitTests.runSynchronousTests();
+	ninja.translator.showEnglishJson();
+}
+// run async unit tests
+if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
+	ninja.unitTests.runAsynchronousTests();
+}
 
 ninja.envSecurityCheck();
 ninja.browserSecurityCheck();
