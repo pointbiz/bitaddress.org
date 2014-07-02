@@ -38,7 +38,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .seedpoint { width: 6px; height: 6px; display: block; border-radius: 3px; background-color: #80CF80; position: absolute; z-index: 10; }
 
 #seedSkipper { font-size: 11px; text-align: center; line-height: 14px;}
-.skipMessage { margin-top: 8px; }
+#skipMessage { margin-top: 8px; }
 
 #generate #mousemovelimit { font-size: 16px; color: #FFF; }
 #rightArea { position: absolute; right: 66px; top: 62px; width: 170px; }

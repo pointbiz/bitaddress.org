@@ -206,10 +206,10 @@ ninja.envSecurityCheck = function() {
 	switch(window.location.protocol) {
 		case 'http:':
 		case 'https:':
-			innerHTML = '<span style="color: #990000;">You appear to be running this generator off of a live website, which is not recommended for creating valuable wallets. Instead, use the download link at the bottom of this page to download the ZIP file from GitHub and run this generator offline as a \'local\' HTML file.</span>';
+			innerHTML = '<span style="color: #990000;">' + ninja.translator.get("securitychecklistofflineNOK") + '</span>';
 			break;
 		case 'file:':
-			innerHTML = '<span style="color: #009900;">You are running this generator from your own download.</span>';
+			innerHTML = '<span style="color: #009900;">' + ninja.translator.get("securitychecklistofflineOK") + '</span>';
 			break;
 		default:
 	} 
@@ -219,9 +219,9 @@ ninja.envSecurityCheck = function() {
 ninja.browserSecurityCheck = function() {
 	var innerHTML = "";
 	if (window.crypto && window.crypto.getRandomValues) {
-		innerHTML = '<span style="color: #009900;">Your browser is capable of generating cryptographically random keys using window.crypto.getRandomValues</span>';
+		innerHTML = '<span style="color: #009900;">' + ninja.translator.get("securitychecklistrandomOK") + '</span>';
 	} else {
-		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
+		innerHTML = '<span style="color: #990000;">' + ninja.translator.get("securitychecklistrandomNOK") + '</span>';
 	} 
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
 }

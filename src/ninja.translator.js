@@ -58,6 +58,11 @@ ninja.translator = {
         "vanityalertinvalidinputpublickeysmatch",
         "vanityprivatekeyonlyavailable",
         "vanityalertinvalidinputcannotmultiple",
+		"securitychecklistrandomOK",
+		"securitychecklistrandomNOK",
+		"securitychecklistofflineNOK",
+		"securitychecklistofflineOK",
+		"paperwalletback",
     ],
 
 	translations: {
