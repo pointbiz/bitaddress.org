@@ -17,7 +17,6 @@
 	sr.state;
 	sr.pool;
 	sr.pptr;
-	sr.poolCopyOnInit;
 
 	// Pool size must be a multiple of 4 and greater than 32.
 	// An array of bytes the size of the pool will be passed to init()
@@ -53,13 +52,15 @@
 	}
 
 	sr.getByte = function () {
+		if(!ninja.seeder.isDone()) {
+			alert("Premature initialisation of the random generator. Something is really wrong, do not generate wallets.");
+			return NaN;
+		}
+		
 		if (sr.state == null) {
 			sr.seedTime();
 			sr.state = sr.ArcFour(); // Plug in your RNG constructor here
 			sr.state.init(sr.pool);
-			sr.poolCopyOnInit = [];
-			for (sr.pptr = 0; sr.pptr < sr.pool.length; ++sr.pptr)
-				sr.poolCopyOnInit[sr.pptr] = sr.pool[sr.pptr];
 			sr.pptr = 0;
 		}
 		// TODO: allow reseeding after first request

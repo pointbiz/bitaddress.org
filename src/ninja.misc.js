@@ -13,15 +13,18 @@
 		lastInputTime: new Date().getTime(),
 		seedPoints: [],
 
+		isDone: function() {
+			return ninja.seeder.seedCount >= ninja.seeder.seedLimit;
+		},
+		
 		// seed function exists to wait for mouse movement to add more entropy before generating an address
 		seed: function (evt) {
 			if (!evt) var evt = window.event;
 			var timeStamp = new Date().getTime();
-		// seeding is over now we generate and display the address
+			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
-				document.getElementById("generate").style.display = "none";
+				ninja.wallets.singlewallet.open();
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
 			}
@@ -42,7 +45,7 @@
 			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
+				ninja.wallets.singlewallet.open();
 				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
@@ -62,17 +65,9 @@
 		},
 
 		showPool: function () {
-			var poolHex;
-			if (SecureRandom.poolCopyOnInit != null) {
-				poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-				document.getElementById("seedpool").innerHTML = poolHex;
-				document.getElementById("seedpooldisplay").innerHTML = poolHex;
-			}
-			else {
-				poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-				document.getElementById("seedpool").innerHTML = poolHex;
-				document.getElementById("seedpooldisplay").innerHTML = poolHex;
-			}
+			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
 		},
 
@@ -219,7 +214,6 @@ ninja.envSecurityCheck = function() {
 		default:
 	} 
 	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedEnvSecurityCheck').innerHTML = innerHTML;
 };
 
 ninja.browserSecurityCheck = function() {
@@ -230,7 +224,6 @@ ninja.browserSecurityCheck = function() {
 		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
 	} 
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedBrowserSecurityCheck').innerHTML = innerHTML;
 }
 
 ninja.getQueryString = function () {
@@ -273,4 +266,9 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 	ninja.forSerialized(0, keys.length, function (i, callback) {
 		whatToDo(keys[i], callback);
 	}, onComplete);
+};
+
+ninja.toggleFaqQuestion = function (elementId) {
+	var answerDiv = document.getElementById(elementId);
+	answerDiv.style.display = answerDiv.style.display == "block" ? "none" : "block";
 };
