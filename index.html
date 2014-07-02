@@ -1543,6 +1543,11 @@ if (typeof Crypto == "undefined" || !Crypto.util) {
 	}
 
 	sr.getByte = function () {
+		if(!ninja.seeder.isDone()) {
+			alert("Premature initialisation of the random generator. Something is really wrong, do not generate wallets.");
+			return NaN;
+		}
+		
 		if (sr.state == null) {
 			sr.seedTime();
 			sr.state = sr.ArcFour(); // Plug in your RNG constructor here
@@ -10703,6 +10708,10 @@ ninja.publicKey = {
 		lastInputTime: new Date().getTime(),
 		seedPoints: [],
 
+		isDone: function() {
+			return ninja.seeder.seedCount >= ninja.seeder.seedLimit;
+		},
+		
 		// seed function exists to wait for mouse movement to add more entropy before generating an address
 		seed: function (evt) {
 			if (!evt) var evt = window.event;

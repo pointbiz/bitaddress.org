@@ -13,14 +13,18 @@
 		lastInputTime: new Date().getTime(),
 		seedPoints: [],
 
+		isDone: function() {
+			return ninja.seeder.seedCount >= ninja.seeder.seedLimit;
+		},
+		
 		// seed function exists to wait for mouse movement to add more entropy before generating an address
 		seed: function (evt) {
 			if (!evt) var evt = window.event;
 			var timeStamp = new Date().getTime();
-		// seeding is over now we generate and display the address
+			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
+				ninja.wallets.singlewallet.open();
 				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
@@ -42,7 +46,7 @@
 			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
+				ninja.wallets.singlewallet.open();
 				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
@@ -63,8 +67,8 @@
 
 		showPool: function () {
 			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-				document.getElementById("seedpool").innerHTML = poolHex;
-				document.getElementById("seedpooldisplay").innerHTML = poolHex;
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
 		},
 

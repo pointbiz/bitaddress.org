@@ -52,6 +52,11 @@
 	}
 
 	sr.getByte = function () {
+		if(!ninja.seeder.isDone()) {
+			alert("Premature initialisation of the random generator. Something is really wrong, do not generate wallets.");
+			return NaN;
+		}
+		
 		if (sr.state == null) {
 			sr.seedTime();
 			sr.state = sr.ArcFour(); // Plug in your RNG constructor here
