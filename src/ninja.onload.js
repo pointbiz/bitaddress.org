@@ -6,12 +6,11 @@ if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["
 	document.getElementById("seedpoolarea").style.display = "block";
 }
 // change currency
-janin.currency.useCurrency(4);
-if (ninja.getQueryString()["currency"] != undefined) {
-	for(i = 0; i < janin.currencies.length; i++) {
-		if (janin.currencies[i].name.toLowerCase() == ninja.getQueryString()["currency"].toLowerCase())
-			janin.currency.useCurrency(i);
-	}
+var currency = ninja.getQueryString()["currency"] || "bitcoin";
+currency = currency.toLowerCase();
+for(i = 0; i < janin.currencies.length; i++) {
+	if (janin.currencies[i].name.toLowerCase() == currency)
+		janin.currency.useCurrency(i);
 }
 // populate currency dropdown list
 var select = document.getElementById("currency");

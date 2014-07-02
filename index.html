@@ -10263,13 +10263,13 @@ janin.currency = {
         // Update title depending on currency
         document.title = janin.currency.name() + "'s paper wallet generator";
         document.getElementById("siteTitle").alt = janin.currency.name() + " Paper Wallet Generator";
-        
+			
 		if(ninja.seeder.isDone())
 		{
-        // Regenerate a new wallet when not expensive
-        ninja.wallets.singlewallet.generateNewAddressAndKey();
-        ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
-        ninja.wallets.brainwallet.view();
+			// Regenerate a new wallet when not expensive
+			ninja.wallets.singlewallet.generateNewAddressAndKey();
+			ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
+			ninja.wallets.brainwallet.view();
 		}
         
         // Reset wallet tab when expensive or not applicable
@@ -10317,11 +10317,11 @@ janin.currencies = [
     janin.currency.createCurrency ("Fastcoin",   0x60, 0xe0, "8",    "a"    , "frxe8F7gQdiAVgy4mRXjpXH5vN1wyta1db"),
     janin.currency.createCurrency ("Feathercoin",0x0e, 0x8e, "5",    "N"    , "6dxAP6oacHsove5X2kZPpddcT1Am167YzC"),
     janin.currency.createCurrency ("Fluttercoin",0x23, 0xa3, "6",    "R"    , "FJioRLt3gLtqk3tUdMhwjAVo1sdWjRuwqt"),
-    janin.currency.createCurrency ("Fuelcoin",0x24, 0xa4, "6",    "R"    , ""),
+    janin.currency.createCurrency ("Fuelcoin",   0x24, 0xa4, "6",    "R"    , ""),
     janin.currency.createCurrency ("GlobalBoost",0x26, 0xa6, "6",    "R"    , "GeXdH1WhzA7ayYim9sdCCQKcVukUq1W8LJ"),
     janin.currency.createCurrency ("Goodcoin",   0x26, 0xa6, "6",    "R"    , "GM3kAbQGaMVAYk8U3CrVGhSwz1hZaF6gVM"),
     janin.currency.createCurrency ("Gridcoin",   0x25, 0xa5, "6",    "R"    , "FyYkg3xhJVcVzMMw8JKfQaBxA9DAVhivq4"),
-    janin.currency.createCurrency ("Guldencoin",0x26, 0xa6, "6",    "R"    , ""),
+    janin.currency.createCurrency ("Guldencoin", 0x26, 0xa6, "6",    "R"    , ""),
     janin.currency.createCurrency ("Guncoin",    0x27, 0xa7, "6",    "R"    , "GwVej6c3tF9GqEdSKmwJiUDWtQVK2wY9fP"),
     janin.currency.createCurrency ("HTMLCoin",   0x1e, 0x9e, "6",    "Q"    , "DP4AVuekGEatNmpCL99m46k8THwS9yNVqy"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
@@ -10718,10 +10718,10 @@ ninja.publicKey = {
 		seed: function (evt) {
 			if (!evt) var evt = window.event;
 			var timeStamp = new Date().getTime();
-		// seeding is over now we generate and display the address
+			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
+				ninja.wallets.singlewallet.open();
 				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
@@ -10743,7 +10743,7 @@ ninja.publicKey = {
 			// seeding is over now we generate and display the address
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
+				ninja.wallets.singlewallet.open();
 				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
@@ -10764,8 +10764,8 @@ ninja.publicKey = {
 
 		showPool: function () {
 			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-				document.getElementById("seedpool").innerHTML = poolHex;
-				document.getElementById("seedpooldisplay").innerHTML = poolHex;
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
 		},
 
@@ -13161,12 +13161,11 @@ if (ninja.getQueryString()["showseedpool"] == "true" || ninja.getQueryString()["
 	document.getElementById("seedpoolarea").style.display = "block";
 }
 // change currency
-janin.currency.useCurrency(4);
-if (ninja.getQueryString()["currency"] != undefined) {
-	for(i = 0; i < janin.currencies.length; i++) {
-		if (janin.currencies[i].name.toLowerCase() == ninja.getQueryString()["currency"].toLowerCase())
-			janin.currency.useCurrency(i);
-	}
+var currency = ninja.getQueryString()["currency"] || "bitcoin";
+currency = currency.toLowerCase();
+for(i = 0; i < janin.currencies.length; i++) {
+	if (janin.currencies[i].name.toLowerCase() == currency)
+		janin.currency.useCurrency(i);
 }
 // populate currency dropdown list
 var select = document.getElementById("currency");
