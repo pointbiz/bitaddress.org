@@ -9330,6 +9330,12 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #walletCommands { display: none; }
 #keyarea { display: none; }
 
+#faqZone { text-align: left; padding: 10px 30px 30px 30px; }
+.faqQuestion { margin-left: 15px; }
+.faqAnswer { margin-left: 30px; }
+.faqListBullet { padding: 0 5px 0px 15px; }
+.faqLink { cursor: pointer; }
+
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; min-height: 98px; }
@@ -9359,7 +9365,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 h1 { margin: 0px; height: 91px; }
 
-#keyarea { height: 250px; }
+#keyarea { height: 250px; border-bottom: 1px solid #bfbfbf; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
 #keyarea .privwif { float: none; text-align: right; position: relative; padding: 0; }
@@ -9370,7 +9376,7 @@ h1 { margin: 0px; height: 91px; }
 #singlearea { font-size: 90%; display: block; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
+#singlesafety { text-align: left; border-bottom: 1px solid #bfbfbf; position: relative; min-height: 500px; }
 
 #singlesafety p { font-size: 13px; }
 
@@ -9775,9 +9781,7 @@ h1 { margin: 0px; height: 91px; }
 							<strong>Please test spending a small amount before receiving any large payments.</strong><br /><br />
 						</p>
 
-						<p>
-							<a href="https://blockchain.info/fr/wallet/paper-tutorial" target="_blank">For an extended tutorial on paper wallets, click here</a>
-						</p>
+						
 					</div>
 					<div class="secondHalfSingleSafety">
 						<img class="frontPageImage" src="images/overview.png" alt="Overview image of 4 paper wallet" />
@@ -9801,7 +9805,62 @@ h1 { margin: 0px; height: 91px; }
 							<div id="supportedcurrencies"></div>
 						</div>
 					</div>
-					
+				</div>
+
+				<div id="faqZone">
+					<h2>Frequently asked questions :</h2>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion1');">&#8226; Is it safe ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion1">
+						We try to make it that way ! The core the tool, that generate the keys is 99% the same as the well reviewed bitaddress.org. We only changed it to be able to generate address for different crypto-currencies.
+We think that having a unique generator for multiple currency lead to a much better reviewed tool for all than having a myriad of half backed generator.
+Changes made to this generator are available on Github in small and divided commits and thus are easy to review and reuse.
+Walletgenerator.net use the same security measure as its original. All-in-one html document, no ajax, no analytics, no external calls, no CDN that can inject anything they want. And trust us, we have seen some nasty things when reviewing some wallet generator.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion2');">&#8226; Why use a paper wallet ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion2">
+							Advantages of a paper wallet are multiple:<br/><br/>
+							<span class="faqListBullet">&#8658;</span> They are not subject to malware and keylogger<br/>
+							<span class="faqListBullet">&#8658;</span> You don’t rely on a third party’s honesty or capacity to protect your coins<br/>
+							<span class="faqListBullet">&#8658;</span> You won't lose your coin when your device break
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion3');">&#8226; How to use a paper wallet ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion3">
+						Once you have generated and printed a wallet, you can send coins to the public address, like for any wallet. Store your paper wallet securely. It contains everything that is needed to spend your funds. Consider using BIP38 to secure your paper wallet with a password.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion4');">&#8226; How to spend the coin stored in a paper wallet ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion4">
+						You will need to import your private key in a real client, that you can download from the currency website. The exact method to do that will depend on the client. If there is no integrated method, you can usually fall back to the debug console and use the command “importprivkey yourprivatekey“.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion5');">&#8226; How walletgenerator.net is different than another wallet generator ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion5">
+						It’s not that different. You will find another design for the paper wallet and some improvement here and there. The big difference is that this is a unique project for a lot of currencies, so more people can review it and check its safety.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion6');">&#8226; Where is the https:// ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion6">
+						There is none. The web hosting solution we currently use doesn't provide SSL support, so we would need to upgrade that. It should happen in the future, but remember that there is almost no point in doing that. You are not supposed to generate anything from the live website, and even if you do, as everything is client-side javascript, HTTPS won’t help you at all.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion7');">&#8226; Can you add support for cryptocurrency XYZ ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion7">
+						Absolutely ! To help us do that, you can provide us a high resolution logo, some sample of public address, the link to download a client, a very short amount of the currency to make some test. But keep in mind that there is some currency that we cannot support. If the developers made some change in the address format, we won’t hack the crypto core of the project and taking the risk to tamper the security of the others currencies. Please contact us using <a href="http://twitter.com/WalletGenerator" target="_blank">Twitter</a> or <a href="https://github.com/MichaelMure/WalletGenerator.net" target="_blank">Github</a>.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion8');">&#8226; Why should I make a donation ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion8">
+						Donations money are used to pay our hosting service provider, but it’ll also be used to make walletgenerator.net more secure as we plan to organize a CrowdCurity campain as soon as we get enough money to pay for it.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion9');">&#8226; I found a bug, what shall I do ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion9">
+						You can report bugs using GitHub. You can also contact us using our twitter account (<a href="http://twitter.com/WalletGenerator" target="_blank">@WalletGenerator</a>). Just try to explain clearly what is wrong and we will try to fix the bug as soon as possible.
+					</p>
+
 				</div>
 			</div>
 
@@ -10934,6 +10993,11 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 	ninja.forSerialized(0, keys.length, function (i, callback) {
 		whatToDo(keys[i], callback);
 	}, onComplete);
+};
+
+ninja.toggleFaqQuestion = function (elementId) {
+	var answerDiv = document.getElementById(elementId);
+	answerDiv.style.display = answerDiv.style.display == "none" ? "block" : "none";
 };
 	</script>
 	<script type="text/javascript">

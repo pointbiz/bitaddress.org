@@ -26,6 +26,12 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #walletCommands { display: none; }
 #keyarea { display: none; }
 
+#faqZone { text-align: left; padding: 10px 30px 30px 30px; }
+.faqQuestion { margin-left: 15px; }
+.faqAnswer { margin-left: 30px; }
+.faqListBullet { padding: 0 5px 0px 15px; }
+.faqLink { cursor: pointer; }
+
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; min-height: 98px; }
@@ -55,7 +61,7 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 
 h1 { margin: 0px; height: 91px; }
 
-#keyarea { height: 250px; }
+#keyarea { height: 250px; border-bottom: 1px solid #bfbfbf; }
 #keyarea .pubaddress { float: none; display: block; padding: 0; height: auto; }
 #keyarea .label { text-decoration: none; }
 #keyarea .privwif { float: none; text-align: right; position: relative; padding: 0; }
@@ -66,7 +72,7 @@ h1 { margin: 0px; height: 91px; }
 #singlearea { font-size: 90%; display: block; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
+#singlesafety { text-align: left; border-bottom: 1px solid #bfbfbf; position: relative; min-height: 500px; }
 
 #singlesafety p { font-size: 13px; }
 

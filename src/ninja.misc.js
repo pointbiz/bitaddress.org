@@ -270,3 +270,8 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		whatToDo(keys[i], callback);
 	}, onComplete);
 };
+
+ninja.toggleFaqQuestion = function (elementId) {
+	var answerDiv = document.getElementById(elementId);
+	answerDiv.style.display = answerDiv.style.display == "none" ? "block" : "none";
+};
