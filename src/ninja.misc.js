@@ -62,17 +62,9 @@
 		},
 
 		showPool: function () {
-			var poolHex;
-			if (SecureRandom.poolCopyOnInit != null) {
-				poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+			var poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
 				document.getElementById("seedpool").innerHTML = poolHex;
 				document.getElementById("seedpooldisplay").innerHTML = poolHex;
-			}
-			else {
-				poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-				document.getElementById("seedpool").innerHTML = poolHex;
-				document.getElementById("seedpooldisplay").innerHTML = poolHex;
-			}
 			document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
 		},
 
