@@ -155,68 +155,29 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
 			<div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
-		
-		<div id="generate">
-
-
-			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
-			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
-			<div id="seedpooldisplay"></div>
-			
-			<div id="rightArea">
-				<div id="progress-bar" class="fullyRounded">
-					<div id="progress-bar-percentage" class="fullyRounded 1percentwidth"></div>
-				</div>
-	
-				<div id="seedSkipper">
-					<a href="#" class="nicerButton 100pxwidth" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
-					<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
-				</div>
-			</div>
-
-			<hr />
-
-			<div class="frontPageText">
-					
-				<div class="firstHalfSingleSafety">
-
-					<div class="supportedCurrenciesChecklist">
-						<b>Supported currencies :</b>
-						<div id="supportedcurrencies"></div>
-					</div>
-
-					<div class="frontPageInstructions">
-						<h3>Step 0. Follow the security checklist recommendation</h3>
-									<p>
-										First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
-									</p>
-								</div>
-
-								<div class="securityChecklist">
-						<b>Security Checklist :</b>
-
-						<ul>
-						<li id="seedEnvSecurityCheck"></li>
-
-						<li id="seedBrowserSecurityCheck"></li>
-
-						<li>
-							Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
-						</li>
-						</ul>
-					</div>
-								
-							</div>
-							<div class="secondHalfSingleSafety">
-								<img class="seedFrontPageImage" alt="Paper wallet from walletgenerator.net" src="images/overview.png" />
-				</div>
-			</div>
-		</div>
 
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
-				<div class="commands">
+
+				<div id="initBanner">
+					<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
+					<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
+					<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
+					<div id="seedpooldisplay"></div>
+					
+					<div id="rightArea">
+						<div id="progress-bar" class="fullyRounded">
+							<div id="progress-bar-percentage" class="fullyRounded 1percentwidth"></div>
+						</div>
+			
+						<div id="seedSkipper">
+							<a href="#" class="nicerButton 100pxwidth" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
+							<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
+						</div>
+					</div>
+				</div>
+
+				<div id="walletCommands" class="commands">
 					<div id="singlecommands" class="row">
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
@@ -247,6 +208,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				
 				<div id="singlesafety">
 					<div class="firstHalfSingleSafety">
+
 						<h3>Step 0. Follow the security checklist recommendation</h3>
 						<p>
 							First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
@@ -297,6 +259,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
 							</li>
 							</ul>
+						</div>
+
+						<div class="supportedCurrenciesChecklist">
+							<b>Supported currencies :</b>
+							<div id="supportedcurrencies"></div>
 						</div>
 					</div>
 					

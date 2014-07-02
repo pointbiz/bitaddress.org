@@ -9326,6 +9326,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 1px solid #BFBFBF; }
 
+#initBanner { position: relative; text-align: left; padding: 15px; background-color: white; border-bottom: 1px solid #bfbfbf; }
+#walletCommands { display: none; }
+#keyarea { display: none; }
+
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
 #seedpoolarea { display: none; }
 #seedpooldisplay {  font-family: monospace; font-size: 1em; width: 640px; padding: 15px 5px; word-wrap: break-word; min-height: 98px; }
@@ -9363,7 +9367,7 @@ h1 { margin: 0px; height: 91px; }
 #keyarea .qrcode_private { float: none; display: block; top: 0; text-align: right; padding: 13px 11px 11px 11px; }
 #keyarea .private { width: 30%; display: table-cell; }
 #keyarea .public { width: 30%; display: table-cell; }
-#singlearea { font-size: 90%; }
+#singlearea { font-size: 90%; display: block; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: green; font-weight: bolder; font-size: 200%;  }
 #singlesafety { text-align: left; border-top: 1px solid #BFBFBF; position: relative; min-height: 500px; }
@@ -9686,68 +9690,29 @@ h1 { margin: 0px; height: 91px; }
 			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
 			<div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
-		
-		<div id="generate">
-
-
-			<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
-			<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-			<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
-			<div id="seedpooldisplay"></div>
-			
-			<div id="rightArea">
-				<div id="progress-bar" class="fullyRounded">
-					<div id="progress-bar-percentage" class="fullyRounded 1percentwidth"></div>
-				</div>
-	
-				<div id="seedSkipper">
-					<a href="#" class="nicerButton 100pxwidth" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
-					<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
-				</div>
-			</div>
-
-			<hr />
-
-			<div class="frontPageText">
-					
-				<div class="firstHalfSingleSafety">
-
-					<div class="supportedCurrenciesChecklist">
-						<b>Supported currencies :</b>
-						<div id="supportedcurrencies"></div>
-					</div>
-
-					<div class="frontPageInstructions">
-						<h3>Step 0. Follow the security checklist recommendation</h3>
-									<p>
-										First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
-									</p>
-								</div>
-
-								<div class="securityChecklist">
-						<b>Security Checklist :</b>
-
-						<ul>
-						<li id="seedEnvSecurityCheck"></li>
-
-						<li id="seedBrowserSecurityCheck"></li>
-
-						<li>
-							Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
-						</li>
-						</ul>
-					</div>
-								
-							</div>
-							<div class="secondHalfSingleSafety">
-								<img class="seedFrontPageImage" alt="Paper wallet from walletgenerator.net" src="images/overview.png" />
-				</div>
-			</div>
-		</div>
 
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
-				<div class="commands">
+
+				<div id="initBanner">
+					<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
+					<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
+					<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
+					<div id="seedpooldisplay"></div>
+					
+					<div id="rightArea">
+						<div id="progress-bar" class="fullyRounded">
+							<div id="progress-bar-percentage" class="fullyRounded 1percentwidth"></div>
+						</div>
+			
+						<div id="seedSkipper">
+							<a href="#" class="nicerButton 100pxwidth" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
+							<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
+						</div>
+					</div>
+				</div>
+
+				<div id="walletCommands" class="commands">
 					<div id="singlecommands" class="row">
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
@@ -9778,6 +9743,7 @@ h1 { margin: 0px; height: 91px; }
 				
 				<div id="singlesafety">
 					<div class="firstHalfSingleSafety">
+
 						<h3>Step 0. Follow the security checklist recommendation</h3>
 						<p>
 							First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
@@ -9828,6 +9794,11 @@ h1 { margin: 0px; height: 91px; }
 								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
 							</li>
 							</ul>
+						</div>
+
+						<div class="supportedCurrenciesChecklist">
+							<b>Supported currencies :</b>
+							<div id="supportedcurrencies"></div>
 						</div>
 					</div>
 					
@@ -10314,11 +10285,11 @@ janin.currencies = [
     janin.currency.createCurrency ("Fastcoin",   0x60, 0xe0, "8",    "a"    , "frxe8F7gQdiAVgy4mRXjpXH5vN1wyta1db"),
     janin.currency.createCurrency ("Feathercoin",0x0e, 0x8e, "5",    "N"    , "6dxAP6oacHsove5X2kZPpddcT1Am167YzC"),
     janin.currency.createCurrency ("Fluttercoin",0x23, 0xa3, "6",    "R"    , "FJioRLt3gLtqk3tUdMhwjAVo1sdWjRuwqt"),
-    janin.currency.createCurrency ("Fuelcoin",0x24, 0xa4, "6",    "R"    , ""),
+    janin.currency.createCurrency ("Fuelcoin",   0x24, 0xa4, "6",    "R"    , ""),
     janin.currency.createCurrency ("GlobalBoost",0x26, 0xa6, "6",    "R"    , "GeXdH1WhzA7ayYim9sdCCQKcVukUq1W8LJ"),
     janin.currency.createCurrency ("Goodcoin",   0x26, 0xa6, "6",    "R"    , "GM3kAbQGaMVAYk8U3CrVGhSwz1hZaF6gVM"),
     janin.currency.createCurrency ("Gridcoin",   0x25, 0xa5, "6",    "R"    , "FyYkg3xhJVcVzMMw8JKfQaBxA9DAVhivq4"),
-    janin.currency.createCurrency ("Guldencoin",0x26, 0xa6, "6",    "R"    , ""),
+    janin.currency.createCurrency ("Guldencoin", 0x26, 0xa6, "6",    "R"    , ""),
     janin.currency.createCurrency ("Guncoin",    0x27, 0xa7, "6",    "R"    , "GwVej6c3tF9GqEdSKmwJiUDWtQVK2wY9fP"),
     janin.currency.createCurrency ("HTMLCoin",   0x1e, 0x9e, "6",    "Q"    , "DP4AVuekGEatNmpCL99m46k8THwS9yNVqy"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
@@ -10715,7 +10686,6 @@ ninja.publicKey = {
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
-				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
 			}
@@ -10737,7 +10707,6 @@ ninja.publicKey = {
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
-				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
 			}
@@ -10913,7 +10882,6 @@ ninja.envSecurityCheck = function() {
 		default:
 	} 
 	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedEnvSecurityCheck').innerHTML = innerHTML;
 };
 
 ninja.browserSecurityCheck = function() {
@@ -10924,7 +10892,6 @@ ninja.browserSecurityCheck = function() {
 		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
 	} 
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedBrowserSecurityCheck').innerHTML = innerHTML;
 }
 
 ninja.getQueryString = function () {
@@ -11871,8 +11838,11 @@ ninja.wallets.singlewallet = {
 		if (document.getElementById("btcaddress").innerHTML == "") {
 			ninja.wallets.singlewallet.generateNewAddressAndKey();
 		}
-		document.getElementById("singlearea").style.display = "block";
+		document.getElementById("walletCommands").style.display = "block";
+		document.getElementById("keyarea").style.display = "block";
 		document.getElementById("currencyddl").style.display = "block";
+
+		document.getElementById("initBanner").style.display = "none";
 	},
 
 	close: function () {

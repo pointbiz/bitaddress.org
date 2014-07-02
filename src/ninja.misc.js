@@ -21,7 +21,6 @@
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
-				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
 			}
@@ -43,7 +42,6 @@
 			if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
 				ninja.seeder.seedCount++;
 			ninja.wallets.singlewallet.open();
-				document.getElementById("generate").style.display = "none";
 				document.getElementById("menu").style.visibility = "visible";
 				ninja.seeder.removePoints();
 			}
@@ -219,7 +217,6 @@ ninja.envSecurityCheck = function() {
 		default:
 	} 
 	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedEnvSecurityCheck').innerHTML = innerHTML;
 };
 
 ninja.browserSecurityCheck = function() {
@@ -230,7 +227,6 @@ ninja.browserSecurityCheck = function() {
 		innerHTML = '<span style="color: #990000;">Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.</span>';
 	} 
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
-	document.getElementById('seedBrowserSecurityCheck').innerHTML = innerHTML;
 }
 
 ninja.getQueryString = function () {
