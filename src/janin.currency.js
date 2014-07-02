@@ -42,11 +42,14 @@ janin.currency = {
         // Update title depending on currency
         document.title = janin.currency.name() + "'s paper wallet generator";
         document.getElementById("siteTitle").alt = janin.currency.name() + " Paper Wallet Generator";
-        
-        // Regenerate a new wallet when not expensive
-        ninja.wallets.singlewallet.generateNewAddressAndKey();
-        ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
-        ninja.wallets.brainwallet.view();
+			
+		if(ninja.seeder.isDone())
+		{
+			// Regenerate a new wallet when not expensive
+			ninja.wallets.singlewallet.generateNewAddressAndKey();
+			ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);
+			ninja.wallets.brainwallet.view();
+		}
         
         // Reset wallet tab when expensive or not applicable
         document.getElementById("bulktextarea").value = "";
@@ -71,7 +74,6 @@ janin.currency = {
             janin.doge.stop();
             janin.doge = null;
         }
-        
     },
 };
 
