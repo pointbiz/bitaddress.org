@@ -53,13 +53,6 @@ janin.currency = {
         
         // Reset wallet tab when expensive or not applicable
         document.getElementById("bulktextarea").value = "";
-        document.getElementById("vanitypubkey").innerHTML = "";
-        document.getElementById("vanityprivatekey").innerHTML = "";
-        document.getElementById("vanityinput1").value = "";
-        document.getElementById("vanityinput2").value = "";
-        document.getElementById("vanityaddress").innerHTML = "";
-        document.getElementById("vanitypublickeyhex").innerHTML = "";
-        document.getElementById("vanityprivatekeywif").innerHTML = "";
         
         
         // easter egg doge ;)

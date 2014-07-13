@@ -146,7 +146,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<div class="tab i18n" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
 			<div class="tab i18n" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab i18n" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
-			<div class="tab i18n" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
 			<div class="tab i18n" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
 			<div class="tab i18n" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
@@ -383,66 +382,6 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 					</div>
 				</div>
 			</div>
-			
-			<div id="vanityarea" class="walletarea">
-				<div id="vanitystep1label" class="commands expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
-					<span><label id="vanitylabelstep1" class="i18n">Step 1 - Generate your "Step1 Key Pair"</label> <input type="button" id="vanitynewkeypair" 
-						value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
-					<div id="vanitystep1icon" class="more"></div>
-				</div>
-				<div id="vanitystep1area">
-					<div>
-						<span class="label i18n" id="vanitylabelstep1publickey">Step 1 Public Key:</span>
-						<div class="output pubkeyhex" id="vanitypubkey"></div>
-						<br /><div class="notes i18n" id="vanitylabelstep1pubnotes">Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
-					</div>
-					<div>
-						<span class="label i18n" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
-						<span class="output" id="vanityprivatekey"></span>
-						<br /><div class="notes i18n" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Private Key once the Pool has found your prefix.</div>
-					</div>
-				</div>
-				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
-					<span id="vanitylabelstep2calculateyourvanitywallet" class="i18n">Step 2 - Calculate your Vanity Wallet</span>
-					<div id="vanitystep2icon" class="more"></div>
-				</div>
-				<div id="vanitystep2inputs">
-					<div>
-						<span id="vanitylabelenteryourpart" class="i18n">Enter Your Part Private Key (generated in Step 1 above and previously saved):</span>
-						<br /><span class="notes i18n" id="vanitylabelnote1">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput1" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<span id="vanitylabelenteryourpoolpart" class="i18n">Enter Pool Part Private Key (from Vanity Pool):</span>
-						<br /><span class="notes i18n" id="vanitylabelnote2">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput2" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<label for="vanityradioadd" id="vanitylabelradioadd" class="i18n">Add</label> <input type="radio" id="vanityradioadd" name="vanityradio" value="add" checked />
-						<label for="vanityradiomultiply" id="vanitylabelradiomultiply" class="i18n">Multiply</label> <input type="radio" id="vanityradiomultiply" name="vanityradio" value="multiply" />
-					</div>
-					<div><input type="button" id="vanitycalc" value="Calculate Vanity Wallet" onclick="ninja.wallets.vanitywallet.addKeys();" /></div>
-				</div>
-				<div id="vanitystep2area">
-					<div>
-						<span class="label i18n" id="vanitylabelbitcoinaddress">Vanity Public Address:</span>
-						<span class="output" id="vanityaddress"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotesbitcoinaddress">The above is your new address that should include your required prefix.</div>
-					</div>
-					
-					<div>
-						<span class="label i18n" id="vanitylabelpublickeyhex">Vanity Public Key (HEX):</span>
-						<span class="output pubkeyhex" id="vanitypublickeyhex"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotespublickeyhex">The above is the Public Key in hexadecimal format.</div>
-					</div>
-
-					<div>
-						<span class="label i18n" id="vanitylabelprivatekey">Vanity Private Key (WIF):</span>
-						<span class="output" id="vanityprivatekeywif"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotesprivatekey">The above is the Private Key to load into your wallet.</div>
-					</div>
-				</div>
-			</div>
 
 			<div id="detailarea" class="walletarea">
 				<div id="detailcommands" class="commands">
@@ -662,9 +601,6 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 	</script>
 	<script type="text/javascript">
 //ninja.brainwallet.js
-	</script>
-	<script type="text/javascript">
-//ninja.vanitywallet.js
 	</script>
 	<script type="text/javascript">
 //ninja.detailwallet.js

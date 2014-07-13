@@ -9549,15 +9549,6 @@ h1 { margin: 0px; height: 91px; }
 #detailbip38commands { display: none; padding-top: 5px; }
 #paperqrscanner { position: absolute; display: none; width: 100%; height: 100%; top: 0; left: 0; z-index: 5000; vertical-aligh: middle; }
 #paperqrscanner.show { display: block; }
-#vanityarea { text-align: left; }
-#vanityarea .label { text-decoration: underline; }
-#vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
-#vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 1px solid #BFBFBF; }
-#vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 1px solid #BFBFBF; display: block; padding: 15px; }
-#vanitystep2inputs { padding: 0 15px 10px 15px; }
-#vanitycalc { margin-top: 5px; }
 
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .unittests { text-align: center; }
@@ -9688,7 +9679,6 @@ h1 { margin: 0px; height: 91px; }
 			<div class="tab i18n" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
 			<div class="tab i18n" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab i18n" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
-			<div class="tab i18n" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
 			<div class="tab i18n" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
 			<div class="tab i18n" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
@@ -9922,66 +9912,6 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 							<span class="label i18n" id="brainlabelprivatekey">Private Key (Wallet Import Format):</span>
 							<span class="output" id="brainbtcprivwif"></span>
 						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div id="vanityarea" class="walletarea">
-				<div id="vanitystep1label" class="commands expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
-					<span><label id="vanitylabelstep1" class="i18n">Step 1 - Generate your "Step1 Key Pair"</label> <input type="button" id="vanitynewkeypair" 
-						value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
-					<div id="vanitystep1icon" class="more"></div>
-				</div>
-				<div id="vanitystep1area">
-					<div>
-						<span class="label i18n" id="vanitylabelstep1publickey">Step 1 Public Key:</span>
-						<div class="output pubkeyhex" id="vanitypubkey"></div>
-						<br /><div class="notes i18n" id="vanitylabelstep1pubnotes">Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
-					</div>
-					<div>
-						<span class="label i18n" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
-						<span class="output" id="vanityprivatekey"></span>
-						<br /><div class="notes i18n" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Private Key once the Pool has found your prefix.</div>
-					</div>
-				</div>
-				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
-					<span id="vanitylabelstep2calculateyourvanitywallet" class="i18n">Step 2 - Calculate your Vanity Wallet</span>
-					<div id="vanitystep2icon" class="more"></div>
-				</div>
-				<div id="vanitystep2inputs">
-					<div>
-						<span id="vanitylabelenteryourpart" class="i18n">Enter Your Part Private Key (generated in Step 1 above and previously saved):</span>
-						<br /><span class="notes i18n" id="vanitylabelnote1">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput1" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<span id="vanitylabelenteryourpoolpart" class="i18n">Enter Pool Part Private Key (from Vanity Pool):</span>
-						<br /><span class="notes i18n" id="vanitylabelnote2">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput2" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<label for="vanityradioadd" id="vanitylabelradioadd" class="i18n">Add</label> <input type="radio" id="vanityradioadd" name="vanityradio" value="add" checked />
-						<label for="vanityradiomultiply" id="vanitylabelradiomultiply" class="i18n">Multiply</label> <input type="radio" id="vanityradiomultiply" name="vanityradio" value="multiply" />
-					</div>
-					<div><input type="button" id="vanitycalc" value="Calculate Vanity Wallet" onclick="ninja.wallets.vanitywallet.addKeys();" /></div>
-				</div>
-				<div id="vanitystep2area">
-					<div>
-						<span class="label i18n" id="vanitylabelbitcoinaddress">Vanity Public Address:</span>
-						<span class="output" id="vanityaddress"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotesbitcoinaddress">The above is your new address that should include your required prefix.</div>
-					</div>
-					
-					<div>
-						<span class="label i18n" id="vanitylabelpublickeyhex">Vanity Public Key (HEX):</span>
-						<span class="output pubkeyhex" id="vanitypublickeyhex"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotespublickeyhex">The above is the Public Key in hexadecimal format.</div>
-					</div>
-
-					<div>
-						<span class="label i18n" id="vanitylabelprivatekey">Vanity Private Key (WIF):</span>
-						<span class="output" id="vanityprivatekeywif"></span>
-						<br /><div class="notes i18n" id="vanitylabelnotesprivatekey">The above is the Private Key to load into your wallet.</div>
 					</div>
 				</div>
 			</div>
@@ -10313,13 +10243,6 @@ janin.currency = {
         
         // Reset wallet tab when expensive or not applicable
         document.getElementById("bulktextarea").value = "";
-        document.getElementById("vanitypubkey").innerHTML = "";
-        document.getElementById("vanityprivatekey").innerHTML = "";
-        document.getElementById("vanityinput1").value = "";
-        document.getElementById("vanityinput2").value = "";
-        document.getElementById("vanityaddress").innerHTML = "";
-        document.getElementById("vanitypublickeyhex").innerHTML = "";
-        document.getElementById("vanityprivatekeywif").innerHTML = "";
         
         
         // easter egg doge ;)
@@ -11063,11 +10986,6 @@ ninja.translator = {
         "paperlabelprivatekey",
         "paperlabelencryptedkey",
         "paperlabelbitcoinaddress",
-        "vanityinvalidinputcouldnotcombinekeys",
-        "vanityalertinvalidinputprivatekeysmatch",
-        "vanityalertinvalidinputpublickeysmatch",
-        "vanityprivatekeyonlyavailable",
-        "vanityalertinvalidinputcannotmultiple",
 		"securitychecklistrandomOK",
 		"securitychecklistrandomNOK",
 		"securitychecklistofflineNOK",
@@ -11077,22 +10995,16 @@ ninja.translator = {
 
 	translations: {
     ﻿"en": {
-    "paperlabelbitcoinaddress": "Bitcoin Address:",
-    "paperlabelprivatekey": "Private Key (Wallet Import Format):",
-    "paperlabelencryptedkey": "Encrypted Private Key (Password required)",
+    "defaultTitle" : "WalletGenerator.net - Universal Paper wallet generator for Bitcoin and other cryptocurrencies",
+    "title" : "Paper Wallet Generator",
     "bulkgeneratingaddresses": "Generating addresses... ",
     "brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\n",
-    "brainalertpassphrasewarning": "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+    "brainalertpassphrasewarning": "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your coins.",
     "brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
     "detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
-    "detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+    "detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your coins.",
     "bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.",
     "bip38alertpassphraserequired": "Passphrase required for BIP38 key",
-    "vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
-    "vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
-    "vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
-    "vanityprivatekeyonlyavailable": "Only available when combining two private keys",
-    "vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys.",
 	"securitychecklistrandomOK": "Your browser is capable of generating cryptographically random keys using window.crypto.getRandomValues",
 	"securitychecklistrandomNOK": "Your browser does NOT support window.crypto.getRandomValues(), which is important for generating the most secure random numbers possible. Please use a more modern browser.",
 	"securitychecklistofflineNOK": "You appear to be running this generator off of a live website, which is not recommended for creating valuable wallets. Instead, use the download link at the bottom of this page to download the ZIP file from GitHub and run this generator offline as a \'local\' HTML file.",
@@ -11449,122 +11361,6 @@ ninja.wallets.brainwallet = {
 			document.getElementById("brainpassphrase").setAttribute("type", "password");
 			document.getElementById("brainpassphraseconfirm").style.visibility = "visible";
 			document.getElementById("brainlabelconfirm").style.visibility = "visible";
-		}
-	}
-};
-	</script>
-	<script type="text/javascript">
-ninja.wallets.vanitywallet = {
-	open: function () {
-		document.getElementById("vanityarea").style.display = "block";
-	},
-
-	close: function () {
-		document.getElementById("vanityarea").style.display = "none";
-		document.getElementById("vanitystep1area").style.display = "none";
-		document.getElementById("vanitystep2area").style.display = "none";
-		document.getElementById("vanitystep1icon").setAttribute("class", "more");
-		document.getElementById("vanitystep2icon").setAttribute("class", "more");
-	},
-
-	generateKeyPair: function () {
-		var key = new Bitcoin.ECKey(false);
-		var publicKey = key.getPubKeyHex();
-		var privateKey = key.getBitcoinHexFormat();
-		document.getElementById("vanitypubkey").innerHTML = publicKey;
-		document.getElementById("vanityprivatekey").innerHTML = privateKey;
-		document.getElementById("vanityarea").style.display = "block";
-		document.getElementById("vanitystep1area").style.display = "none";
-	},
-
-	addKeys: function () {
-		var privateKeyWif = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
-		var bitcoinAddress = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
-		var publicKeyHex = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
-		try {
-			var input1KeyString = document.getElementById("vanityinput1").value;
-			var input2KeyString = document.getElementById("vanityinput2").value;
-
-			// both inputs are public keys
-			if (ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.publicKey.isPublicKeyHexFormat(input2KeyString)) {
-				// add both public keys together
-				if (document.getElementById("vanityradioadd").checked) {
-					var pubKeyByteArray = ninja.publicKey.getByteArrayFromAdding(input1KeyString, input2KeyString);
-					if (pubKeyByteArray == null) {
-						alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
-					}
-					else {
-						privateKeyWif = ninja.translator.get("vanityprivatekeyonlyavailable");
-						bitcoinAddress = ninja.publicKey.getBitcoinAddressFromByteArray(pubKeyByteArray);
-						publicKeyHex = ninja.publicKey.getHexFromByteArray(pubKeyByteArray);
-					}
-				}
-				else {
-					alert(ninja.translator.get("vanityalertinvalidinputcannotmultiple"));
-				}
-			}
-			// one public key and one private key
-			else if ((ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.privateKey.isPrivateKey(input2KeyString))
-							|| (ninja.publicKey.isPublicKeyHexFormat(input2KeyString) && ninja.privateKey.isPrivateKey(input1KeyString))
-						) {
-				privateKeyWif = ninja.translator.get("vanityprivatekeyonlyavailable");
-				var pubKeyHex = (ninja.publicKey.isPublicKeyHexFormat(input1KeyString)) ? input1KeyString : input2KeyString;
-				var ecKey = (ninja.privateKey.isPrivateKey(input1KeyString)) ? new Bitcoin.ECKey(input1KeyString) : new Bitcoin.ECKey(input2KeyString);
-				// add 
-				if (document.getElementById("vanityradioadd").checked) {
-					var pubKeyCombined = ninja.publicKey.getByteArrayFromAdding(pubKeyHex, ecKey.getPubKeyHex());
-				}
-				// multiply
-				else {
-					var pubKeyCombined = ninja.publicKey.getByteArrayFromMultiplying(pubKeyHex, ecKey);
-				}
-				if (pubKeyCombined == null) {
-					alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
-				} else {
-					bitcoinAddress = ninja.publicKey.getBitcoinAddressFromByteArray(pubKeyCombined);
-					publicKeyHex = ninja.publicKey.getHexFromByteArray(pubKeyCombined);
-				}
-			}
-			// both inputs are private keys
-			else if (ninja.privateKey.isPrivateKey(input1KeyString) && ninja.privateKey.isPrivateKey(input2KeyString)) {
-				var combinedPrivateKey;
-				// add both private keys together
-				if (document.getElementById("vanityradioadd").checked) {
-					combinedPrivateKey = ninja.privateKey.getECKeyFromAdding(input1KeyString, input2KeyString);
-				}
-				// multiply both private keys together
-				else {
-					combinedPrivateKey = ninja.privateKey.getECKeyFromMultiplying(input1KeyString, input2KeyString);
-				}
-				if (combinedPrivateKey == null) {
-					alert(ninja.translator.get("vanityalertinvalidinputprivatekeysmatch"));
-				}
-				else {
-					bitcoinAddress = combinedPrivateKey.getBitcoinAddress();
-					privateKeyWif = combinedPrivateKey.getBitcoinWalletImportFormat();
-					publicKeyHex = combinedPrivateKey.getPubKeyHex();
-				}
-			}
-		} catch (e) {
-			alert(e);
-		}
-		document.getElementById("vanityprivatekeywif").innerHTML = privateKeyWif;
-		document.getElementById("vanityaddress").innerHTML = bitcoinAddress;
-		document.getElementById("vanitypublickeyhex").innerHTML = publicKeyHex;
-		document.getElementById("vanitystep2area").style.display = "block";
-		document.getElementById("vanitystep2icon").setAttribute("class", "less");
-	},
-
-	openCloseStep: function (num) {
-		// do close
-		if (document.getElementById("vanitystep" + num + "area").style.display == "block") {
-			document.getElementById("vanitystep" + num + "area").style.display = "none";
-			document.getElementById("vanitystep" + num + "icon").setAttribute("class", "more");
-		}
-		// do open
-		else {
-			document.getElementById("vanitystep" + num + "area").style.display = "block";
-			document.getElementById("vanitystep" + num + "icon").setAttribute("class", "less");
 		}
 	}
 };

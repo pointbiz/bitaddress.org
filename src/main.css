@@ -244,15 +244,6 @@ h1 { margin: 0px; height: 91px; }
 #detailbip38commands { display: none; padding-top: 5px; }
 #paperqrscanner { position: absolute; display: none; width: 100%; height: 100%; top: 0; left: 0; z-index: 5000; vertical-aligh: middle; }
 #paperqrscanner.show { display: block; }
-#vanityarea { text-align: left; }
-#vanityarea .label { text-decoration: underline; }
-#vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
-#vanityarea .notes { text-align: left; font-size: 80%; padding: 0 0 20px 0; }
-#vanitystep1area { display: none; text-align: left; position: relative; padding: 15px; border-bottom: 1px solid #BFBFBF; }
-#vanitystep1label { padding-left: 5px; }
-#vanitystep2area { border-top: 1px solid #BFBFBF; display: block; padding: 15px; }
-#vanitystep2inputs { padding: 0 15px 10px 15px; }
-#vanitycalc { margin-top: 5px; }
 
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .unittests { text-align: center; }
