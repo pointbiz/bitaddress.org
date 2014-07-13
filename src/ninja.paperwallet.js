@@ -94,30 +94,6 @@ ninja.wallets.paperwallet = {
 		}
 	},
 
-	templateHtml: function (i) {
-		var privateKeyLabel = ninja.translator.get("paperlabelprivatekey");
-		if (ninja.wallets.paperwallet.encrypt) {
-			privateKeyLabel = ninja.translator.get("paperlabelencryptedkey");
-		}
-
-		var walletHtml =
-							"<div class='public'>" +
-								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
-								"<div class='pubaddress'>" +
-									"<span class='label'>" + ninja.translator.get("paperlabelbitcoinaddress") + "</span>" +
-									"<span class='output' id='btcaddress" + i + "'></span>" +
-								"</div>" +
-							"</div>" +
-							"<div class='private'>" +
-								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
-								"<div class='privwif'>" +
-									"<span class='label'>" + privateKeyLabel + "</span>" +
-									"<span class='output' id='btcprivwif" + i + "'></span>" +
-								"</div>" +
-							"</div>";
-		return walletHtml;
-	},
-
 	showWallet: function (idPostFix, bitcoinAddress, privateKey) {
 		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
