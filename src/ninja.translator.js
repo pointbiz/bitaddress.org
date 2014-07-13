@@ -42,6 +42,8 @@ ninja.translator = {
 	},
     
     staticID: [
+        "defaultTitle",
+        "title",
         "brainalertpassphrasewarning",
         "brainalertpassphrasetooshort",
         "brainalertpassphrasedoesnotmatch",

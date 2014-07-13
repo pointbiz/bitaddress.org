@@ -2,6 +2,8 @@
     "paperlabelbitcoinaddress": "Bitcoin Address:",
     "paperlabelprivatekey": "Private Key (Wallet Import Format):",
     "paperlabelencryptedkey": "Encrypted Private Key (Password required)",
+    "defaultTitle" : "WalletGenerator.net - Universal Paper wallet generator for Bitcoin and other cryptocurrencies",
+    "title" : "Paper Wallet Generator",
     "bulkgeneratingaddresses": "Generating addresses... ",
     "brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\n",
     "brainalertpassphrasewarning": "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",

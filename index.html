@@ -51,7 +51,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	GitHub Repository: https://github.com/MichaelMure/WalletGenerator.net
 	-->
 
-	<title>WalletGenerator.net - Paper wallet generator for BitCoins and other cryptocurrencies</title>
+	<title>WalletGenerator.net - Universal Paper wallet generator for Bitcoin and other cryptocurrencies</title>
 
 	<script type="text/javascript">
 // Array.prototype.map function is in the public domain.
@@ -10230,9 +10230,9 @@ janin.currency = {
         document.getElementById("coinLogoImg").src = coinImgUrl;
         
         // Update title depending on currency
-        document.title = janin.currency.name() + "'s paper wallet generator";
-        document.getElementById("siteTitle").alt = janin.currency.name() + " Paper Wallet Generator";
-			
+        document.title = janin.currency.name() + " " + ninja.translator.get("title");
+        document.getElementById("siteTitle").alt = janin.currency.name() + " " + ninja.translator.get("title");
+
 		if(ninja.seeder.isDone())
 		{
 			// Regenerate a new wallet when not expensive
@@ -10975,6 +10975,8 @@ ninja.translator = {
 	},
     
     staticID: [
+        "defaultTitle",
+        "title",
         "brainalertpassphrasewarning",
         "brainalertpassphrasetooshort",
         "brainalertpassphrasedoesnotmatch",
@@ -12185,6 +12187,11 @@ currency = currency.toLowerCase();
 for(i = 0; i < janin.currencies.length; i++) {
 	if (janin.currencies[i].name.toLowerCase() == currency)
 		janin.currency.useCurrency(i);
+}
+// Reset title if no currency is choosen
+if(ninja.getQueryString()["currency"] == null) {
+    document.title = ninja.translator.get("defaultTitle");
+    document.getElementById("siteTitle").alt = ninja.translator.get("defaultTitle");
 }
 // populate currency dropdown list
 var select = document.getElementById("currency");

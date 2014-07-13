@@ -14,6 +14,11 @@ for(i = 0; i < janin.currencies.length; i++) {
 	if (janin.currencies[i].name.toLowerCase() == currency)
 		janin.currency.useCurrency(i);
 }
+// Reset title if no currency is choosen
+if(ninja.getQueryString()["currency"] == null) {
+    document.title = ninja.translator.get("defaultTitle");
+    document.getElementById("siteTitle").alt = ninja.translator.get("defaultTitle");
+}
 // populate currency dropdown list
 var select = document.getElementById("currency");
 var options = "";

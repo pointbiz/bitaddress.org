@@ -40,9 +40,9 @@ janin.currency = {
         document.getElementById("coinLogoImg").src = coinImgUrl;
         
         // Update title depending on currency
-        document.title = janin.currency.name() + "'s paper wallet generator";
-        document.getElementById("siteTitle").alt = janin.currency.name() + " Paper Wallet Generator";
-			
+        document.title = janin.currency.name() + " " + ninja.translator.get("title");
+        document.getElementById("siteTitle").alt = janin.currency.name() + " " + ninja.translator.get("title");
+
 		if(ninja.seeder.isDone())
 		{
 			// Regenerate a new wallet when not expensive
