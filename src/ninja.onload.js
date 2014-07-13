@@ -79,21 +79,21 @@ if (ninja.getQueryString()["i18nextract"]) {
     var i18n = "\"" + culture + "\": {\n";
     for(x=0; x<a.length; x++) {
         i18n += "\t";
-        i18n += "'" + a[x].id + "': '";
+        i18n += "\"" + a[x].id + "\": \"";
         if(ninja.translator.translations[culture] && ninja.translator.translations[culture][a[x].id])
-            i18n += ninja.translator.translations[culture][a[x].id];
+            i18n += cleani18n(ninja.translator.translations[culture][a[x].id]);
         else
-            i18n += "(ENGLISH)" + a[x].innerHTML.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        i18n += "',\n";
+            i18n += "(ENGLISH)" + cleani18n(a[x].innerHTML);
+        i18n += "\",\n";
     }
     for(x=0; x<ninja.translator.staticID.length; x++) {
         i18n += "\t";
-        i18n += "'" + ninja.translator.staticID[x] + "': '";
+        i18n += "\"" + ninja.translator.staticID[x] + "\": \"";
         if(ninja.translator.translations[culture] && ninja.translator.translations[culture][ninja.translator.staticID[x]])
-            i18n += ninja.translator.translations[culture][ninja.translator.staticID[x]];
+            i18n += cleani18n(ninja.translator.translations[culture][ninja.translator.staticID[x]]);
         else
-            i18n += "(ENGLISH)" + ninja.translator.translations["en"][ninja.translator.staticID[x]].replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        i18n += "',\n";
+            i18n += "(ENGLISH)" + cleani18n(ninja.translator.translations["en"][ninja.translator.staticID[x]]);
+        i18n += "\",\n";
     }
     
     i18n += "},"
@@ -101,6 +101,11 @@ if (ninja.getQueryString()["i18nextract"]) {
     elem.innerHTML = i18n;
     div.appendChild(elem);
     document.body.appendChild(div);
+}
+function cleani18n(string) {
+    return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '') // remove leading and trailing space
+                .replace(/\s*\n+\s*/g, '\\n') // replace new line
+                .replace(/"/g, '\\"');
 }
 
 ninja.envSecurityCheck();

@@ -22,7 +22,7 @@ ninja.translator = {
 				document.getElementById("culture" + cult).setAttribute("class", "");
 			}
 			document.getElementById("culture" + culture).setAttribute("class", "selected");
-			// apply translations
+			// apply translations for each know id
 			for (var id in dict) {
 				if (document.getElementById(id) && document.getElementById(id).value) {
 					document.getElementById(id).value = dict[id];
@@ -52,9 +52,6 @@ ninja.translator = {
         "bip38alertpassphraserequired",
         "detailconfirmsha256",
         "detailalertnotvalidprivatekey",
-        "paperlabelprivatekey",
-        "paperlabelencryptedkey",
-        "paperlabelbitcoinaddress",
 		"securitychecklistrandomOK",
 		"securitychecklistrandomNOK",
 		"securitychecklistofflineNOK",
@@ -65,6 +62,5 @@ ninja.translator = {
 	translations: {
     //en.js
     //fr.js
-
 	}
 };

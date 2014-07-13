@@ -180,7 +180,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				<div id="keyarea" class="keyarea">
 					<div class="public">
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress" class="i18n">Public Address</span>
+							<span class="label i18n" id="singlelabelbitcoinaddress">Public Address</span>
 						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
@@ -320,8 +320,8 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 			<div id="paperarea">
 				<div class="commands">
 					<div id="papercommands" class="row">
-						<span><label id="paperlabelencrypt" for="paperencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
-						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
+						<span><label id="paperlabelencrypt" for="paperencrypt" class="i18n">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
+						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase" class="i18n">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
 
 						
 						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" /></span>
@@ -335,9 +335,9 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 			<div id="bulkarea" class="walletarea">
 				<div class="commands">
 					<div id="bulkcommands" class="row">
-						<span><label id="bulklabelstartindex" for="bulkstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
-						<span><label id="bulklabelrowstogenerate" for="bulklimit">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
-						<span><label id="bulklabelcompressed" for="bulkcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
+						<span><label id="bulklabelstartindex" for="bulkstartindex" class="i18n">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
+						<span><label id="bulklabelrowstogenerate" for="bulklimit" class="i18n">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
+						<span><label id="bulklabelcompressed" for="bulkcompressed" class="i18n">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
 						<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
 						<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
 					</div>
