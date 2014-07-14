@@ -222,9 +222,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 							You can insert one side inside the other to lock the wallet.
 						</p>
 						
-						<h3 id="securitystep4title" class="i18n">Step 4. Share your public key</h3>
+						<h3 id="securitystep4title" class="i18n">Step 4. Share your public address</h3>
 						<p id="securitystep4" class="i18n">
-							Use your public key to receive money from other crypto-currency users. You can share your public keys as much as you want.
+							Use your public address to receive money from other crypto-currency users. You can share your public address as much as you want.
 						</p>
 						<h3 id="securitystep5title" class="i18n">Step 5. Keep your private key secret</h3>
 						<p id="securitystep5" class="i18n">
@@ -353,7 +353,7 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 					</div>
 				</div>
 				<div class="body">
-					<span class="label i18n" id="bulklabelcsv">Comma Separated Values:</span> <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
+					<span class="label i18n" id="bulklabelcsv">Comma Separated Values: Index,Address,Private Key (WIF)</span>
 					<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 				</div>
 			</div>
@@ -459,12 +459,12 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 					<hr />
 					<div class="privqr">
 						<div class="item">
-							<span class="label"><span id="detaillabelprivwif" class="i18n">Private Key WIF<br />51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span></span>
+							<span class="label"><span id="detaillabelprivwif" class="i18n">Private Key WIF<br />51 characters Base58</span></span>
 							<div id="detailqrcodeprivate" class="qrcode_private"></div>
 							<span class="output" id="detailprivwif"></span>
 						</div>
 						<div class="item right">
-							<span class="label"><span id="detaillabelprivwifcomp" class="i18n">Private Key WIF Compressed<br />52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span></span>
+							<span class="label"><span id="detaillabelprivwifcomp" class="i18n">Private Key WIF Compressed<br />52 characters Base58</span></span>
 							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
 							<span class="output" id="detailprivwifcomp"></span>
 						</div>
@@ -479,7 +479,7 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 						<span class="output" id="detailprivb64"></span>
 					</div>
 					<div class="item displayNone" id="detailmini">
-						<span class="label i18n" id="detaillabelprivmini">Private Key Mini Format (22, 26 or 30 characters, starts with an 'S'):</span>
+						<span class="label i18n" id="detaillabelprivmini">Private Key Mini Format (22, 26 or 30 characters):</span>
 						<span class="output" id="detailprivmini"></span>
 					</div>
 					<div class="item displayNone" id="detailb6">
@@ -487,7 +487,7 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 						<span class="output" id="detailprivb6"></span>
 					</div>
 					<div class="item displayNone" id="detailbip38">
-						<span class="label i18n" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters base58, starts with '6P'):</span>
+						<span class="label i18n" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters Base58):</span>
 						<span class="output" id="detailprivbip38"></span>
 					</div>
 				</div>
@@ -573,14 +573,14 @@ Walletgenerator.net use the same security measure as its original. All-in-one ht
 
 		<div id="footer" class="footer">
 			<div>
-				<span class="item"><a href="#" onclick="ninja.tabSwitch(document.getElementById('donate'));">Support WalletGenerator.net</a></span>
+				<span class="item"><a id="footersupport" href="#" onclick="ninja.tabSwitch(document.getElementById('donate'));" class="i18n">Support WalletGenerator.net</a></span>
 				<span class="item"><a href="https://github.com/MichaelMure/WalletGenerator.net" target="_blank" id="footerlabelgithub" class="i18n">Download (GitHub Repository)</a></span>
 				<span class="item"><a href="https://twitter.com/WalletGenerator">@WalletGenerator</a></span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright WalletGenerator.net.</span>
-				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
-				<span id="footerlabelnowarranty">No warranty.</span>
+				<span id="footerlabelcopyright2" class="i18n">JavaScript copyrights are included in the source.</span>
+				<span id="footerlabelnowarranty" class="i18n">No warranty.</span>
 			</div>
 		</div>
 	</div>
