@@ -2,7 +2,7 @@ module.exports = function (grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		combine: {
-			single: {
+			src: {
 				input: "./src/index.html",
 				output: "./index.html",
 				tokens: [
@@ -34,7 +34,6 @@ module.exports = function (grunt) {
 					{ token: "//ninja.paperwallet.js", file: "./src/ninja.paperwallet.js" },
 					{ token: "//ninja.bulkwallet.js", file: "./src/ninja.bulkwallet.js" },
 					{ token: "//ninja.brainwallet.js", file: "./src/ninja.brainwallet.js" },
-					{ token: "//ninja.vanitywallet.js", file: "./src/ninja.vanitywallet.js" },
 					{ token: "//ninja.detailwallet.js", file: "./src/ninja.detailwallet.js" },
                     { token: "//ninja.donatetab.js", file: "./src/ninja.donatetab.js" },
 					{ token: "//qrcode.js", file: "./src/qrcode.js" },
@@ -42,11 +41,20 @@ module.exports = function (grunt) {
 					{ token: "//janin.currency.js", file: "./src/janin.currency.js" },
 					{ token: "//main.css", file: "./src/main.css" }
 				]
-			}
-		}
+			},
+            i18n: {
+                input: "./index.html",
+                output: "./index.html",
+                tokens: [
+                    { token: "//en.js", file: "./l10n/en.js" },
+                    { token: "//fr.js", file: "./l10n/fr.js" }
+                ]
+            }
+        }
+        
 	});
 
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.loadNpmTasks("grunt-combine");
-	grunt.registerTask("default", ["combine:single"]);
+	grunt.registerTask("default", ["combine:src", "combine:i18n"]);
 };

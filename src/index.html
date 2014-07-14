@@ -51,7 +51,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	GitHub Repository: https://github.com/MichaelMure/WalletGenerator.net
 	-->
 
-	<title>WalletGenerator.net - Paper wallet generator for BitCoins and other cryptocurrencies</title>
+	<title>WalletGenerator.net - Universal Paper wallet generator for Bitcoin and other cryptocurrencies</title>
 
 	<script type="text/javascript">
 //array.map.js
@@ -122,12 +122,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	<div id="main">
 		<div id="culturemenu">
 			<span><a href="?culture=en" id="cultureen" class="selected">English</a></span> | 
-			<span><a href="?culture=es" id="culturees">Español</a></span> | 
 			<span><a href="?culture=fr" id="culturefr">Français</a></span> | 
-			<span><a href="?culture=el" id="cultureel">ελληνικά</a></span> | 
-			<span><a href="?culture=it" id="cultureit">italiano</a></span> | 
-			<span><a href="?culture=de" id="culturede">Deutsch</a></span> | 
-			<span><a href="?culture=cs" id="culturecs">Česky</a></span>
 		</div>
 
 		<div class="banner">
@@ -140,29 +135,28 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		</div>
 
 		<div id="currencyddl" class="hide">
-			Choose currency :
-					<select id="currency" onchange="janin.currency.useCurrency(this.selectedIndex);"></select> 
+			<span id="choosecurrency" class="i18n">Choose currency</span> :
+			<select id="currency" onchange="janin.currency.useCurrency(this.selectedIndex);"></select> 
 		</div>
 		
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 
 		<div class="menu" id="menu">
-			<div class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
-			<div class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
-			<div class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
-			<div class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
-			<div class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet</div>
-			<div class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
-			<div class="tab" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
+			<div class="tab i18n selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
+			<div class="tab i18n" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
+			<div class="tab i18n" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
+			<div class="tab i18n" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
+			<div class="tab i18n" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
+			<div class="tab i18n" id="donate" onclick="ninja.tabSwitch(this);">Support</div>
 		</div>
 
 		<div id="wallets">
 			<div id="singlearea" class="walletarea">
 
 				<div id="initBanner">
-					<span id="generatelabelbitcoinaddress">Generating new Address...</span><br />
-					<span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
-					<span id="generatelabelkeypress">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
+					<span id="generatelabelbitcoinaddress" class="i18n">Generating new Address...</span><br />
+					<span id="generatelabelmovemouse" class="i18n">MOVE your mouse around to add some extra randomness... </span><span id="mousemovelimit"></span><br />
+					<span id="generatelabelkeypress" class="i18n">OR type some random characters into this textbox</span> <input type="text" id="generatekeyinput" onkeypress="ninja.seeder.seedKeyPress(event);" /><br />
 					<div id="seedpooldisplay"></div>
 					
 					<div id="rightArea">
@@ -172,7 +166,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 						<div id="seedSkipper">
 							<a href="#" class="nicerButton 100pxwidth" onClick="ninja.seeder.seedCount = ninja.seeder.seedLimit; ninja.seeder.seed();">Skip &raquo;</a>
-							<p class="skipMessage">You may skip this step if you do not plan to use the random key generator.</p>
+							<p id="skipMessage" class="i18n">You may skip this step if you do not plan to use the random key generator.</p>
 						</div>
 					</div>
 				</div>
@@ -186,58 +180,58 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				<div id="keyarea" class="keyarea">
 					<div class="public">
 						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Public Address</span>
+							<span class="label i18n" id="singlelabelbitcoinaddress">Public Address</span>
 						</div>
 						<div id="qrcode_public" class="qrcode_public"></div>
 						<div class="pubaddress">
 							<span class="output" id="btcaddress"></span>
 						</div>
-						<div id="singleshare">SHARE</div>
+						<div id="singleshare" class="i18n">SHARE</div>
 					</div>
 					<div class="private">
 						<div class="privwif">
-							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
+							<span class="label i18n" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
 						</div>
 						<div id="qrcode_private" class="qrcode_private"></div>
 						<div class="privwif">
 							<span class="output" id="btcprivwif"></span>
 						</div>
-						<div id="singlesecret">SECRET</div>
+						<div id="singlesecret" class="i18n">SECRET</div>
 					</div>				
 				</div>
 				
 				<div id="singlesafety">
 					<div class="firstHalfSingleSafety">
 
-						<h3>Step 0. Follow the security checklist recommendation</h3>
-						<p>
+						<h3 id="securitystep0title" class="i18n">Step 0. Follow the security checklist recommendation</h3>
+						<p id="securitystep0" class="i18n">
 							First step is to <strong>download</strong> this website from <a href="https://github.com/MichaelMure/PaperWallet/archive/master.zip">Github</a> and open the index.html file directly from your computer. It's just too easy to sneak some evil code in the 6000+ lines of javascript to leak your private key, and you don't want to see your fund stolen. Code version control make it much easier to cross-check what actually run. For extra security, <strong>unplug your Internet access</strong> while generating your wallet.
 						</p>
-						<h3>Step 1. Generate new address</h3>
-						<p>
+						<h3 id="securitystep1title" class="i18n">Step 1. Generate new address</h3>
+						<p id="securitystep1" class="i18n">
 							Choose your currency and click on the "Generate new address" button.
 						</p>
-						<h3>Step 2. Print the Paper Wallet</h3>
-						<p>
+						<h3 id="securitystep2title" class="i18n">Step 2. Print the Paper Wallet</h3>
+						<p id="securitystep2" class="i18n">
 							Click the Paper Wallet tab and print the page on high quality setting. <strong>Never save the page as a PDF file to print it later since a file is more likely to be hacked than a piece of paper.</strong>
 						</p>
-						<h3>Step 3. Fold the Paper Wallet</h3>
-						<p>
+						<h3 id="securitystep3title" class="i18n">Step 3. Fold the Paper Wallet</h3>
+						<p id="securitystep3" class="i18n">
 							Fold your new Paper wallet following the lines.
 							<img src="images/foldinginstructions.png" alt="Fold in half lengthwise, and then in three widthwise." /><br />
 							You can insert one side inside the other to lock the wallet.
 						</p>
 						
-						<h3>Step 4. Share your public key</h3>
-						<p>
-							Use your public key to receive money from other crypto-currency users. You can share your public keys as much as you want.
+						<h3 id="securitystep4title" class="i18n">Step 4. Share your public address</h3>
+						<p id="securitystep4" class="i18n">
+							Use your public address to receive money from other crypto-currency users. You can share your public address as much as you want.
 						</p>
-						<h3>Step 5. Keep your private key secret</h3>
-						<p>
+						<h3 id="securitystep5title" class="i18n">Step 5. Keep your private key secret</h3>
+						<p id="securitystep5" class="i18n">
 							The private key is literally the keys to your coins, if someone was to obtain it, they could withdraw the funds currently in the wallet, and any funds that might be deposited in that wallet.
 						</p>
 						<p>
-							<strong>Please test spending a small amount before receiving any large payments.</strong><br /><br />
+							<strong id="securitystep6" class="i18n">Please test spending a small amount before receiving any large payments.</strong><br /><br />
 						</p>
 
 						
@@ -246,21 +240,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 						<img class="frontPageImage" src="images/overview.png" alt="Overview image of 4 paper wallet" />
 
 						<div class="securityChecklist">
-							<b>Security Checklist :</b>
+							<b id="securitychecktitle" class="i18n">Security Checklist :</b>
 
 							<ul>
 							<li id="envSecurityCheck"></li>
 
 							<li id="browserSecurityCheck"></li>
 
-							<li>
+							<li id="securitychecklivecd" class="i18n">
 								Are you using a secure operating system guaranteed to be free of spyware and viruses, for example, an Ubuntu LiveCD? 
 							</li>
 							</ul>
 						</div>
 
 						<div class="supportedCurrenciesChecklist">
-							<b>Supported currencies :</b>
+							<b id="supportedcurrencylbl" class="i18n">Supported currencies :</b>
 							<div id="supportedcurrencies"></div>
 						</div>
 					</div>
@@ -320,14 +314,24 @@ Walletgenerator.net use the same security measures as the original project. All-
 						You can report bugs using GitHub. You can also contact us using our Twitter account (<a href="http://twitter.com/WalletGenerator" target="_blank">@WalletGenerator</a>). Just try to explain clearly what is wrong and we will try to fix the bug as soon as possible.
 					</p>
 
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion10');">&#8226; Who are you ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion10">
+						We are just two random guy having fun with a side project.
+					</p>
+
+					<h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion11');">&#8226; How can I help ?</a></h3>
+					<p class="faqAnswer" id="faqQuestion11">
+						Donation are always welcome, but you can also help us translate the website. It's really easy. Just add "?i18nextract=LANGUAGECODE" in the end of the url (for instance http://walletgenerator.net/?i18nextract=es for spanish). You will see at the end of the page a pre-filled javascript array ready to be translated. Translate or correct it, and send it to us the way you prefer. Even partial translation are helpfull !
+					</p>
+
 				</div>
 			</div>
 
 			<div id="paperarea">
 				<div class="commands">
 					<div id="papercommands" class="row">
-						<span><label id="paperlabelencrypt" for="paperencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
-						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
+						<span><label id="paperlabelencrypt" for="paperencrypt" class="i18n">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
+						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase" class="i18n">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
 
 						
 						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" /></span>
@@ -341,15 +345,15 @@ Walletgenerator.net use the same security measures as the original project. All-
 			<div id="bulkarea" class="walletarea">
 				<div class="commands">
 					<div id="bulkcommands" class="row">
-						<span><label id="bulklabelstartindex" for="bulkstartindex">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
-						<span><label id="bulklabelrowstogenerate" for="bulklimit">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
-						<span><label id="bulklabelcompressed" for="bulkcompressed">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
+						<span><label id="bulklabelstartindex" for="bulkstartindex" class="i18n">Start index:</label> <input type="text" id="bulkstartindex" value="1" /></span>
+						<span><label id="bulklabelrowstogenerate" for="bulklimit" class="i18n">Rows to generate:</label> <input type="text" id="bulklimit" value="3" /></span>
+						<span><label id="bulklabelcompressed" for="bulkcompressed" class="i18n">Compressed addresses?</label> <input type="checkbox" id="bulkcompressed" /></span>
 						<span><input type="button" id="bulkgenerate" value="Generate" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1, document.getElementById('bulkcompressed').checked);" /> </span>
 						<span class="print"><input type="button" name="print" id="bulkprint" value="Print" onclick="window.print();" /></span>
 					</div>
 				</div>
 				<div class="body">
-					<span class="label" id="bulklabelcsv">Comma Separated Values:</span> <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
+					<span class="label i18n" id="bulklabelcsv">Comma Separated Values: Index,Address,Private Key (WIF)</span>
 					<textarea rows="20" cols="88" id="bulktextarea"></textarea>
 				</div>
 			</div>
@@ -357,16 +361,16 @@ Walletgenerator.net use the same security measures as the original project. All-
 			<div id="brainarea" class="walletarea">
 				<div id="braincommands" class="commands">
 					<div class="row">
-						<span id="brainlabelenterpassphrase" class="label"><label for="brainpassphrase">Enter Passphrase: </label></span>
+						<span id="brainlabelenterpassphrase" class="label"><label id="brainlabelenterpassphraselbl" class="i18n" for="brainpassphrase">Enter Passphrase: </label></span>
 						<input tabindex="1" type="password" id="brainpassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
 						<span><label id="brainlabelshow" for="brainpassphraseshow">Show?</label> <input type="checkbox" id="brainpassphraseshow" onchange="ninja.wallets.brainwallet.showToggle(this);" /></span>
 						<span class="print"><input type="button" name="print" id="brainprint" value="Print" onclick="window.print();" /></span>
 					</div>
 					<div class="row extra">
-						<span class="label" id="brainlabelconfirm"><label for="brainpassphraseconfirm">Confirm Passphrase: </label></span>
+						<span class="label" id="brainlabelconfirm"><label id="brainlabelconfirmlbl" class="i18n" for="brainpassphraseconfirm">Confirm Passphrase: </label></span>
 						<input tabindex="2" type="password" id="brainpassphraseconfirm" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
 						<span><input tabindex="3" type="button" id="brainview" value="View" onclick="ninja.wallets.brainwallet.view();" /></span>
-						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
+						<span id="brainalgorithm" class="notes right i18n">Algorithm: SHA256(passphrase)</span>
 					</div>
 					<div class="row extra"><span id="brainwarning"></span></div>
 					<div class="row extra errorMsg"><span id="brainerror"></span></div>
@@ -375,76 +379,16 @@ Walletgenerator.net use the same security measures as the original project. All-
 					<div class="public">
 						<div id="brainqrcodepublic" class="qrcode_public"></div>
 						<div class="pubaddress">
-							<span class="label" id="brainlabelbitcoinaddress">Public Address:</span>
+							<span class="label i18n" id="brainlabelbitcoinaddress">Public Address:</span>
 							<span class="output" id="brainbtcaddress"></span>
 						</div>
 					</div>
 					<div class="private">
 						<div id="brainqrcodeprivate" class="qrcode_private"></div>
 						<div class="privwif">
-							<span class="label" id="brainlabelprivatekey">Private Key (Wallet Import Format):</span>
+							<span class="label i18n" id="brainlabelprivatekey">Private Key (Wallet Import Format):</span>
 							<span class="output" id="brainbtcprivwif"></span>
 						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div id="vanityarea" class="walletarea">
-				<div id="vanitystep1label" class="commands expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
-					<span><label id="vanitylabelstep1">Step 1 - Generate your "Step1 Key Pair"</label> <input type="button" id="vanitynewkeypair" 
-						value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
-					<div id="vanitystep1icon" class="more"></div>
-				</div>
-				<div id="vanitystep1area">
-					<div>
-						<span class="label" id="vanitylabelstep1publickey">Step 1 Public Key:</span>
-						<div class="output pubkeyhex" id="vanitypubkey"></div>
-						<br /><div class="notes" id="vanitylabelstep1pubnotes">Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
-					</div>
-					<div>
-						<span class="label" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
-						<span class="output" id="vanityprivatekey"></span>
-						<br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Private Key once the Pool has found your prefix.</div>
-					</div>
-				</div>
-				<div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
-					<span id="vanitylabelstep2calculateyourvanitywallet">Step 2 - Calculate your Vanity Wallet</span>
-					<div id="vanitystep2icon" class="more"></div>
-				</div>
-				<div id="vanitystep2inputs">
-					<div>
-						<span id="vanitylabelenteryourpart">Enter Your Part Private Key (generated in Step 1 above and previously saved):</span>
-						<br /><span class="notes" id="vanitylabelnote1">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput1" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<span id="vanitylabelenteryourpoolpart">Enter Pool Part Private Key (from Vanity Pool):</span>
-						<br /><span class="notes" id="vanitylabelnote2">[NOTE: this input box can accept a public key or private key]</span>
-					</div>
-					<div><textarea id="vanityinput2" rows="2" cols="90" onfocus="this.select();"></textarea></div>
-					<div>
-						<label for="vanityradioadd" id="vanitylabelradioadd">Add</label> <input type="radio" id="vanityradioadd" name="vanityradio" value="add" checked />
-						<label for="vanityradiomultiply" id="vanitylabelradiomultiply">Multiply</label> <input type="radio" id="vanityradiomultiply" name="vanityradio" value="multiply" />
-					</div>
-					<div><input type="button" id="vanitycalc" value="Calculate Vanity Wallet" onclick="ninja.wallets.vanitywallet.addKeys();" /></div>
-				</div>
-				<div id="vanitystep2area">
-					<div>
-						<span class="label" id="vanitylabelbitcoinaddress">Vanity Public Address:</span>
-						<span class="output" id="vanityaddress"></span>
-						<br /><div class="notes" id="vanitylabelnotesbitcoinaddress">The above is your new address that should include your required prefix.</div>
-					</div>
-					
-					<div>
-						<span class="label" id="vanitylabelpublickeyhex">Vanity Public Key (HEX):</span>
-						<span class="output pubkeyhex" id="vanitypublickeyhex"></span>
-						<br /><div class="notes" id="vanitylabelnotespublickeyhex">The above is the Public Key in hexadecimal format. </div>
-					</div>
-
-					<div>
-						<span class="label" id="vanitylabelprivatekey">Vanity Private Key (WIF):</span>
-						<span class="output" id="vanityprivatekeywif"></span>
-						<br /><div class="notes" id="vanitylabelnotesprivatekey">The above is the Private Key to load into your wallet. </div>
 					</div>
 				</div>
 			</div>
@@ -454,7 +398,7 @@ Walletgenerator.net use the same security measures as the original project. All-
 
 					<div class="row extra qrzone">
 						<span class="qrinput">
-						<label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label>
+						<label id="detaillabelenterprivatekey" for="detailprivkey" class="i18n">Enter Private Key</label>
 						
 							<span class="qrcodeinputwrapper">
 								<input type="text" id="detailprivkey" value="" placeholder="Enter a private key, or click the QR icon to scan" autocomplete="off" onFocus="this.select();" onKeyPress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
@@ -471,9 +415,9 @@ Walletgenerator.net use the same security measures as the original project. All-
 					<div id="paperqrscanner">
 						<div class="background"></div>
 						<div id="mainbody" class="dialog instructionsarea">
-							<h2>Scan QR code using your camera</h2>
-							<div id="paperqrnotsupported" class="hide redColor">Sorry, but your web browser does not support the HTML5 camera controls. Try using a recent version of Firefox (recommended), Chrome or Opera.</div>
-							<div id="paperqrpermissiondenied" class="hide redColor">
+							<h2 id="qrcaminstructiontitle" class="i18n">Scan QR code using your camera</h2>
+							<div id="paperqrnotsupported" class="hide redColor i18n">Sorry, but your web browser does not support the HTML5 camera controls. Try using a recent version of Firefox (recommended), Chrome or Opera.</div>
+							<div id="paperqrpermissiondenied" class="hide redColor i18n">
 								<p>Permission denied. Your browser should display a message requesting access to your camera. Please click the "Allow" button to enable the camera.</p>
 							</div>
 							<div id="paperqrerror" class="redColor"></div>
@@ -482,84 +426,84 @@ Walletgenerator.net use the same security measures as the original project. All-
 						</div>
 					</div>
 					<div id="detailbip38commands">
-						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
+						<span><label id="detaillabelpassphrase" class="i18n">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
 						<span><input type="button" id="detaildecrypt" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 					</div>
 				</div>
 				<div id="detailkeyarea">
 					<div class="notes">
-						<span id="detaillabelnote1">Your Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Public Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64).</span>
+						<span id="detaillabelnote1" class="i18n">Your Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Public Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64).</span>
 						<br /><br />
 					</div>
 					<div class="pubqr">
 						<div class="item">
-							<span class="label" id="detaillabelbitcoinaddress">Public Address</span>
+							<span class="label i18n" id="detaillabelbitcoinaddress">Public Address</span>
 							<div id="detailqrcodepublic" class="qrcode_public"></div>
 							<span class="output" id="detailaddress"></span>
 						</div>					
 						<div class="item right">
-							<span class="label" id="detaillabelbitcoinaddresscomp">Public Address Compressed</span>
+							<span class="label i18n" id="detaillabelbitcoinaddresscomp">Public Address Compressed</span>
 							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
 							<span class="output" id="detailaddresscomp"></span>
 						</div>
 					</div>
 					<br /><br />
 					<div class="item clear">
-						<span class="label" id="detaillabelpublickey">Public Key (130 characters [0-9A-F]):</span>
+						<span class="label i18n" id="detaillabelpublickey">Public Key (130 characters [0-9A-F]):</span>
 						<span class="output pubkeyhex" id="detailpubkey"></span>
 					</div>
 					<div class="item">
-						<span class="label" id="detaillabelpublickeycomp">Public Key (compressed, 66 characters [0-9A-F]):</span>
+						<span class="label i18n" id="detaillabelpublickeycomp">Public Key (compressed, 66 characters [0-9A-F]):</span>
 						<span class="output" id="detailpubkeycomp"></span>
 					</div>
 					<hr />
 					<div class="privqr">
 						<div class="item">
-							<span class="label"><span id="detaillabelprivwif">Private Key WIF<br />51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span></span>
+							<span class="label"><span id="detaillabelprivwif" class="i18n">Private Key WIF<br />51 characters Base58</span></span>
 							<div id="detailqrcodeprivate" class="qrcode_private"></div>
 							<span class="output" id="detailprivwif"></span>
 						</div>
 						<div class="item right">
-							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span></span>
+							<span class="label"><span id="detaillabelprivwifcomp" class="i18n">Private Key WIF Compressed<br />52 characters Base58</span></span>
 							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
 							<span class="output" id="detailprivwifcomp"></span>
 						</div>
 					</div>
 					<br /><br />
 					<div class="item clear">
-						<span class="label" id="detaillabelprivhex">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
+						<span class="label i18n" id="detaillabelprivhex">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
 						<span class="output" id="detailprivhex"></span>
 					</div>
 					<div class="item">
-						<span class="label" id="detaillabelprivb64">Private Key Base64 (44 characters):</span>
+						<span class="label i18n" id="detaillabelprivb64">Private Key Base64 (44 characters):</span>
 						<span class="output" id="detailprivb64"></span>
 					</div>
 					<div class="item displayNone" id="detailmini">
-						<span class="label" id="detaillabelprivmini">Private Key Mini Format (22, 26 or 30 characters, starts with an 'S'):</span>
+						<span class="label i18n" id="detaillabelprivmini">Private Key Mini Format (22, 26 or 30 characters):</span>
 						<span class="output" id="detailprivmini"></span>
 					</div>
 					<div class="item displayNone" id="detailb6">
-						<span class="label" id="detaillabelprivb6">Private Key Base6 Format (99 characters [0-5]):</span>
+						<span class="label i18n" id="detaillabelprivb6">Private Key Base6 Format (99 characters [0-5]):</span>
 						<span class="output" id="detailprivb6"></span>
 					</div>
 					<div class="item displayNone" id="detailbip38">
-						<span class="label" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters base58, starts with '6P'):</span>
+						<span class="label i18n" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters Base58):</span>
 						<span class="output" id="detailprivbip38"></span>
 					</div>
 				</div>
 				<div class="faqs">
 					<div id="detailfaq1" class="faq"> 
 						<div id="detailq1" class="question" onclick="ninja.wallets.detailwallet.openCloseFaq(1);">
-							<span id="detaillabelq1">How do I make a wallet using dice? What is B6?</span>
+							<span id="detaillabelq1" class="i18n">How do I make a wallet using dice? What is B6?</span>
 							<div id="detaile1" class="more"></div>
 						</div>
-						<div id="detaila1" class="answer">An important part of creating a crypto-currency wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a crypto-currency private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the public address associated with your private key. You should also make note of your private key in WIF format since it is more widely used.</div>
+						<div id="detaila1" class="answer i18n">An important part of creating a crypto-currency wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a crypto-currency private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the public address associated with your private key. You should also make note of your private key in WIF format since it is more widely used.</div>
 					</div>
 				</div>
 			</div>
 		
 			<div id="donatearea" class="walletarea">
-				<div>To support the development of this wallet generator, you can donate to the following address:</div>
+				<div id="donatetextfooter" class="i18n">To support the development of this wallet generator, you can donate to the following address:</div>
 				<div id="donatelist"></div>
 				<div id="donateqrcode"></div>
 				<div id="donateinfo"></div>
@@ -629,14 +573,14 @@ Walletgenerator.net use the same security measures as the original project. All-
 
 		<div id="footer" class="footer">
 			<div>
-				<span class="item"><a href="#" onclick="ninja.tabSwitch(document.getElementById('donate'));">Support WalletGenerator.net</a></span>
-				<span class="item"><a href="https://github.com/MichaelMure/WalletGenerator.net" target="_blank" id="footerlabelgithub">Download (GitHub Repository)</a></span>
+				<span class="item"><a id="footersupport" href="#" onclick="ninja.tabSwitch(document.getElementById('donate'));" class="i18n">Support WalletGenerator.net</a></span>
+				<span class="item"><a href="https://github.com/MichaelMure/WalletGenerator.net" target="_blank" id="footerlabelgithub" class="i18n">Download (GitHub Repository)</a></span>
 				<span class="item"><a href="https://twitter.com/WalletGenerator">@WalletGenerator</a></span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright WalletGenerator.net.</span>
-				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
-				<span id="footerlabelnowarranty">No warranty.</span>
+				<span id="footerlabelcopyright2" class="i18n">JavaScript copyrights are included in the source.</span>
+				<span id="footerlabelnowarranty" class="i18n">No warranty.</span>
 			</div>
 		</div>
 	</div>
@@ -667,9 +611,6 @@ Walletgenerator.net use the same security measures as the original project. All-
 	</script>
 	<script type="text/javascript">
 //ninja.brainwallet.js
-	</script>
-	<script type="text/javascript">
-//ninja.vanitywallet.js
 	</script>
 	<script type="text/javascript">
 //ninja.detailwallet.js
