@@ -9787,7 +9787,7 @@ h1 { margin: 0px; height: 91px; }
 						</div>
 
 						<div class="supportedCurrenciesChecklist">
-							<b id="supportedcurrencylbl" class="i18n">Supported currencies :</b>
+							<b><span id="supportedcurrenciescounter"></span><span id="supportedcurrencylbl" class="i18n">supported currencies !</span></b>
 							<div id="supportedcurrencies"></div>
 						</div>
 					</div>
@@ -11064,7 +11064,7 @@ ninja.translator = {
 	"securitystep6": "Faites un essai avec un montant faible avant de recevoir des paiements importants.",
 	"securitychecktitle": "Liste de sécurité :",
 	"securitychecklivecd": "Utilisez vous un système d'exploitation garanti sans malware ou virus, comme par exemple un live-CD Ubuntu ?",
-	"supportedcurrencylbl": "Monnaies supportées :",
+	"supportedcurrencylbl": "monnaies supportées !",
 	"paperlabelencrypt": "Chiffrer en BIP38 ?",
 	"paperlabelBIPpassphrase": "Phrase de passe:",
 	"bulklabelstartindex": "Index de départ:",
@@ -12306,13 +12306,16 @@ select.innerHTML = options;
 // populate supported currency list
 var supportedcurrencies = document.getElementById("supportedcurrencies");
 var currencieslist = "";
+j = 0;
 for(i = 0; i < janin.currencies.length; i++) {
 	if(janin.currencies[i].donate == null)
 		continue;
     currencieslist += "<a href='?currency="+janin.currencies[i].name;
 	currencieslist += "'>"+janin.currencies[i].name+"</a> ";
+    j++;
 }
 supportedcurrencies.innerHTML = currencieslist;
+document.getElementById("supportedcurrenciescounter").innerHTML = j.toString() + " ";
 // populate donate list
 document.getElementById("donateqrcode").style.display = "none";
 var donatelist = document.getElementById("donatelist");

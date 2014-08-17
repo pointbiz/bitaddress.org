@@ -32,13 +32,16 @@ select.innerHTML = options;
 // populate supported currency list
 var supportedcurrencies = document.getElementById("supportedcurrencies");
 var currencieslist = "";
+j = 0;
 for(i = 0; i < janin.currencies.length; i++) {
 	if(janin.currencies[i].donate == null)
 		continue;
     currencieslist += "<a href='?currency="+janin.currencies[i].name;
 	currencieslist += "'>"+janin.currencies[i].name+"</a> ";
+    j++;
 }
 supportedcurrencies.innerHTML = currencieslist;
+document.getElementById("supportedcurrenciescounter").innerHTML = j.toString() + " ";
 // populate donate list
 document.getElementById("donateqrcode").style.display = "none";
 var donatelist = document.getElementById("donatelist");

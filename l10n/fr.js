@@ -29,7 +29,7 @@
 	"securitystep6": "Faites un essai avec un montant faible avant de recevoir des paiements importants.",
 	"securitychecktitle": "Liste de sécurité :",
 	"securitychecklivecd": "Utilisez vous un système d'exploitation garanti sans malware ou virus, comme par exemple un live-CD Ubuntu ?",
-	"supportedcurrencylbl": "Monnaies supportées :",
+	"supportedcurrencylbl": "monnaies supportées !",
 	"paperlabelencrypt": "Chiffrer en BIP38 ?",
 	"paperlabelBIPpassphrase": "Phrase de passe:",
 	"bulklabelstartindex": "Index de départ:",
