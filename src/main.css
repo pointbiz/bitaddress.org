@@ -201,6 +201,8 @@ h1 { margin: 0px; height: 91px; }
 	transform: rotate(90deg);
 	font-family: Courier, monospace;
 }
+#suppliedPrivateKey { width: 420px; }
+#papergenerate { margin-left: 10px; margin-right: 0px;}
 
 .displayNone { displa: none; }
 .redColor { color: red; }

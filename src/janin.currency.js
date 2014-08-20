@@ -53,7 +53,7 @@ janin.currency = {
         
         // Reset wallet tab when expensive or not applicable
         document.getElementById("bulktextarea").value = "";
-        
+		document.getElementById("suppliedPrivateKey").value = "";
         
         // easter egg doge ;)
         if(janin.currency.name() == "Dogecoin")

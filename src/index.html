@@ -332,9 +332,13 @@ Walletgenerator.net use the same security measures as the original project. All-
 					<div id="papercommands" class="row">
 						<span><label id="paperlabelencrypt" for="paperencrypt" class="i18n">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
 						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase" class="i18n">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
-
 						
-						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" /></span>
+						<br/>
+						<input type="button" id="papergenerate" value="Randomly generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" />
+						<span>OR</span>
+						<input placeholder="Enter your own WIF private key" id="suppliedPrivateKey" name="suppliedPrivateKey" spellcheck="false" />&nbsp;
+						<input type="button" id="papergenerate" value="Apply &raquo;" onClick="ninja.wallets.paperwallet.testAndApplyVanityKey();" />
+						
 						<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
 					</div>
 
@@ -513,6 +517,7 @@ Walletgenerator.net use the same security measures as the original project. All-
 			<p>
 			08.2014 --
 				<ul>
+					<li>Enter your own private key to print a paper wallet, and BIP38 encrypt them as well !</li>
 					<li>Add support for Apexcoin, Cassubian Detk, Freicoin, Judgecoin, Myriadcoin and Onyxcoin.</li>
 				</ul>
 			<p>

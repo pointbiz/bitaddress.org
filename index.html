@@ -9506,6 +9506,8 @@ h1 { margin: 0px; height: 91px; }
 	transform: rotate(90deg);
 	font-family: Courier, monospace;
 }
+#suppliedPrivateKey { width: 420px; }
+#papergenerate { margin-left: 10px; margin-right: 0px;}
 
 .displayNone { displa: none; }
 .redColor { color: red; }
@@ -9865,9 +9867,13 @@ Walletgenerator.net use the same security measures as the original project. All-
 					<div id="papercommands" class="row">
 						<span><label id="paperlabelencrypt" for="paperencrypt" class="i18n">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
 						<span><label id="paperlabelBIPpassphrase" for="paperpassphrase" class="i18n">Passphrase:</label> <input type="text" id="paperpassphrase" /></span>
-
 						
-						<span><input type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" /></span>
+						<br/>
+						<input type="button" id="papergenerate" value="Randomly generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperpassphrase').value);" />
+						<span>OR</span>
+						<input placeholder="Enter your own WIF private key" id="suppliedPrivateKey" name="suppliedPrivateKey" spellcheck="false" />&nbsp;
+						<input type="button" id="papergenerate" value="Apply &raquo;" onClick="ninja.wallets.paperwallet.testAndApplyVanityKey();" />
+						
 						<span class="print"><input type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
 					</div>
 
@@ -10046,6 +10052,7 @@ Walletgenerator.net use the same security measures as the original project. All-
 			<p>
 			08.2014 --
 				<ul>
+					<li>Enter your own private key to print a paper wallet, and BIP38 encrypt them as well !</li>
 					<li>Add support for Apexcoin, Cassubian Detk, Freicoin, Judgecoin, Myriadcoin and Onyxcoin.</li>
 				</ul>
 			<p>
@@ -10263,7 +10270,7 @@ janin.currency = {
         
         // Reset wallet tab when expensive or not applicable
         document.getElementById("bulktextarea").value = "";
-        
+		document.getElementById("suppliedPrivateKey").value = "";
         
         // easter egg doge ;)
         if(janin.currency.name() == "Dogecoin")
@@ -11269,22 +11276,33 @@ ninja.wallets.paperwallet = {
 			ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
 		}
 	},
-
-	showWallet: function (idPostFix, bitcoinAddress, privateKey) {
-		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
-		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
-		var keyValuePair = {};
-		keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
-		keyValuePair["qrcode_private" + idPostFix] = privateKey;
-		ninja.qrCode.showQrCode(keyValuePair);
-		document.getElementById("keyarea" + idPostFix).style.display = "block";
+	
+	// Verify that a self-entered key is valid, and compute the corresponding
+	// public address, render the wallet.
+	testAndApplyVanityKey: function () { 
+		var suppliedKey = document.getElementById('suppliedPrivateKey').value;
+		suppliedKey = suppliedKey.trim(); // in case any spaces or whitespace got pasted in
+		document.getElementById('suppliedPrivateKey').value = suppliedKey;
+		if (!ninja.privateKey.isPrivateKey(suppliedKey)) {
+			alert(ninja.translator.get("detailalertnotvalidprivatekey"));
+		} else {
+			var computedPublicAddress = new Bitcoin.ECKey(suppliedKey).getBitcoinAddress();
+			if (ninja.wallets.paperwallet.encrypt) {
+				document.getElementById("busyblock").className = "busy";
+				ninja.privateKey.BIP38PrivateKeyToEncryptedKeyAsync(suppliedKey,
+					document.getElementById('paperpassphrase').value, false, function(encodedKey) {
+					document.getElementById("busyblock").className = "";
+					ninja.wallets.paperwallet.showArtisticWallet(1, computedPublicAddress, encodedKey);
+				});
+			}
+			else {
+				ninja.wallets.paperwallet.showArtisticWallet(1, computedPublicAddress, suppliedKey);
+			}
+		}
 	},
 
 	templateArtisticHtml: function (i) {
 		var keyelement = 'btcprivwif';
-		if (ninja.wallets.paperwallet.encrypt)
-			keyelement = 'btcencryptedkey'
-		
 		var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 
@@ -11310,13 +11328,7 @@ ninja.wallets.paperwallet = {
         ninja.qrCode.showQrCode(keyValuePair, 2.8);
         
         document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
-
-		if (ninja.wallets.paperwallet.encrypt) {
-			document.getElementById("btcencryptedkey" + idPostFix).innerHTML = privateKey;
-		}
-		else {
-			document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
-		}
+		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
 	},
 
 	toggleEncrypt: function (element) {

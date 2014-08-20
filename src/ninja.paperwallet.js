@@ -93,22 +93,33 @@ ninja.wallets.paperwallet = {
 			ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
 		}
 	},
-
-	showWallet: function (idPostFix, bitcoinAddress, privateKey) {
-		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
-		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
-		var keyValuePair = {};
-		keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
-		keyValuePair["qrcode_private" + idPostFix] = privateKey;
-		ninja.qrCode.showQrCode(keyValuePair);
-		document.getElementById("keyarea" + idPostFix).style.display = "block";
+	
+	// Verify that a self-entered key is valid, and compute the corresponding
+	// public address, render the wallet.
+	testAndApplyVanityKey: function () { 
+		var suppliedKey = document.getElementById('suppliedPrivateKey').value;
+		suppliedKey = suppliedKey.trim(); // in case any spaces or whitespace got pasted in
+		document.getElementById('suppliedPrivateKey').value = suppliedKey;
+		if (!ninja.privateKey.isPrivateKey(suppliedKey)) {
+			alert(ninja.translator.get("detailalertnotvalidprivatekey"));
+		} else {
+			var computedPublicAddress = new Bitcoin.ECKey(suppliedKey).getBitcoinAddress();
+			if (ninja.wallets.paperwallet.encrypt) {
+				document.getElementById("busyblock").className = "busy";
+				ninja.privateKey.BIP38PrivateKeyToEncryptedKeyAsync(suppliedKey,
+					document.getElementById('paperpassphrase').value, false, function(encodedKey) {
+					document.getElementById("busyblock").className = "";
+					ninja.wallets.paperwallet.showArtisticWallet(1, computedPublicAddress, encodedKey);
+				});
+			}
+			else {
+				ninja.wallets.paperwallet.showArtisticWallet(1, computedPublicAddress, suppliedKey);
+			}
+		}
 	},
 
 	templateArtisticHtml: function (i) {
 		var keyelement = 'btcprivwif';
-		if (ninja.wallets.paperwallet.encrypt)
-			keyelement = 'btcencryptedkey'
-		
 		var coinImgUrl = "logos/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 		var walletBackgroundUrl = "wallets/" + janin.selectedCurrency.name.toLowerCase() + ".png";
 
@@ -134,13 +145,7 @@ ninja.wallets.paperwallet = {
         ninja.qrCode.showQrCode(keyValuePair, 2.8);
         
         document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
-
-		if (ninja.wallets.paperwallet.encrypt) {
-			document.getElementById("btcencryptedkey" + idPostFix).innerHTML = privateKey;
-		}
-		else {
-			document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
-		}
+		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
 	},
 
 	toggleEncrypt: function (element) {
