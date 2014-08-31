@@ -10410,7 +10410,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated June 25, 2014</span></div>
+			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated Aug 31, 2014</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
 			<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -10529,7 +10529,7 @@ Bitcoin.Util = {
                           <select name="langPicker" id="langPicker" style="font-size: 12px; display: inline;" onChange="setDesign('default', false, this.value);">
                             <option value="english">English</option>
                             <option value="chinese">Chinese</option>
-                            <!-- <option value="traditional-chinese">Traditional Chinese</option> -->
+                            <option value="traditional-chinese">Chinese (Traditional)</option>
                             <option value="czech">Czech</option>
                             <option value="dutch">Dutch</option>
                             <option value="french">French</option>
@@ -12956,7 +12956,7 @@ ninja.publicKey = {
 			(function() {
 				// images minimized with https://tinypng.com/ and http://pnggauntlet.com/ and encoded with http://www.base64-image.de/		
 				var imgBitcoinLogo = new Image();
-				imgBitcoinLogo.src = "images/front-logo.png";
+				imgBitcoinLogo.src =  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATEAAABlCAMAAAAS0yQPAAAAsVBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////3kxr7kwD90ar3jQ38tWv/+fT3khf6nCf7pUH+5dH92rf3kBL/8+r+7dz7rlf4oDX+4MT9xI38vXz//vz4lyH9zJz806L5q03+69T+6M36tWH+8uP6u278zZT82Kv7xIL3igbY4iM2AAAAGXRSTlMAeUWrl+673YhmVg82H8sI1MMWKfblb6Jei/6cWwAADftJREFUeNrs2N2OojAYBuCKIKAMgjrq9yWMlcAiG0HwB3Tv/8LWtG5kHcqgiSfW57ik5E37QktaG1j9qdF1Hf1Td9yuMZ1bI/ImMp6r9ifc0pyZaQ3J2y2rY09AyFGVAXm7+pja8BNdtcgbp8w0aMWdv3fnmdKDqkOQnb5y349jP9+fymMEVY4pfWZWF662mzzGW0u/CBaVzPpEZiPj2va/9ykK5ZXQehL3WV+Hi0O2xB+UO7iYdCTdmkMVLrYrbMMP4MIdEwmNXeCiFbYVB8BpErZZXwMm2eA98i1wBpHMFLhgiXfaANeVq8wM4Aq8nx8B48p0RleBiXx8RJoBY8sT2SWwXYoPWksWmQFMiWJhSLHJHhhXjguNKTBrFKOxj54XothqweufSEBp0flhkGyzIsbGyGT5yRhrTSuMo+kBzn4tKSIVrbUVMHPy4oZuY4dxYZ7A2ZYihqdyH1OPCrtMe/Vzucq/ktjIW/NYPaQYASx2ZVoXWcFGOa/9J8tLLErxO1pJ7MiG7T0MY7baDrWJYdayyoZKv6P29JlJRAZKx7TI0zw+zYBf7/hYx/NCWq2xRRyi98UeOHpYix8yG99B6fQ0+MeuHTpQHX6L1FPIczw+jSH8TNLl7lj4PLXQT9jWpYhexp8QJMYH2kNxXjr8xybfmXDV+yBP8Pg04wmcBfVlDwBJxFL7U1xrjK2ixA+xXslGmuISqKgfOvpLq7kupw0DURgwlBAKadPSdLFs4Qu2sQmXhCRN3v/B2q6Q67VuHs/0+5HMRMYrr3ePjkQ8Mv79f5RZ/zAePn6kbckKEMxa2ZKxnMgYAQ9mVybrP4U2D+qcKNP/sI3oHeYz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";
 				
 				var draw = PaperWallet.draw = {
 					imgBitcoinLogo: imgBitcoinLogo,
@@ -13524,20 +13524,20 @@ function setDesign (whichDesign, isOnLoad, whichLanguage) {
 		},
 
 		'traditional-chinese': {
-			publicAddress: "公开地址",
-			depositVerify: "存款/查询余额",
-			privateKey: "钱包导入格式",
-			walletImportFormat: "WALLET IMPORT FORMAT",
-			withdraw: "私钥/取款",
+			publicAddress: "公開地址",
+			depositVerify: "存款/查詢餘額",
+			privateKey: "私鑰",
+			walletImportFormat: "錢包導入格式",
+			withdraw: "取款",
 			backLongTextFontSize: "10px",
-			backPaperWallet: "BITCOIN 纸钱包",
-			backAmount: "添加数量",
+			backPaperWallet: "BITCOIN 紙錢包",
+			backAmount: "添加數量",
 			backDate: "日期",
-			backNotes: "注释",
-			backInst1: "可以随时向公开地址发送比特币为该纸钱包添加资金。",
-			backInst2: "使用例如blockchain.info这样的服务，通过搜索公开地址来查询你的余额。",
-			backInst3: "在你准备将余额导入到比特币客户端、交易平台或者在线钱包之前，<strong>请勿泄露私钥</strong>。",
-			backInst4: "从此钱包取出资金时，请将<strong>全部余额一次性</strong>取走。如果你试图只取走一部分，那么你很有可能永远失去剩余的比特币。<br /><br />有疑问？请访问 : bitcoinpaperwallet.com",
+			backNotes: "註釋",
+			backInst1: "可以隨時向公開地址發送比特幣為該紙錢包添加資金。",
+			backInst2: "使用例如blockchain.info這樣的服務，通過搜索公開地址來查詢你的餘額。",
+			backInst3: "在你準備將餘額導入到比特幣客戶端、交易平台或者在線錢包之前，<strong>請勿洩露私鑰</strong>。",
+			backInst4: "從此錢包取出資金時，請將<strong>全部餘額一次性</strong>取走。如果你試圖只取走一部分，那麼你很有可能會永遠失去剩餘的比特幣。<br /><br />有疑問？請訪問 : bitcoinpaperwallet.com",
 		},
 
 		'czech': {
