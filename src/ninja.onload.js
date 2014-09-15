@@ -37,6 +37,8 @@ for(i = 0; i < janin.currencies.length; i++) {
 	if(janin.currencies[i].donate == null)
 		continue;
     currencieslist += "<a href='?currency="+janin.currencies[i].name;
+    if (ninja.getQueryString()["culture"] != undefined)
+        currencieslist += "&culture=" + ninja.getQueryString()["culture"];
 	currencieslist += "'>"+janin.currencies[i].name+"</a> ";
     j++;
 }

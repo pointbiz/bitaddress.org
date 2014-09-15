@@ -42,6 +42,10 @@ janin.currency = {
         // Update title depending on currency
         document.title = janin.currency.name() + " " + ninja.translator.get("title");
         document.getElementById("siteTitle").alt = janin.currency.name() + " " + ninja.translator.get("title");
+        
+        // Update i18n link
+        document.getElementById("cultureen").href = "?culture=en&currency=" + janin.currency.name().toLowerCase();
+        document.getElementById("culturefr").href = "?culture=fr&currency=" + janin.currency.name().toLowerCase();
 
 		if(ninja.seeder.isDone())
 		{
