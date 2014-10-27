@@ -144,6 +144,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		<div class="menu" id="menu">
 			<div class="tab i18n selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet</div>
 			<div class="tab i18n" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet</div>
+			<div class="tab i18n" id="cardwallet" onclick="ninja.tabSwitch(this);">Card Wallet</div>
 			<div class="tab i18n" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet</div>
 			<div class="tab i18n" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet</div>
 			<div class="tab i18n" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details</div>
@@ -327,7 +328,7 @@ Walletgenerator.net use the same security measures as the original project. All-
 				</div>
 			</div>
 
-			<div id="paperarea">
+			<div id="paperarea" class="walletarea">
 				<div class="commands">
 					<div id="papercommands" class="row">
 						<span><label id="paperlabelencrypt" for="paperencrypt" class="i18n">BIP38 Encrypt?</label> <input type="checkbox" id="paperencrypt" onchange="ninja.wallets.paperwallet.toggleEncrypt(this);" /></span>
@@ -344,6 +345,20 @@ Walletgenerator.net use the same security measures as the original project. All-
 
 				</div>
 				<div id="paperkeyarea"></div>
+			</div>
+			
+			<div id="cardarea" class="walletarea">
+				<div class="commands">
+					<div id="papercommands" class="row">
+					  <input placeholder="Enter your public address" id="suppliedPublicAddress" name="suppliedPublicAddress" spellcheck="false" />&nbsp;
+						<input placeholder="Custom text" id="suppliedCustomText" name="suppliedCustomText" spellcheck="false" />&nbsp;
+						<input type="button" id="cardgenerate" value="Apply &raquo;" onClick="ninja.wallets.cardwallet.generate();" />
+						
+						<span class="print"><input type="button" name="print" value="Print" id="cardprint" onclick="window.print();" /></span>
+					</div>
+
+				</div>
+				<div id="cardkeyarea"></div>
 			</div>
 			
 			<div id="bulkarea" class="walletarea">
@@ -625,6 +640,9 @@ Walletgenerator.net use the same security measures as the original project. All-
 	</script>
 	<script type="text/javascript">
 //ninja.paperwallet.js
+	</script>
+	<script type="text/javascript">
+//ninja.cardwallet.js
 	</script>
 	<script type="text/javascript">
 //ninja.bulkwallet.js
