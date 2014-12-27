@@ -122,6 +122,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "M8caDttyKt2r7V7WHMMkRZ1jEzxj16fgCn"),
     janin.currency.createCurrency ("Mazacoin",   0x32, 0xe0, "8",    "a"    , "MLUXCv3GfNgmUSXc5Ek3ePaQ4cfsJwEXHa"),
     janin.currency.createCurrency ("Megacoin",   0x32, 0xb2, "6",    "T"    , "MPeVmJHvkXN3caneWCB5zGgtGHRRBSLmWd"),
+	janin.currency.createCurrency ("MobiusCoin", 0x00, 0x80, "5",    "[LK]" , ""),
     janin.currency.createCurrency ("Monocle",    0x32, 0xb2, "6",    "T"    , "M9CFHZjyCipuKqByD5K1sCHmt7etuCFGsc"),
     janin.currency.createCurrency ("MoonCoin",   0x03, 0x83, "5",    "L"    , "2P2V9npcK7apbUFsWN3zL7R6ARBMwTJ4hA"),
     janin.currency.createCurrency ("Myriadcoin", 0x32, 0xb2, "6",    "T"    , "MWGDtjDw9c8C6zicDQF22yZBWbEX53v4o9"),
