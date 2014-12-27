@@ -139,6 +139,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Potcoin",    0x37, 0xb7, "7",    "U"    , "PQcMNuCdeooMcS5H3DGwxXnSE2kmyVMU39"),
     janin.currency.createCurrency ("Primecoin",  0x17, 0x97, "6",    "P"    , "AbXChfoHyFESePFuVh1xLZdn7Rj1mfD2a4"),
     janin.currency.createCurrency ("Reddcoin",   0x3d, 0xbd, "7",    "[UV]" , "RmAB99NsX6Wbjk5WdqNeEab83y72d7zkqZ"),
+	janin.currency.createCurrency ("StealthCoin",0x3e, 0xbe, "7",    "V"    , ""),
     janin.currency.createCurrency ("Titcoin",    0x00, 0x80, "5",    "[LK]" , "1CHAo7muicsLHdPk5q4asrEbh6aUeSPpdC"),
     janin.currency.createCurrency ("TittieCoin", 0x41, 0xc1, "7",    "V"    , "TYrdtLy9irV4u1yo2YQVCkS27RzDzBqWwJ"),
     janin.currency.createCurrency ("Topcoin",    0x42, 0xc2, "7",    "V"    , "TmDTsQqqv1LWGw4xjGNiJ7ABwdCenf2BFF"),
