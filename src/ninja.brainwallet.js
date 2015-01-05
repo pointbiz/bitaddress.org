@@ -12,9 +12,9 @@ ninja.wallets.brainwallet = {
 	minPassphraseLength: 15,
 
 	view: function () {
-		var key = document.getElementById("brainpassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+		var key = document.getElementById("brainpassphrase").value.toString()
 		document.getElementById("brainpassphrase").value = key;
-		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString()
 		document.getElementById("brainpassphraseconfirm").value = keyConfirm;
 
 		if (key == keyConfirm || document.getElementById("brainpassphraseshow").checked) {
