@@ -1,3 +1,5 @@
+var packageObject = require('./package.json');
+
 module.exports = function (grunt) {
 	// Project configuration.
 	grunt.initConfig({
@@ -39,13 +41,26 @@ module.exports = function (grunt) {
 					{ token: "//ninja.detailwallet.js", file: "./src/ninja.detailwallet.js" },
 					{ token: "//qrcode.js", file: "./src/qrcode.js" },
 					{ token: "//securerandom.js", file: "./src/securerandom.js" },
-					{ token: "//main.css", file: "./src/main.css" }
+					{ token: "//main.css", file: "./src/main.css" },
+					{ token: "//version", string: packageObject.version }
 				]
+			}
+		},
+		
+		lineending: {               // Task
+			dist: {                   // Target
+				options: {              // Target options
+					eol: 'lf'
+				},
+				files: {                // Files to process
+					'./bitaddress.org.html': ['./bitaddress.org.html']
+				}
 			}
 		}
 	});
 
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.loadNpmTasks("grunt-combine");
-	grunt.registerTask("default", ["combine:single"]);
+	grunt.loadNpmTasks('grunt-lineending');
+	grunt.registerTask("default", ["combine:single", "lineending"]);
 };
