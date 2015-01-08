@@ -28,7 +28,11 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
-2015-01-07: status ACTIVE
+2015-01-08: status ACTIVE
+bitaddress.org-v2.9.8-SHA256-2c5d16dbcde600147162172090d940fd9646981b7d751d9bddfc5ef383f89308.html
+ - fix French translations. Escape quotes.
+
+2015-01-07: status OFFLINE
 bitaddress.org-v2.9.7-SHA256-1b0f71dfc2e064426328c15c4dbd1f467cb26afe0e84841347ad11d8ca668f70.html
  - fix translations
 
