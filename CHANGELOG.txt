@@ -28,6 +28,10 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2015-01-07: status ACTIVE
+bitaddress.org-v2.9.7-SHA256-1b0f71dfc2e064426328c15c4dbd1f467cb26afe0e84841347ad11d8ca668f70.html
+ - fix translations
+
 2015-01-05: status ACTIVE
 bitaddress.org-v2.9.6-SHA256-34728a9cec417cf8060423c77e8793e4aa133cf3d66a6b8073b4290cf1f4695c.html
  - Japanese translations for Split Wallet. Thanks dabura667.
