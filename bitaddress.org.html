@@ -19,11 +19,11 @@
 		do {
 			var key = new Bitcoin.ECKey(false);
 			var bitcoinAddress = key.getBitcoinAddress();
-		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
+		} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern)
 	- for Bulk Wallet:
 		do {
 			var key = new Bitcoin.ECKey(false);
-		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
+		} while (key.getBitcoinAddress().substring(0,vanitypattern.length) != vanitypattern)
 
 	Notice of Copyrights and Licenses:
 	***********************************
@@ -9041,8 +9041,10 @@ ninja.wallets.singlewallet = {
 	// generate bitcoin address and private key and update information in the HTML
 	generateNewAddressAndKey: function () {
 		try {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
+			do {
+				var key = new Bitcoin.ECKey(false);
+				var bitcoinAddress = key.getBitcoinAddress();
+			} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			document.getElementById("btcaddress").innerHTML = bitcoinAddress;
 			document.getElementById("btcprivwif").innerHTML = privateKeyWif;
@@ -9172,8 +9174,10 @@ ninja.wallets.paperwallet = {
 			});
 		}
 		else {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
+			do {
+				var key = new Bitcoin.ECKey(false);
+				var bitcoinAddress = key.getBitcoinAddress();
+			} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			if (ninja.wallets.paperwallet.useArtisticWallet) {
 				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
@@ -9349,7 +9353,9 @@ ninja.wallets.bulkwallet = {
 		var bulkWallet = ninja.wallets.bulkwallet;
 		if (bulkWallet.csvRowsRemaining > 0) {
 			bulkWallet.csvRowsRemaining--;
-			var key = new Bitcoin.ECKey(false);
+			do {
+				var key = new Bitcoin.ECKey(false);
+			} while (key.getBitcoinAddress().substring(0,vanitypattern.length) != vanitypattern)
 			key.setCompressed(bulkWallet.compressedAddrs);
 
 			bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
