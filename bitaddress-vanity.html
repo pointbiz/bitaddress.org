@@ -7,7 +7,6 @@
 
 	<!--
 	This is a MODIFIED VERSION of Bitaddress.org's Bitcoin Wallet Generator.
-	Modifications were made by JP Janssen - http://jpja.net.
 
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
 	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
@@ -75,7 +74,7 @@
 	<meta charset="utf-8">
 
 	<script type="text/javascript">
-vanitylength = vanitypattern.length;
+var vanitylength = vanitypattern.length;
 	
 // Array.prototype.map function is in the public domain.
 // Production steps of ECMA-262, Edition 5, 15.4.4.19  
@@ -6905,8 +6904,7 @@ body, html { height: 99%; }
 			</div>
 			<div class="authorpgp">
 				<span class="item"></span>
-				<span class="item">Original's <a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
-				<span class="item">Modifications by <a href="http://jpja.net/" target="_blank" id="footerlabelgithub">JP Janssen</a></span>
+				<span class="item"><a href="https://github.com/Jpja/bitaddress-vanity" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright2">Copyrights are included in the source.</span>
@@ -9113,6 +9111,12 @@ ninja.wallets.brainwallet = {
 			if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
 				var bytes = Crypto.SHA256(key, { asBytes: true });
 				var btcKey = new Bitcoin.ECKey(bytes);
+				key = key + " ";
+				do {
+					i = i + 1;
+					bytes = Crypto.SHA256(key + i, { asBytes: true });
+					btcKey = new Bitcoin.ECKey(bytes);
+				} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != pattern);
 				var bitcoinAddress = btcKey.getBitcoinAddress();
 				var privWif = btcKey.getBitcoinWalletImportFormat();
 				document.getElementById("brainbtcaddress").innerHTML = bitcoinAddress;
