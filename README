@@ -5,7 +5,7 @@ This is a fork of the Bitaddress Bitcoin Wallet Generator.
   every address starts with 1A.
   
 - With bitadress-brainvanity.html
-  one can create a brainwallet with a user-specified pattern.
+  one can create a vanity address with a brainwallet passphrase.
   
 - With bitadress-multihash.html
   one can create a brainwallet with the key hashed thousands of times for added security.
