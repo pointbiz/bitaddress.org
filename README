@@ -1,3 +1,10 @@
+***
+This is a fork of the Bitaddress Bitcoin Wallet Generator.
+This version is modified such that every generated address
+starts with a VANITY pattern. 
+The default pattern is "1A" but it can be changed at the beginning of the file.
+***
+
 bitaddress.org
 JavaScript Client-Side Bitcoin Wallet Generator
 
