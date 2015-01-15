@@ -8,7 +8,7 @@ This is a fork of the Bitaddress Bitcoin Wallet Generator.
   one can create a vanity address with a brainwallet passphrase.
   
 - With bitadress-multihash.html
-  one can create a brainwallet with the key hashed thousands of times for added security.
+  one can create a brainwallet with the key hashed multiple times for added security.
 
 ***
 
