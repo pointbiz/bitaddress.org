@@ -4,8 +4,10 @@
 <script>
 	var vanitypattern = "1A";
 </script>
+
 	<!--
 	This is a MODIFIED VERSION of Bitaddress.org's Bitcoin Wallet Generator.
+	Modifications were made by JP Janssen - http://jpja.net.
 
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
 	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
@@ -19,12 +21,14 @@
 		do {
 			var key = new Bitcoin.ECKey(false);
 			var bitcoinAddress = key.getBitcoinAddress();
-		} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern)
+		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
 	- for Bulk Wallet:
 		do {
 			var key = new Bitcoin.ECKey(false);
-		} while (key.getBitcoinAddress().substring(0,vanitypattern.length) != vanitypattern)
+		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
 
+
+	
 	Notice of Copyrights and Licenses:
 	***********************************
 	The bitaddress.org project, software and embedded resources are copyright bitaddress.org (pointbiz). 
@@ -71,6 +75,8 @@
 	<meta charset="utf-8">
 
 	<script type="text/javascript">
+vanitylength = vanitypattern.length;
+	
 // Array.prototype.map function is in the public domain.
 // Production steps of ECMA-262, Edition 5, 15.4.4.19  
 // Reference: http://es5.github.com/#x15.4.4.19  
@@ -6500,7 +6506,7 @@ body, html { height: 99%; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
     #menu { visibility: hidden; font-size: 90%; }
-    #culturemenu { text-align: center; padding: 0 10px 5px 10px; margin-bottom: 3px; font-size: 90%; }
+    #culturemenu { text-align: right; padding: 0 20px; margin-bottom: 3px; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
 
@@ -6560,12 +6566,9 @@ body, html { height: 99%; }
 			<span><a href="?culture=de" id="culturede">Deutsch</a></span> | 
 			<span><a href="?culture=cs" id="culturecs">Česky</a></span> | 
 			<span><a href="?culture=hu" id="culturehu">Magyar</a></span> | 
-			<span><a href="?culture=jp" id="culturejp">日本語</a></span> | 
-			<span><a href="?culture=zh-cn" id="culturezh-cn">简体中文</a></span> | 
-            <span><a href="?culture=ru" id="cultureru">Русский</a></span>
+			<span><a href="?culture=jp" id="culturejp">日本語</a></span>
 		</div>
-		<img alt="bitaddress.org" title="bitaddress.org" id="logo" src="data:image/png;base64,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" />
-		<div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Generator</div>
+		<div id="tagline">&nbsp;<br />&nbsp;<br />MODIFIED VERSION of Bitaddress.org's Wallet<br />This version generates addresses starting with 1A<br />&nbsp;</div>
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
 		<ul class="menu" id="menu">
@@ -6618,7 +6621,7 @@ body, html { height: 99%; }
 				
 				<div id="singlesafety">
 					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with its corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
-					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
 					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
 					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
 					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
@@ -6895,25 +6898,18 @@ body, html { height: 99%; }
 		<div id="footer" class="footer">
 			<div class="authorbtc">
 				<div>
-					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
+					<span class="item"><span id="footerlabeldonations"></span>
+					<span class="item"></span>
 					<span class="item" id="footerlabeltranslatedby"></span>
-					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.8.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
-				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.8)</a>
-					
-				</span>
-				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
-				<span class="item">
-					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
-					(<a href="javascript:window.location=window.location.pathname+'.sig';" target="_blank" id="footerlabelsig">sig</a>)
+				<span class="item"></span>
+				<span class="item">Original's <a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a></span>
+				<span class="item">Modifications by <a href="http://jpja.net/" target="_blank" id="footerlabelgithub">JP Janssen</a></span>
 			</div>
 			<div class="copyright">
-				<span id="footerlabelcopyright1">Copyright bitaddress.org.</span>
-				<span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
+				<span id="footerlabelcopyright2">Copyrights are included in the source.</span>
 				<span id="footerlabelnowarranty">No warranty.</span>
 			</div>
 		</div>
@@ -7602,7 +7598,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Entrada no válida. La clave privada de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 
 			// header and menu html
-			"tagline": "Generador de carteras Bitcoin de código abierto en lado de cliente con Javascript",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Generando dirección Bitcoin...",
 			"generatelabelmovemouse": "Mueve un poco el ratón para crear entropía...",
 			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
@@ -7619,8 +7615,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Histórico de versiones",
 			"footerlabelgithub": "Repositorio GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 			"footerlabelnowarranty": "Sin garantía.",
@@ -7631,7 +7625,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Dirección Bitcoin",
 			"singlelabelprivatekey": "Clave privada (formato para importar):",
 			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
-			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
 			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
@@ -7740,7 +7734,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Entrée non valide. La clé Privée des deux entrées est identique. Vous devez entrer deux clés différentes.",
 			
 			// header and menu html
-			"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 			"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
 			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
@@ -7757,8 +7751,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Historique De Version",
 			"footerlabelgithub": "Dépôt GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 			"footerlabelnowarranty": "Aucune garantie.",
@@ -7768,13 +7760,13 @@ ninja.translator = {
 			"singleprint": "Imprimer",
 			"singlelabelbitcoinaddress": "Adresse Bitcoin:",
 			"singlelabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
-			"singletip1": "Un porte-monnaie Bitcoin est aussi simple qu'une paire d'adresses Bitcoin dont une correspond à l'adresse privée Bitcoin. Ce porte-monnaie affiché a été généré pour vous dans votre propre navigateur internet et est donc affiché ci-dessus.", 
-			"singletip2": "Pour garder en sécurité ce porte-monnaie, vous devez l'imprimer ou, alternativement, enregistrer l'adresse de réception Bitcoin et la clé privée. Il est important de créer une copie de sauvegarde de la clé privée et de la stocker à un endroit sûr. Ce site n'a aucune base prédéterminée ou de sauvegarde de votre clé privée. Si vous êtes initiés à PGP, vous pouvez télécharger la version toute-en-1 de la page HTML et ainsi vérifier que vous avez une version authentique issue de l'auteur du site en comparant l'encryptage SHA1 de votre page HTML sauvegardée avec l'encryptage SHA1 disponible sur l'historique certifiée indiquée en bas de ce site. Si vous quittez ou rafraichissez ce site ou que vous appuyez sur \"générer une nouvelle adresse\" ... alors une nouvelle clé privée sera générée et la précédente clé privée affichée ne pourra plus être retrouvée. Votre clé privée Bitcoin doit être gardée secrète. Celui qui connaît la clé privée aura la possibilité de vider tous les bitcoins accumulés et associés à l'adresse de réception. Si vous imprimez le porte-monnaie, pensez à le mettre à l'abri de l'eau dans un sac étanche. Traitez le porte-monnaie papier comme de l'argent en espèces et billets.",
-			"singletip3": "Pour ajouter des fonds à votre porte-monnaie, indiquez d'envoyer les Bitcoins à votre adresse de réception.",
-			"singletip4": "Vérifier le contenu de votre porte-monnaie en consultant blockchain.info ou blockexplorer.com et en y tapant votre adresse de réception Bitcoin.",
-			"singletip5": "Pour dépenser vos bitcoins, allez sur blockchain.info et transférez l'ensemble des fonds de votre adresse privée vers le compte de ce site. Vous pouvez, aussi, dépenser vos fonds en téléchargeant un des programmes P2P bitcoin populaires et en y important votre clé privée dans un porte-monnaie P2P. Gardez à l'esprit que quand vous importez votre clé privée dans le programme P2P bitcoin et que vous dépensez vos fonds, votre clé privée sera intégrée avec d'autres clés privées dans le porte-monnaie P2P. Quand vous effectuez une transaction, le changement sera envoyé sur une autre adresse bitcoin privée à l'intérieur du porte-monnaie P2P. Vous DEVEZ, alors, faire une sauvegarde du porte-monnaie P2P et le garder en sécurité car l'ensemble des bitcoins restant y sera stocké. Satoshi a averti qu'il ne faudrait jamais supprimer un porte-monnaie.",
-			"singleshare": "PARTAGER",
-			"singlesecret": "SECRET",
+			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
+			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
+			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
+			"singleshare": "SHARE", //TODO: please translate
+			"singlesecret": "SECRET", //TODO: please translate
 
 
 			// paper wallet html
@@ -7783,7 +7775,7 @@ ninja.translator = {
 			"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
 			"papergenerate": "Générer",
 			"paperprint": "Imprimer",
-			"paperlabelBIPpassphrase": "mot de passe:",
+			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
 			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
 
 			// bulk wallet html
@@ -7879,7 +7871,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Μη έγκυρη εισαγωγή. Τα Προσωπικά Κλειδιά των δύο εγγραφών είναι όμοια. Πρέπει να εισάγετε δύο διαφορετικά Κλειδιά.",
 
 			// header and menu html
-			"tagline": "Δημιουργός Διευθύνσεων Bitcoin, ανοικτού κώδικα Javascript",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Δημιουργία Διεύθυνσης Bitcoin...",
 			"generatelabelmovemouse": "ΚΟΥΝΗΣΤΕ το ποντίκι τριγύρω για να προσθέσετε επιπλέον τυχαιότητα...",
 			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
@@ -7896,8 +7888,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "ιστορικό εκδόσεων",
 			"footerlabelgithub": "Αποθετήριο GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Τα πνευματικά δικαιώματα της JavaScript περιλαμβάνονται στον κώδικα.",
 			"footerlabelnowarranty": "Καμία εγγύηση.",
@@ -7908,7 +7898,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"singlelabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
 			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
-			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
 			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
@@ -8017,7 +8007,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Dati inseriti non validi. Entrambe le chiavi private combaciano. Devi inserire due chiavi differenti.",
 
 			// header and menu html
-			"tagline": "Open Source JavaScript Client-Side Bitcoin Wallet Generator",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Generazione Indirizzo Bitcoin...",
 			"generatelabelmovemouse": "MUOVI il tuo mouse per contribuire alla generazione dei numeri casuali...",
 			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
@@ -8034,8 +8024,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Cronologia Versioni",
 			"footerlabelgithub": "Repository GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Le note di copyright dei file JavaScript sono inclusi nei sorgenti stessi.",
 			"footerlabelnowarranty": "Nessuna garanzia.",
@@ -8046,7 +8034,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Indirizzo Bitcoin:",
 			"singlelabelprivatekey": "Chiave privata (Wallet Import Format):",
 			"singletip1": "<b>Un portafogli bitcoin</b> è composto semplicemente da una coppia di valori: l'indirizzo e la sua chiave privata. Un portafogli è stato appena generato sul tuo browser e mostrato sopra.",
-			"singletip2": "<b>Per mettere in sicurezza questo portafogli</b> devi stampare o quantomeno salvare l'indirizzo bitcoin e la Chiave privata. È molto importante fare una copia di backup della chiave privata e conservarla in un posto sicuro. Questo sito non conosce la tua chiave privata. Se hai familiarità con PGP, puoi scaricare per intero questa pagina HTML e controllare la sua autentiticità. Puoi confrontare il codice SHA256 della pagina scaricata con il codice firmato dall'autore che trovi nella cronologia delle versioni (in fondo alla pagina). Se abbandoni/aggiorni la pagina web oppure premi il tasto Genera, un nuovo indirizzo sostituirà quello vecchio che non potrà più essere recuperato. La chiave privata dovrebbe essere tenuta segreta, chiunque conosca la chiave privata può avere accesso e spendere i tuoi bitcoin. Se stampi il tuo portafogli conservalo in una busta di plastica sigillata per tenerla al riparo dall'acqua. Tratta quanto stampato alla stregua di una banconota.",
+			"singletip2": "<b>Per mettere in sicurezza questo portafogli</b> devi stampare o quantomeno salvare l'indirizzo bitcoin e la Chiave privata. È molto importante fare una copia di backup della chiave privata e conservarla in un posto sicuro. Questo sito non conosce la tua chiave privata. Se hai familiarità con PGP, puoi scaricare per intero questa pagina HTML e controllare la sua autentiticità. Puoi confrontare il codice SHA1 della pagina scaricata con il codice firmato dall'autore che trovi nella cronologia delle versioni (in fondo alla pagina). Se abbandoni/aggiorni la pagina web oppure premi il tasto Genera, un nuovo indirizzo sostituirà quello vecchio che non potrà più essere recuperato. La chiave privata dovrebbe essere tenuta segreta, chiunque conosca la chiave privata può avere accesso e spendere i tuoi bitcoin. Se stampi il tuo portafogli conservalo in una busta di plastica sigillata per tenerla al riparo dall'acqua. Tratta quanto stampato alla stregua di una banconota.",
 			"singletip3": "<b>Ricevi fondi</b> su questo portafogli mostrando l'indirizzo bitcoin per il versamento.",
 			"singletip4": "<b>Controlla il saldo</b> visitando blockchain.info o blockexplorer.com cercando il tuo indirizzo bitcoin.",
 			"singletip5": "<b>Spendi i tuoi bitcoin</b> aprendo un account su blockchain.info usando la chiave privata. Puoi anche spendere i tuoi bitcoin scaricando il popolare client p2p ed importando in esso il portafogli. Tieni presente che quando importi una chiave nel client p2p, nel momento in cui spendi le monete, la chiave viene raggruppata insieme alle altre presenti nel programma con i restanti bitcoin. Quando esegui una transazione gli spiccioli verranno invitati verso un altro indirizzo all'interno del tuo portafogli gestito dal client p2p. Quindi dovresti tenere un backup del portafogli contenuto nel client p2p e tenere questo in un posto sicuro fin tanto terrai dei bitcoin lì. Satoshi consiglia di non cancellare mai un portafogli. ",
@@ -8155,7 +8143,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Unzulässige Eingaben. Die eingegebenen privaten Schlüssel stimmen überein. Bitte gib zwei unterschiedliche Schlüssel ein.",
 
 			// header and menu html
-			"tagline": "Offener, client-seitiger Bitcoin-Wallet-Generator in JavaScript",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Erstelle Bitcoin-Wallet...",
 			"generatelabelmovemouse": "Bewege deine Maus umher, um die Zuf&auml;lligkeit zu erh&ouml;hen...",
 			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
@@ -8172,8 +8160,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Versionsgeschichte",
 			"footerlabelgithub": "GitHub-Repository",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript-Copyrights sind im Quelltext enthalten.",
 			"footerlabelnowarranty": "Ohne Gew&auml;hr.",
@@ -8184,7 +8170,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin-Adresse",
 			"singlelabelprivatekey": "Privater Schl&uuml;ssel (WIF &ndash; zum Importieren geeignet):",
 			"singletip1": "<b>Ein Bitcoin-Wallet </b>(Geldb&ouml;rse) ist nichts anderes als eine Bitcoin-Adresse (&ouml;ffentlicher Schl&uuml;ssel) und der zu ihr geh&ouml;rende private Schl&uuml;ssel. Oben findest du ein solches, gerade f&uuml;r dich erstelltes Wallet, bestehend aus den beiden Zeichenketten. Die QR-Codes dienen lediglich der Vereinfachung und enthalten kodiert die Adresse bzw. den privaten Schl&uuml;ssel.",
-			"singletip2": "<b>Um dieses Wallet zu sch&uuml;tzen,</b> musst du es entweder ausdrucken oder anderweitig die Bitcoin-Adresse und den privaten Schl&uuml;ssel sichern. Fertige auf jeden Fall eine Kopie des privaten Schl&uuml;ssels an und bewahre sie an einem sicheren Ort auf. Der private Schl&uuml;ssel liegt nur lokal auf deinem Rechner vor und wurde nicht ins Internet &uuml;bertragen. Falls du dich mit PGP auskennst, kannst du dir diese all-in-one HTML-Seite herunterladen. Um zu &uuml;berpr&uuml;fen, ob die heruntergeladene Version authentisch ist, kannst du den SHA256-Hash dieser Seite mit dem SHA256-Hash in der signierten Versionsgeschichte am unteren Ende dieser Seite abgleichen. Wenn du diese Seite verl&auml;sst, sie neul&auml;dst bzw. den \"Neues Wallet erstellen\"-Button dr&uuml;ckst, wird ein neues Wallet erstellt und das vorherige wird nicht mehr abrufbar sein. Du solltest deinen privaten Schl&uuml;ssel geheim halten. Wer den privaten Schl&uuml;ssel hat, kann damit auf alle im Wallet befindlichen Bitcoin zugreifen und sie nach Belieben ausgeben. Behandle dein gedrucktes Wallet wie echtes Geld!",
+			"singletip2": "<b>Um dieses Wallet zu sch&uuml;tzen,</b> musst du es entweder ausdrucken oder anderweitig die Bitcoin-Adresse und den privaten Schl&uuml;ssel sichern. Fertige auf jeden Fall eine Kopie des privaten Schl&uuml;ssels an und bewahre sie an einem sicheren Ort auf. Der private Schl&uuml;ssel liegt nur lokal auf deinem Rechner vor und wurde nicht ins Internet &uuml;bertragen. Falls du dich mit PGP auskennst, kannst du dir diese all-in-one HTML-Seite herunterladen. Um zu &uuml;berpr&uuml;fen, ob die heruntergeladene Version authentisch ist, kannst du den SHA1-Hash dieser Seite mit dem SHA1-Hash in der signierten Versionsgeschichte am unteren Ende dieser Seite abgleichen. Wenn du diese Seite verl&auml;sst, sie neul&auml;dst bzw. den \"Neues Wallet erstellen\"-Button dr&uuml;ckst, wird ein neues Wallet erstellt und das vorherige wird nicht mehr abrufbar sein. Du solltest deinen privaten Schl&uuml;ssel geheim halten. Wer den privaten Schl&uuml;ssel hat, kann damit auf alle im Wallet befindlichen Bitcoin zugreifen und sie nach Belieben ausgeben. Behandle dein gedrucktes Wallet wie echtes Geld!",
 			"singletip3": "Du kannst <b>Guthaben</b> zu deinem Wallet <b>hinzuf&uuml;gen</b>, indem du genau wie bei anderen &Uuml;berweisungen Bitcoins an die Bitcoin-Adresse deines Wallets schickst.",
 			"singletip4": "<b>&Uuml;berpr&uuml;fe dein Guthaben,</b> indem du deine Bitcoin-Adresse auf blockchain.info bzw. blockexplorer.com eingibst.",
 			"singletip5": "Du kannst deine <b>Bitcoins ausgeben</b>, indem du das gesamte mit deinem privaten Schl&uuml;ssel verbundene Guthaben auf deinen Account bei blockchain.info &uuml;bertr&auml;gst. Alternativ kannst du dir ein Bitcoinprogramm herunterladen und deinen privaten Schl&uuml;ssel in dieses importieren. Beachte dabei aber, dass, sobald du Bitcoins mit dem Programm sendest, dein privater Schl&uuml;ssel mit den anderen privaten Schl&uuml;sseln, die vom Programm bereitgestellt werden, verbunden wird. Bei einer &Uuml;berweisung wird etwas R&uuml;ckgeld an eine der Bitcoin-Adressen des Programms geschickt. Deswegen musst du, um tats&auml;chlich dein gesamtes Guthaben zu sichern, ein Backup vom gesamten Wallet des Programms, das nun auch deinen importierten privaten Schl&uuml;ssel enth&auml;lt, anfertigen. Satoshi r&auml;t, dass man unter keinen Umst&auml;nden ein Wallet l&ouml;schen sollte.", 
@@ -8293,7 +8279,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Špatný vstup. Soukromý klíč obou položek je shodný. Musíte zadat dva různé klíče.",
 
 			// header and menu html
-			"tagline": "Open Source generátor Bitcoin peněženky napsaný v JavaScript",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "Generuji Bitcoin adresu",
 			"generatelabelmovemouse": "POHYBUJTE myší pro získání dostatku náhody...",
 			"generatelabelkeypress": "NEBO napište několik náhodných znaků do tohoto pole",
@@ -8310,8 +8296,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Historie verzí",
 			"footerlabelgithub": "GitHub Repository",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Copyright JavaScriptu je uveden ve zdrojovém kódu.",
 			"footerlabelnowarranty": "Bez záruky.",
@@ -8322,7 +8306,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin adresa",
 			"singlelabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
 			"singletip1": "<b>Bitcoin peněženka</b> je jednoduchý pár Bitcoin adresy s přidruženým soukromým klíčem. Taková peněženka byla právě vytvořena ve vašem prohlížeči a zobrazena výše.",
-			"singletip2": "<b>Pro zabezpečení této peněženky</b> musíte tuto Bitcoin adresu a soukromý klíč vytisknout a nebo jinak poznamenat. Je důležité provést zálohu soukromého klíče a jeho uschování na bezpečném místě. Tato webová stránka nemá žádné informace o vašem soukromém klíči. Pokud ovládáte PGP, můžete celou tuto stránku stáhnout v jednom HTML souboru a ověřit její pravost srovnáním SHA256 hashe s podepsaným dokumentem historie verzí. Odkaz naleznete v patičce této stránky. Pokud opustíte či obnovíte tuto stránku nebo kliknete na 'Vytvořit novou adresu' dojde k vygenerování nového soukromého klíče a předtím zobrazený klíč bude ztracen. Váš soukromý klíč musíte uchovat v tajnosti. Každý kdo má tento klíč k dispozici může utratit všechny peníze v této peněžence. Pokud budete peněženku tisknout, uzavřete ji do nepropustného obalu nebo ji zalaminujte. Tím zabráníte jejímu poškození vodou. Chovejte se k této peněžence jako k normálním bankovkám.",
+			"singletip2": "<b>Pro zabezpečení této peněženky</b> musíte tuto Bitcoin adresu a soukromý klíč vytisknout a nebo jinak poznamenat. Je důležité provést zálohu soukromého klíče a jeho uschování na bezpečném místě. Tato webová stránka nemá žádné informace o vašem soukromém klíči. Pokud ovládáte PGP, můžete celou tuto stránku stáhnout v jednom HTML souboru a ověřit její pravost srovnáním SHA1 hashe s podepsaným dokumentem historie verzí. Odkaz naleznete v patičce této stránky. Pokud opustíte či obnovíte tuto stránku nebo kliknete na 'Vytvořit novou adresu' dojde k vygenerování nového soukromého klíče a předtím zobrazený klíč bude ztracen. Váš soukromý klíč musíte uchovat v tajnosti. Každý kdo má tento klíč k dispozici může utratit všechny peníze v této peněžence. Pokud budete peněženku tisknout, uzavřete ji do nepropustného obalu nebo ji zalaminujte. Tím zabráníte jejímu poškození vodou. Chovejte se k této peněžence jako k normálním bankovkám.",
 			"singletip3": "<b>Pro vložení</b> peněz do této peněženky stačí zaslat peníze na Bitcoin adresu.",
 			"singletip4": "<b>Zkontrolovat zůstatek</b> můžete na webové stránce blockchain.info nebo blockexplorer.com po zadání Bitcoin adresy.",
 			"singletip5": "<b>Utratit Bitcoiny</b> můžete pomocí blockchain.info načtením celého zůstatku pomocí soukromého klíče do vašeho účtu. Utratit zůstatek můžete také pomocí jednoho z P2P Bitcoin klientů naimportováním soukromého klíče. Myslete na to, že importem klíče do klienta se stane součástí jeho peněženky. Pokud převedete někomu peníze, nespotřebovaný zůstatek se zašle na jinou Bitcoin adresu uvedenou v P2P klienta. Tuto novou adresu musíte vyzálohovat a udržovat v bezpečí. Satoshi doporučuje, že by nikdo nikdy neměl mazat peněženku.",
@@ -8431,7 +8415,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "Érvénytelen bemenet. A két megadott privát kulcs azonos. Két különböző kulcs bevitelére van szükség.",
 
 			// header and menu html
-			"tagline": "Nyílt forráskódú, kliens oldali JavaScript, Bitcoin pénztárca előállítására",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "A bitcoin cím előállítása...",
 			"generatelabelmovemouse": "MOZGASSA az egeret, ha fokozni szeretné a véletlenszerűséget...",
 			"generatelabelkeypress": "VAGY gépeljen be néhány véletlenszerű karaktert ebbe a szövegdobozba",
@@ -8449,8 +8433,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Változatok története",
 			"footerlabelgithub": "GitHub kódtár",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Az egyes JavaScript kódok szerzőinek jogai a forráskódon belül találhatók meg.",
 			"footerlabelnowarranty": "Garancia nincs.",
@@ -8461,7 +8443,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin cím:",
 			"singlelabelprivatekey": "Privát kulcs (WIF, tárca import formátumban):",
 			"singletip1": "<b>Egy bitcoin pénztárca</b> nem más, mint egy bitcoin címből és a hozzá tartozó privát kulcsból álló számpár. Egy ilyen pénztárcát állítottunk elő és jelenítettünk meg fent az Ön számára a Web böngészőben.",
-			"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tud az ön privát kulcsairól. Ha ismeri a PGP-t, akkor egyben letöltheti az egész web lapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA256 zanzát a webhely láblécében hivatkozott, aláírt verzió történetben lévő SHA256 zanzával. Ha elhagyja/megfrissíti a webhelyet vagy megnyomja az 'Új cím előállítása' gombot, akkor egy új privát kulcs áll elő, és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni az ehhez a címhez tartozó összes bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nylon-zacskóban. A papír pénztárcát tekintse úgy, mintha pénz lenne.",
+			"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tud az ön privát kulcsairól. Ha ismeri a PGP-t, akkor egyben letöltheti az egész web lapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA1 zanzát a webhely láblécében hivatkozott, aláírt verzió történetben lévő SHA1 zanzával. Ha elhagyja/megfrissíti a webhelyet vagy megnyomja az 'Új cím előállítása' gombot, akkor egy új privát kulcs áll elő, és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni az ehhez a címhez tartozó összes bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nylon-zacskóban. A papír pénztárcát tekintse úgy, mintha pénz lenne.",
 			"singletip3": "<b>Pénzt úgy tehet</b> a pénztárcájába, hogy másokkal bitcoinokat küldet erre a Bitcoin címre.",
 			"singletip4": "<b>A pénztárca egyenlegét</b> úgy kérdezheti le, hogy elmegy a blockchain.info vagy a blockexplorer.com weblapokra, és ott beadja ezt a Bitcoin címet.",
 			"singletip5": "<b>Ha el akarja költeni a bitcoinjait,</b> akkor menjen a blockchain.info weblapra, és a privát kulcson lévő teljes egyenleget töltse át (sweep) a weblapon lévő számlájára. A pénzt úgy is elköltheti, hogy letölti valamelyik népszerű p2p bitcoin klienst, és beimportálja a privát kulcsot a p2p kliens pénztárcájába. Ne feledje, hogy miután beimportálta a kulcsot a p2p bitcoin kliensbe, a kulcsot a p2p kliens a pénztárcában lévő többi kulccsal együtt tárolja. Pénz küldésekor a visszajáró pénzt a p2p kliens pénztárcájában lévő másik bitcoin címre fogják küldeni. Ekkor biztonsági másolatot kell készítenie a p2p kliens pénztárcáról, és a másolatot biztos helyen kell őriznie, mivel a maradék bitcoinjait a pénztárca kulcsai tárolják. Satoshi tanácsa, hogy pénztárcát soha ne töröljünk.",
@@ -8576,7 +8558,7 @@ ninja.translator = {
 			"vanityalertinvalidinputprivatekeysmatch": "不正入力両方のプライベートキーがチケットに一致します。2つの異なるキーをお使い下さい。",
 
 			// header and menu html
-			"tagline": "クライエント側ビットコインアドレス生成(JavaScript使用)",
+			"tagline": "NON-ORIGINAL MODIFIED VERSION",
 			"generatelabelbitcoinaddress": "ビットコインアドレスを生成中...",
 			"generatelabelmovemouse": "マウスを動かして、ランダム要素を追加してください。",
 			"generatelabelkeypress": "もしくはこちらの入力欄にランダムな文字を打って下さい。",
@@ -8593,8 +8575,6 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "バージョン履歴",
 			"footerlabelgithub": "GitHubリポジトリ",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScriptのコピーライト情報はソースに含まれています。",
 			"footerlabelnowarranty": "保障はありません。",
@@ -8605,7 +8585,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "ビットコインアドレス",
 			"singlelabelprivatekey": "プライベートキー (WIF形式)",
 			"singletip1": "<b>ビットコインウォレットとは</b> ビットコインのアドレスと対応するプライベートキーを組み合わせたものです。新しいアドレスがブラウザー上で生成され、上記に表示されています。",
-			"singletip2": "<b>このウォレットを守るためには</b> ビットコインアドレスとビットコインプライベートキーを印刷するなどの手段で記録しなければいけません。プライベートキーが無いとペアになっているアドレスに送られたビットコインが使えないので、人に晒されないような方法でプライベートキーのコピーを取り、大事に保管して下さい。このサイトはこのプライベートキーの保存はしません。PGPをご存知の方は、このサイトを1つのhtmlファイルで落とすことができるので、このサイトのhtmlファイルのSHA256ハッシュとサイトのフッターにデジタル署名されたメッセージに入ったハッシュを比べて不正にいじられていないかをお確かめいただけます。このページを閉じたり、離れたり、”新アドレス生成”を押すと現在表示されているプライベートキーは消え、新規アドレスが生成されるので、ご使用の場合は必ず何らかの手段で記録しておいて下さい。プライベートキーは秘密にしてください。共有されますと、対応するビットコインアドレスに存在するコインが全て共有者間で利用可能となります。ウォレット情報を印刷したら、濡れないようにジップロックに入れましょう。紙幣と同様に扱うよう心がけてください。",
+			"singletip2": "<b>このウォレットを守るためには</b> ビットコインアドレスとビットコインプライベートキーを印刷するなどの手段で記録しなければいけません。プライベートキーが無いとペアになっているアドレスに送られたビットコインが使えないので、人に晒されないような方法でプライベートキーのコピーを取り、大事に保管して下さい。このサイトはこのプライベートキーの保存はしません。PGPをご存知の方は、このサイトを1つのhtmlファイルで落とすことができるので、このサイトのhtmlファイルのSHA1ハッシュとサイトのフッターにデジタル署名されたメッセージに入ったハッシュを比べて不正にいじられていないかをお確かめいただけます。このページを閉じたり、離れたり、”新アドレス生成”を押すと現在表示されているプライベートキーは消え、新規アドレスが生成されるので、ご使用の場合は必ず何らかの手段で記録しておいて下さい。プライベートキーは秘密にしてください。共有されますと、対応するビットコインアドレスに存在するコインが全て共有者間で利用可能となります。ウォレット情報を印刷したら、濡れないようにジップロックに入れましょう。紙幣と同様に扱うよう心がけてください。",
 			"singletip3": "<b>このウォレットにコインを追加 : </b> 他の人から自分のビットコインアドレスに送ってもらう。",
 			"singletip4": "<b>残高照会は</b> blockchain.infoやblockexplorer.comに行き、ビットコインアドレスを入力してお調べ下さい。",
 			"singletip5": "<b>ビットコインを使おう。</b> 送金するには、このページで生成したプライベートキーをblockchain.infoのウォレットや各種パソコン・スマホ端末にあるウォレットアプリなどに取り込んで使えます。しかし、その時点でそのアドレスが取り込んだウォレットの他のアドレスと融合してしまい、この一つのアドレスのバックアップだけじゃビットコインを保管することはできなくなります。取り込み先のウォレットを強いパスワードで暗号化し、バックアップして、安全に扱って下さい。ビットコインの考案者「サトシさん」曰く、「一度作ったウォレットを、空にしたとしても、削除しない方が良い。」(メールアドレスと同じく、いつ昔の友達や親戚から古いアドレス宛にビットコインを送ってくるかわかりませんから。)",
@@ -8698,289 +8678,7 @@ ninja.translator = {
 			"detaildecrypt": "BIP38暗号を解除",
 			"detaillabelq1": "サイコロを使ってどうやってアドレス作るのか？「B6」とは何か？",
 			"detaila1": "ビットコインのアドレスの生成には一番大事なことが、アドレス生成に使われている乱数が本当にランダムなのかというところです。自然界に起きる物理的なランダムさはパソコンが生成する(似非)ランダムさよりは優れている。物理的なランダムさを作る一番簡単な方法はサイコロを振ることです。ビットコインのプライベートキーを生成するには、6面のサイコロを99回振って、毎回結果を記載していきます。規則として1⇒1, 2⇒2, 3⇒3, 4⇒4, 5⇒5, 6⇒0というように、6が出る度に「0」と記載して下さい。99桁の6進数字列ができたら、上記の入力欄に入れて、「詳細を表示」ボタンを押して下さい。これでWIF形式のプライベートキーやそれと紐づくビットコインアドレスが表示されます。これらを記載し、通常生成されたビットコインアドレスと同じように保管しておいて下さい。",
-		},
-
-		"zh-cn": {	
-			// javascript alerts or messages
-			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
-			"paperlabelbitcoinaddress": "比特币地址",
-			"paperlabelprivatekey": "私钥 (WIF格式)",
-			"paperlabelencryptedkey": "加密私钥(需要密码)",
-			"bulkgeneratingaddresses": "创建地址中...",
-			"brainalertpassphrasetooshort": "这个密码太短了 \n\n",
-			"brainalertpassphrasewarning": "警告：选择一个足够强大的口令非常重要，它可以避免你的私钥被暴力破解。 此外，UTF-8编码有效。请注意区分全角/半角",
-			"brainalertpassphrasedoesnotmatch": "两次输入的口令不一致",
-			"detailalertnotvalidprivatekey": "输入的私钥无效",
-			"detailconfirmsha256": "你输入的不是合法的私钥，\n\n你想用它的SHA-256值当作私钥吗（相当于脑钱包）\n\n警告：选择一个足够强大的口令非常重要，它可以避免你的私钥被暴力破解。",
-			"bip38alertincorrectpassphrase": "这个加密私钥的密码不正确。",
-			"bip38alertpassphraserequired": "BIP38加密的私钥需要密码。",
-			"vanityinvalidinputcouldnotcombinekeys": "错误输入，这两个Key无法合成。",
-			"vanityalertinvalidinputpublickeysmatch": "错误输入，请使用不同的公钥。",
-			"vanityalertinvalidinputcannotmultiple": "错误，两个公钥不能进行乘运算，想要检查两个公钥合成的地址，请选择加运算。",
-			"vanityprivatekeyonlyavailable": "使用两个私钥合成，才会得到合成私钥。",
-			"vanityalertinvalidinputprivatekeysmatch": "错误输入，请使用不同的私钥。",
-
-			// header and menu html
-			"tagline": "开源JavaScript比特币钱包工具",
-			"generatelabelbitcoinaddress": "地址生成中...",
-			"generatelabelmovemouse": "请移动鼠标产生随机种子...",
-			"generatelabelkeypress": "或者在文本框中输入随机字符",
-			"singlewallet": "普通钱包",
-			"paperwallet": "纸钱包",
-			"bulkwallet": "批量钱包",
-			"brainwallet": "脑钱包",
-			"vanitywallet": "虚荣钱包",
-			"splitwallet": "分裂钱包",
-			"detailwallet": "钱包详情",
-
-			// footer html
-			"footerlabeldonations": "项目捐赠",
-			"footerlabeltranslatedby": "简中翻译捐赠 1BfXayW2vrj6uRpoZg3nR8rMEckLpGmaiL",
-			"footerlabelpgp": "PGP",
-			"footerlabelversion": "版本历史",
-			"footerlabelgithub": "GitHub页面",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
-			"footerlabelcopyright1": "Copyright bitaddress.org.",
-			"footerlabelcopyright2": "JavaScript的版权信息已经包含在源代码中。",
-			"footerlabelnowarranty": "No warranty",
-
-			// single wallet html
-			"newaddress": "生成新地址",
-			"singleprint": "打印",
-			"singlelabelbitcoinaddress": "比特币地址",
-			"singlelabelprivatekey": "私钥 (WIF格式-可导入客户端的格式)",
-			"singletip1": "<b>比特币钱包</b>就是这么简单，一个地址，对应一个私钥，浏览器已自动生成了一个，就显示在上面。私钥必须保密，地址可以公开。",
-			"singletip2": "<b>妥善保管你的钱包</b> 为了保护你的钱包，建议你用打印或者其他方式来保管你的私钥和地址。把你的私钥备份保存在安全、保密的位置是必要的。本站不提供私钥的相关知识，请自行学习。如果你熟悉PGP，你也可以下载这个HTML文件（它是单文件全功能的），用它的SHA256摘要和作者在本站页脚留下的相比对。本工具支持离线使用，这样它生成的私钥-地址就很难被监视了。比特币私钥必须保密，任何知道你私钥的人都可以随意花费其对应地址的比特币。你可以打印你的钱包（即纸钱包），把它装进一个防水的口袋里——就像你在保管纸币一样。",
-			"singletip3": "<b>获得比特币: </b> 让别人往你的地址汇入比特币。",
-			"singletip4": "<b>查询余额：</b> 访问blockchain.info或者blockexplorer.com可以查看到任何地址中的比特币余额。",
-			"singletip5": "<b>花费比特币：</b> 你可以下载比特币客户端，或者访问blockchain.info之类的在线钱包网站，导入你的比特币私钥来花费对应地址上的比特币。如果你选择了客户端，每当你发送一笔钱之后，找零有可能会发回客户端生成的另外一个地址，记得备份客户端生成的钱包文件，否则你可能丢钱。比特币作者中本聪说过，不要删除任何钱包，因为你的亲戚朋友说不定还会往你的旧地址里汇款。",
-
-			// paper wallet html
-			"paperlabelhideart": "隐藏背景图案",
-			"paperlabeladdressesperpage": "每张纸上打印的地址数",
-			"paperlabeladdressestogenerate": "生成的地址数",
-			"papergenerate": "生成",
-			"paperprint": "打印",
-			"paperlabelBIPpassphrase": "密码",
-			"paperlabelencrypt": "BIP38加密？",
-
-			// bulk wallet html
-			"bulklabelstartindex": "起始编号",
-			"bulklabelrowstogenerate": "生成行数",
-			"bulklabelcompressed": "生成压缩地址？",
-			"bulkgenerate": "生成",
-			"bulkprint": "打印",
-			"bulklabelcsv": "逗号分隔值：",
-			"bulklabelformat": "编号,地址,私钥(WIF格式)",
-			"bulklabelq1": "什么时候我会需要批量钱包？",
-			"bulka1": "例如，当你建设一个比特币收款网站，需要分别为每一个用户准备一个收款地址时，传统的做法是使用比特币客户端“bitcoind”生成大量的地址，但是不一定所有的网站托管都支持它。另外，你在服务器上运行比特币客户端，也就意味着你的私钥也会保存在服务器上，当骇客攻破服务器时，你的比特币可能会被盗。使用批量钱包一次生成大量的钱包，只把生成的地址放在服务器上，即使服务器被攻破，也不必担心比特币的安全。",
-			"bulklabelq2": "我该怎样在我的网站上使用批量钱包接受比特币？",
-			"bulklabela2li1": "    在批量钱包选项卡预生成大量比特币地址（比如，一万个）。把生成的逗号分隔值清单（CSV）复制到一个安全的环境中，注意备份。",
-			"bulklabela2li2": "    把地址列表导入到Web服务器上（注意，<b>不要</b>把私钥部分也一并导入，否则会有被盗的危险）",
-			"bulklabela2li3": "    为你的客户提供一个比特币支付的接口。每当一名客户选择使用比特币支付，你就从你的数据库中提取一个地址，作为该客户专用的“付款地址”，并保存订单信息。",
-			"bulklabela2li4": "接下来你需要一个收款通知，联系相关服务的供应商（谷歌搜索“bitcoin payment notification”），它们可以监视指定地址的资金变动，并通过WebAPI、短信、电邮或者其他方式来提醒你，你也可以通过编程使一切自动化。在http://www.blockexplorer.com/address/地址 或者 https://blockchain.info/address/地址 查看交易确认数。通常情况下，你能够在30秒之内看见交易，而根据你对安全的要求不同，你可能需要10分钟到1小时的时间等待交易确认。",
-			"bulklabela2li5": "比特币在区块链上稳定之后，你就可以使用在第一步中生成的私钥来花费它们。",
-
-			// brain wallet html
-			"brainlabelenterpassphrase": "口令",
-			"brainlabelshow": "显示口令？",
-			"brainprint": "打印",
-			"brainlabelconfirm": "口令确认",
-			"brainview": "生成脑钱包",
-			"brainalgorithm": "算法： SHA256 (口令)",
-			"brainlabelbitcoinaddress": "比特币地址",
-			"brainlabelprivatekey": "私钥(WIF格式)",
-
-			// vanity wallet html
-			"vanitylabelstep1": "第一步，生成一对公-私钥",
-			"vanitynewkeypair": "生成",
-			"vanitylabelstep1publickey": "第一步-公钥",
-			"vanitylabelstep1pubnotes": "委托他人替你生成虚荣地址时，将这段公钥提供给受托人。受托人生成你需要的虚荣地址后，可能会给你另一个公钥，将这两个公钥合成，你可验证是否得到了你所需的虚荣地址。",
-			"vanitylabelstep1privatekey": "第一步-私钥",
-			"vanitylabelstep1privnotes": "妥善保管这段私钥，建议严格加密。受托人为你生成虚荣地址后，将交给你另一个私钥（不保密也没关系），将这两个私钥合成，你即获得你所需的虚荣地址及其私钥。",
-			"vanitylabelstep2calculateyourvanitywallet": "第二步-合成虚荣地址",
-			"vanitylabelenteryourpart": "这里输入你的第一步-私钥（或公钥）",
-			"vanitylabelenteryourpoolpart": "这里输入你从受托人那里获得的私钥（或公钥）",
-			"vanitylabelnote1": "[注：这个文本框可以接受一个私钥或公钥，压缩非压缩均可]",
-			"vanitylabelnote2": "[注：这个文本框可以接受一个私钥或公钥，压缩非压缩均可]",
-			"vanitylabelradioadd": "加运算",
-			"vanitylabelradiomultiply": "乘运算（仅适合私钥）",
-			"vanitycalc": "合成",
-			"vanitylabelbitcoinaddress": "虚荣地址-合成地址",
-			"vanitylabelnotesbitcoinaddress": "这是合成的虚荣地址，它应当满足你的委托。",
-			"vanitylabelpublickeyhex": "合成公钥(16进制)",
-			"vanitylabelnotespublickeyhex": "用16进制表示的合成公钥。",
-			"vanitylabelprivatekey": "合成私钥(WIF格式)",
-			"vanitylabelnotesprivatekey": "上面虚荣地址对应的私钥，即你的虚荣私钥，请妥善保管，可导入钱包。",
-
-			// split wallet html
-			"splitlabelthreshold": "组合私钥时，需要的最少分裂私钥的份数（区间[2,127]）",
-			"splitlabelshares": "分裂的总份数（[2,127]）",
-			"splitview": "制造分裂私钥",
-			"combinelabelentershares":"输入找到的分裂私钥（空格分隔）",
-			"combineview": "组合它们",
-			"combinelabelprivatekey": "组合后的私钥",
-
-			// detail wallet html
-			"detaillabelenterprivatekey": "钱包详情",
-			"detailkeyformats": "接受下列格式：WIF, WIFC, HEX, B64, B6, MINI, BIP38",
-			"detailview": "显示详情",
-			"detailprint": "打印",
-			"detaillabelnote1": "比特币私钥应当是只有你知道的保密代码，这段代码有许多种不同的编码格式。下面会给出此私钥对应的地址、公钥，以及最流行的私钥编码格式(WIF, WIFC, HEX, B64, MINI)",
-			"detaillabelnote2": "Bitcoin v0.6+ 存储压缩格式的公钥。现在客户端支持导入/导出私钥，命令是importprivkey/dumpprivkey，导出的格式可能因钱包文件版本而不同。",
-			"detaillabelbitcoinaddress": "比特币地址",
-			"detaillabelbitcoinaddresscomp": "比特币地址(压缩格式)",
-			"detaillabelpublickey": "公钥 (130位[0-9A-F]字符)",
-			"detaillabelpublickeycomp": "公钥 (压缩格式，66位[0-9A-F]字符)",
-			"detaillabelprivwif": "私钥 (WIF格式)<br />(51位base58字符) ",
-			"detaillabelprivwifcomp": "私钥 (WIF格式)<br />(压缩格式，52位base58字符) ",
-			"detailwifprefix": "'5'开头",
-			"detailcompwifprefix": "'K'或'L'开头",
-			"detaillabelprivhex": "私钥(16进制) (64位[0-9A-F]字符)",
-			"detaillabelprivb64": "私钥(base64) (44位)",
-			"detaillabelpassphrase": "输入BIP38的口令",
-			"detaildecrypt": "BIP38解码",
-			"detaillabelq1": "怎样用骰子生成私钥？B6是什么意思？",
-			"detaila1": "真正用随机数产生的钱包才是好钱包。物理产生的随机数可能会比计算机产生的随机数更优越（计算机的伪随机算法可能被识破，但是物理随机不太可能）。生成物理随机的最简单的办法是使用骰子，掷一枚六面骰99次，记录结果，将结果“6”记为“0”（或者将所有结果-1记录），这样你得到的记录将会是由0 1 2 3 4 5 组成的一串数字，称为“Base6格式”，简称“B6”。将它输入上面的文本框，点击“显示详情”按钮，得到你的私钥、地址。",
-		},
-
-        "ru": {
-            // javascript alerts or messages
-            "testneteditionactivated": "Активирован режим TESTNET",
-            "paperlabelbitcoinaddress": "Адрес Bitcoin кошелька:",
-            "paperlabelprivatekey": "Приватный Ключ (в формате для импорта):",
-            "paperlabelencryptedkey": "Зашифрованный Приватный Ключ (требуется пароль)",
-            "bulkgeneratingaddresses": "Генерация адресов... ",
-            "brainalertpassphrasetooshort": "Введенная парольная фраза слишком коротка.\n\n",
-            "brainalertpassphrasewarning": "Предупреждение: Очень важно выбрать сложную парольную фразу, чтобы было невозможно угадать ее методом грубого перебора и украсть ваши биткоины.",
-            "brainalertpassphrasedoesnotmatch": "Парольная фраза и ее подтверждение не совпадают.",
-            "detailalertnotvalidprivatekey": "Введенный текст не является корректным приватным ключем",
-            "detailconfirmsha256": "Введенный текст не является корректным приватным ключем!\n\nВы хотите использовать введенный текст в качестве парольной фразы и создать Приватный Ключ используя SHA256 для хеширования парольной фразы?\n\nПредупреждение: Очень важно выбрать сложную парольную фразу, чтобы было невозможно угадать ее методом грубого перебора и украсть ваши биткоины.",
-            "bip38alertincorrectpassphrase": "Введена некорректная парольная фраза для этого зашифрованного приватного ключа.",
-            "bip38alertpassphraserequired": "Парольная фраза необходима для ключа BIP38",
-            "vanityinvalidinputcouldnotcombinekeys": "Некорректный ввод. Не удалось объединить ключи.",
-            "vanityalertinvalidinputpublickeysmatch": "Некорректный ввод. Обе записи имеют одинаковый публичный ключ. Введите два разных публичных ключа.",
-            "vanityalertinvalidinputcannotmultiple": "Некорректный ввод. Невозможно объединить два публичных ключа. Выберите 'Добавить', чтобы добавить два публичных ключа для получения биткоин адреса.",
-            "vanityprivatekeyonlyavailable": "Доступно только при объединении двух приватных ключей",
-            "vanityalertinvalidinputprivatekeysmatch": "Некорректный ввод. Обе записи имеют одинаковый приватный ключ. Введите два разных приватных ключа.",
-
-            // header and menu html
-            "tagline": "JavaScript генератор Биткоин кошельков на стороне клиента с открытым исходным кодом",
-            "generatelabelbitcoinaddress": "Генерация Биткоин адреса...",
-            "generatelabelmovemouse": "Двигайте указателем мыши по экрану для добавления случайности...",
-            "generatelabelkeypress": "ИЛИ введите несколько случайных символов в это текстовое поле",
-            "singlewallet": "Один кошелек",
-            "paperwallet": "Бумажный кошелек",
-            "bulkwallet": "Несколько кошельков",
-            "brainwallet": "Умный кошелек",
-            "vanitywallet": "Персональный кошелек",
-            "detailwallet": "Детали кошелька",
-
-            // footer html
-            "footerlabeldonations": "Пожертвования:",
-            "footerlabeltranslatedby": "Перевод: 1JGnkKH7gJhTyAz9r47nugFM8sdrUENpJi",
-            "footerlabelpgp": "PGP ключ",
-            "footerlabelversion": "История версий",
-            "footerlabelgithub": "Проект на GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
-            "footerlabelcopyright1": "Копирайт bitaddress.org.",
-            "footerlabelcopyright2": "Информация о копирайте на JavaScript в исходниках.",
-            "footerlabelnowarranty": "Без гарантий.",
-
-            // single wallet html
-            "newaddress": "Сгенерировать новый адрес",
-            "singleprint": "Распечатать",
-            "singlelabelbitcoinaddress": "Адрес Биткоин кошелька",
-            "singlelabelprivatekey": "Приватный Ключ (в формате для импорта)",
-            "singletip1": "<b>Биткоин кошелек</b> это простая пара идентификаторов, состоящая из адреса Биткоин кошелька и соответствующего ему приватного ключа. Такой колшелек был сгенерирован для Вас в Вашем браузере и отображен выше.",
-            "singletip2": "<b>Для обеспечения сохранности этого кошелька</b> Вам необходимо распечатать или каким-либо другим спобом записать Биткоин адрес и приватный ключ. Очень важно иметь запасную копию приватного ключа и хранить ее в безопасном месте. Этот сайт не хранит информацию о Вашем ключе. Если Вы имеете опыт работы с PGP, то Вы можете сохранить эту HTML страницу в формате архива и проверить то, что Вы используете подлинную версию страницы от автора сайта, сравнив SHA256 хэш этой HTML страницы с SHA256 хэшем указанным истории версий данной страницы, которая подписана ключем автора сайта. Данную ифнормацию можно найти внизу страницы. Если Вы покинете или обновите страницу с сайтом или нажмете кнопку 'Сгенерировать новый адрес', то будет сгенерирован новый приватный ключ и предыдущий приватный ключ восстановить будет невозможно. Ваш приватный ключ Биткоин кошелька должен храниться в секрете. С кем бы Вы не поделились информацией о приватном ключе - он будет иметь возможность потратить Биткоины кошелька с этим адресом. Если вы распечатали приватный ключ - необходимо обеспечить его сохранность в месте, недоступном для воды. Обращайтесь с бумажным кошельком для Биткоинов как с наличными деньгами.",
-            "singletip3": "<b>Пополните кошелек</b> сообщив другим свой Биткоин адрес.",
-            "singletip4": "<b>Проверить баланс кошелька</b> можно на сайте blockchain.info or blockexplorer.com по адресу Биткоин кошелька.",
-            "singletip5": "<b>Потратить Ваши биткоины</b> можно на сайте blockchain.info переведя все средства соответсвующие приватному ключу на аккаунт этого сайта. Также Вы можете потратить биткоины загрузив один из наиболее популярных Биткоин p2p-клиентов и выполнив импорт Вашего приватного ключа. Необходимо учесть, что когда Вы импортируете свой один приватный ключ в программу-клиент и тратите биткоины - Ваш ключ смешан с другими приватными ключами в программе-клиенте. При выполнении транзакции по расходу или получению средств, сдача будет перенаправлена на другой Биткоин адрес программного кошелька.После выполнения транзации необходимо сделать резервную копию Вашего программного кошелька и сохранить ее в надежном месте, так как на нем будут сожержаться оставшиеся средства. Сатоши рекомендует никогда не удалять кошелек.",
-            "singleshare": "Поделиться",
-            "singlesecret": "Хранить в секрете",
-
-            // paper wallet html
-            "paperlabelhideart": "Без дизайна",
-            "paperlabeladdressesperpage": "Адресов на страницу:",
-            "papergenerate": "Сгенерировать",
-            "paperprint": "Распечатать",
-            "paperlabelBIPpassphrase": "Парольная фраза:",
-            "paperlabelencrypt": "Шифрование BIP38?",
-
-            // bulk wallet html
-            "bulklabelstartindex": "Стартовый индекс:",
-            "bulklabelrowstogenerate": "Количество кошельков:",
-            "bulklabelcompressed": "Короткие адреса?",
-            "bulkgenerate": "Сгенерировать",
-            "bulkprint": "Распечатать",
-            "bulklabelcsv": "Значения разделенные запятой:",
-            "bulklabelformat": "Порядковый номер, Адрес, Приватный Ключ (импорт)",
-            "bulklabelq1": "Почему нужно использовать несколько кошельков, чтобы принимать биткоины на Вашем сайте?",
-            "bulka1": "Традиционный подход к приему биткоинов на Вашем сайте - это установка оффициального демона клиента Биткоин ('bitcoind'). Большинство хостингов для вебсайтов не поддерживают установку демона Биткоин. Также, запуск демона клиента Биткоин на Вашем веб-сервере означает, что Вы храните приватные ключи на этом сервере и они могут быть украдены, если Ваш веб-сервер подвергнется взлому. При использовании нескольких кошельков Вы можете выгрузить только адреса Биткоин на Ваш сервер, в то время как приватные ключи останутся в секрете. В этом случае Вам не следует беспокоиться того, что Ваш веб-сервер будет взломан и биткоин кошелек будет украден.",
-            "bulklabelq2": "Как использовать несколько кошельков, чтобы принимать биткоины на Вашем сайте?",
-            "bulklabela2li1": "Используйте вкладку 'Несколько кошельков', для того чтобы сгенерировать большое количество адресов Биткоин (10.000+). Скопируйте и вставьте сгенерированные идентификаторы в виде списка (в формате CSV) в секретный файл на вашем компьютере. Сделайте резервную копию созданного файла и сохраните ее в надежном месте. ",
-            "bulklabela2li2": "Импортируйте биткоин адреса в базу данных или иное хранилище Вашего веб-сервера. (Не размещайте приватные ключи кошелька на Вашем веб-сервере, в противном случае Вы рискуете потерять свои биткоины. Своим клиентам Вам достаточно предоставить Биткоин адрес.)",
-            "bulklabela2li3": "Добавьте опцию для оплаты заказа из корзины Вашего клиента для оплаты Биткоинами. Если клиент выбирает оплату Биткоинами - предоставьте ему информацию о Биткоин адресе для приема оплаты, который будет закреплен за этим клиентом и сохраните соответствующим образом заказ.",
-            "bulklabela2li4": "Вам необходимо получать информацию о получении оплаты. Загуглите 'нотификации об оплате биткоинами' и подпишитесь на какой-нибудь сервис нотификаций. В интернете можно найти множество сервисов дял получения нотификаций через веб-сервисы, api, смс, электронную почту и т.д. Как только Вы получите нотификацию об оплате, которую можно обрабатывать в автоматическом режиме, Вы можете приступить к подготовке заказа для Вашего клиента. Чтобы вручную проверить статус оплаты воспользуйтесь сервисом Block Explorer. Заменить АДРЕС на Ваш адрес Биткоин, который Вы хотите проверить. Подтверждение транзакции оплаты может занимать от 10 минут до одного часа. http://www.blockexplorer.com/address/АДРЕС\n\nНеподтвержденные транзации оплаты можно посмотреть на: http://blockchain.info/\nНеподтвержденная транзакция будет отображаться через 30 секунд.",
-            "bulklabela2li5": "Биткоины накапливаются в цепочке блоков. Используйте оригинальный файл сгенерированный на 1 шаге, чтобы потратить их.",
-
-            // brain wallet html
-            "brainlabelenterpassphrase": "Парольная фраза:",
-            "brainlabelshow": "Показать?",
-            "brainprint": "Распечатать",
-            "brainlabelconfirm": "Подтверждение парольной фразы:",
-            "brainview": "Просмотр",
-            "brainalgorithm": "Алгоритм SHA256(парольная фраза)",
-            "brainlabelbitcoinaddress": "Адрес Биткоин кошелька:",
-            "brainlabelprivatekey": "Приватный ключ (в формате импорта):",
-
-            // vanity wallet html
-            "vanitylabelstep1": "Шаг 1 - Сгенерируйте Ваш приватный ключ первого шага",
-            "vanitynewkeypair": "Сгенерировать",
-            "vanitylabelstep1publickey": "Шаг 1 Публичный Ключ:",
-            "vanitylabelstep1pubnotes": "Скопируйте и вставьте это значение в поле Вашей части публичного ключа на сайте пула для генерации адресов.",
-            "vanitylabelstep1privatekey": "Шаг 1 Приватный Ключ:",
-            "vanitylabelstep1privnotes": "Скопируйте и вставьте приватный ключ в файл. В идеале необходимо сохранить его на зашифрованный диск. Вам будет нужен приватный ключ после того, как пул найдет интересующий Вас префикс адреса.",
-            "vanitylabelstep2calculateyourvanitywallet": "Шаг 2 - Вычисление Вашего персонального кошелька",
-            "vanitylabelenteryourpart": "Введите Вашу часть приватного ключа (сгенерированного и сохраненного на шаге 1):",
-            "vanitylabelenteryourpoolpart": "Введите часть приватного ключа пула (предоставляется пулом):",
-            "vanitylabelnote1": "Это поле для публичного или приватного ключа",
-            "vanitylabelnote2": "Это поле для публичного или приватного ключа",
-            "vanitylabelradioadd": "Сложить",
-            "vanitylabelradiomultiply": "Перемножить",
-            "vanitycalc": "Вычислить адрес кошелька",
-            "vanitylabelbitcoinaddress": "Адрес Биткоин кошелька:",
-            "vanitylabelnotesbitcoinaddress": "Это Ваш новый адрес с префиксом.",
-            "vanitylabelpublickeyhex": "Публичный ключ (в формате HEX):",
-            "vanitylabelnotespublickeyhex": "Это публичный ключ в формате hex.",
-            "vanitylabelprivatekey": "Приватный ключ (в формате импорта):",
-            "vanitylabelnotesprivatekey": "Это Ваш приватный ключ для импорта в другой кошелек.",
-
-            // detail wallet html
-            "detaillabelenterprivatekey": "Введите Приватный Ключ",
-            "detailkeyformats": "Форматы ключа: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
-            "detailview": "Детальная информация",
-            "detailprint": "Распечатать",
-            "detaillabelnote1": "Ваш Приватный Ключ - это секретная информация, которую знаете только Вы. Этот ключ можно закодировать несколькими способами. Ниже вы видите адрес Биткоин и публичный ключ, которые соответствуют Вашему приватному ключу, если Ваш приватный ключ в одном из популярных форматов (WIF, WIFC, HEX, B64, MINI)",
-            "detaillabelnote2": "Приложение Bitcoin версии 0.6 и выше хранит ключи в сжатом формате. Это приложение также поддерживает импорт и экспорт приватных ключей командами importprivkey/dumpprivkey. Формат экспортированного ключа определяется кошельком, который сгенерировал адрес Биткоин.",
-            "detaillabelbitcoinaddress": "Адрес Биткоин кошелька",
-            "detaillabelbitcoinaddresscomp": "Короткий адрес Биткоин кошелька",
-            "detaillabelpublickey": "Публичный ключ (130 символов [0-9A-F]):",
-            "detaillabelpublickeycomp": "Публичный ключ (короткий, 66 символов [0-9A-F]):",
-            "detaillabelprivwif": "Приватный ключ (в формате импорта), 51 символ base58, начинается с '5'",
-            "detaillabelprivwifcomp" : "Приватный ключ, короткий, 52 символа base58, начинается с",
-            "detailcompwifprefix": "'K' или 'L'",
-            "detaillabelprivhex": "Приватный Ключ в HEX формате (64 символа [0-9A-F]):",
-            "detaillabelprivb64": "Приватный Ключ в Base64 формате (44 символа):",
-            "detaillabelprivmini": "Приватный Ключ в формате мини (22, 26 или 30 символов, начинается с 'S'):",
-            "detaillabelpassphrase": "Парольная фраза BIP38",
-            "detaildecrypt": "Расшифровать BIP38",
-            "detaillabelq1": "Как сделать кошелек используя игральный кости? Что такое B6?",
-            "detaila1": "Очень важно понимать, что при генерации биткоин кошелька используются действительно случайные числа. Физическая случайность лучше компьютерной псевдо-случайности. Самым простым способом генерации физической случайности является игральная кость. Для генерации Приватного Ключа Биткоин кошелька Вам нужна игральная кость с шестью сторонами, которую необходимо бросить 99 раз. Необходимо записать каждую цифру, выпавшую на игральной кости. Итоговый результат необходимо записать в таком виде: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Таким образом Вы запишите большое случайное число - Ваш Приватный Ключ, в формате B6 или Base6. После этого Вы можете ввести 99 символов приватного ключа в формате Base6 в текстовое поле вверху страницы и получить детальную информацию о кошельке. После этого Вы сможете увидеть адрес Биткоин кошелька соответствующий полученному приватному ключу. Вам потребуется сделать запись приватного ключа в формате для импорта, так как он наиболее часто используется."
-        }
+		}
 	}
 };
 
@@ -9044,7 +8742,7 @@ ninja.wallets.singlewallet = {
 			do {
 				var key = new Bitcoin.ECKey(false);
 				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern
+			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			document.getElementById("btcaddress").innerHTML = bitcoinAddress;
 			document.getElementById("btcprivwif").innerHTML = privateKeyWif;
@@ -9177,7 +8875,7 @@ ninja.wallets.paperwallet = {
 			do {
 				var key = new Bitcoin.ECKey(false);
 				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitypattern.length) != vanitypattern
+			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			if (ninja.wallets.paperwallet.useArtisticWallet) {
 				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
@@ -9355,7 +9053,7 @@ ninja.wallets.bulkwallet = {
 			bulkWallet.csvRowsRemaining--;
 			do {
 				var key = new Bitcoin.ECKey(false);
-			} while (key.getBitcoinAddress().substring(0,vanitypattern.length) != vanitypattern)
+			} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
 			key.setCompressed(bulkWallet.compressedAddrs);
 
 			bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
@@ -9405,9 +9103,9 @@ ninja.wallets.brainwallet = {
 	minPassphraseLength: 15,
 
 	view: function () {
-		var key = document.getElementById("brainpassphrase").value.toString()
+		var key = document.getElementById("brainpassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 		document.getElementById("brainpassphrase").value = key;
-		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString()
+		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 		document.getElementById("brainpassphraseconfirm").value = keyConfirm;
 
 		if (key == keyConfirm || document.getElementById("brainpassphraseshow").checked) {
@@ -9610,7 +9308,7 @@ ninja.wallets.detailwallet = {
 				document.getElementById("detailprivkeypassphrase").focus();
 				return;
 			}
-			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
+			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
 			if (passphrase == "") {
 				alert(ninja.translator.get("bip38alertpassphraserequired"));
 				return;
