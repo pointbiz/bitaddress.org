@@ -9112,6 +9112,7 @@ ninja.wallets.brainwallet = {
 				key = key + " ";
 				var bytes;
 				var btcKey;
+				var i = 0;
 				do {
 					i = i + 1;
 					bytes = Crypto.SHA256(key + i, { asBytes: true });
