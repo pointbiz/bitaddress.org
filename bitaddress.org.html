@@ -1,8 +1,29 @@
 <!doctype html>
 <html>
 <head>
+<script>
+	var vanitypattern = "1A";
+</script>
 	<!--
-	Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
+	This is a MODIFIED VERSION of Bitaddress.org's Bitcoin Wallet Generator.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	Several modifications have been made to the original code. The functional (essential) changes were as
+	follows:
+	- for Single Wallet and for Paper Wallet:
+		do {
+			var key = new Bitcoin.ECKey(false);
+			var bitcoinAddress = key.getBitcoinAddress();
+		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
+	- for Bulk Wallet:
+		do {
+			var key = new Bitcoin.ECKey(false);
+		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
 
 	Notice of Copyrights and Licenses:
 	***********************************
