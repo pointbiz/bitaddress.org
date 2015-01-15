@@ -1,9 +1,15 @@
 ***
 This is a fork of the Bitaddress Bitcoin Wallet Generator.
-This version is modified such that every generated address
-starts with a VANITY pattern. 
-The default pattern is "1A" but it can be changed at the beginning of the file.
-Open bitaddress-vanity.html to use the modified version.
+
+- With bitadress-1A.html
+  every address starts with 1A.
+  
+- With bitadress-brainvanity.html
+  one can create a brainwallet with a user-specified pattern.
+  
+- With bitadress-multihash.html
+  one can create a brainwallet with the key hashed thousands of times for added security.
+
 ***
 
 bitaddress.org
