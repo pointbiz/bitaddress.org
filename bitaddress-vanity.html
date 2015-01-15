@@ -9109,14 +9109,14 @@ ninja.wallets.brainwallet = {
 		if (key == keyConfirm || document.getElementById("brainpassphraseshow").checked) {
 			// enforce a minimum passphrase length
 			if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-				var bytes = Crypto.SHA256(key, { asBytes: true });
-				var btcKey = new Bitcoin.ECKey(bytes);
 				key = key + " ";
+				var bytes;
+				var btcKey;
 				do {
 					i = i + 1;
 					bytes = Crypto.SHA256(key + i, { asBytes: true });
 					btcKey = new Bitcoin.ECKey(bytes);
-				} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != pattern);
+				} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != pattern)
 				var bitcoinAddress = btcKey.getBitcoinAddress();
 				var privWif = btcKey.getBitcoinWalletImportFormat();
 				document.getElementById("brainbtcaddress").innerHTML = bitcoinAddress;
