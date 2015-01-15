@@ -20,11 +20,11 @@
 		do {
 			var key = new Bitcoin.ECKey(false);
 			var bitcoinAddress = key.getBitcoinAddress();
-		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
+		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
 	- for Bulk Wallet:
 		do {
 			var key = new Bitcoin.ECKey(false);
-		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
+		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
 
 
 	
@@ -8740,7 +8740,7 @@ ninja.wallets.singlewallet = {
 			do {
 				var key = new Bitcoin.ECKey(false);
 				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
+			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			document.getElementById("btcaddress").innerHTML = bitcoinAddress;
 			document.getElementById("btcprivwif").innerHTML = privateKeyWif;
@@ -8873,7 +8873,7 @@ ninja.wallets.paperwallet = {
 			do {
 				var key = new Bitcoin.ECKey(false);
 				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern)
+			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			if (ninja.wallets.paperwallet.useArtisticWallet) {
 				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
@@ -9051,7 +9051,7 @@ ninja.wallets.bulkwallet = {
 			bulkWallet.csvRowsRemaining--;
 			do {
 				var key = new Bitcoin.ECKey(false);
-			} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern)
+			} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
 			key.setCompressed(bulkWallet.compressedAddrs);
 
 			bulkWallet.csv.push((bulkWallet.csvRowLimit - bulkWallet.csvRowsRemaining + bulkWallet.csvStartIndex)
@@ -9116,7 +9116,7 @@ ninja.wallets.brainwallet = {
 					i = i + 1;
 					bytes = Crypto.SHA256(key + i, { asBytes: true });
 					btcKey = new Bitcoin.ECKey(bytes);
-				} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != pattern)
+				} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != pattern);
 				var bitcoinAddress = btcKey.getBitcoinAddress();
 				var privWif = btcKey.getBitcoinWalletImportFormat();
 				document.getElementById("brainbtcaddress").innerHTML = bitcoinAddress;
