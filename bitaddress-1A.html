@@ -16,15 +16,20 @@
 	
 	Several modifications have been made to the original code. The functional (essential) changes were as
 	follows:
-	- for Single Wallet and for Paper Wallet:
+	- for Single Wallet, for Paper Wallet, and for Bulk Wallet:
 		do {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
-		} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
-	- for Bulk Wallet:
-		do {
-			var key = new Bitcoin.ECKey(false);
+				var key = new Bitcoin.ECKey(false);
 		} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
+	- for Brain Wallet:
+		key = key + " ";
+		var bytes;
+		var btcKey;
+		var i = 0;
+		do {
+			i = i + 1;
+			bytes = Crypto.SHA256(key + i, { asBytes: true });
+			btcKey = new Bitcoin.ECKey(bytes);
+		} while (btcKey.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
 
 
 	
@@ -8739,8 +8744,8 @@ ninja.wallets.singlewallet = {
 		try {
 			do {
 				var key = new Bitcoin.ECKey(false);
-				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
+			} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
+			var bitcoinAddress = key.getBitcoinAddress();
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			document.getElementById("btcaddress").innerHTML = bitcoinAddress;
 			document.getElementById("btcprivwif").innerHTML = privateKeyWif;
@@ -8872,8 +8877,8 @@ ninja.wallets.paperwallet = {
 		else {
 			do {
 				var key = new Bitcoin.ECKey(false);
-				var bitcoinAddress = key.getBitcoinAddress();
-			} while (bitcoinAddress.substring(0,vanitylength) != vanitypattern);
+			} while (key.getBitcoinAddress().substring(0,vanitylength) != vanitypattern);
+			var bitcoinAddress = key.getBitcoinAddress();
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			if (ninja.wallets.paperwallet.useArtisticWallet) {
 				ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
