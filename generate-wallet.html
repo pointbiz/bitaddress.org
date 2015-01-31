@@ -10020,9 +10020,9 @@ Bitcoin.Util = {
 		#printeradjust span { background-color: #e2f9bd; padding: 2px 3px; border: 1px solid #009900; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 12px;}
 		#printeradjust a:hover span { background-color: #CCFFCC; }
 		#printeradjust a, #printeradjust a:hover {text-decoration: none;}
-		#printeradjust input { text-align: center; margin: 0 2px;}
+		#printeradjust input { text-align: center; margin: 0 2px; width: 20px;}
 		
-		#detailwallet { margin-left: 30px; }
+		#detailwallet { margin-left: 35px; color: #d36200; }
 		
 		#paperarea { min-height: 120px; display: none; }
 		#paperarea .keyarea { border: 2px solid #f7931a; border-top: 0; }
@@ -10410,7 +10410,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated Aug 31, 2014</span></div>
+			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated Jan 31, 2015</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
 			<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -10514,11 +10514,12 @@ Bitcoin.Util = {
 						<span id="instructions2">
                         <p style="margin-top: 0;"><strong>Change your wallet's design, language, or cryptocurrency here:</strong>
                           <select name="designPicker" id="designPicker" style="font-size: 12px;" onChange="setDesign(this.value, false);">
-                            <option value="default">Bitcoin</option>
+                            <option value="default">Standard Bitcoin Design</option>
+                            <option value="blackwhite">Black &amp; White Bitcoin</option>
                             <option value="holiday">Holiday / Christmas Bitcoin (English)</option>
                             <option value="chinese-new-year">Chinese New Year Bitcoin (Simplified Chinese)</option>
                             <option value="traditional-chinese-new-year">Chinese New Year Bitcoin (Traditional Chinese)</option>
-                            <option value="hobbit">"Hobbitcoin" :)</option>
+                            <option value="hobbit">"HobBitcoin" :)</option>
                             <option value="custom">Your own custom Bitcoin design</option>
                             <option value="default">--- Other Cryptocurrencies ---</option>
                             <option value="alt-litecoin">Litecoin LTC</option>
@@ -10570,9 +10571,9 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
 			<div id="calibratearea" class="walletarea">
 				<div class="commands">
 					<div id="calibratecommands">
-						<p id="calibrateinstructions" class="instructions">The calibration step helps line up the front and back sides of your printout. <a href="#" onClick="doPrint('calibration');">Print out this page</a> in LANDSCAPE FORMAT (wide instead of tall.) Based on the results, adjust the "zoom" and "horizontal shift" in the upper-right corner of this page and keep printing tests until:<br /><br />
-                        (1) Your printed ruler more or less measures like a real ruler. (REDUCE the zoom to increase the ruler size.)<br /><br />
-                        (2) Your printed ruler is horizontally centered on the page, leaving approximately equal margins on the left and right sides of the page. (INCREASE the horizontal shift to push the ruler to the right.)<br />
+						<p id="calibrateinstructions" class="instructions">The calibration step helps line up the front and back sides of your printout. <a href="#" onClick="doPrint('calibration');">Print out this page</a> in LANDSCAPE ORIENTATION (wide instead of tall.) Based on the results, adjust the "zoom" and "horizontal shift" in the upper-right corner of this page and keep printing tests until:<br /><br />
+                        (1) Your printed ruler is horizontally centered on the page, leaving equal margins on the left and right sides of the page. (INCREASE the horizontal shift to push the ruler to the right.)<br />
+                        (2) Your printed ruler is approximately the same size as a real ruler. Smaller by up to 1 inch is fine. (REDUCE the zoom to increase the ruler size.) <br /><br />
                         <br />
                         What settings worked best for you? <a href="https://bitcoinpaperwallet.com/feedback/" target="_blank">Feedback form &raquo;</a></p>
 						<span class="print">
@@ -10708,23 +10709,23 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
                     <option value="5 BTC">5 BTC</option>
                     <option value="2 BTC">2 BTC</option>
                     <option value="1 BTC">1 BTC</option>
+                    <option value="50000 Bits">50000 Bits</option>
+                    <option value="10000 Bits">10000 Bits</option>
+                    <option value="5000 Bits">5000 Bits</option>
+                    <option value="1000 Bits">1000 Bits</option>
+                    <option value="500 Bits">500 Bits</option>
+                    <option value="100 Bits">100 Bits</option>
+                    <option value="50000 mBTC">50000 mBTC</option>
                     <option value="10000 mBTC">10000 mBTC</option>
                     <option value="5000 mBTC">5000 mBTC</option>
                     <option value="1000 mBTC">1000 mBTC</option>
                     <option value="500 mBTC">500 mBTC</option>
-                    <option value="200 mBTC">200 mBTC</option>
                     <option value="100 mBTC">100 mBTC</option>
                     <option value="50 mBTC">50 mBTC</option>
                     <option value="20 mBTC">20 mBTC</option>
                     <option value="10 mBTC">10 mBTC</option>
                     <option value="5 mBTC">5 mBTC</option>
                     <option value="1 mBTC">1 mBTC</option>
-                    <option value="50000 &mu;BTC">50000 &mu;BTC</option>
-                    <option value="10000 &mu;BTC">10000 &mu;BTC</option>
-                    <option value="5000 &mu;BTC">5000 &mu;BTC</option>
-                    <option value="1000 &mu;BTC">1000 &mu;BTC</option>
-                    <option value="500 &mu;BTC">500 &mu;BTC</option>
-                    <option value="100 &mu;BTC">100 &mu;BTC</option>
                     <option value="other">Other...</option>
                   </select>
                   <div id="backDenominationOther" style="display: none;">
@@ -12000,7 +12001,7 @@ ninja.publicKey = {
 					text: "#1937a9",
 					textShadow: "white",
 					textPointer: "white",
-				},
+				},				
 				'default': {
 					publicUpper: "#fff57c",
 					publicLower: "#f7931a",
@@ -13408,7 +13409,7 @@ ninja.publicKey = {
 		window.landscapeAlert ++;
 		updateCalibrationInfo();
 		if (window.landscapeAlert == 1) {
-			alert ('Important note: This design requires that you set your printer to output in LANDSCAPE (wide) format.');	
+			alert ('Important note: Please configure your print settings to LANDSCAPE (wide) orientation.');	
 		}
 		
 		if (myContext == 'generate') {
@@ -13467,8 +13468,8 @@ ninja.publicKey = {
 			document.getElementById("printerzoom").value = 3;
 			document.getElementById("printershift").value = 3;
 		} else if (result.browser.name == 'Firefox' && result.os.name == 'Ubuntu') { // live CD?
-			document.getElementById("printerzoom").value = 2;
-			document.getElementById("printershift").value = 3;
+			document.getElementById("printerzoom").value = 1;
+			document.getElementById("printershift").value = 0;
 		} else if (result.browser.name == 'Iceweasel' && result.os.name == 'Debian') { 
 			document.getElementById("printerzoom").value = 1.8;
 			document.getElementById("printershift").value = 2.9;
