@@ -135,6 +135,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Novacoin",   0x08, 0x88, "5",    "M"    , "4EZMrEA5LnmwtcK5b2JfCq9k5YS4ZVZrtT"),
     janin.currency.createCurrency ("Nubits",     0x19, 0xbf, "7",    "V"    , "BPWCkyaVqWdaf3uqahrgdTjB2QTnRZzPMM"),
 	janin.currency.createCurrency ("Ocupy",      0x73, 0xf3, "9",    "[cd]" , "ocLKVPkQRFtKn5mFygrd4QJG9eZd1sKTyi"),
+    janin.currency.createCurrency ("Omnicoin",   0x73, 0xf3, "9",    "[cd]" , "oMesh62joeab2yMoJUH28mGE8h2suDzcYc"),
     janin.currency.createCurrency ("Onyxcoin",   0x73, 0xf3, "9",    "[cd]" , "odRRCGXooJvKs7cn7sax1bJv9EJwwEy94Z"),
 	janin.currency.createCurrency ("Paycoin",    0x37, 0xb7, "7",    "U"    , "PV2t9zzj9rQm81c9VJqqL8edj1ndpcW9HD"),
     janin.currency.createCurrency ("Pandacoin",  0x37, 0xb7, "7",    "U"    , "PT6guZjCgsrBkqCUhTnG1NNBYBqgzo8gVv"),
