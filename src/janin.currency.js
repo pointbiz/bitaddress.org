@@ -92,7 +92,7 @@ janin.currencies = [
     janin.currency.createCurrency ("CassubianDetk",0x1e,0x9e,"6",    "Q"    , "DBPagysmjfdkND4Zp1SM4myLenNfXpFWnG"),
     janin.currency.createCurrency ("Catcoin",    0x15, 0x95, "[56]", "P"    , "9rEXDemG6S3k2ddAsKFzRpnMVz3bVryYXZ"),
     janin.currency.createCurrency ("Corgicoin",  0x1c, 0x9c, "6",    "Q"    , "CNwV11TaKrfB3TnBS8vQjNbWT6CNxV8GBi"),
-    janin.currency.createCurrency ("Darkcoin",   0x4c, 0xcc, "7",    "X"    , "XdYX6AbDzjb3AVL1tAmWjuYMD28LD9fcWS"),
+    janin.currency.createCurrency ("Dash",       0x4c, 0xcc, "7",    "X"    , "XdYX6AbDzjb3AVL1tAmWjuYMD28LD9fcWS"),
     janin.currency.createCurrency ("DeafDollars",0x30, 0xb0, "6",    "T"    , "LNHYnoqySwoN5aMyEVavEBT3CxHA9WrTZs"),
     janin.currency.createCurrency ("Devcoin",    0x00, 0x80, "5",    "[LK]" , "1GUeBfpVhN7xySQej3HiSe5c8jQoVQPosv"),
     janin.currency.createCurrency ("Digitalcoin",0x1e, 0x9e, "6",    "Q"    , "D7fJwPfW4dFSJNq4NHbMiYJhYnrZehMpqx"),
