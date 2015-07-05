@@ -6474,24 +6474,28 @@ body, html { height: 99%; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
-	.commands span.print { float: right; }
+	.commands span.print { float: right; position: relative; z-index: 20; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
-    #menu { visibility: hidden; font-size: 90%; }
+    #menu { visibility: visible; font-size: 90%; }
     #culturemenu { text-align: center; padding: 0 10px 5px 10px; margin-bottom: 3px; font-size: 90%; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
 
 	#braincommands .row .label { width: 200px; display: inline-block; }
 	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
-	#brainpassphrase { width: 280px; }
-	#brainpassphraseconfirm { width: 280px; }
+	#brainpassphrase { width: 280px; position: relative; z-index: 20; }
+	#brainpassphraseconfirm { width: 280px; position: relative; z-index: 20; }
+    #brainpassphraseshow { position: relative; z-index: 20; }
+    #brainview { position: relative; z-index: 20; }
 	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 250px; }
-	#detailprivkeypassphrase { width: 250px; }
+	#detailprivkey { width: 250px; position: relative; z-index: 20; }
+	#detailprivkeypassphrase { width: 250px; position: relative; z-index: 20; }
+    #detailview { position: relative; z-index: 20; }
+    #detaildecrypt { position: relative; z-index: 20; }
 	.paper .commands { border: 2px solid #009900; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
@@ -6548,13 +6552,13 @@ body, html { height: 99%; }
 		<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
 		<div id="testnet"></div>
 		<ul class="menu" id="menu">
-			<li class="tab selected" id="singlewallet" onclick="ninja.tabSwitch(this);">Single Wallet
-			<li class="tab" id="paperwallet" onclick="ninja.tabSwitch(this);">Paper Wallet
-			<li class="tab" id="bulkwallet" onclick="ninja.tabSwitch(this);">Bulk Wallet
-			<li class="tab" id="brainwallet" onclick="ninja.tabSwitch(this);">Brain Wallet
-			<li class="tab" id="vanitywallet" onclick="ninja.tabSwitch(this);">Vanity Wallet
-			<li class="tab" id="splitwallet" onclick="ninja.tabSwitch(this);">Split Wallet
-			<li class="tab" id="detailwallet" onclick="ninja.tabSwitch(this);">Wallet Details
+			<li class="tab" id="singlewallet" onclick="ninja.tab.select(this);">Single Wallet
+			<li class="tab" id="paperwallet" onclick="ninja.tab.select(this);">Paper Wallet
+			<li class="tab" id="bulkwallet" onclick="ninja.tab.select(this);">Bulk Wallet
+			<li class="tab" id="brainwallet" onclick="ninja.tab.select(this);">Brain Wallet
+			<li class="tab" id="vanitywallet" onclick="ninja.tab.select(this);">Vanity Wallet
+			<li class="tab" id="splitwallet" onclick="ninja.tab.select(this);">Split Wallet
+			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);">Wallet Details
 		</ul>
 		
 		<div id="generate">
@@ -6877,12 +6881,12 @@ body, html { height: 99%; }
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.8.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.9.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.8)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.9)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7265,6 +7269,8 @@ ninja.seeder = {
 	seedCount: 0, // counter
 	lastInputTime: new Date().getTime(),
 	seedPoints: [],
+	isStillSeeding: true,
+	seederDependentWallets: ["singlewallet", "paperwallet", "bulkwallet", "vanitywallet", "splitwallet"],
 
 	// seed function exists to wait for mouse movement to add more entropy before generating an address
 	seed: function (evt) {
@@ -7272,11 +7278,8 @@ ninja.seeder = {
 		var timeStamp = new Date().getTime();
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-			ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
-			document.getElementById("generate").style.display = "none";
-			document.getElementById("menu").style.visibility = "visible";
-			ninja.seeder.removePoints();
+		    ninja.seeder.seedCount++;
+		    ninja.seeder.seedingOver();
 		}
 		// seed mouse position X and Y when mouse movements are greater than 40ms apart.
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt && (timeStamp - ninja.seeder.lastInputTime) > 40) {
@@ -7294,11 +7297,8 @@ ninja.seeder = {
 		if (!evt) var evt = window.event;
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-			ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
-			document.getElementById("generate").style.display = "none";
-			document.getElementById("menu").style.visibility = "visible";
-			ninja.seeder.removePoints();
+		    ninja.seeder.seedCount++;
+		    ninja.seeder.seedingOver();
 		}
 		// seed key press character
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt.which) {
@@ -7317,16 +7317,20 @@ ninja.seeder = {
 	showPool: function () {
 		var poolHex;
 		if (SecureRandom.poolCopyOnInit != null) {
-			poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpool").innerHTML = poolHex;
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		    poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+		    document.getElementById("seedpool").innerHTML = poolHex;
+		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
 		else {
-			poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-			document.getElementById("seedpool").innerHTML = poolHex;
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		    poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+		    document.getElementById("seedpool").innerHTML = poolHex;
+		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
-		document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		var percentSeeded = Math.round((ninja.seeder.seedCount / ninja.seeder.seedLimit) * 100) + "%";
+		document.getElementById("mousemovelimit").innerHTML = percentSeeded;
+		for (var wIndex in ninja.seeder.seederDependentWallets) {
+		    document.getElementById(ninja.seeder.seederDependentWallets[wIndex]).innerHTML = percentSeeded;
+		}
 	},
 
 	showPoint: function (x, y) {
@@ -7343,6 +7347,21 @@ ninja.seeder = {
 			document.body.removeChild(ninja.seeder.seedPoints[i]);
 		}
 		ninja.seeder.seedPoints = [];
+	},
+
+	seedingOver: function () {
+	    ninja.seeder.isStillSeeding = false;
+	    var walletType = ninja.tab.whichIsOpen();
+	    if (walletType == null) {
+	        ninja.tab.select("singlewallet");
+	    } else {
+	        ninja.tab.select(walletType)
+	    }
+	    document.getElementById("generate").style.display = "none";
+	    // update labels for dependent wallets
+	    var culture = (ninja.getQueryString()["culture"] == null ? "en" : ninja.getQueryString()["culture"]);
+	    ninja.translator.translate(culture);
+	    ninja.seeder.removePoints();
 	}
 };
 
@@ -7439,16 +7458,45 @@ ninja.qrCode = {
 	}
 };
 
-ninja.tabSwitch = function (walletTab) {
-	if (walletTab.className.indexOf("selected") == -1) {
-		// unselect all tabs
-		for (var wType in ninja.wallets) {
-			document.getElementById(wType).className = "tab";
-			ninja.wallets[wType].close();
-		}
-		walletTab.className += " selected";
-		ninja.wallets[walletTab.getAttribute("id")].open();
-	}
+ninja.tab = {
+    select: function (walletTab) {
+        // detect type: normally an HtmlElement/object but when string then get the element
+        if (typeof walletTab === 'string') {
+            walletTab = document.getElementById(walletTab);
+        }
+        var walletType = walletTab.getAttribute("id");
+
+        if (walletTab.className.indexOf("selected") == -1) {
+            // unselect all tabs
+            for (var wType in ninja.wallets) {
+                document.getElementById(wType).className = "tab";
+                ninja.wallets[wType].close();
+            }
+            
+            // don't open tab if entropy still being collected
+            // exceptions: brainwallet detailwallet
+            if (ninja.seeder.isStillSeeding == false || walletType == "brainwallet" || walletType == "detailwallet") {
+            	walletTab.className += " selected";
+            	document.getElementById("generate").style.display = "none";
+                ninja.wallets[walletTab.getAttribute("id")].open();
+            }
+            else if (ninja.seeder.isStillSeeding == true && !(walletType == "brainwallet" || walletType == "detailwallet")) {
+                document.getElementById("generate").style.display = "block";
+            }
+        }
+    },
+
+    whichIsOpen: function () {
+        var isOpen;
+        for (var wType in ninja.wallets) {
+            isOpen = ninja.wallets[wType].isOpen();
+            if (isOpen) {
+                return wType;
+            }
+        }
+        return null;
+    }
+
 };
 
 ninja.getQueryString = function () {
@@ -7557,7 +7605,16 @@ ninja.translator = {
 			"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
 			"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
 			"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
-			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
+			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys.",
+
+		    // header and menu html
+			"singlewallet": "Single Wallet",
+			"paperwallet": "Paper Wallet",
+			"bulkwallet": "Bulk Wallet",
+			"brainwallet": "Brain Wallet",
+			"vanitywallet": "Vanity Wallet",
+            "splitwallet": "Split Wallet",
+			"detailwallet": "Wallet Details"
 		},
 
 		"es": {
@@ -7590,6 +7647,7 @@ ninja.translator = {
 			"bulkwallet": "Direcciones en masa",
 			"brainwallet": "Cartera mental",
 			"vanitywallet": "Cartera personalizada",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalles de la cartera",
 
 			// footer html
@@ -7728,6 +7786,7 @@ ninja.translator = {
 			"bulkwallet": "Porte-Monnaie En Vrac",
 			"brainwallet": "Porte-Monnaie Cerveau",
 			"vanitywallet": "Porte-Monnaie Vanité",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Détails du Porte-Monnaie",
 			
 			// footer html
@@ -7867,6 +7926,7 @@ ninja.translator = {
 			"bulkwallet": "Πολλαπλά Πορτοφόλια",
 			"brainwallet": "Μνημονικό Πορτοφόλι",
 			"vanitywallet": "Πορτοφόλι Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Λεπτομέρειες Πορτοφολιού",
 
 			// footer html
@@ -8005,6 +8065,7 @@ ninja.translator = {
 			"bulkwallet": "Portafogli multipli",
 			"brainwallet": "Brain Wallet",
 			"vanitywallet": "Vanity Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Dettagli portafoglio",
 
 			// footer html
@@ -8143,6 +8204,7 @@ ninja.translator = {
 			"bulkwallet": "Massen-Wallet",
 			"brainwallet": "Kopf-Wallet",
 			"vanitywallet": "Personalisiertes Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Walletdetails",
 
 			// footer html
@@ -8281,6 +8343,7 @@ ninja.translator = {
 			"bulkwallet": "Hromadná peněženka",
 			"brainwallet": "Myšlenková peněženka",
 			"vanitywallet": "Peněženka Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detail peněženky",
 
 			// footer html
@@ -8564,6 +8627,7 @@ ninja.translator = {
 			"bulkwallet": "大量ウォレット",
 			"brainwallet": "暗記ウォレット",
 			"vanitywallet": "カスタムウォレット",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "ウォレットの詳細",
 
 			// footer html
@@ -8854,6 +8918,7 @@ ninja.translator = {
             "bulkwallet": "Несколько кошельков",
             "brainwallet": "Умный кошелек",
             "vanitywallet": "Персональный кошелек",
+            "splitwallet": "Split Wallet", //TODO: please translate
             "detailwallet": "Детали кошелька",
 
             // footer html
@@ -9006,6 +9071,10 @@ ninja.translator.showEnglishJson = function () {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.singlewallet = {
+    isOpen: function () {
+        return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		if (document.getElementById("btcaddress").innerHTML == "") {
 			ninja.wallets.singlewallet.generateNewAddressAndKey();
@@ -9044,6 +9113,10 @@ ninja.wallets.singlewallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.paperwallet = {
+    isOpen: function () {
+        return (document.getElementById("paperwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("main").setAttribute("class", "paper"); // add 'paper' class to main div
 		var paperArea = document.getElementById("paperarea");
@@ -9290,6 +9363,10 @@ ninja.wallets.paperwallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.bulkwallet = {
+    isOpen: function () {
+        return (document.getElementById("bulkwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("bulkarea").style.display = "block";
 		// show a default CSV list if the text area is empty
@@ -9365,6 +9442,10 @@ ninja.wallets.bulkwallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.brainwallet = {
+    isOpen: function () {
+        return (document.getElementById("brainwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("brainarea").style.display = "block";
 		document.getElementById("brainpassphrase").focus();
@@ -9429,6 +9510,10 @@ ninja.wallets.brainwallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.vanitywallet = {
+    isOpen: function () {
+        return (document.getElementById("vanitywallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("vanityarea").style.display = "block";
 	},
@@ -9545,6 +9630,10 @@ ninja.wallets.vanitywallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.detailwallet = {
+    isOpen: function () {
+        return (document.getElementById("detailwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("detailarea").style.display = "block";
 		document.getElementById("detailprivkey").focus();
@@ -9687,6 +9776,10 @@ ninja.wallets.detailwallet = {
 	</script>
 	<script type="text/javascript">
 ninja.wallets.splitwallet = {
+    isOpen: function () {
+        return (document.getElementById("splitwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("splitarea").style.display = "block";
 		secrets.setRNG();

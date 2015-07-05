@@ -1,4 +1,8 @@
 ninja.wallets.splitwallet = {
+    isOpen: function () {
+        return (document.getElementById("splitwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("splitarea").style.display = "block";
 		secrets.setRNG();

@@ -1,1 +1,8 @@
 node_modules
+/Backup
+*.suo
+/UpgradeLog.htm
+/.bin
+/packages
+/packages.config
+/.nuget

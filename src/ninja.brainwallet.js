@@ -1,4 +1,8 @@
 ninja.wallets.brainwallet = {
+    isOpen: function () {
+        return (document.getElementById("brainwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("brainarea").style.display = "block";
 		document.getElementById("brainpassphrase").focus();

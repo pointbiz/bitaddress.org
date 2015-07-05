@@ -28,6 +28,11 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2015-07-05: status ACTIVE
+bitaddress.org-v2.9.9-SHA256-90ddaf250f6302acb53945128e38225208af5a2fa7cfdf51519213e8b144a76d.html
+ - improve tab usability. You can now get to the Brain Wallet and Wallet Details tabs before 
+   completing the entropy collection.
+
 2015-01-08: status ACTIVE
 bitaddress.org-v2.9.8-SHA256-2c5d16dbcde600147162172090d940fd9646981b7d751d9bddfc5ef383f89308.html
  - fix French translations. Escape quotes.

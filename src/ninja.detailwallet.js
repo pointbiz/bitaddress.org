@@ -1,4 +1,8 @@
 ninja.wallets.detailwallet = {
+    isOpen: function () {
+        return (document.getElementById("detailwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("detailarea").style.display = "block";
 		document.getElementById("detailprivkey").focus();

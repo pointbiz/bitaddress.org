@@ -1,4 +1,8 @@
 ninja.wallets.singlewallet = {
+    isOpen: function () {
+        return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		if (document.getElementById("btcaddress").innerHTML == "") {
 			ninja.wallets.singlewallet.generateNewAddressAndKey();

@@ -1,4 +1,8 @@
 ninja.wallets.vanitywallet = {
+    isOpen: function () {
+        return (document.getElementById("vanitywallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("vanityarea").style.display = "block";
 	},

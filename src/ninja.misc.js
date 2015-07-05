@@ -12,6 +12,8 @@ ninja.seeder = {
 	seedCount: 0, // counter
 	lastInputTime: new Date().getTime(),
 	seedPoints: [],
+	isStillSeeding: true,
+	seederDependentWallets: ["singlewallet", "paperwallet", "bulkwallet", "vanitywallet", "splitwallet"],
 
 	// seed function exists to wait for mouse movement to add more entropy before generating an address
 	seed: function (evt) {
@@ -19,11 +21,8 @@ ninja.seeder = {
 		var timeStamp = new Date().getTime();
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-			ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
-			document.getElementById("generate").style.display = "none";
-			document.getElementById("menu").style.visibility = "visible";
-			ninja.seeder.removePoints();
+		    ninja.seeder.seedCount++;
+		    ninja.seeder.seedingOver();
 		}
 		// seed mouse position X and Y when mouse movements are greater than 40ms apart.
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt && (timeStamp - ninja.seeder.lastInputTime) > 40) {
@@ -41,11 +40,8 @@ ninja.seeder = {
 		if (!evt) var evt = window.event;
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-			ninja.seeder.seedCount++;
-			ninja.wallets.singlewallet.open();
-			document.getElementById("generate").style.display = "none";
-			document.getElementById("menu").style.visibility = "visible";
-			ninja.seeder.removePoints();
+		    ninja.seeder.seedCount++;
+		    ninja.seeder.seedingOver();
 		}
 		// seed key press character
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt.which) {
@@ -64,16 +60,20 @@ ninja.seeder = {
 	showPool: function () {
 		var poolHex;
 		if (SecureRandom.poolCopyOnInit != null) {
-			poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-			document.getElementById("seedpool").innerHTML = poolHex;
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		    poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+		    document.getElementById("seedpool").innerHTML = poolHex;
+		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
 		else {
-			poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-			document.getElementById("seedpool").innerHTML = poolHex;
-			document.getElementById("seedpooldisplay").innerHTML = poolHex;
+		    poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+		    document.getElementById("seedpool").innerHTML = poolHex;
+		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
-		document.getElementById("mousemovelimit").innerHTML = (ninja.seeder.seedLimit - ninja.seeder.seedCount);
+		var percentSeeded = Math.round((ninja.seeder.seedCount / ninja.seeder.seedLimit) * 100) + "%";
+		document.getElementById("mousemovelimit").innerHTML = percentSeeded;
+		for (var wIndex in ninja.seeder.seederDependentWallets) {
+		    document.getElementById(ninja.seeder.seederDependentWallets[wIndex]).innerHTML = percentSeeded;
+		}
 	},
 
 	showPoint: function (x, y) {
@@ -90,6 +90,21 @@ ninja.seeder = {
 			document.body.removeChild(ninja.seeder.seedPoints[i]);
 		}
 		ninja.seeder.seedPoints = [];
+	},
+
+	seedingOver: function () {
+	    ninja.seeder.isStillSeeding = false;
+	    var walletType = ninja.tab.whichIsOpen();
+	    if (walletType == null) {
+	        ninja.tab.select("singlewallet");
+	    } else {
+	        ninja.tab.select(walletType)
+	    }
+	    document.getElementById("generate").style.display = "none";
+	    // update labels for dependent wallets
+	    var culture = (ninja.getQueryString()["culture"] == null ? "en" : ninja.getQueryString()["culture"]);
+	    ninja.translator.translate(culture);
+	    ninja.seeder.removePoints();
 	}
 };
 
@@ -186,16 +201,45 @@ ninja.qrCode = {
 	}
 };
 
-ninja.tabSwitch = function (walletTab) {
-	if (walletTab.className.indexOf("selected") == -1) {
-		// unselect all tabs
-		for (var wType in ninja.wallets) {
-			document.getElementById(wType).className = "tab";
-			ninja.wallets[wType].close();
-		}
-		walletTab.className += " selected";
-		ninja.wallets[walletTab.getAttribute("id")].open();
-	}
+ninja.tab = {
+    select: function (walletTab) {
+        // detect type: normally an HtmlElement/object but when string then get the element
+        if (typeof walletTab === 'string') {
+            walletTab = document.getElementById(walletTab);
+        }
+        var walletType = walletTab.getAttribute("id");
+
+        if (walletTab.className.indexOf("selected") == -1) {
+            // unselect all tabs
+            for (var wType in ninja.wallets) {
+                document.getElementById(wType).className = "tab";
+                ninja.wallets[wType].close();
+            }
+            
+            // don't open tab if entropy still being collected
+            // exceptions: brainwallet detailwallet
+            if (ninja.seeder.isStillSeeding == false || walletType == "brainwallet" || walletType == "detailwallet") {
+            	walletTab.className += " selected";
+            	document.getElementById("generate").style.display = "none";
+                ninja.wallets[walletTab.getAttribute("id")].open();
+            }
+            else if (ninja.seeder.isStillSeeding == true && !(walletType == "brainwallet" || walletType == "detailwallet")) {
+                document.getElementById("generate").style.display = "block";
+            }
+        }
+    },
+
+    whichIsOpen: function () {
+        var isOpen;
+        for (var wType in ninja.wallets) {
+            isOpen = ninja.wallets[wType].isOpen();
+            if (isOpen) {
+                return wType;
+            }
+        }
+        return null;
+    }
+
 };
 
 ninja.getQueryString = function () {

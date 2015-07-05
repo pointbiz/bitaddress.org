@@ -61,7 +61,16 @@ ninja.translator = {
 			"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
 			"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
 			"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
-			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
+			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys.",
+
+		    // header and menu html
+			"singlewallet": "Single Wallet",
+			"paperwallet": "Paper Wallet",
+			"bulkwallet": "Bulk Wallet",
+			"brainwallet": "Brain Wallet",
+			"vanitywallet": "Vanity Wallet",
+            "splitwallet": "Split Wallet",
+			"detailwallet": "Wallet Details"
 		},
 
 		"es": {
@@ -94,6 +103,7 @@ ninja.translator = {
 			"bulkwallet": "Direcciones en masa",
 			"brainwallet": "Cartera mental",
 			"vanitywallet": "Cartera personalizada",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalles de la cartera",
 
 			// footer html
@@ -232,6 +242,7 @@ ninja.translator = {
 			"bulkwallet": "Porte-Monnaie En Vrac",
 			"brainwallet": "Porte-Monnaie Cerveau",
 			"vanitywallet": "Porte-Monnaie Vanité",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Détails du Porte-Monnaie",
 			
 			// footer html
@@ -371,6 +382,7 @@ ninja.translator = {
 			"bulkwallet": "Πολλαπλά Πορτοφόλια",
 			"brainwallet": "Μνημονικό Πορτοφόλι",
 			"vanitywallet": "Πορτοφόλι Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Λεπτομέρειες Πορτοφολιού",
 
 			// footer html
@@ -509,6 +521,7 @@ ninja.translator = {
 			"bulkwallet": "Portafogli multipli",
 			"brainwallet": "Brain Wallet",
 			"vanitywallet": "Vanity Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Dettagli portafoglio",
 
 			// footer html
@@ -647,6 +660,7 @@ ninja.translator = {
 			"bulkwallet": "Massen-Wallet",
 			"brainwallet": "Kopf-Wallet",
 			"vanitywallet": "Personalisiertes Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Walletdetails",
 
 			// footer html
@@ -785,6 +799,7 @@ ninja.translator = {
 			"bulkwallet": "Hromadná peněženka",
 			"brainwallet": "Myšlenková peněženka",
 			"vanitywallet": "Peněženka Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detail peněženky",
 
 			// footer html
@@ -1068,6 +1083,7 @@ ninja.translator = {
 			"bulkwallet": "大量ウォレット",
 			"brainwallet": "暗記ウォレット",
 			"vanitywallet": "カスタムウォレット",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "ウォレットの詳細",
 
 			// footer html
@@ -1358,6 +1374,7 @@ ninja.translator = {
             "bulkwallet": "Несколько кошельков",
             "brainwallet": "Умный кошелек",
             "vanitywallet": "Персональный кошелек",
+            "splitwallet": "Split Wallet", //TODO: please translate
             "detailwallet": "Детали кошелька",
 
             // footer html
