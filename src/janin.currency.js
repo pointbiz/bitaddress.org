@@ -163,6 +163,7 @@ janin.currencies = [
     janin.currency.createCurrency ("TreasureHuntCoin",0x32,0xb2,"6", "T"    , "MKnC2upgCNfVMS2phkV8SqGaXUGkn39EaX"),
     janin.currency.createCurrency ("Unobtanium", 0x82, 0xe0, "8",    "a"    , "uZ8Gq61NGJ2wz3PLybXyXKLYC1FhRpz8Kq"),
     janin.currency.createCurrency ("Vertcoin",   0x47, 0xc7, "7",    "W"    , "VkmBz8JJWLP1sVH9sGwc1Fz7o5RtXLW4J5"),
+    janin.currency.createCurrency ("Viacoin",    0x47, 0xc7, "7",    "W"    , "VeJMvqvsZFoTkYfitzEG8fYy7bC7hxMfT1"),
     janin.currency.createCurrency ("VikingCoin", 0x46, 0x56, "3",    "D"    , "VJXz1cD1mDGQmu52aDdd7Q2G5ejqA6mcqw"),
     janin.currency.createCurrency ("W2Coin",     0x49, 0xc9, "7",    "W"    , "Wa3AvKUP5J3BpEa93nwKHPAAQ2P1XdTCeU"),
     janin.currency.createCurrency ("WankCoin",   0x0,  0x80, "5",    "[LK]" , "1CnEFZZxJQkNAvgFGdRV5JEKShkNj1LRWL"),
