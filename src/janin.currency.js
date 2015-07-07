@@ -126,6 +126,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Jumbucks",   0x2b, 0xab, "6",    "S"    , "JSzHiaoD6ewtymBMJHsHqkpFzCYKBzxJeC"),
     janin.currency.createCurrency ("Latium",     0x17, 0x80, "5",    "[LK]" , "ASz2EgegeXfKyHaY1SbJ6nCDK6sxd7BpXg"),
     janin.currency.createCurrency ("Litecoin",   0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
+    janin.currency.createCurrency ("LiteDoge",   0x5a, 0xab, "6",    "S"    , "daaV1gQ63HpHHn4Ny1fJZHMA7KCeUVE538"),
     janin.currency.createCurrency ("MagicInternetMoney", 0x30, 0xb0,"6", "T", "LPRqCTYEy53FkEzhRTCauLc7Qq23Z5mxZU"),
     janin.currency.createCurrency ("Magicoin",   0x14, 0x94, "5",    "[NP]" , "9H6ddyu9S9gyrEHxVrpMBTBZWrwAvdtehD"),
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "M8caDttyKt2r7V7WHMMkRZ1jEzxj16fgCn"),
