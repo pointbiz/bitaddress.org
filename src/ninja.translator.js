@@ -5,10 +5,10 @@ ninja.translator = {
 		// window.navigator.language for Firefox / Chrome / Opera Safari
 		// window.navigator.userLanguage for IE
 		var language = window.navigator.language || window.navigator.userLanguage;
-		if (!ninja.translator.translate(language)) {
+		if (!this.translate(language)) {
 			// Try to remove part after dash, for example cs-CZ -> cs
 			language = language.substr(0, language.indexOf('-'));
-			ninja.translator.translate(language);
+			this.translate(language);
 		}
 	},
 
@@ -225,7 +225,7 @@ ninja.translator = {
 			"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
 			"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
 			"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
-			"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
+			"bip38alertpassphraserequired": "Mot de passe a inventé pour crypter en BIP38", 
 			"vanityinvalidinputcouldnotcombinekeys": "Entrée non valide. Impossible de combiner les clés.",
 			"vanityalertinvalidinputpublickeysmatch": "Entrée non valide. La clé publique des deux entrées est identique. Vous devez entrer deux clés différentes.",
 			"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Bitcoin.",
@@ -236,7 +236,7 @@ ninja.translator = {
 			"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 			"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 			"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
-			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
+			"generatelabelkeypress": "OU veuillez taper des caractères aléatoires dans le rectangle blanc suivant", 
 			"singlewallet": "Porte-Monnaie Simple",
 			"paperwallet": "Porte-Monnaie Papier",
 			"bulkwallet": "Porte-Monnaie En Vrac",
@@ -272,13 +272,13 @@ ninja.translator = {
 
 
 			// paper wallet html
-			"paperlabelhideart": "Retirer Le Style?",
+			"paperlabelhideart": "Enlever l'image ?",
 			"paperlabeladdressesperpage": "Adresses par page:",
 			"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
 			"papergenerate": "Générer",
 			"paperprint": "Imprimer",
 			"paperlabelBIPpassphrase": "mot de passe:",
-			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+			"paperlabelencrypt": "Cryptage en BIP38 ?", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Commencer à l'index:",
