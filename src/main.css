@@ -184,6 +184,7 @@ body, html { height: 99%; }
     #culturemenu { text-align: center; padding: 0 10px 5px 10px; margin-bottom: 3px; font-size: 90%; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
+    .culturemenurow { padding: 2px 0; }
 
 	#braincommands .row .label { width: 200px; display: inline-block; }
 	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }

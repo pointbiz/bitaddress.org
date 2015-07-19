@@ -19,9 +19,15 @@ ninja.translator = {
 			ninja.translator.currentCulture = culture;
 			// update menu UI
 			for (var cult in ninja.translator.translations) {
-				document.getElementById("culture" + cult).setAttribute("class", "");
+				var cultureElement = document.getElementById("culture" + cult);
+				if (cultureElement != null) {
+					cultureElement.setAttribute("class", "");
+				}
+				else {
+					console.log("DOM element not found: " + "culture" + cult);
+				}
+				document.getElementById("culture" + culture).setAttribute("class", "selected");
 			}
-			document.getElementById("culture" + culture).setAttribute("class", "selected");
 			// apply translations
 			for (var id in dict) {
 				if (document.getElementById(id) && document.getElementById(id).value) {
@@ -1229,6 +1235,7 @@ ninja.translator = {
 			"bulkwallet": "Múltiplos endereços",
 			"brainwallet": "Carteira mental",
 			"vanitywallet": "Carteira personalizada",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalhes da carteira",
 
 			// footer html
@@ -1336,6 +1343,7 @@ ninja.translator = {
 			"detaillabelq1": "Como eu faço uma carteira usando um dado? O que é B6?",
 			"detaila1": "Uma parte importante ao criar um carteira Bitcoin é se assegurar que os números aleatórios usados para criar a carteira sejam realmente aleatórios. A aleatoriedade física é melhor do que a pseudo-aleatoriedade gerada por computador. A maneira mais fácil de gerar aleatoriedade física é com dados. Para criar um chave privada Bitcoin você precisa de apenas um dado de seis lados, o qual você jogará 99 vezes. A cada jogada, anote o valor do dado. Ao anotar os valores, siga as seguintes regras: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Ao fazer isso, você está anotando esse grande número aleatório, sua chave privada, no formato base 6 (B6). Você pode então digitar essa chave privada em base 6 contendo 99 caracteres no campo de texto acima e clicar em Ver Detalhes. Você então verá o endereço Bitcoin associado com sua chave privada. Você deve também anotar sua chave privada no formato WIF, já que ele é mais amplamente utilizado."
 		},
+
 		"zh-cn": {	
 			// javascript alerts or messages
 			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
