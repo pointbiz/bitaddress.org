@@ -1,4 +1,8 @@
 ninja.wallets.bulkwallet = {
+    isOpen: function () {
+        return (document.getElementById("bulkwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("bulkarea").style.display = "block";
 		// show a default CSV list if the text area is empty

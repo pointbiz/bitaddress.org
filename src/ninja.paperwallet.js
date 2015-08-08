@@ -1,4 +1,8 @@
 ninja.wallets.paperwallet = {
+    isOpen: function () {
+        return (document.getElementById("paperwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("main").setAttribute("class", "paper"); // add 'paper' class to main div
 		var paperArea = document.getElementById("paperarea");

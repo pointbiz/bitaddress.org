@@ -16,7 +16,7 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
 .pubkeyhex { word-wrap: break-word; }
 body { font-family: Arial; }
-body, html { min-height: 99%; }
+body, html { height: 99%; }
 .faqs ol { padding: 0 0 0 25px; }
 .faqs li { padding: 3px 0; }
 .question { padding: 10px 15px; text-align: left; cursor: pointer; }
@@ -176,24 +176,29 @@ body, html { min-height: 99%; }
 	.commands .row { padding: 0 0; text-align: left; } 
 	.commands .row.extra { padding-top: 6px; }
 	.commands span { padding: 0 10px; }
-	.commands span.print { float: right; }
+	.commands span.print { float: right; position: relative; z-index: 20; }
 	.commands span.right { float: right; }
 	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
-    #menu { visibility: hidden; font-size: 90%; }
-    #culturemenu { text-align: right; padding: 0 20px; margin-bottom: 3px; }
+    #menu { visibility: visible; font-size: 90%; }
+    #culturemenu { text-align: center; padding: 0 10px 5px 10px; margin-bottom: 3px; font-size: 90%; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
+    .culturemenurow { padding: 2px 0; }
 
 	#braincommands .row .label { width: 200px; display: inline-block; }
 	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
-	#brainpassphrase { width: 280px; }
-	#brainpassphraseconfirm { width: 280px; }
+	#brainpassphrase { width: 280px; position: relative; z-index: 20; }
+	#brainpassphraseconfirm { width: 280px; position: relative; z-index: 20; }
+    #brainpassphraseshow { position: relative; z-index: 20; }
+    #brainview { position: relative; z-index: 20; }
 	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 250px; }
-	#detailprivkeypassphrase { width: 250px; }
+	#detailprivkey { width: 250px; position: relative; z-index: 20; }
+	#detailprivkeypassphrase { width: 250px; position: relative; z-index: 20; }
+    #detailview { position: relative; z-index: 20; }
+    #detaildecrypt { position: relative; z-index: 20; }
 	.paper .commands { border: 2px solid #009900; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }

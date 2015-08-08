@@ -5,10 +5,10 @@ ninja.translator = {
 		// window.navigator.language for Firefox / Chrome / Opera Safari
 		// window.navigator.userLanguage for IE
 		var language = window.navigator.language || window.navigator.userLanguage;
-		if (!ninja.translator.translate(language)) {
+		if (!this.translate(language)) {
 			// Try to remove part after dash, for example cs-CZ -> cs
 			language = language.substr(0, language.indexOf('-'));
-			ninja.translator.translate(language);
+			this.translate(language);
 		}
 	},
 
@@ -19,9 +19,15 @@ ninja.translator = {
 			ninja.translator.currentCulture = culture;
 			// update menu UI
 			for (var cult in ninja.translator.translations) {
-				document.getElementById("culture" + cult).setAttribute("class", "");
+				var cultureElement = document.getElementById("culture" + cult);
+				if (cultureElement != null) {
+					cultureElement.setAttribute("class", "");
+				}
+				else {
+					console.log("DOM element not found: " + "culture" + cult);
+				}
+				document.getElementById("culture" + culture).setAttribute("class", "selected");
 			}
-			document.getElementById("culture" + culture).setAttribute("class", "selected");
 			// apply translations
 			for (var id in dict) {
 				if (document.getElementById(id) && document.getElementById(id).value) {
@@ -61,7 +67,16 @@ ninja.translator = {
 			"vanityalertinvalidinputpublickeysmatch": "Invalid input. The Public Key of both entries match. You must input two different keys.",
 			"vanityalertinvalidinputcannotmultiple": "Invalid input. Cannot multiply two public keys. Select 'Add' to add two public keys to get a bitcoin address.",
 			"vanityprivatekeyonlyavailable": "Only available when combining two private keys",
-			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys."
+			"vanityalertinvalidinputprivatekeysmatch": "Invalid input. The Private Key of both entries match. You must input two different keys.",
+
+		    // header and menu html
+			"singlewallet": "Single Wallet",
+			"paperwallet": "Paper Wallet",
+			"bulkwallet": "Bulk Wallet",
+			"brainwallet": "Brain Wallet",
+			"vanitywallet": "Vanity Wallet",
+            "splitwallet": "Split Wallet",
+			"detailwallet": "Wallet Details"
 		},
 
 		"es": {
@@ -94,6 +109,7 @@ ninja.translator = {
 			"bulkwallet": "Direcciones en masa",
 			"brainwallet": "Cartera mental",
 			"vanitywallet": "Cartera personalizada",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalles de la cartera",
 
 			// footer html
@@ -102,6 +118,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Histórico de versiones",
 			"footerlabelgithub": "Repositorio GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 			"footerlabelnowarranty": "Sin garantía.",
@@ -112,7 +130,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Dirección Bitcoin",
 			"singlelabelprivatekey": "Clave privada (formato para importar):",
 			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
-			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
 			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
@@ -161,7 +179,7 @@ ninja.translator = {
 			"vanitylabelstep1publickey": "Clave pública:",
 			"vanitylabelstep1pubnotes": "Copia y pega la línea de arriba en el campo \"Your-Part-Public-Key\" de la web de Vanity Pool.",
 			"vanitylabelstep1privatekey": "Clave privada:",
-			"vanitylabelstep1privnotes": "Copia y pega la clave pública de arriba en un archivo de texto. Es mejor que lo almacenes en un volumen cifrado. Lo necesitarás para recuperar la clave privada una vez Vanity Pool haya encontrado tu prefijo.",
+			"vanitylabelstep1privnotes": "Copia y pega la clave privada de arriba en un archivo de texto. Es mejor que lo almacenes en un volumen cifrado. Lo necesitarás para recuperar la clave privada una vez Vanity Pool haya encontrado tu prefijo.",
 			"vanitylabelstep2calculateyourvanitywallet": "Paso 2 - Calcula tu cartera personalizada",
 			"vanitylabelenteryourpart": "Introduce la clave privada generada en el paso 1, y que has guardado:",
 			"vanitylabelenteryourpoolpart": "Introduce la clave privada obtenida de la Vanity Pool:",
@@ -213,7 +231,7 @@ ninja.translator = {
 			"detailalertnotvalidprivatekey": "Le texte que vous avez entré n'est pas une Clé Privée valide",
 			"detailconfirmsha256": "Le texte que vous avez entré n'est pas une Clé Privée valide!\n\nVoulez-vous utiliser le texte comme un mot de passe et créer une Clé Privée à partir d'un hash SHA256 de ce mot de passe?\n\nAttention: Choisir un mot de passe solide est important pour vous protéger des attaques bruteforce visant à trouver votre mot de passe et voler vos Bitcoins.",
 			"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
-			"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
+			"bip38alertpassphraserequired": "Mot de passe a inventé pour crypter en BIP38", 
 			"vanityinvalidinputcouldnotcombinekeys": "Entrée non valide. Impossible de combiner les clés.",
 			"vanityalertinvalidinputpublickeysmatch": "Entrée non valide. La clé publique des deux entrées est identique. Vous devez entrer deux clés différentes.",
 			"vanityalertinvalidinputcannotmultiple": "Entrée non valide. Il n'est pas possible de multiplier deux clés publiques. Sélectionner 'Ajouter' pour ajouter deux clés publiques pour obtenir une adresse Bitcoin.",
@@ -224,12 +242,13 @@ ninja.translator = {
 			"tagline": "Générateur De Porte-Monnaie Bitcoin Javascript Hors-Ligne",
 			"generatelabelbitcoinaddress": "Création de l'adresse Bitcoin...",
 			"generatelabelmovemouse": "BOUGEZ votre souris pour ajouter de l'entropie...",
-			"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
+			"generatelabelkeypress": "OU veuillez taper des caractères aléatoires dans le rectangle blanc suivant", 
 			"singlewallet": "Porte-Monnaie Simple",
 			"paperwallet": "Porte-Monnaie Papier",
 			"bulkwallet": "Porte-Monnaie En Vrac",
 			"brainwallet": "Porte-Monnaie Cerveau",
 			"vanitywallet": "Porte-Monnaie Vanité",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Détails du Porte-Monnaie",
 			
 			// footer html
@@ -238,6 +257,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Historique De Version",
 			"footerlabelgithub": "Dépôt GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 			"footerlabelnowarranty": "Aucune garantie.",
@@ -247,23 +268,23 @@ ninja.translator = {
 			"singleprint": "Imprimer",
 			"singlelabelbitcoinaddress": "Adresse Bitcoin:",
 			"singlelabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
-			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
-			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
-			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
-			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
-			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
-			"singleshare": "SHARE", //TODO: please translate
-			"singlesecret": "SECRET", //TODO: please translate
+			"singletip1": "Un porte-monnaie Bitcoin est aussi simple qu'une paire d'adresses Bitcoin dont une correspond à l'adresse privée Bitcoin. Ce porte-monnaie affiché a été généré pour vous dans votre propre navigateur internet et est donc affiché ci-dessus.", 
+			"singletip2": "Pour garder en sécurité ce porte-monnaie, vous devez l'imprimer ou, alternativement, enregistrer l'adresse de réception Bitcoin et la clé privée. Il est important de créer une copie de sauvegarde de la clé privée et de la stocker à un endroit sûr. Ce site n'a aucune base prédéterminée ou de sauvegarde de votre clé privée. Si vous êtes initiés à PGP, vous pouvez télécharger la version toute-en-1 de la page HTML et ainsi vérifier que vous avez une version authentique issue de l'auteur du site en comparant l'encryptage SHA1 de votre page HTML sauvegardée avec l'encryptage SHA1 disponible sur l'historique certifiée indiquée en bas de ce site. Si vous quittez ou rafraichissez ce site ou que vous appuyez sur \"générer une nouvelle adresse\" ... alors une nouvelle clé privée sera générée et la précédente clé privée affichée ne pourra plus être retrouvée. Votre clé privée Bitcoin doit être gardée secrète. Celui qui connaît la clé privée aura la possibilité de vider tous les bitcoins accumulés et associés à l'adresse de réception. Si vous imprimez le porte-monnaie, pensez à le mettre à l'abri de l'eau dans un sac étanche. Traitez le porte-monnaie papier comme de l'argent en espèces et billets.",
+			"singletip3": "Pour ajouter des fonds à votre porte-monnaie, indiquez d'envoyer les Bitcoins à votre adresse de réception.",
+			"singletip4": "Vérifier le contenu de votre porte-monnaie en consultant blockchain.info ou blockexplorer.com et en y tapant votre adresse de réception Bitcoin.",
+			"singletip5": "Pour dépenser vos bitcoins, allez sur blockchain.info et transférez l'ensemble des fonds de votre adresse privée vers le compte de ce site. Vous pouvez, aussi, dépenser vos fonds en téléchargeant un des programmes P2P bitcoin populaires et en y important votre clé privée dans un porte-monnaie P2P. Gardez à l'esprit que quand vous importez votre clé privée dans le programme P2P bitcoin et que vous dépensez vos fonds, votre clé privée sera intégrée avec d'autres clés privées dans le porte-monnaie P2P. Quand vous effectuez une transaction, le changement sera envoyé sur une autre adresse bitcoin privée à l'intérieur du porte-monnaie P2P. Vous DEVEZ, alors, faire une sauvegarde du porte-monnaie P2P et le garder en sécurité car l'ensemble des bitcoins restant y sera stocké. Satoshi a averti qu'il ne faudrait jamais supprimer un porte-monnaie.",
+			"singleshare": "PARTAGER",
+			"singlesecret": "SECRET",
 
 
 			// paper wallet html
-			"paperlabelhideart": "Retirer Le Style?",
+			"paperlabelhideart": "Enlever l'image ?",
 			"paperlabeladdressesperpage": "Adresses par page:",
 			"paperlabeladdressestogenerate": "Nombre d'adresses à créer:",
 			"papergenerate": "Générer",
 			"paperprint": "Imprimer",
-			"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
-			"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+			"paperlabelBIPpassphrase": "mot de passe:",
+			"paperlabelencrypt": "Cryptage en BIP38 ?", //TODO: please translate
 
 			// bulk wallet html
 			"bulklabelstartindex": "Commencer à l'index:",
@@ -319,7 +340,7 @@ ninja.translator = {
 			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Voir les détails",
 			"detailprint": "Imprimer",
-			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64, MINI).",
+			"detaillabelnote1": "Votre Clé Privée Bitcoin est un nombre secret que vous êtes le seul à connaître. Il peut être encodé sous la forme d'un nombre sous différents formats. Ci-bas, nous affichons l'adresse Bitcoin et la Clé Publique qui corresponds à la Clé Privée ainsi que la Clé Privée dans les formats d'encodage les plus populaires (WIF, WIFC, HEX, B64).",
 			"detaillabelnote2": "Bitcoin v0.6+ conserve les clés publiques dans un format compressé. Le logiciel supporte maintenant aussi l'importation et l'exportation de clés privées avec importprivkey/dumpprivkey. Le format de la clé privée exportée est déterminé selon la version du porte-monnaie Bitcoin.",
 			"detaillabelbitcoinaddress": "Adresse Bitcoin:",
 			"detaillabelbitcoinaddresscomp": "Adresse Bitcoin (compressée):",
@@ -367,6 +388,7 @@ ninja.translator = {
 			"bulkwallet": "Πολλαπλά Πορτοφόλια",
 			"brainwallet": "Μνημονικό Πορτοφόλι",
 			"vanitywallet": "Πορτοφόλι Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Λεπτομέρειες Πορτοφολιού",
 
 			// footer html
@@ -375,6 +397,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "ιστορικό εκδόσεων",
 			"footerlabelgithub": "Αποθετήριο GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Τα πνευματικά δικαιώματα της JavaScript περιλαμβάνονται στον κώδικα.",
 			"footerlabelnowarranty": "Καμία εγγύηση.",
@@ -385,7 +409,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"singlelabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
 			"singletip1": "<b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with it's corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.", //TODO: please translate
-			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA1 hash of this HTML with the SHA1 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
+			"singletip2": "<b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the Generate New Address button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.", //TODO: please translate
 			"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 			"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
 			"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
@@ -455,7 +479,7 @@ ninja.translator = {
 			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Προβολή λεπτομερειών",
 			"detailprint": "Εκτύπωση",
-			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64, MINI).",
+			"detaillabelnote1": "Το Bitcoin Προσωπικό Κλειδί είναι ένας μοναδικός και μυστικός αριθμός που μόνο εσείς πρέπει να γνωρίζετε, ο οποίος μπορεί να κωδικοποιηθεί σε πολλές διαφορετικές μορφές. Εμφανίζουμε παρακάτω τη διεύθυνση Bitcoin και το Δημόσιο Κλειδί, μαζί με το Προσωπικό Κλειδί, στις πιο δημοφιλείς μορφές  (WIF, WIFC, HEX, B64).",
 			"detaillabelnote2": "Το Bitcoin v0.6+ αποθηκεύει τα Προσωπικά Κλειδιά σε συμπιεσμένη μορφή. Το πρόγραμμα υποστηρίζει επίσης εισαγωγή κι εξαγωγή των Προσωπικών Κλειδιών με τις εντολές importprivkey/dumpprivkey. Η μορφή του εξαγόμενου Προσωπικού Κλειδιού προσδιορίζεται από το αν η διεύθυνση δημιουργήθηκε σε ένα παλιό ή νέο πορτοφόλι.",
 			"detaillabelbitcoinaddress": "Διεύθυνση Bitcoin:",
 			"detaillabelbitcoinaddresscomp": "Συμπιεσμένη Διεύθυνση Bitcoin:",
@@ -503,6 +527,7 @@ ninja.translator = {
 			"bulkwallet": "Portafogli multipli",
 			"brainwallet": "Brain Wallet",
 			"vanitywallet": "Vanity Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Dettagli portafoglio",
 
 			// footer html
@@ -511,6 +536,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Cronologia Versioni",
 			"footerlabelgithub": "Repository GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Le note di copyright dei file JavaScript sono inclusi nei sorgenti stessi.",
 			"footerlabelnowarranty": "Nessuna garanzia.",
@@ -521,7 +548,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Indirizzo Bitcoin:",
 			"singlelabelprivatekey": "Chiave privata (Wallet Import Format):",
 			"singletip1": "<b>Un portafogli bitcoin</b> è composto semplicemente da una coppia di valori: l'indirizzo e la sua chiave privata. Un portafogli è stato appena generato sul tuo browser e mostrato sopra.",
-			"singletip2": "<b>Per mettere in sicurezza questo portafogli</b> devi stampare o quantomeno salvare l'indirizzo bitcoin e la Chiave privata. È molto importante fare una copia di backup della chiave privata e conservarla in un posto sicuro. Questo sito non conosce la tua chiave privata. Se hai familiarità con PGP, puoi scaricare per intero questa pagina HTML e controllare la sua autentiticità. Puoi confrontare il codice SHA1 della pagina scaricata con il codice firmato dall'autore che trovi nella cronologia delle versioni (in fondo alla pagina). Se abbandoni/aggiorni la pagina web oppure premi il tasto Genera, un nuovo indirizzo sostituirà quello vecchio che non potrà più essere recuperato. La chiave privata dovrebbe essere tenuta segreta, chiunque conosca la chiave privata può avere accesso e spendere i tuoi bitcoin. Se stampi il tuo portafogli conservalo in una busta di plastica sigillata per tenerla al riparo dall'acqua. Tratta quanto stampato alla stregua di una banconota.",
+			"singletip2": "<b>Per mettere in sicurezza questo portafogli</b> devi stampare o quantomeno salvare l'indirizzo bitcoin e la Chiave privata. È molto importante fare una copia di backup della chiave privata e conservarla in un posto sicuro. Questo sito non conosce la tua chiave privata. Se hai familiarità con PGP, puoi scaricare per intero questa pagina HTML e controllare la sua autentiticità. Puoi confrontare il codice SHA256 della pagina scaricata con il codice firmato dall'autore che trovi nella cronologia delle versioni (in fondo alla pagina). Se abbandoni/aggiorni la pagina web oppure premi il tasto Genera, un nuovo indirizzo sostituirà quello vecchio che non potrà più essere recuperato. La chiave privata dovrebbe essere tenuta segreta, chiunque conosca la chiave privata può avere accesso e spendere i tuoi bitcoin. Se stampi il tuo portafogli conservalo in una busta di plastica sigillata per tenerla al riparo dall'acqua. Tratta quanto stampato alla stregua di una banconota.",
 			"singletip3": "<b>Ricevi fondi</b> su questo portafogli mostrando l'indirizzo bitcoin per il versamento.",
 			"singletip4": "<b>Controlla il saldo</b> visitando blockchain.info o blockexplorer.com cercando il tuo indirizzo bitcoin.",
 			"singletip5": "<b>Spendi i tuoi bitcoin</b> aprendo un account su blockchain.info usando la chiave privata. Puoi anche spendere i tuoi bitcoin scaricando il popolare client p2p ed importando in esso il portafogli. Tieni presente che quando importi una chiave nel client p2p, nel momento in cui spendi le monete, la chiave viene raggruppata insieme alle altre presenti nel programma con i restanti bitcoin. Quando esegui una transazione gli spiccioli verranno invitati verso un altro indirizzo all'interno del tuo portafogli gestito dal client p2p. Quindi dovresti tenere un backup del portafogli contenuto nel client p2p e tenere questo in un posto sicuro fin tanto terrai dei bitcoin lì. Satoshi consiglia di non cancellare mai un portafogli. ",
@@ -591,7 +618,7 @@ ninja.translator = {
 			"detailkeyformats": "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Mostra Dettagli",
 			"detailprint": "Stampa",
-			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64, MINI).",
+			"detaillabelnote1": "La tua Chiave privata Bitcoin è rappresentata da un numero segreto, unico al mondo, che dovresti conoscere soltanto tu. Può essere codificato in molti formati differenti. Di seguito verrà mostrato l'indirizzo Bitcoin e la chiave pubblica, con la corrispondente chiave privata, nei più diffusi formati di codifica (WIF, WIFC, HEX, B64).",
 			"detaillabelnote2": "Il client Bitcoin, dalla versione v0.6, memorizza le chiavi pubbliche in formato compresso. Il programma ora supporta l'importazione e l'esportazione delle chiavi private attraverso importprivkey/dumpprivkey. Il formato con cui viene esportata la chiave privata dipende se l'indirizzo generato è stato creato con il nuovo o vecchio portafogli.",
 			"detaillabelbitcoinaddress": "Indirizzo Bitcoin",
 			"detaillabelbitcoinaddresscomp": "Indirizzo Bitcoin compresso",
@@ -639,6 +666,7 @@ ninja.translator = {
 			"bulkwallet": "Massen-Wallet",
 			"brainwallet": "Kopf-Wallet",
 			"vanitywallet": "Personalisiertes Wallet",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Walletdetails",
 
 			// footer html
@@ -647,6 +675,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Versionsgeschichte",
 			"footerlabelgithub": "GitHub-Repository",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript-Copyrights sind im Quelltext enthalten.",
 			"footerlabelnowarranty": "Ohne Gew&auml;hr.",
@@ -657,7 +687,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin-Adresse",
 			"singlelabelprivatekey": "Privater Schl&uuml;ssel (WIF &ndash; zum Importieren geeignet):",
 			"singletip1": "<b>Ein Bitcoin-Wallet </b>(Geldb&ouml;rse) ist nichts anderes als eine Bitcoin-Adresse (&ouml;ffentlicher Schl&uuml;ssel) und der zu ihr geh&ouml;rende private Schl&uuml;ssel. Oben findest du ein solches, gerade f&uuml;r dich erstelltes Wallet, bestehend aus den beiden Zeichenketten. Die QR-Codes dienen lediglich der Vereinfachung und enthalten kodiert die Adresse bzw. den privaten Schl&uuml;ssel.",
-			"singletip2": "<b>Um dieses Wallet zu sch&uuml;tzen,</b> musst du es entweder ausdrucken oder anderweitig die Bitcoin-Adresse und den privaten Schl&uuml;ssel sichern. Fertige auf jeden Fall eine Kopie des privaten Schl&uuml;ssels an und bewahre sie an einem sicheren Ort auf. Der private Schl&uuml;ssel liegt nur lokal auf deinem Rechner vor und wurde nicht ins Internet &uuml;bertragen. Falls du dich mit PGP auskennst, kannst du dir diese all-in-one HTML-Seite herunterladen. Um zu &uuml;berpr&uuml;fen, ob die heruntergeladene Version authentisch ist, kannst du den SHA1-Hash dieser Seite mit dem SHA1-Hash in der signierten Versionsgeschichte am unteren Ende dieser Seite abgleichen. Wenn du diese Seite verl&auml;sst, sie neul&auml;dst bzw. den \"Neues Wallet erstellen\"-Button dr&uuml;ckst, wird ein neues Wallet erstellt und das vorherige wird nicht mehr abrufbar sein. Du solltest deinen privaten Schl&uuml;ssel geheim halten. Wer den privaten Schl&uuml;ssel hat, kann damit auf alle im Wallet befindlichen Bitcoin zugreifen und sie nach Belieben ausgeben. Behandle dein gedrucktes Wallet wie echtes Geld!",
+			"singletip2": "<b>Um dieses Wallet zu sch&uuml;tzen,</b> musst du es entweder ausdrucken oder anderweitig die Bitcoin-Adresse und den privaten Schl&uuml;ssel sichern. Fertige auf jeden Fall eine Kopie des privaten Schl&uuml;ssels an und bewahre sie an einem sicheren Ort auf. Der private Schl&uuml;ssel liegt nur lokal auf deinem Rechner vor und wurde nicht ins Internet &uuml;bertragen. Falls du dich mit PGP auskennst, kannst du dir diese all-in-one HTML-Seite herunterladen. Um zu &uuml;berpr&uuml;fen, ob die heruntergeladene Version authentisch ist, kannst du den SHA256-Hash dieser Seite mit dem SHA256-Hash in der signierten Versionsgeschichte am unteren Ende dieser Seite abgleichen. Wenn du diese Seite verl&auml;sst, sie neul&auml;dst bzw. den \"Neues Wallet erstellen\"-Button dr&uuml;ckst, wird ein neues Wallet erstellt und das vorherige wird nicht mehr abrufbar sein. Du solltest deinen privaten Schl&uuml;ssel geheim halten. Wer den privaten Schl&uuml;ssel hat, kann damit auf alle im Wallet befindlichen Bitcoin zugreifen und sie nach Belieben ausgeben. Behandle dein gedrucktes Wallet wie echtes Geld!",
 			"singletip3": "Du kannst <b>Guthaben</b> zu deinem Wallet <b>hinzuf&uuml;gen</b>, indem du genau wie bei anderen &Uuml;berweisungen Bitcoins an die Bitcoin-Adresse deines Wallets schickst.",
 			"singletip4": "<b>&Uuml;berpr&uuml;fe dein Guthaben,</b> indem du deine Bitcoin-Adresse auf blockchain.info bzw. blockexplorer.com eingibst.",
 			"singletip5": "Du kannst deine <b>Bitcoins ausgeben</b>, indem du das gesamte mit deinem privaten Schl&uuml;ssel verbundene Guthaben auf deinen Account bei blockchain.info &uuml;bertr&auml;gst. Alternativ kannst du dir ein Bitcoinprogramm herunterladen und deinen privaten Schl&uuml;ssel in dieses importieren. Beachte dabei aber, dass, sobald du Bitcoins mit dem Programm sendest, dein privater Schl&uuml;ssel mit den anderen privaten Schl&uuml;sseln, die vom Programm bereitgestellt werden, verbunden wird. Bei einer &Uuml;berweisung wird etwas R&uuml;ckgeld an eine der Bitcoin-Adressen des Programms geschickt. Deswegen musst du, um tats&auml;chlich dein gesamtes Guthaben zu sichern, ein Backup vom gesamten Wallet des Programms, das nun auch deinen importierten privaten Schl&uuml;ssel enth&auml;lt, anfertigen. Satoshi r&auml;t, dass man unter keinen Umst&auml;nden ein Wallet l&ouml;schen sollte.", 
@@ -775,6 +805,7 @@ ninja.translator = {
 			"bulkwallet": "Hromadná peněženka",
 			"brainwallet": "Myšlenková peněženka",
 			"vanitywallet": "Peněženka Vanity",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detail peněženky",
 
 			// footer html
@@ -783,6 +814,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Historie verzí",
 			"footerlabelgithub": "GitHub Repository",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Copyright JavaScriptu je uveden ve zdrojovém kódu.",
 			"footerlabelnowarranty": "Bez záruky.",
@@ -793,7 +826,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin adresa",
 			"singlelabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
 			"singletip1": "<b>Bitcoin peněženka</b> je jednoduchý pár Bitcoin adresy s přidruženým soukromým klíčem. Taková peněženka byla právě vytvořena ve vašem prohlížeči a zobrazena výše.",
-			"singletip2": "<b>Pro zabezpečení této peněženky</b> musíte tuto Bitcoin adresu a soukromý klíč vytisknout a nebo jinak poznamenat. Je důležité provést zálohu soukromého klíče a jeho uschování na bezpečném místě. Tato webová stránka nemá žádné informace o vašem soukromém klíči. Pokud ovládáte PGP, můžete celou tuto stránku stáhnout v jednom HTML souboru a ověřit její pravost srovnáním SHA1 hashe s podepsaným dokumentem historie verzí. Odkaz naleznete v patičce této stránky. Pokud opustíte či obnovíte tuto stránku nebo kliknete na 'Vytvořit novou adresu' dojde k vygenerování nového soukromého klíče a předtím zobrazený klíč bude ztracen. Váš soukromý klíč musíte uchovat v tajnosti. Každý kdo má tento klíč k dispozici může utratit všechny peníze v této peněžence. Pokud budete peněženku tisknout, uzavřete ji do nepropustného obalu nebo ji zalaminujte. Tím zabráníte jejímu poškození vodou. Chovejte se k této peněžence jako k normálním bankovkám.",
+			"singletip2": "<b>Pro zabezpečení této peněženky</b> musíte tuto Bitcoin adresu a soukromý klíč vytisknout a nebo jinak poznamenat. Je důležité provést zálohu soukromého klíče a jeho uschování na bezpečném místě. Tato webová stránka nemá žádné informace o vašem soukromém klíči. Pokud ovládáte PGP, můžete celou tuto stránku stáhnout v jednom HTML souboru a ověřit její pravost srovnáním SHA256 hashe s podepsaným dokumentem historie verzí. Odkaz naleznete v patičce této stránky. Pokud opustíte či obnovíte tuto stránku nebo kliknete na 'Vytvořit novou adresu' dojde k vygenerování nového soukromého klíče a předtím zobrazený klíč bude ztracen. Váš soukromý klíč musíte uchovat v tajnosti. Každý kdo má tento klíč k dispozici může utratit všechny peníze v této peněžence. Pokud budete peněženku tisknout, uzavřete ji do nepropustného obalu nebo ji zalaminujte. Tím zabráníte jejímu poškození vodou. Chovejte se k této peněžence jako k normálním bankovkám.",
 			"singletip3": "<b>Pro vložení</b> peněz do této peněženky stačí zaslat peníze na Bitcoin adresu.",
 			"singletip4": "<b>Zkontrolovat zůstatek</b> můžete na webové stránce blockchain.info nebo blockexplorer.com po zadání Bitcoin adresy.",
 			"singletip5": "<b>Utratit Bitcoiny</b> můžete pomocí blockchain.info načtením celého zůstatku pomocí soukromého klíče do vašeho účtu. Utratit zůstatek můžete také pomocí jednoho z P2P Bitcoin klientů naimportováním soukromého klíče. Myslete na to, že importem klíče do klienta se stane součástí jeho peněženky. Pokud převedete někomu peníze, nespotřebovaný zůstatek se zašle na jinou Bitcoin adresu uvedenou v P2P klienta. Tuto novou adresu musíte vyzálohovat a udržovat v bezpečí. Satoshi doporučuje, že by nikdo nikdy neměl mazat peněženku.",
@@ -920,6 +953,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "Változatok története",
 			"footerlabelgithub": "GitHub kódtár",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Az egyes JavaScript kódok szerzőinek jogai a forráskódon belül találhatók meg.",
 			"footerlabelnowarranty": "Garancia nincs.",
@@ -930,7 +965,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "Bitcoin cím:",
 			"singlelabelprivatekey": "Privát kulcs (WIF, tárca import formátumban):",
 			"singletip1": "<b>Egy bitcoin pénztárca</b> nem más, mint egy bitcoin címből és a hozzá tartozó privát kulcsból álló számpár. Egy ilyen pénztárcát állítottunk elő és jelenítettünk meg fent az Ön számára a Web böngészőben.",
-			"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tud az ön privát kulcsairól. Ha ismeri a PGP-t, akkor egyben letöltheti az egész web lapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA1 zanzát a webhely láblécében hivatkozott, aláírt verzió történetben lévő SHA1 zanzával. Ha elhagyja/megfrissíti a webhelyet vagy megnyomja az 'Új cím előállítása' gombot, akkor egy új privát kulcs áll elő, és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni az ehhez a címhez tartozó összes bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nylon-zacskóban. A papír pénztárcát tekintse úgy, mintha pénz lenne.",
+			"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tud az ön privát kulcsairól. Ha ismeri a PGP-t, akkor egyben letöltheti az egész web lapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA256 zanzát a webhely láblécében hivatkozott, aláírt verzió történetben lévő SHA256 zanzával. Ha elhagyja/megfrissíti a webhelyet vagy megnyomja az 'Új cím előállítása' gombot, akkor egy új privát kulcs áll elő, és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni az ehhez a címhez tartozó összes bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nylon-zacskóban. A papír pénztárcát tekintse úgy, mintha pénz lenne.",
 			"singletip3": "<b>Pénzt úgy tehet</b> a pénztárcájába, hogy másokkal bitcoinokat küldet erre a Bitcoin címre.",
 			"singletip4": "<b>A pénztárca egyenlegét</b> úgy kérdezheti le, hogy elmegy a blockchain.info vagy a blockexplorer.com weblapokra, és ott beadja ezt a Bitcoin címet.",
 			"singletip5": "<b>Ha el akarja költeni a bitcoinjait,</b> akkor menjen a blockchain.info weblapra, és a privát kulcson lévő teljes egyenleget töltse át (sweep) a weblapon lévő számlájára. A pénzt úgy is elköltheti, hogy letölti valamelyik népszerű p2p bitcoin klienst, és beimportálja a privát kulcsot a p2p kliens pénztárcájába. Ne feledje, hogy miután beimportálta a kulcsot a p2p bitcoin kliensbe, a kulcsot a p2p kliens a pénztárcában lévő többi kulccsal együtt tárolja. Pénz küldésekor a visszajáró pénzt a p2p kliens pénztárcájában lévő másik bitcoin címre fogják küldeni. Ekkor biztonsági másolatot kell készítenie a p2p kliens pénztárcáról, és a másolatot biztos helyen kell őriznie, mivel a maradék bitcoinjait a pénztárca kulcsai tárolják. Satoshi tanácsa, hogy pénztárcát soha ne töröljünk.",
@@ -1006,7 +1041,7 @@ ninja.translator = {
 			"detailkeyformats": "Kulcs formátumok: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "Részletek megjelenítése",
 			"detailprint": "Nyomtatás",
-			"detaillabelnote1": "A Bitcoin Privát Kulcs egy titkos szám, melyet csak Ön ismer. Számos különböző formátumban kódolható. Az alábbiakban megjelenítettük a a Privát Kulcshoz tartozó Bitcoin Címet és Publikus kulcsot, valamint a Privát Kulcsot a legnépszerűbb kódolási formátumokban (WIF, WIFC, HEX, B64, MINI).",
+			"detaillabelnote1": "A Bitcoin Privát Kulcs egy titkos szám, melyet csak Ön ismer. Számos különböző formátumban kódolható. Az alábbiakban megjelenítettük a a Privát Kulcshoz tartozó Bitcoin Címet és Publikus kulcsot, valamint a Privát Kulcsot a legnépszerűbb kódolási formátumokban (WIF, WIFC, HEX, B64).",
 			"detaillabelnote2": "A Bitcoin v0.6+ a publikus kulcsokat tömörített formátumban tárolja. A kliens az importprivkey/dumpprivkey parancsokkal a privát kulcsok importálását és exportálását is támogatja. Az exportált privát kulcsok formátumát csupán a Bitcoin pénztárca verziószáma határozza meg.",
 			"detaillabelbitcoinaddress": "Bitcoin cím:",
 			"detaillabelbitcoinaddresscomp": "Tömörített Bitcoin cím:",
@@ -1054,6 +1089,7 @@ ninja.translator = {
 			"bulkwallet": "大量ウォレット",
 			"brainwallet": "暗記ウォレット",
 			"vanitywallet": "カスタムウォレット",
+			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "ウォレットの詳細",
 
 			// footer html
@@ -1062,6 +1098,8 @@ ninja.translator = {
 			"footerlabelpgp": "PGP",
 			"footerlabelversion": "バージョン履歴",
 			"footerlabelgithub": "GitHubリポジトリ",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScriptのコピーライト情報はソースに含まれています。",
 			"footerlabelnowarranty": "保障はありません。",
@@ -1072,7 +1110,7 @@ ninja.translator = {
 			"singlelabelbitcoinaddress": "ビットコインアドレス",
 			"singlelabelprivatekey": "プライベートキー (WIF形式)",
 			"singletip1": "<b>ビットコインウォレットとは</b> ビットコインのアドレスと対応するプライベートキーを組み合わせたものです。新しいアドレスがブラウザー上で生成され、上記に表示されています。",
-			"singletip2": "<b>このウォレットを守るためには</b> ビットコインアドレスとビットコインプライベートキーを印刷するなどの手段で記録しなければいけません。プライベートキーが無いとペアになっているアドレスに送られたビットコインが使えないので、人に晒されないような方法でプライベートキーのコピーを取り、大事に保管して下さい。このサイトはこのプライベートキーの保存はしません。PGPをご存知の方は、このサイトを1つのhtmlファイルで落とすことができるので、このサイトのhtmlファイルのSHA1ハッシュとサイトのフッターにデジタル署名されたメッセージに入ったハッシュを比べて不正にいじられていないかをお確かめいただけます。このページを閉じたり、離れたり、”新アドレス生成”を押すと現在表示されているプライベートキーは消え、新規アドレスが生成されるので、ご使用の場合は必ず何らかの手段で記録しておいて下さい。プライベートキーは秘密にしてください。共有されますと、対応するビットコインアドレスに存在するコインが全て共有者間で利用可能となります。ウォレット情報を印刷したら、濡れないようにジップロックに入れましょう。紙幣と同様に扱うよう心がけてください。",
+			"singletip2": "<b>このウォレットを守るためには</b> ビットコインアドレスとビットコインプライベートキーを印刷するなどの手段で記録しなければいけません。プライベートキーが無いとペアになっているアドレスに送られたビットコインが使えないので、人に晒されないような方法でプライベートキーのコピーを取り、大事に保管して下さい。このサイトはこのプライベートキーの保存はしません。PGPをご存知の方は、このサイトを1つのhtmlファイルで落とすことができるので、このサイトのhtmlファイルのSHA256ハッシュとサイトのフッターにデジタル署名されたメッセージに入ったハッシュを比べて不正にいじられていないかをお確かめいただけます。このページを閉じたり、離れたり、”新アドレス生成”を押すと現在表示されているプライベートキーは消え、新規アドレスが生成されるので、ご使用の場合は必ず何らかの手段で記録しておいて下さい。プライベートキーは秘密にしてください。共有されますと、対応するビットコインアドレスに存在するコインが全て共有者間で利用可能となります。ウォレット情報を印刷したら、濡れないようにジップロックに入れましょう。紙幣と同様に扱うよう心がけてください。",
 			"singletip3": "<b>このウォレットにコインを追加 : </b> 他の人から自分のビットコインアドレスに送ってもらう。",
 			"singletip4": "<b>残高照会は</b> blockchain.infoやblockexplorer.comに行き、ビットコインアドレスを入力してお調べ下さい。",
 			"singletip5": "<b>ビットコインを使おう。</b> 送金するには、このページで生成したプライベートキーをblockchain.infoのウォレットや各種パソコン・スマホ端末にあるウォレットアプリなどに取り込んで使えます。しかし、その時点でそのアドレスが取り込んだウォレットの他のアドレスと融合してしまい、この一つのアドレスのバックアップだけじゃビットコインを保管することはできなくなります。取り込み先のウォレットを強いパスワードで暗号化し、バックアップして、安全に扱って下さい。ビットコインの考案者「サトシさん」曰く、「一度作ったウォレットを、空にしたとしても、削除しない方が良い。」(メールアドレスと同じく、いつ昔の友達や親戚から古いアドレス宛にビットコインを送ってくるかわかりませんから。)",
@@ -1149,7 +1187,7 @@ ninja.translator = {
 			"detailkeyformats": "受け付けるキーの形式 WIF, WIFC, HEX, B64, B6, MINI, BIP38",
 			"detailview": "詳細を表示",
 			"detailprint": "印刷",
-			"detaillabelnote1": "ビットコインプライベートキーはあなたにしか分からない秘密の鍵。色々な形式で表示することができ、下記で表示しているのはビットコインアドレス、パブリックキー、プライベートキー、そして複数の形式でプライベートキーを表示します。(WIF, WIFC, HEX, B64, MINI)",
+			"detaillabelnote1": "ビットコインプライベートキーはあなたにしか分からない秘密の鍵。色々な形式で表示することができ、下記で表示しているのはビットコインアドレス、パブリックキー、プライベートキー、そして複数の形式でプライベートキーを表示します。(WIF, WIFC, HEX, B64)",
 			"detaillabelnote2": "ビットコイン v0.6より圧縮したパブリックキーを保存している。なお、importprivkey / dumpprivkeyのコマンドを用いてプライベートキーのインポートとエクスポートもできる。エクスポートされるプライベートキーの形式はウォレットの作成時期とバージョンによって異なってくる。",
 			"detaillabelbitcoinaddress": "ビットコインアドレス",
 			"detaillabelbitcoinaddresscomp": "ビットコインアドレス(圧縮)",
@@ -1165,7 +1203,429 @@ ninja.translator = {
 			"detaildecrypt": "BIP38暗号を解除",
 			"detaillabelq1": "サイコロを使ってどうやってアドレス作るのか？「B6」とは何か？",
 			"detaila1": "ビットコインのアドレスの生成には一番大事なことが、アドレス生成に使われている乱数が本当にランダムなのかというところです。自然界に起きる物理的なランダムさはパソコンが生成する(似非)ランダムさよりは優れている。物理的なランダムさを作る一番簡単な方法はサイコロを振ることです。ビットコインのプライベートキーを生成するには、6面のサイコロを99回振って、毎回結果を記載していきます。規則として1⇒1, 2⇒2, 3⇒3, 4⇒4, 5⇒5, 6⇒0というように、6が出る度に「0」と記載して下さい。99桁の6進数字列ができたら、上記の入力欄に入れて、「詳細を表示」ボタンを押して下さい。これでWIF形式のプライベートキーやそれと紐づくビットコインアドレスが表示されます。これらを記載し、通常生成されたビットコインアドレスと同じように保管しておいて下さい。",
-		}
+		},
+
+		"pt-br": {
+			// javascript alerts or messages
+			"testneteditionactivated": "EDIÇÃO DO TESTNET ATIVADA",
+			"paperlabelbitcoinaddress": "Endereço Bitcoin:",
+			"paperlabelprivatekey": "Chave privada (Wallet Import Format):",
+			"paperlabelencryptedkey": "Chave privada criptografada (Senha necessária)",
+			"bulkgeneratingaddresses": "Generando endereços... ",
+			"brainalertpassphrasetooshort": "A senha introduzida é pequena demais.\n\n",
+			"brainalertpassphrasewarning": "Aviso: É importante que escolha uma senha forte, para evitar ataques de força bruta que tentem adivinhar sua senha e roubar seus bitcoins.",
+			"brainalertpassphrasedoesnotmatch": "As senhas digitadas não são iguais.",
+			"detailalertnotvalidprivatekey": "O texto que você digitou não é uma chave privada válida",
+			"detailconfirmsha256": "O texto que você digitou não é uma chave privada válida\n\nQuer usar esse texto como se fosse uma senha e gerar uma chave privada usando um hash SHA256 dessa senha?\n\nAviso: É importante escolher uma senha forte para evitar ataques de força bruta que tentem adivinhá-la e roubar seus bitcoins.",
+			"bip38alertincorrectpassphrase": "Senha incorreta para essa chave privada criptografada.",
+			"bip38alertpassphraserequired": "Senha necessária para a chave BIP38", 
+			"vanityinvalidinputcouldnotcombinekeys": "Entrada inválida. Não foi possível combinar as chaves.",
+			"vanityalertinvalidinputpublickeysmatch": "Entrada inválida. As chaves públicas de ambas entradas são iguais. Você deve inserir duas chaves diferentes.",
+			"vanityalertinvalidinputcannotmultiple": "Entrada inválida. Não é possível multiplicar duas chaves públicas. Clique em 'Somar' para somar duas chaves públicas para adquirir um endereço bitcoin.",
+			"vanityprivatekeyonlyavailable": "Disponível apenas quando se combinam duas chaves privadas",
+			"vanityalertinvalidinputprivatekeysmatch": "Entrada inválida. As chaves privadas de ambas as entradas são iguais. Você deve inserir duas chaves diferentes.",
+
+			// header and menu html
+			"tagline": "Gerador local de carteiras Bitcoin usando Javascript de código aberto",
+			"generatelabelbitcoinaddress": "Gerando endereço Bitcoin...",
+			"generatelabelmovemouse": "Movimente um pouco o ponteiro do mouse para criar entropia...",
+			"generatelabelkeypress": "OU digite alguns caracteres aleatórios nessa caixa de texto",
+			"singlewallet": "Carteira única",
+			"paperwallet": "Carteira em papel",
+			"bulkwallet": "Múltiplos endereços",
+			"brainwallet": "Carteira mental",
+			"vanitywallet": "Carteira personalizada",
+			"splitwallet": "Split Wallet", //TODO: please translate
+			"detailwallet": "Detalhes da carteira",
+
+			// footer html
+			"footerlabeldonations": "Doações:",
+			"footerlabeltranslatedby": "Tradução: 1LwaSNTZ7xAagYKyE68gT5iqX1DmPnmJmy",
+			"footerlabelpgp": "PGP",
+			"footerlabelversion": "Histórico de versões",
+			"footerlabelgithub": "Repositório GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
+			"footerlabelcopyright1": "Copyright bitaddress.org.",
+			"footerlabelcopyright2": "Copyright do código JavaScript: no código-fonte.",
+			"footerlabelnowarranty": "Sem garantia.",
+
+			// single wallet html
+			"newaddress": "Gerar endereço",
+			"singleprint": "Imprimir",
+			"singlelabelbitcoinaddress": "Endereço Bitcoin",
+			"singlelabelprivatekey": "Chave privada (Wallet Import Format):",
+			"singletip1": "<b>Uma carteira Bitcoin</b> é tão simples quanto um simples pareamento de um endereço Bitcoin com a sua chave privada Bitcoin correspondente. Essa carteira foi gerada para você em seu navegador web e está sendo exibida acima.",
+			"singletip2": "<b>Para proteger essa carteira</b> você deve imprimir ou anotar/salvar o endereço Bitcoin e a chave privada. É importante que você faça uma cópia de segurança da sua chave privada e armazene-a em um local seguro. Esse site não toma conhecimento da sua chave privada. Se você for familiar com PGP, você pode baixar essa pagina HTML tudo-em-um e verificar se você tem uma versão autêntica do autor deste site ao fazer a correspondência do hash SHA256 deste HTML com o hash SHA256 disponível na versão assinada do documento linkado no rodapé deste site. Se você sair/atualizar essa página ou apertar o botão Gerar Novo Endereço, então uma nova chave privada será gerada e a chave exibida anteriormente não será recuperável.	A sua chave privada Bitcoin deve ser mantida como um segredo. Qualquer pessoa que tiver acesso a ela poderá gastar todos os seus bitcoins associados com aquele endereço. Se você imprimir sua carteira, armazene-a em um saco plástico selado para mantê-la longe da água. Trate uma carteira em papel como se fosse dinheiro.",
+			"singletip3": "<b>Adicione fundos</b> para essa carteira ao indicar para outras pessoas enviarem bitcoins para o seu endereço Bitcoin.",
+			"singletip4": "<b>Verifique seu saldo</b> visitando os sites blockchain.info ou blockexplorer.com e digitando o seu endereço Bitcoin.",
+			"singletip5": "<b>Gaste seus bitcoins</b> visitando o site blockchain.info e esvaziando completamente o seu saldo de sua chave privada para sua conta no site. Você também pode gastar seus fundos ao baixar um cliente bitcoin p2p popular e importar sua chave privada para a carteira do aplicativo. Tenha em mjente que quando você importa uma chave única para um cliente bitcoin p2p e gasta seus fundos, sua chave será agrupada com outras chavfes privadas no aplicativo de carteira. Quando você realizar uma transação o seu troco será enviado para outro endereço bitcoin dentro do seu aplicativo de carteira. Você deve então fazer backup da sua carteira em seu aplicativo e mantê-la em segurança, visto que seus bitcoins remanescentes agora serão armazenados nela. Um conselho do Satoshi Nakamoto é de que uma carteira nunca deve ser apagada.",
+			"singleshare": "COMPARTILHE", //TODO: please translate
+			"singlesecret": "SECRETA", //TODO: please translate
+
+			// paper wallet html
+			"paperlabelhideart": "Ocultar figura",
+			"paperlabeladdressesperpage": "Endereços por página:",
+			"paperlabeladdressestogenerate": "Total de endereços:",
+			"papergenerate": "Gerar",
+			"paperprint": "Imprimir",
+			"paperlabelBIPpassphrase": "Senha:",
+			"paperlabelencrypt": "Criptografar em BIP38?",
+
+			// bulk wallet html
+			"bulklabelstartindex": "Começar em:",
+			"bulklabelrowstogenerate": "Linhas a gerar:",
+			"bulklabelcompressed": "Endereços comprimidos?",
+			"bulkgenerate": "Gerar",
+			"bulkprint": "Imprimir",
+			"bulklabelcsv": "Valores separados por vírgula:",
+			"bulklabelformat": "Índice,Dirección,Clave privada (formato para importar)",
+			"bulklabelq1": "¿Por qué debo usar \"Direcciones en masa\" para aceptar Bitcoins en mi web?",
+			"bulka1": "La forma tradicional de aceptar bitcoins en tu web requiere tener instalado el cliente oficial de bitcoin (\"bitcoind\"). Sin embargo muchos servicios de hosting no permiten instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves privadas están también en el servidor y podrían ser comprometidas en caso de intrusión. Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin y no las claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si se cuelan en el servidor.",
+			"bulklabelq2": "¿Cómo uso \"Direcciones en masa\" para aceptar bitcoins en mi web?",
+			"bulklabela2li1": "Usa el tab \"Direcciones en masa\" para generar por anticipado muchas direcciones (más de 10000). Copia y pega la lista de valores separados por comas (CSV) a un archivo de texto seguro (cifrado) en tu ordenador. Guarda una copia de seguridad en algún lugar seguro.",
+			"bulklabela2li2": "Importa las direcciones en la base de datos de tu servidor. No subas la cartera ni las claves públicas, o de lo contrario te lo pueden robar. Sube sólo las direcciones, ya que es lo que se va a mostrar a los clientes.",
+			"bulklabela2li3": "Ofrece una alternativa en el carro de la compra de tu web para que los clientes paguen con Bitcoin. Cuando el cliente elija pagar con Bitcoin, les muestras una de las direcciones de la base de datos como su \"dirección de pago\" y guardas esto junto con el pedido.",
+			"bulklabela2li4": "Ahora te hace falta recibir una notificación del pago. Busca en google \"notificación de pagos bitcoin\" (o \"bitcoin payment notification\" en inglés) y suscríbete a alguno de los servicios que aparezcan. Hay varios de ellos, que te pueden notificar vía Web services, API, SMS, email, etc. Una vez te llegue la notificación, lo cual puede ser automatizado, entonces ya puedes procesar el pedido. Para comprobar a mano si has recibido un pago, puedes usar Block Explorer: reemplaza DIRECCION a continuación por la dirección que estés comprobando. La transacción puede tardar entre 10 minutos y una hora en ser confirmada. <br />http://www.blockexplorer.com/address/DIRECCION<br /><br />Puedes ver las transacciones sin confirmar en: http://blockchain.info/ <br />Las transacciones sin confirmar suelen aparecer ahí en unos 30 segundos.",
+			"bulklabela2li5": "Las bitcoins que recibas se almacenarán de forma segura en la cadena de bloques. Usa la cartera original que generaste en el paso 1 para usarlas.",
+
+			// brain wallet html
+			"brainlabelenterpassphrase": "Senha:",
+			"brainlabelshow": "Mostrar",
+			"brainprint": "Imprimir",
+			"brainlabelconfirm": "Confirmar senha:",
+			"brainview": "Ver",
+			"brainalgorithm": "Algoritmo: SHA256(senha)",
+			"brainlabelbitcoinaddress": "Enderçeo Bitcoin:",
+			"brainlabelprivatekey": "Chave privada (Wallet Import Format):",
+
+			// vanity wallet html
+			"vanitylabelstep1": "Passo 1 - Gere seu par de chaves",
+			"vanitynewkeypair": "Gerar",
+			"vanitylabelstep1publickey": "Chave pública:",
+			"vanitylabelstep1pubnotes": "Copie e cole a linha acima no campo \"Your-Part-Public-Key\" presente no site do Vanity Pool.",
+			"vanitylabelstep1privatekey": "Chave privada:",
+			"vanitylabelstep1privnotes": "Copie e cole a chave privada acima em um arquivo de texto. Idealmente salve em um disco criptografado. Ela será necessária para recuperar a chave privada assim que a Vanity Pool encontrar o seu prefixo.",
+			"vanitylabelstep2calculateyourvanitywallet": "Passo 2 - Calcule sua carteira Vanity",
+			"vanitylabelenteryourpart": "Introduza a chave privada gerada no passo 1 acima, e que você já tem guardada:",
+			"vanitylabelenteryourpoolpart": "Introduza a chave privada obtida no Vanity Pool:",
+			"vanitylabelnote1": "[NOTA: essa caixa de texto pode aceitar uma chave pública ou privada]",
+			"vanitylabelnote2": "[NOTA: essa caixa de texto pode aceitar uma chave pública ou privada]",
+			"vanitylabelradioadd": "Adicionar",
+			"vanitylabelradiomultiply": "Multiplicar",
+			"vanitycalc": "Calcular carteira personalizada",
+			"vanitylabelbitcoinaddress": "Endereço Bitcoin Vanity:",
+			"vanitylabelnotesbitcoinaddress": "Esse é o seu novo endereço, que deveria conter o seu prefixo exigido.",
+			"vanitylabelpublickeyhex": "Chave pública Vanity (HEX):",
+			"vanitylabelnotespublickeyhex": "Essa é a sua chave pública em formato hexadecimal.",
+			"vanitylabelprivatekey": "Chave privada Vanity (WIF):",
+			"vanitylabelnotesprivatekey": "Essa é a chave privada para introduzir em sua carteira.",
+
+			// detail wallet html
+			"detaillabelenterprivatekey": "Insira sua chave privada",
+			"detailkeyformats": "Formatos de chave: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
+			"detailview": "Ver detalhes",
+			"detailprint": "Imprimir",
+			"detaillabelnote1": "Sua chave privada é um número secreto, único, que somente você tem acesso. Ela pode ser expressa em vários formatos. Abaixo mostramos o endereço e a chave pública que correspondem à sua chave privada, assim como a chave privada nos formatos mais conhecidos (WIF, hex, base64 y mini).",
+			"detaillabelnote2": "As versões do Bitcoin acima da v0.6+ armazenam as chaves públicas comprimidas. O cliente também suporta a importação/exportação de chaves privadas usando importprivkey/dumpprivkey. O formato das chaves privadas exportadas depende se o endereço foi gerado em uma carteira antiga ou nova.",
+			"detaillabelbitcoinaddress": "Endereço Bitcoin:",
+			"detaillabelbitcoinaddresscomp": "Endereço Bitcoin (comprimido):",
+			"detaillabelpublickey": "Chave pública (130 caracteres [0-9A-F]):",
+			"detaillabelpublickeycomp": "Chave pública (comprimida, 66 caracteres [0-9A-F]):",
+			"detaillabelprivwif": "Chave privada para importação (51 caracteres em base58, inicia com um",
+			"detaillabelprivwifcomp": "Chave privada para importação  (comprimida, 52 caracteres em base58, inicia com",
+			"detailcompwifprefix": "'K' o 'L'",
+			"detaillabelprivhex": "Chave privada em formato hexadecimal (64 caracteres [0-9A-F]):",
+			"detaillabelprivb64": "Chave privada em base64 (44 caracteres):",
+			"detaillabelprivmini": "Chave privada en formato mini (22, 26 ou 30 caracteres, inicia com 'S'):",
+			"detaillabelpassphrase": "Senha BIP38",
+			"detaildecrypt": "Desencriptar BIP38",
+			"detaillabelq1": "Como eu faço uma carteira usando um dado? O que é B6?",
+			"detaila1": "Uma parte importante ao criar um carteira Bitcoin é se assegurar que os números aleatórios usados para criar a carteira sejam realmente aleatórios. A aleatoriedade física é melhor do que a pseudo-aleatoriedade gerada por computador. A maneira mais fácil de gerar aleatoriedade física é com dados. Para criar um chave privada Bitcoin você precisa de apenas um dado de seis lados, o qual você jogará 99 vezes. A cada jogada, anote o valor do dado. Ao anotar os valores, siga as seguintes regras: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Ao fazer isso, você está anotando esse grande número aleatório, sua chave privada, no formato base 6 (B6). Você pode então digitar essa chave privada em base 6 contendo 99 caracteres no campo de texto acima e clicar em Ver Detalhes. Você então verá o endereço Bitcoin associado com sua chave privada. Você deve também anotar sua chave privada no formato WIF, já que ele é mais amplamente utilizado."
+		},
+
+		"zh-cn": {	
+			// javascript alerts or messages
+			"testneteditionactivated": "TESTNET EDITION ACTIVATED",
+			"paperlabelbitcoinaddress": "比特币地址",
+			"paperlabelprivatekey": "私钥 (WIF格式)",
+			"paperlabelencryptedkey": "加密私钥(需要密码)",
+			"bulkgeneratingaddresses": "创建地址中...",
+			"brainalertpassphrasetooshort": "这个密码太短了 \n\n",
+			"brainalertpassphrasewarning": "警告：选择一个足够强大的口令非常重要，它可以避免你的私钥被暴力破解。 此外，UTF-8编码有效。请注意区分全角/半角",
+			"brainalertpassphrasedoesnotmatch": "两次输入的口令不一致",
+			"detailalertnotvalidprivatekey": "输入的私钥无效",
+			"detailconfirmsha256": "你输入的不是合法的私钥，\n\n你想用它的SHA-256值当作私钥吗（相当于脑钱包）\n\n警告：选择一个足够强大的口令非常重要，它可以避免你的私钥被暴力破解。",
+			"bip38alertincorrectpassphrase": "这个加密私钥的密码不正确。",
+			"bip38alertpassphraserequired": "BIP38加密的私钥需要密码。",
+			"vanityinvalidinputcouldnotcombinekeys": "错误输入，这两个Key无法合成。",
+			"vanityalertinvalidinputpublickeysmatch": "错误输入，请使用不同的公钥。",
+			"vanityalertinvalidinputcannotmultiple": "错误，两个公钥不能进行乘运算，想要检查两个公钥合成的地址，请选择加运算。",
+			"vanityprivatekeyonlyavailable": "使用两个私钥合成，才会得到合成私钥。",
+			"vanityalertinvalidinputprivatekeysmatch": "错误输入，请使用不同的私钥。",
+
+			// header and menu html
+			"tagline": "开源JavaScript比特币钱包工具",
+			"generatelabelbitcoinaddress": "地址生成中...",
+			"generatelabelmovemouse": "请移动鼠标产生随机种子...",
+			"generatelabelkeypress": "或者在文本框中输入随机字符",
+			"singlewallet": "普通钱包",
+			"paperwallet": "纸钱包",
+			"bulkwallet": "批量钱包",
+			"brainwallet": "脑钱包",
+			"vanitywallet": "虚荣钱包",
+			"splitwallet": "分裂钱包",
+			"detailwallet": "钱包详情",
+
+			// footer html
+			"footerlabeldonations": "项目捐赠",
+			"footerlabeltranslatedby": "简中翻译捐赠 1BfXayW2vrj6uRpoZg3nR8rMEckLpGmaiL",
+			"footerlabelpgp": "PGP",
+			"footerlabelversion": "版本历史",
+			"footerlabelgithub": "GitHub页面",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
+			"footerlabelcopyright1": "Copyright bitaddress.org.",
+			"footerlabelcopyright2": "JavaScript的版权信息已经包含在源代码中。",
+			"footerlabelnowarranty": "No warranty",
+
+			// single wallet html
+			"newaddress": "生成新地址",
+			"singleprint": "打印",
+			"singlelabelbitcoinaddress": "比特币地址",
+			"singlelabelprivatekey": "私钥 (WIF格式-可导入客户端的格式)",
+			"singletip1": "<b>比特币钱包</b>就是这么简单，一个地址，对应一个私钥，浏览器已自动生成了一个，就显示在上面。私钥必须保密，地址可以公开。",
+			"singletip2": "<b>妥善保管你的钱包</b> 为了保护你的钱包，建议你用打印或者其他方式来保管你的私钥和地址。把你的私钥备份保存在安全、保密的位置是必要的。本站不提供私钥的相关知识，请自行学习。如果你熟悉PGP，你也可以下载这个HTML文件（它是单文件全功能的），用它的SHA256摘要和作者在本站页脚留下的相比对。本工具支持离线使用，这样它生成的私钥-地址就很难被监视了。比特币私钥必须保密，任何知道你私钥的人都可以随意花费其对应地址的比特币。你可以打印你的钱包（即纸钱包），把它装进一个防水的口袋里——就像你在保管纸币一样。",
+			"singletip3": "<b>获得比特币: </b> 让别人往你的地址汇入比特币。",
+			"singletip4": "<b>查询余额：</b> 访问blockchain.info或者blockexplorer.com可以查看到任何地址中的比特币余额。",
+			"singletip5": "<b>花费比特币：</b> 你可以下载比特币客户端，或者访问blockchain.info之类的在线钱包网站，导入你的比特币私钥来花费对应地址上的比特币。如果你选择了客户端，每当你发送一笔钱之后，找零有可能会发回客户端生成的另外一个地址，记得备份客户端生成的钱包文件，否则你可能丢钱。比特币作者中本聪说过，不要删除任何钱包，因为你的亲戚朋友说不定还会往你的旧地址里汇款。",
+
+			// paper wallet html
+			"paperlabelhideart": "隐藏背景图案",
+			"paperlabeladdressesperpage": "每张纸上打印的地址数",
+			"paperlabeladdressestogenerate": "生成的地址数",
+			"papergenerate": "生成",
+			"paperprint": "打印",
+			"paperlabelBIPpassphrase": "密码",
+			"paperlabelencrypt": "BIP38加密？",
+
+			// bulk wallet html
+			"bulklabelstartindex": "起始编号",
+			"bulklabelrowstogenerate": "生成行数",
+			"bulklabelcompressed": "生成压缩地址？",
+			"bulkgenerate": "生成",
+			"bulkprint": "打印",
+			"bulklabelcsv": "逗号分隔值：",
+			"bulklabelformat": "编号,地址,私钥(WIF格式)",
+			"bulklabelq1": "什么时候我会需要批量钱包？",
+			"bulka1": "例如，当你建设一个比特币收款网站，需要分别为每一个用户准备一个收款地址时，传统的做法是使用比特币客户端“bitcoind”生成大量的地址，但是不一定所有的网站托管都支持它。另外，你在服务器上运行比特币客户端，也就意味着你的私钥也会保存在服务器上，当骇客攻破服务器时，你的比特币可能会被盗。使用批量钱包一次生成大量的钱包，只把生成的地址放在服务器上，即使服务器被攻破，也不必担心比特币的安全。",
+			"bulklabelq2": "我该怎样在我的网站上使用批量钱包接受比特币？",
+			"bulklabela2li1": "    在批量钱包选项卡预生成大量比特币地址（比如，一万个）。把生成的逗号分隔值清单（CSV）复制到一个安全的环境中，注意备份。",
+			"bulklabela2li2": "    把地址列表导入到Web服务器上（注意，<b>不要</b>把私钥部分也一并导入，否则会有被盗的危险）",
+			"bulklabela2li3": "    为你的客户提供一个比特币支付的接口。每当一名客户选择使用比特币支付，你就从你的数据库中提取一个地址，作为该客户专用的“付款地址”，并保存订单信息。",
+			"bulklabela2li4": "接下来你需要一个收款通知，联系相关服务的供应商（谷歌搜索“bitcoin payment notification”），它们可以监视指定地址的资金变动，并通过WebAPI、短信、电邮或者其他方式来提醒你，你也可以通过编程使一切自动化。在http://www.blockexplorer.com/address/地址 或者 https://blockchain.info/address/地址 查看交易确认数。通常情况下，你能够在30秒之内看见交易，而根据你对安全的要求不同，你可能需要10分钟到1小时的时间等待交易确认。",
+			"bulklabela2li5": "比特币在区块链上稳定之后，你就可以使用在第一步中生成的私钥来花费它们。",
+
+			// brain wallet html
+			"brainlabelenterpassphrase": "口令",
+			"brainlabelshow": "显示口令？",
+			"brainprint": "打印",
+			"brainlabelconfirm": "口令确认",
+			"brainview": "生成脑钱包",
+			"brainalgorithm": "算法： SHA256 (口令)",
+			"brainlabelbitcoinaddress": "比特币地址",
+			"brainlabelprivatekey": "私钥(WIF格式)",
+
+			// vanity wallet html
+			"vanitylabelstep1": "第一步，生成一对公-私钥",
+			"vanitynewkeypair": "生成",
+			"vanitylabelstep1publickey": "第一步-公钥",
+			"vanitylabelstep1pubnotes": "委托他人替你生成虚荣地址时，将这段公钥提供给受托人。受托人生成你需要的虚荣地址后，可能会给你另一个公钥，将这两个公钥合成，你可验证是否得到了你所需的虚荣地址。",
+			"vanitylabelstep1privatekey": "第一步-私钥",
+			"vanitylabelstep1privnotes": "妥善保管这段私钥，建议严格加密。受托人为你生成虚荣地址后，将交给你另一个私钥（不保密也没关系），将这两个私钥合成，你即获得你所需的虚荣地址及其私钥。",
+			"vanitylabelstep2calculateyourvanitywallet": "第二步-合成虚荣地址",
+			"vanitylabelenteryourpart": "这里输入你的第一步-私钥（或公钥）",
+			"vanitylabelenteryourpoolpart": "这里输入你从受托人那里获得的私钥（或公钥）",
+			"vanitylabelnote1": "[注：这个文本框可以接受一个私钥或公钥，压缩非压缩均可]",
+			"vanitylabelnote2": "[注：这个文本框可以接受一个私钥或公钥，压缩非压缩均可]",
+			"vanitylabelradioadd": "加运算",
+			"vanitylabelradiomultiply": "乘运算（仅适合私钥）",
+			"vanitycalc": "合成",
+			"vanitylabelbitcoinaddress": "虚荣地址-合成地址",
+			"vanitylabelnotesbitcoinaddress": "这是合成的虚荣地址，它应当满足你的委托。",
+			"vanitylabelpublickeyhex": "合成公钥(16进制)",
+			"vanitylabelnotespublickeyhex": "用16进制表示的合成公钥。",
+			"vanitylabelprivatekey": "合成私钥(WIF格式)",
+			"vanitylabelnotesprivatekey": "上面虚荣地址对应的私钥，即你的虚荣私钥，请妥善保管，可导入钱包。",
+
+			// split wallet html
+			"splitlabelthreshold": "组合私钥时，需要的最少分裂私钥的份数（区间[2,127]）",
+			"splitlabelshares": "分裂的总份数（[2,127]）",
+			"splitview": "制造分裂私钥",
+			"combinelabelentershares":"输入找到的分裂私钥（空格分隔）",
+			"combineview": "组合它们",
+			"combinelabelprivatekey": "组合后的私钥",
+
+			// detail wallet html
+			"detaillabelenterprivatekey": "钱包详情",
+			"detailkeyformats": "接受下列格式：WIF, WIFC, HEX, B64, B6, MINI, BIP38",
+			"detailview": "显示详情",
+			"detailprint": "打印",
+			"detaillabelnote1": "比特币私钥应当是只有你知道的保密代码，这段代码有许多种不同的编码格式。下面会给出此私钥对应的地址、公钥，以及最流行的私钥编码格式(WIF, WIFC, HEX, B64, MINI)",
+			"detaillabelnote2": "Bitcoin v0.6+ 存储压缩格式的公钥。现在客户端支持导入/导出私钥，命令是importprivkey/dumpprivkey，导出的格式可能因钱包文件版本而不同。",
+			"detaillabelbitcoinaddress": "比特币地址",
+			"detaillabelbitcoinaddresscomp": "比特币地址(压缩格式)",
+			"detaillabelpublickey": "公钥 (130位[0-9A-F]字符)",
+			"detaillabelpublickeycomp": "公钥 (压缩格式，66位[0-9A-F]字符)",
+			"detaillabelprivwif": "私钥 (WIF格式)<br />(51位base58字符) ",
+			"detaillabelprivwifcomp": "私钥 (WIF格式)<br />(压缩格式，52位base58字符) ",
+			"detailwifprefix": "'5'开头",
+			"detailcompwifprefix": "'K'或'L'开头",
+			"detaillabelprivhex": "私钥(16进制) (64位[0-9A-F]字符)",
+			"detaillabelprivb64": "私钥(base64) (44位)",
+			"detaillabelpassphrase": "输入BIP38的口令",
+			"detaildecrypt": "BIP38解码",
+			"detaillabelq1": "怎样用骰子生成私钥？B6是什么意思？",
+			"detaila1": "真正用随机数产生的钱包才是好钱包。物理产生的随机数可能会比计算机产生的随机数更优越（计算机的伪随机算法可能被识破，但是物理随机不太可能）。生成物理随机的最简单的办法是使用骰子，掷一枚六面骰99次，记录结果，将结果“6”记为“0”（或者将所有结果-1记录），这样你得到的记录将会是由0 1 2 3 4 5 组成的一串数字，称为“Base6格式”，简称“B6”。将它输入上面的文本框，点击“显示详情”按钮，得到你的私钥、地址。",
+		},
+
+        "ru": {
+            // javascript alerts or messages
+            "testneteditionactivated": "Активирован режим TESTNET",
+            "paperlabelbitcoinaddress": "Адрес Bitcoin кошелька:",
+            "paperlabelprivatekey": "Приватный Ключ (в формате для импорта):",
+            "paperlabelencryptedkey": "Зашифрованный Приватный Ключ (требуется пароль)",
+            "bulkgeneratingaddresses": "Генерация адресов... ",
+            "brainalertpassphrasetooshort": "Введенная парольная фраза слишком коротка.\n\n",
+            "brainalertpassphrasewarning": "Предупреждение: Очень важно выбрать сложную парольную фразу, чтобы было невозможно угадать ее методом грубого перебора и украсть ваши биткоины.",
+            "brainalertpassphrasedoesnotmatch": "Парольная фраза и ее подтверждение не совпадают.",
+            "detailalertnotvalidprivatekey": "Введенный текст не является корректным приватным ключем",
+            "detailconfirmsha256": "Введенный текст не является корректным приватным ключем!\n\nВы хотите использовать введенный текст в качестве парольной фразы и создать Приватный Ключ используя SHA256 для хеширования парольной фразы?\n\nПредупреждение: Очень важно выбрать сложную парольную фразу, чтобы было невозможно угадать ее методом грубого перебора и украсть ваши биткоины.",
+            "bip38alertincorrectpassphrase": "Введена некорректная парольная фраза для этого зашифрованного приватного ключа.",
+            "bip38alertpassphraserequired": "Парольная фраза необходима для ключа BIP38",
+            "vanityinvalidinputcouldnotcombinekeys": "Некорректный ввод. Не удалось объединить ключи.",
+            "vanityalertinvalidinputpublickeysmatch": "Некорректный ввод. Обе записи имеют одинаковый публичный ключ. Введите два разных публичных ключа.",
+            "vanityalertinvalidinputcannotmultiple": "Некорректный ввод. Невозможно объединить два публичных ключа. Выберите 'Добавить', чтобы добавить два публичных ключа для получения биткоин адреса.",
+            "vanityprivatekeyonlyavailable": "Доступно только при объединении двух приватных ключей",
+            "vanityalertinvalidinputprivatekeysmatch": "Некорректный ввод. Обе записи имеют одинаковый приватный ключ. Введите два разных приватных ключа.",
+
+            // header and menu html
+            "tagline": "JavaScript генератор Биткоин кошельков на стороне клиента с открытым исходным кодом",
+            "generatelabelbitcoinaddress": "Генерация Биткоин адреса...",
+            "generatelabelmovemouse": "Двигайте указателем мыши по экрану для добавления случайности...",
+            "generatelabelkeypress": "ИЛИ введите несколько случайных символов в это текстовое поле",
+            "singlewallet": "Один кошелек",
+            "paperwallet": "Бумажный кошелек",
+            "bulkwallet": "Несколько кошельков",
+            "brainwallet": "Умный кошелек",
+            "vanitywallet": "Персональный кошелек",
+            "splitwallet": "Split Wallet", //TODO: please translate
+            "detailwallet": "Детали кошелька",
+
+            // footer html
+            "footerlabeldonations": "Пожертвования:",
+            "footerlabeltranslatedby": "Перевод: 1JGnkKH7gJhTyAz9r47nugFM8sdrUENpJi",
+            "footerlabelpgp": "PGP ключ",
+            "footerlabelversion": "История версий",
+            "footerlabelgithub": "Проект на GitHub",
+			"footerlabelgithubzip": "zip",
+			"footerlabelsig": "sig",
+            "footerlabelcopyright1": "Копирайт bitaddress.org.",
+            "footerlabelcopyright2": "Информация о копирайте на JavaScript в исходниках.",
+            "footerlabelnowarranty": "Без гарантий.",
+
+            // single wallet html
+            "newaddress": "Сгенерировать новый адрес",
+            "singleprint": "Распечатать",
+            "singlelabelbitcoinaddress": "Адрес Биткоин кошелька",
+            "singlelabelprivatekey": "Приватный Ключ (в формате для импорта)",
+            "singletip1": "<b>Биткоин кошелек</b> это простая пара идентификаторов, состоящая из адреса Биткоин кошелька и соответствующего ему приватного ключа. Такой колшелек был сгенерирован для Вас в Вашем браузере и отображен выше.",
+            "singletip2": "<b>Для обеспечения сохранности этого кошелька</b> Вам необходимо распечатать или каким-либо другим спобом записать Биткоин адрес и приватный ключ. Очень важно иметь запасную копию приватного ключа и хранить ее в безопасном месте. Этот сайт не хранит информацию о Вашем ключе. Если Вы имеете опыт работы с PGP, то Вы можете сохранить эту HTML страницу в формате архива и проверить то, что Вы используете подлинную версию страницы от автора сайта, сравнив SHA256 хэш этой HTML страницы с SHA256 хэшем указанным истории версий данной страницы, которая подписана ключем автора сайта. Данную ифнормацию можно найти внизу страницы. Если Вы покинете или обновите страницу с сайтом или нажмете кнопку 'Сгенерировать новый адрес', то будет сгенерирован новый приватный ключ и предыдущий приватный ключ восстановить будет невозможно. Ваш приватный ключ Биткоин кошелька должен храниться в секрете. С кем бы Вы не поделились информацией о приватном ключе - он будет иметь возможность потратить Биткоины кошелька с этим адресом. Если вы распечатали приватный ключ - необходимо обеспечить его сохранность в месте, недоступном для воды. Обращайтесь с бумажным кошельком для Биткоинов как с наличными деньгами.",
+            "singletip3": "<b>Пополните кошелек</b> сообщив другим свой Биткоин адрес.",
+            "singletip4": "<b>Проверить баланс кошелька</b> можно на сайте blockchain.info or blockexplorer.com по адресу Биткоин кошелька.",
+            "singletip5": "<b>Потратить Ваши биткоины</b> можно на сайте blockchain.info переведя все средства соответсвующие приватному ключу на аккаунт этого сайта. Также Вы можете потратить биткоины загрузив один из наиболее популярных Биткоин p2p-клиентов и выполнив импорт Вашего приватного ключа. Необходимо учесть, что когда Вы импортируете свой один приватный ключ в программу-клиент и тратите биткоины - Ваш ключ смешан с другими приватными ключами в программе-клиенте. При выполнении транзакции по расходу или получению средств, сдача будет перенаправлена на другой Биткоин адрес программного кошелька.После выполнения транзации необходимо сделать резервную копию Вашего программного кошелька и сохранить ее в надежном месте, так как на нем будут сожержаться оставшиеся средства. Сатоши рекомендует никогда не удалять кошелек.",
+            "singleshare": "Поделиться",
+            "singlesecret": "Хранить в секрете",
+
+            // paper wallet html
+            "paperlabelhideart": "Без дизайна",
+            "paperlabeladdressesperpage": "Адресов на страницу:",
+            "papergenerate": "Сгенерировать",
+            "paperprint": "Распечатать",
+            "paperlabelBIPpassphrase": "Парольная фраза:",
+            "paperlabelencrypt": "Шифрование BIP38?",
+
+            // bulk wallet html
+            "bulklabelstartindex": "Стартовый индекс:",
+            "bulklabelrowstogenerate": "Количество кошельков:",
+            "bulklabelcompressed": "Короткие адреса?",
+            "bulkgenerate": "Сгенерировать",
+            "bulkprint": "Распечатать",
+            "bulklabelcsv": "Значения разделенные запятой:",
+            "bulklabelformat": "Порядковый номер, Адрес, Приватный Ключ (импорт)",
+            "bulklabelq1": "Почему нужно использовать несколько кошельков, чтобы принимать биткоины на Вашем сайте?",
+            "bulka1": "Традиционный подход к приему биткоинов на Вашем сайте - это установка оффициального демона клиента Биткоин ('bitcoind'). Большинство хостингов для вебсайтов не поддерживают установку демона Биткоин. Также, запуск демона клиента Биткоин на Вашем веб-сервере означает, что Вы храните приватные ключи на этом сервере и они могут быть украдены, если Ваш веб-сервер подвергнется взлому. При использовании нескольких кошельков Вы можете выгрузить только адреса Биткоин на Ваш сервер, в то время как приватные ключи останутся в секрете. В этом случае Вам не следует беспокоиться того, что Ваш веб-сервер будет взломан и биткоин кошелек будет украден.",
+            "bulklabelq2": "Как использовать несколько кошельков, чтобы принимать биткоины на Вашем сайте?",
+            "bulklabela2li1": "Используйте вкладку 'Несколько кошельков', для того чтобы сгенерировать большое количество адресов Биткоин (10.000+). Скопируйте и вставьте сгенерированные идентификаторы в виде списка (в формате CSV) в секретный файл на вашем компьютере. Сделайте резервную копию созданного файла и сохраните ее в надежном месте. ",
+            "bulklabela2li2": "Импортируйте биткоин адреса в базу данных или иное хранилище Вашего веб-сервера. (Не размещайте приватные ключи кошелька на Вашем веб-сервере, в противном случае Вы рискуете потерять свои биткоины. Своим клиентам Вам достаточно предоставить Биткоин адрес.)",
+            "bulklabela2li3": "Добавьте опцию для оплаты заказа из корзины Вашего клиента для оплаты Биткоинами. Если клиент выбирает оплату Биткоинами - предоставьте ему информацию о Биткоин адресе для приема оплаты, который будет закреплен за этим клиентом и сохраните соответствующим образом заказ.",
+            "bulklabela2li4": "Вам необходимо получать информацию о получении оплаты. Загуглите 'нотификации об оплате биткоинами' и подпишитесь на какой-нибудь сервис нотификаций. В интернете можно найти множество сервисов дял получения нотификаций через веб-сервисы, api, смс, электронную почту и т.д. Как только Вы получите нотификацию об оплате, которую можно обрабатывать в автоматическом режиме, Вы можете приступить к подготовке заказа для Вашего клиента. Чтобы вручную проверить статус оплаты воспользуйтесь сервисом Block Explorer. Заменить АДРЕС на Ваш адрес Биткоин, который Вы хотите проверить. Подтверждение транзакции оплаты может занимать от 10 минут до одного часа. http://www.blockexplorer.com/address/АДРЕС\n\nНеподтвержденные транзации оплаты можно посмотреть на: http://blockchain.info/\nНеподтвержденная транзакция будет отображаться через 30 секунд.",
+            "bulklabela2li5": "Биткоины накапливаются в цепочке блоков. Используйте оригинальный файл сгенерированный на 1 шаге, чтобы потратить их.",
+
+            // brain wallet html
+            "brainlabelenterpassphrase": "Парольная фраза:",
+            "brainlabelshow": "Показать?",
+            "brainprint": "Распечатать",
+            "brainlabelconfirm": "Подтверждение парольной фразы:",
+            "brainview": "Просмотр",
+            "brainalgorithm": "Алгоритм SHA256(парольная фраза)",
+            "brainlabelbitcoinaddress": "Адрес Биткоин кошелька:",
+            "brainlabelprivatekey": "Приватный ключ (в формате импорта):",
+
+            // vanity wallet html
+            "vanitylabelstep1": "Шаг 1 - Сгенерируйте Ваш приватный ключ первого шага",
+            "vanitynewkeypair": "Сгенерировать",
+            "vanitylabelstep1publickey": "Шаг 1 Публичный Ключ:",
+            "vanitylabelstep1pubnotes": "Скопируйте и вставьте это значение в поле Вашей части публичного ключа на сайте пула для генерации адресов.",
+            "vanitylabelstep1privatekey": "Шаг 1 Приватный Ключ:",
+            "vanitylabelstep1privnotes": "Скопируйте и вставьте приватный ключ в файл. В идеале необходимо сохранить его на зашифрованный диск. Вам будет нужен приватный ключ после того, как пул найдет интересующий Вас префикс адреса.",
+            "vanitylabelstep2calculateyourvanitywallet": "Шаг 2 - Вычисление Вашего персонального кошелька",
+            "vanitylabelenteryourpart": "Введите Вашу часть приватного ключа (сгенерированного и сохраненного на шаге 1):",
+            "vanitylabelenteryourpoolpart": "Введите часть приватного ключа пула (предоставляется пулом):",
+            "vanitylabelnote1": "Это поле для публичного или приватного ключа",
+            "vanitylabelnote2": "Это поле для публичного или приватного ключа",
+            "vanitylabelradioadd": "Сложить",
+            "vanitylabelradiomultiply": "Перемножить",
+            "vanitycalc": "Вычислить адрес кошелька",
+            "vanitylabelbitcoinaddress": "Адрес Биткоин кошелька:",
+            "vanitylabelnotesbitcoinaddress": "Это Ваш новый адрес с префиксом.",
+            "vanitylabelpublickeyhex": "Публичный ключ (в формате HEX):",
+            "vanitylabelnotespublickeyhex": "Это публичный ключ в формате hex.",
+            "vanitylabelprivatekey": "Приватный ключ (в формате импорта):",
+            "vanitylabelnotesprivatekey": "Это Ваш приватный ключ для импорта в другой кошелек.",
+
+            // detail wallet html
+            "detaillabelenterprivatekey": "Введите Приватный Ключ",
+            "detailkeyformats": "Форматы ключа: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
+            "detailview": "Детальная информация",
+            "detailprint": "Распечатать",
+            "detaillabelnote1": "Ваш Приватный Ключ - это секретная информация, которую знаете только Вы. Этот ключ можно закодировать несколькими способами. Ниже вы видите адрес Биткоин и публичный ключ, которые соответствуют Вашему приватному ключу, если Ваш приватный ключ в одном из популярных форматов (WIF, WIFC, HEX, B64, MINI)",
+            "detaillabelnote2": "Приложение Bitcoin версии 0.6 и выше хранит ключи в сжатом формате. Это приложение также поддерживает импорт и экспорт приватных ключей командами importprivkey/dumpprivkey. Формат экспортированного ключа определяется кошельком, который сгенерировал адрес Биткоин.",
+            "detaillabelbitcoinaddress": "Адрес Биткоин кошелька",
+            "detaillabelbitcoinaddresscomp": "Короткий адрес Биткоин кошелька",
+            "detaillabelpublickey": "Публичный ключ (130 символов [0-9A-F]):",
+            "detaillabelpublickeycomp": "Публичный ключ (короткий, 66 символов [0-9A-F]):",
+            "detaillabelprivwif": "Приватный ключ (в формате импорта), 51 символ base58, начинается с '5'",
+            "detaillabelprivwifcomp" : "Приватный ключ, короткий, 52 символа base58, начинается с",
+            "detailcompwifprefix": "'K' или 'L'",
+            "detaillabelprivhex": "Приватный Ключ в HEX формате (64 символа [0-9A-F]):",
+            "detaillabelprivb64": "Приватный Ключ в Base64 формате (44 символа):",
+            "detaillabelprivmini": "Приватный Ключ в формате мини (22, 26 или 30 символов, начинается с 'S'):",
+            "detaillabelpassphrase": "Парольная фраза BIP38",
+            "detaildecrypt": "Расшифровать BIP38",
+            "detaillabelq1": "Как сделать кошелек используя игральный кости? Что такое B6?",
+            "detaila1": "Очень важно понимать, что при генерации биткоин кошелька используются действительно случайные числа. Физическая случайность лучше компьютерной псевдо-случайности. Самым простым способом генерации физической случайности является игральная кость. Для генерации Приватного Ключа Биткоин кошелька Вам нужна игральная кость с шестью сторонами, которую необходимо бросить 99 раз. Необходимо записать каждую цифру, выпавшую на игральной кости. Итоговый результат необходимо записать в таком виде: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Таким образом Вы запишите большое случайное число - Ваш Приватный Ключ, в формате B6 или Base6. После этого Вы можете ввести 99 символов приватного ключа в формате Base6 в текстовое поле вверху страницы и получить детальную информацию о кошельке. После этого Вы сможете увидеть адрес Биткоин кошелька соответствующий полученному приватному ключу. Вам потребуется сделать запись приватного ключа в формате для импорта, так как он наиболее часто используется."
+        }
 	}
 };
 

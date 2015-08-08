@@ -1,4 +1,8 @@
 ninja.wallets.detailwallet = {
+    isOpen: function () {
+        return (document.getElementById("detailwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("detailarea").style.display = "block";
 		document.getElementById("detailprivkey").focus();
@@ -37,7 +41,7 @@ ninja.wallets.detailwallet = {
 				document.getElementById("detailprivkeypassphrase").focus();
 				return;
 			}
-			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
 			if (passphrase == "") {
 				alert(ninja.translator.get("bip38alertpassphraserequired"));
 				return;
