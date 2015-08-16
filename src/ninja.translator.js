@@ -124,6 +124,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 			"footerlabelnowarranty": "Sin garantía.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Generar dirección",
 			"singleprint": "Imprimir",
@@ -262,7 +284,29 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 			"footerlabelnowarranty": "Aucune garantie.",
-			
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Générer Une Nouvelle Adresse",
 			"singleprint": "Imprimer",
@@ -275,7 +319,6 @@ ninja.translator = {
 			"singletip5": "Pour dépenser vos bitcoins, allez sur blockchain.info et transférez l'ensemble des fonds de votre adresse privée vers le compte de ce site. Vous pouvez, aussi, dépenser vos fonds en téléchargeant un des programmes P2P bitcoin populaires et en y important votre clé privée dans un porte-monnaie P2P. Gardez à l'esprit que quand vous importez votre clé privée dans le programme P2P bitcoin et que vous dépensez vos fonds, votre clé privée sera intégrée avec d'autres clés privées dans le porte-monnaie P2P. Quand vous effectuez une transaction, le changement sera envoyé sur une autre adresse bitcoin privée à l'intérieur du porte-monnaie P2P. Vous DEVEZ, alors, faire une sauvegarde du porte-monnaie P2P et le garder en sécurité car l'ensemble des bitcoins restant y sera stocké. Satoshi a averti qu'il ne faudrait jamais supprimer un porte-monnaie.",
 			"singleshare": "PARTAGER",
 			"singlesecret": "SECRET",
-
 
 			// paper wallet html
 			"paperlabelhideart": "Enlever l'image ?",
@@ -402,6 +445,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Τα πνευματικά δικαιώματα της JavaScript περιλαμβάνονται στον κώδικα.",
 			"footerlabelnowarranty": "Καμία εγγύηση.",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Δημιουργία μιας νέας Διεύθυνσης",
@@ -542,6 +607,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Le note di copyright dei file JavaScript sono inclusi nei sorgenti stessi.",
 			"footerlabelnowarranty": "Nessuna garanzia.",
 
+	    	// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Genera un Nuovo Indirizzo",
 			"singleprint": "Stampa",
@@ -680,6 +767,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript-Copyrights sind im Quelltext enthalten.",
 			"footerlabelnowarranty": "Ohne Gew&auml;hr.",
+
+	    	// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Neues Wallet erstellen",
@@ -820,6 +929,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright JavaScriptu je uveden ve zdrojovém kódu.",
 			"footerlabelnowarranty": "Bez záruky.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Vytvořit novou adresu",
 			"singleprint": "Tisk",
@@ -958,6 +1089,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Az egyes JavaScript kódok szerzőinek jogai a forráskódon belül találhatók meg.",
 			"footerlabelnowarranty": "Garancia nincs.",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Új cím előállítása",
@@ -1103,6 +1256,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScriptのコピーライト情報はソースに含まれています。",
 			"footerlabelnowarranty": "保障はありません。",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "新アドレス生成",
@@ -1250,6 +1425,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright do código JavaScript: no código-fonte.",
 			"footerlabelnowarranty": "Sem garantia.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Gerar endereço",
 			"singleprint": "Imprimir",
@@ -1388,6 +1585,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript的版权信息已经包含在源代码中。",
 			"footerlabelnowarranty": "No warranty",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "生成新地址",
@@ -1533,6 +1752,28 @@ ninja.translator = {
             "footerlabelcopyright1": "Копирайт bitaddress.org.",
             "footerlabelcopyright2": "Информация о копирайте на JavaScript в исходниках.",
             "footerlabelnowarranty": "Без гарантий.",
+
+        	// status html
+            "statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+            "statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+            "statusokcryptogood": "OK", //TODO: please translate
+            "statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+            "statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+            "statusokcryptobad": "OK", //TODO: please translate
+            "statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+            "statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+            "statusokunittestsgood": "OK", //TODO: please translate
+            "statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+            "statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+            "statusokunittestsbad": "OK", //TODO: please translate
+            "statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+            "statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+            "statusokprotocolgood": "OK", //TODO: please translate
+            "statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+            "statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+            "statuslabelprotocolbad2": "download", //TODO: please translate
+            "statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+            "statusokprotocolbad": "OK", //TODO: please translate
 
             // single wallet html
             "newaddress": "Сгенерировать новый адрес",

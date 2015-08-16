@@ -1,6 +1,6 @@
 // run unit tests
 if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-	ninja.unitTests.runSynchronousTests();
+	ninja.unitTests.runSynchronousTests(true);
 	ninja.translator.showEnglishJson();
 }
 // run async unit tests

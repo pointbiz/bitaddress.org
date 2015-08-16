@@ -23,6 +23,7 @@ body, html { height: 99%; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid #009900; }
+.button {}
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
@@ -212,6 +213,12 @@ body, html { height: 99%; }
 	.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
 	.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
 	.footer .copyright span { padding: 10px 2px; }
+    .footer .tooltip { display: none; text-align: left; border: 2px solid green; background-color: #FFFFF6; margin: 5px; padding: 10px; top: 0px; position: relative;  }
+	.footer .statusgood { color: green; font-weight: bold; }
+    .footer .statuswarn { color: orange; font-weight: bold; }
+	.footer .statusbad { color: red; font-weight: bold; }
+    .footer .statusicon { background-color: none; font-size: 120%; padding: 1px 2px; }
+    .footer .statusicon:hover { background-color: green; cursor: pointer; }
 }
 @media print
 {

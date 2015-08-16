@@ -6321,6 +6321,7 @@ body, html { height: 99%; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid #009900; }
+.button {}
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
@@ -6510,6 +6511,12 @@ body, html { height: 99%; }
 	.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
 	.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
 	.footer .copyright span { padding: 10px 2px; }
+    .footer .tooltip { display: none; text-align: left; border: 2px solid green; background-color: #FFFFF6; margin: 5px; padding: 10px; top: 0px; position: relative;  }
+	.footer .statusgood { color: green; font-weight: bold; }
+    .footer .statuswarn { color: orange; font-weight: bold; }
+	.footer .statusbad { color: red; font-weight: bold; }
+    .footer .statusicon { background-color: none; font-size: 120%; padding: 1px 2px; }
+    .footer .statusicon:hover { background-color: green; cursor: pointer; }
 }
 @media print
 {
@@ -6882,17 +6889,58 @@ body, html { height: 99%; }
 
 
 		<div id="footer" class="footer">
+			<div class="tooltips">
+				<div class="tooltip" id="statuscryptogood">
+					<span class="statusgood" id="statuslabelcryptogood">&#10004; Good!</span>
+					<span id="statuslabelcryptogood1">Your browser can generate cryptographically random keys using window.crypto.getRandomValues</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokcryptogood" onclick="document.getElementById('statuscryptogood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statuscryptobad">
+					<span class="statusbad" id="statuslabelcryptobad">&times; Oh no!</span>
+					<span id="statuslabelcryptobad1">Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokcryptobad" onclick="document.getElementById('statuscryptobad').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusunittestsgood">
+					<span class="statusgood" id="statuslabelunittestsgood">&#10004; Good!</span>
+					<span id="statuslabelunittestsgood1">All synchronous unit tests passed.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokunittestsgood" onclick="document.getElementById('statusunittestsgood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusunittestsbad">
+					<span class="statusbad" id="statuslabelunittestsbad">&times; Oh no!</span>
+					<span id="statuslabelunittestsbad1">Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokunittestsbad" onclick="document.getElementById('statusunittestsbad').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusprotocolgood">
+					<span class="statusgood" id="statuslabelprotocolgood">&#10004; Good!</span>
+					<span id="statuslabelprotocolgood1">You are running this generator from your local computer. <br />Tip: Double check you are offline by trying </span>
+					<a href="http://www.google.com" target="_blank">www.google.com</a>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolgood" onclick="document.getElementById('statusprotocolgood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusprotocolbad">
+					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
+					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.11.zip">download</a>
+					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
+				</div>
+			</div>
+
 			<div class="authorbtc">
 				<div>
+					<span class="item">
+						<span class="statusicon" id="statusprotocol" onclick="ninja.status.showProtocol();">...</span>
+						<span class="statusicon" id="statuscrypto" onclick="ninja.status.showCrypto();">...</span>
+						<span class="statusicon" id="statusunittests" onclick="ninja.status.showUnitTests();">...</span>
+					</span>
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.10.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.11.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.10)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.11)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7261,7 +7309,7 @@ ninja.publicKey = {
 };
 	</script>
 	<script type="text/javascript">
-ninja.seeder = {
+﻿ninja.seeder = {
 	init: (function () {
 		document.getElementById("generatekeyinput").value = "";
 	})(),
@@ -7284,10 +7332,10 @@ ninja.seeder = {
 		var timeStamp = new Date().getTime();
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-		    ninja.seeder.seedCount++;
-		    ninja.seeder.seedingOver();
+			ninja.seeder.seedCount++;
+			ninja.seeder.seedingOver();
 		}
-		// seed mouse position X and Y when mouse movements are greater than 40ms apart.
+			// seed mouse position X and Y when mouse movements are greater than 40ms apart.
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt && (timeStamp - ninja.seeder.lastInputTime) > 40) {
 			SecureRandom.seedTime();
 			SecureRandom.seedInt16((evt.clientX * evt.clientY));
@@ -7303,10 +7351,10 @@ ninja.seeder = {
 		if (!evt) var evt = window.event;
 		// seeding is over now we generate and display the address
 		if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-		    ninja.seeder.seedCount++;
-		    ninja.seeder.seedingOver();
+			ninja.seeder.seedCount++;
+			ninja.seeder.seedingOver();
 		}
-		// seed key press character
+			// seed key press character
 		else if ((ninja.seeder.seedCount < ninja.seeder.seedLimit) && evt.which) {
 			var timeStamp = new Date().getTime();
 			// seed a bunch (minimum seedLimit) of times
@@ -7323,19 +7371,19 @@ ninja.seeder = {
 	showPool: function () {
 		var poolHex;
 		if (SecureRandom.poolCopyOnInit != null) {
-		    poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
-		    document.getElementById("seedpool").innerHTML = poolHex;
-		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
+			poolHex = Crypto.util.bytesToHex(SecureRandom.poolCopyOnInit);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
 		else {
-		    poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
-		    document.getElementById("seedpool").innerHTML = poolHex;
-		    document.getElementById("seedpooldisplay").innerHTML = poolHex;
+			poolHex = Crypto.util.bytesToHex(SecureRandom.pool);
+			document.getElementById("seedpool").innerHTML = poolHex;
+			document.getElementById("seedpooldisplay").innerHTML = poolHex;
 		}
 		var percentSeeded = Math.round((ninja.seeder.seedCount / ninja.seeder.seedLimit) * 100) + "%";
 		document.getElementById("mousemovelimit").innerHTML = percentSeeded;
 		for (var wIndex in ninja.seeder.seederDependentWallets) {
-		    document.getElementById(ninja.seeder.seederDependentWallets[wIndex]).innerHTML = percentSeeded;
+			document.getElementById(ninja.seeder.seederDependentWallets[wIndex]).innerHTML = percentSeeded;
 		}
 	},
 
@@ -7356,113 +7404,176 @@ ninja.seeder = {
 	},
 
 	seedingOver: function () {
-	    ninja.seeder.isStillSeeding = false;
-	    var walletType = ninja.tab.whichIsOpen();
-	    if (walletType == null) {
-	        ninja.tab.select("singlewallet");
-	    } else {
-	        ninja.tab.select(walletType)
-	    }
-	    document.getElementById("generate").style.display = "none";
-	    // update labels for dependent wallets
-	    var culture = (ninja.getQueryString()["culture"] == null ? "en" : ninja.getQueryString()["culture"]);
-	    ninja.translator.translate(culture);
-	    ninja.seeder.removePoints();
+		ninja.seeder.isStillSeeding = false;
+		// run sync unit tests
+		ninja.status.unitTests();
+		// open selected tab
+		var walletType = ninja.tab.whichIsOpen();
+		if (walletType == null) {
+			ninja.tab.select("singlewallet");
+		} else {
+			ninja.tab.select(walletType)
+		}
+		document.getElementById("generate").style.display = "none";
+		// update labels for dependent wallets
+		var culture = (ninja.getQueryString()["culture"] == null ? "en" : ninja.getQueryString()["culture"]);
+		ninja.translator.translate(culture);
+		ninja.seeder.removePoints();
 	}
 };
 
-ninja.qrCode = {
-	// determine which type number is big enough for the input text length
-	getTypeNumber: function (text) {
-		var lengthCalculation = text.length * 8 + 12; // length as calculated by the QRCode
-		if (lengthCalculation < 72) { return 1; }
-		else if (lengthCalculation < 128) { return 2; }
-		else if (lengthCalculation < 208) { return 3; }
-		else if (lengthCalculation < 288) { return 4; }
-		else if (lengthCalculation < 368) { return 5; }
-		else if (lengthCalculation < 480) { return 6; }
-		else if (lengthCalculation < 528) { return 7; }
-		else if (lengthCalculation < 688) { return 8; }
-		else if (lengthCalculation < 800) { return 9; }
-		else if (lengthCalculation < 976) { return 10; }
-		return null;
-	},
+	</script>
+	<script type="text/javascript">
+ ﻿(function (ninja) {
+	var qrC = ninja.qrCode = {
+		// determine which type number is big enough for the input text length
+		getTypeNumber: function (text) {
+			var lengthCalculation = text.length * 8 + 12; // length as calculated by the QRCode
+			if (lengthCalculation < 72) { return 1; }
+			else if (lengthCalculation < 128) { return 2; }
+			else if (lengthCalculation < 208) { return 3; }
+			else if (lengthCalculation < 288) { return 4; }
+			else if (lengthCalculation < 368) { return 5; }
+			else if (lengthCalculation < 480) { return 6; }
+			else if (lengthCalculation < 528) { return 7; }
+			else if (lengthCalculation < 688) { return 8; }
+			else if (lengthCalculation < 800) { return 9; }
+			else if (lengthCalculation < 976) { return 10; }
+			return null;
+		},
 
-	createCanvas: function (text, sizeMultiplier) {
-		sizeMultiplier = (sizeMultiplier == undefined) ? 2 : sizeMultiplier; // default 2
-		// create the qrcode itself
-		var typeNumber = ninja.qrCode.getTypeNumber(text);
-		var qrcode = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
-		qrcode.addData(text);
-		qrcode.make();
-		var width = qrcode.getModuleCount() * sizeMultiplier;
-		var height = qrcode.getModuleCount() * sizeMultiplier;
-		// create canvas element
-		var canvas = document.createElement('canvas');
-		var scale = 10.0;
-		canvas.width = width * scale;
-		canvas.height = height * scale;
-		canvas.style.width = width + 'px';
-		canvas.style.height = height + 'px';
-		var ctx = canvas.getContext('2d');
-		ctx.scale(scale, scale);
-		// compute tileW/tileH based on width/height
-		var tileW = width / qrcode.getModuleCount();
-		var tileH = height / qrcode.getModuleCount();
-		// draw in the canvas
-		for (var row = 0; row < qrcode.getModuleCount(); row++) {
-			for (var col = 0; col < qrcode.getModuleCount(); col++) {
-				ctx.fillStyle = qrcode.isDark(row, col) ? "#000000" : "#ffffff";
-				ctx.fillRect(col * tileW, row * tileH, tileW, tileH);
-			}
-		}
-		// return just built canvas
-		return canvas;
-	},
-
-	// generate a QRCode and return it's representation as an Html table 
-	createTableHtml: function (text) {
-		var typeNumber = ninja.qrCode.getTypeNumber(text);
-		var qr = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
-		qr.addData(text);
-		qr.make();
-		var tableHtml = "<table class='qrcodetable'>";
-		for (var r = 0; r < qr.getModuleCount(); r++) {
-			tableHtml += "<tr>";
-			for (var c = 0; c < qr.getModuleCount(); c++) {
-				if (qr.isDark(r, c)) {
-					tableHtml += "<td class='qrcodetddark'/>";
-				} else {
-					tableHtml += "<td class='qrcodetdlight'/>";
+		createCanvas: function (text, sizeMultiplier) {
+			sizeMultiplier = (sizeMultiplier == undefined) ? 2 : sizeMultiplier; // default 2
+			// create the qrcode itself
+			var typeNumber = qrC.getTypeNumber(text);
+			var qrcode = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
+			qrcode.addData(text);
+			qrcode.make();
+			var width = qrcode.getModuleCount() * sizeMultiplier;
+			var height = qrcode.getModuleCount() * sizeMultiplier;
+			// create canvas element
+			var canvas = document.createElement('canvas');
+			var scale = 10.0;
+			canvas.width = width * scale;
+			canvas.height = height * scale;
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+			var ctx = canvas.getContext('2d');
+			ctx.scale(scale, scale);
+			// compute tileW/tileH based on width/height
+			var tileW = width / qrcode.getModuleCount();
+			var tileH = height / qrcode.getModuleCount();
+			// draw in the canvas
+			for (var row = 0; row < qrcode.getModuleCount() ; row++) {
+				for (var col = 0; col < qrcode.getModuleCount() ; col++) {
+					ctx.fillStyle = qrcode.isDark(row, col) ? "#000000" : "#ffffff";
+					ctx.fillRect(col * tileW, row * tileH, tileW, tileH);
 				}
 			}
-			tableHtml += "</tr>";
-		}
-		tableHtml += "</table>";
-		return tableHtml;
-	},
+			// return just built canvas
+			return canvas;
+		},
 
-	// show QRCodes with canvas OR table (IE8)
-	// parameter: keyValuePair 
-	// example: { "id1": "string1", "id2": "string2"}
-	//		"id1" is the id of a div element where you want a QRCode inserted.
-	//		"string1" is the string you want encoded into the QRCode.
-	showQrCode: function (keyValuePair, sizeMultiplier) {
-		for (var key in keyValuePair) {
-			var value = keyValuePair[key];
-			try {
-				if (document.getElementById(key)) {
-					document.getElementById(key).innerHTML = "";
-					document.getElementById(key).appendChild(ninja.qrCode.createCanvas(value, sizeMultiplier));
+		// generate a QRCode and return it's representation as an Html table 
+		createTableHtml: function (text) {
+			var typeNumber = qrC.getTypeNumber(text);
+			var qr = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
+			qr.addData(text);
+			qr.make();
+			var tableHtml = "<table class='qrcodetable'>";
+			for (var r = 0; r < qr.getModuleCount() ; r++) {
+				tableHtml += "<tr>";
+				for (var c = 0; c < qr.getModuleCount() ; c++) {
+					if (qr.isDark(r, c)) {
+						tableHtml += "<td class='qrcodetddark'/>";
+					} else {
+						tableHtml += "<td class='qrcodetdlight'/>";
+					}
+				}
+				tableHtml += "</tr>";
+			}
+			tableHtml += "</table>";
+			return tableHtml;
+		},
+
+		// show QRCodes with canvas OR table (IE8)
+		// parameter: keyValuePair 
+		// example: { "id1": "string1", "id2": "string2"}
+		//		"id1" is the id of a div element where you want a QRCode inserted.
+		//		"string1" is the string you want encoded into the QRCode.
+		showQrCode: function (keyValuePair, sizeMultiplier) {
+			for (var key in keyValuePair) {
+				var value = keyValuePair[key];
+				try {
+					if (document.getElementById(key)) {
+						document.getElementById(key).innerHTML = "";
+						document.getElementById(key).appendChild(qrC.createCanvas(value, sizeMultiplier));
+					}
+				}
+				catch (e) {
+					// for browsers that do not support canvas (IE8)
+					document.getElementById(key).innerHTML = qrC.createTableHtml(value);
 				}
 			}
-			catch (e) {
-				// for browsers that do not support canvas (IE8)
-				document.getElementById(key).innerHTML = ninja.qrCode.createTableHtml(value);
-			}
 		}
-	}
-};
+	};
+})(ninja);
+	</script>
+	<script type="text/javascript">
+﻿(function (ninja) {
+	var status = ninja.status = function() {
+		var cryptoCase = "";
+		if (window.crypto && window.crypto.getRandomValues) {
+			document.getElementById("statuscrypto").innerHTML = "&#10004;"; //✔
+			cryptoCase = "good";
+		}
+		else {
+			document.getElementById("statuscrypto").innerHTML = "&times;"; //×
+			cryptoCase = "bad";
+		}
+
+		var protocolCase = "";
+		switch (window.location.protocol) {
+			case 'file:':
+				document.getElementById("statusprotocol").innerHTML = "&#10004;"; //✔
+				protocolCase = "good";
+				break;
+			case 'http:':
+			case 'https:':
+				document.getElementById("statusprotocol").innerHTML = "&#9888;"; //⚠
+				protocolCase = "bad";
+				break;
+			default:
+		}
+
+		var unitTestsCase = "";
+		var unitTests = function () {
+			var result = ninja.unitTests.runSynchronousTests();
+			if (result.passCount == result.testCount) {
+				document.getElementById("statusunittests").innerHTML = "&#10004;"; //✔
+				unitTestsCase = "good";
+			}
+			else {
+				document.getElementById("statusunittests").innerHTML = "&times;"; //×
+				unitTestsCase = "bad";
+			}
+		};
+
+		var showCrypto = function () {
+			document.getElementById('statuscrypto' + cryptoCase).style.display = 'block';
+		};
+
+		var showProtocol = function () {
+			document.getElementById('statusprotocol' + protocolCase).style.display = 'block';
+		};
+
+		var showUnitTests = function () {
+			if(unitTestsCase != "") document.getElementById('statusunittests' + unitTestsCase).style.display = 'block';
+		};
+
+		return { unitTests: unitTests, showCrypto: showCrypto, showProtocol: showProtocol, showUnitTests: showUnitTests };
+	}();
+})(ninja);
 
 ninja.tab = {
     select: function (walletTab) {
@@ -7674,6 +7785,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 			"footerlabelnowarranty": "Sin garantía.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Generar dirección",
 			"singleprint": "Imprimir",
@@ -7812,7 +7945,29 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 			"footerlabelnowarranty": "Aucune garantie.",
-			
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Générer Une Nouvelle Adresse",
 			"singleprint": "Imprimer",
@@ -7825,7 +7980,6 @@ ninja.translator = {
 			"singletip5": "Pour dépenser vos bitcoins, allez sur blockchain.info et transférez l'ensemble des fonds de votre adresse privée vers le compte de ce site. Vous pouvez, aussi, dépenser vos fonds en téléchargeant un des programmes P2P bitcoin populaires et en y important votre clé privée dans un porte-monnaie P2P. Gardez à l'esprit que quand vous importez votre clé privée dans le programme P2P bitcoin et que vous dépensez vos fonds, votre clé privée sera intégrée avec d'autres clés privées dans le porte-monnaie P2P. Quand vous effectuez une transaction, le changement sera envoyé sur une autre adresse bitcoin privée à l'intérieur du porte-monnaie P2P. Vous DEVEZ, alors, faire une sauvegarde du porte-monnaie P2P et le garder en sécurité car l'ensemble des bitcoins restant y sera stocké. Satoshi a averti qu'il ne faudrait jamais supprimer un porte-monnaie.",
 			"singleshare": "PARTAGER",
 			"singlesecret": "SECRET",
-
 
 			// paper wallet html
 			"paperlabelhideart": "Enlever l'image ?",
@@ -7952,6 +8106,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Τα πνευματικά δικαιώματα της JavaScript περιλαμβάνονται στον κώδικα.",
 			"footerlabelnowarranty": "Καμία εγγύηση.",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Δημιουργία μιας νέας Διεύθυνσης",
@@ -8092,6 +8268,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Le note di copyright dei file JavaScript sono inclusi nei sorgenti stessi.",
 			"footerlabelnowarranty": "Nessuna garanzia.",
 
+	    	// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Genera un Nuovo Indirizzo",
 			"singleprint": "Stampa",
@@ -8230,6 +8428,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript-Copyrights sind im Quelltext enthalten.",
 			"footerlabelnowarranty": "Ohne Gew&auml;hr.",
+
+	    	// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Neues Wallet erstellen",
@@ -8370,6 +8590,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright JavaScriptu je uveden ve zdrojovém kódu.",
 			"footerlabelnowarranty": "Bez záruky.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Vytvořit novou adresu",
 			"singleprint": "Tisk",
@@ -8508,6 +8750,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "Az egyes JavaScript kódok szerzőinek jogai a forráskódon belül találhatók meg.",
 			"footerlabelnowarranty": "Garancia nincs.",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Új cím előállítása",
@@ -8653,6 +8917,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScriptのコピーライト情報はソースに含まれています。",
 			"footerlabelnowarranty": "保障はありません。",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "新アドレス生成",
@@ -8800,6 +9086,28 @@ ninja.translator = {
 			"footerlabelcopyright2": "Copyright do código JavaScript: no código-fonte.",
 			"footerlabelnowarranty": "Sem garantia.",
 
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
+
 			// single wallet html
 			"newaddress": "Gerar endereço",
 			"singleprint": "Imprimir",
@@ -8938,6 +9246,28 @@ ninja.translator = {
 			"footerlabelcopyright1": "Copyright bitaddress.org.",
 			"footerlabelcopyright2": "JavaScript的版权信息已经包含在源代码中。",
 			"footerlabelnowarranty": "No warranty",
+
+			// status html
+			"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+			"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+			"statusokcryptogood": "OK", //TODO: please translate
+			"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+			"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+			"statusokcryptobad": "OK", //TODO: please translate
+			"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+			"statusokunittestsgood": "OK", //TODO: please translate
+			"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+			"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+			"statusokunittestsbad": "OK", //TODO: please translate
+			"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+			"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+			"statusokprotocolgood": "OK", //TODO: please translate
+			"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+			"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+			"statuslabelprotocolbad2": "download", //TODO: please translate
+			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+			"statusokprotocolbad": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "生成新地址",
@@ -9083,6 +9413,28 @@ ninja.translator = {
             "footerlabelcopyright1": "Копирайт bitaddress.org.",
             "footerlabelcopyright2": "Информация о копирайте на JavaScript в исходниках.",
             "footerlabelnowarranty": "Без гарантий.",
+
+        	// status html
+            "statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+            "statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+            "statusokcryptogood": "OK", //TODO: please translate
+            "statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+            "statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+            "statusokcryptobad": "OK", //TODO: please translate
+            "statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+            "statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+            "statusokunittestsgood": "OK", //TODO: please translate
+            "statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+            "statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+            "statusokunittestsbad": "OK", //TODO: please translate
+            "statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+            "statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+            "statusokprotocolgood": "OK", //TODO: please translate
+            "statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+            "statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+            "statuslabelprotocolbad2": "download", //TODO: please translate
+            "statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+            "statusokprotocolbad": "OK", //TODO: please translate
 
             // single wallet html
             "newaddress": "Сгенерировать новый адрес",
@@ -10048,11 +10400,13 @@ ninja.wallets.splitwallet = {
 	<script type="text/javascript">
 (function (ninja) {
 	var ut = ninja.unitTests = {
-		runSynchronousTests: function () {
-			document.getElementById("busyblock").className = "busy";
-			var div = document.createElement("div");
-			div.setAttribute("class", "unittests");
-			div.setAttribute("id", "unittests");
+		runSynchronousTests: function (showOutput) {
+			if (showOutput) {
+				document.getElementById("busyblock").className = "busy";
+				var div = document.createElement("div");
+				div.setAttribute("class", "unittests");
+				div.setAttribute("id", "unittests");
+			}
 			var testResults = "";
 			var passCount = 0;
 			var testCount = 0;
@@ -10079,10 +10433,12 @@ ninja.wallets.splitwallet = {
 			if (passCount < testCount) {
 				testResults += "<b>" + (testCount - passCount) + " unit test(s) failed</b>";
 			}
-			div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
-			document.body.appendChild(div);
-			document.getElementById("busyblock").className = "";
-
+			if (showOutput) {
+				div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
+				document.body.appendChild(div);
+				document.getElementById("busyblock").className = "";
+			}
+			return { passCount: passCount, testCount: testCount };
 		},
 
 		runAsynchronousTests: function () {
@@ -10751,7 +11107,7 @@ ninja.wallets.splitwallet = {
 	<script type="text/javascript">
 // run unit tests
 if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
-	ninja.unitTests.runSynchronousTests();
+	ninja.unitTests.runSynchronousTests(true);
 	ninja.translator.showEnglishJson();
 }
 // run async unit tests

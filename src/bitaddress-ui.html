@@ -463,8 +463,49 @@
 
 
 		<div id="footer" class="footer">
+			<div class="tooltips">
+				<div class="tooltip" id="statuscryptogood">
+					<span class="statusgood" id="statuslabelcryptogood">&#10004; Good!</span>
+					<span id="statuslabelcryptogood1">Your browser can generate cryptographically random keys using window.crypto.getRandomValues</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokcryptogood" onclick="document.getElementById('statuscryptogood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statuscryptobad">
+					<span class="statusbad" id="statuslabelcryptobad">&times; Oh no!</span>
+					<span id="statuslabelcryptobad1">Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokcryptobad" onclick="document.getElementById('statuscryptobad').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusunittestsgood">
+					<span class="statusgood" id="statuslabelunittestsgood">&#10004; Good!</span>
+					<span id="statuslabelunittestsgood1">All synchronous unit tests passed.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokunittestsgood" onclick="document.getElementById('statusunittestsgood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusunittestsbad">
+					<span class="statusbad" id="statuslabelunittestsbad">&times; Oh no!</span>
+					<span id="statuslabelunittestsbad1">Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokunittestsbad" onclick="document.getElementById('statusunittestsbad').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusprotocolgood">
+					<span class="statusgood" id="statuslabelprotocolgood">&#10004; Good!</span>
+					<span id="statuslabelprotocolgood1">You are running this generator from your local computer. <br />Tip: Double check you are offline by trying </span>
+					<a href="http://www.google.com" target="_blank">www.google.com</a>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolgood" onclick="document.getElementById('statusprotocolgood').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statusprotocolbad">
+					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
+					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v//version.zip">download</a>
+					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
+					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
+				</div>
+			</div>
+
 			<div class="authorbtc">
 				<div>
+					<span class="item">
+						<span class="statusicon" id="statusprotocol" onclick="ninja.status.showProtocol();">...</span>
+						<span class="statusicon" id="statuscrypto" onclick="ninja.status.showCrypto();">...</span>
+						<span class="statusicon" id="statusunittests" onclick="ninja.status.showUnitTests();">...</span>
+					</span>
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
@@ -491,6 +532,12 @@
 
 	<script type="text/javascript">
 //ninja.key.js
+	</script>
+	<script type="text/javascript">
+//ninja.seeder.js
+	</script>
+	<script type="text/javascript">
+ //ninja.qrcode.js
 	</script>
 	<script type="text/javascript">
 //ninja.misc.js

@@ -1,10 +1,12 @@
 (function (ninja) {
 	var ut = ninja.unitTests = {
-		runSynchronousTests: function () {
-			document.getElementById("busyblock").className = "busy";
-			var div = document.createElement("div");
-			div.setAttribute("class", "unittests");
-			div.setAttribute("id", "unittests");
+		runSynchronousTests: function (showOutput) {
+			if (showOutput) {
+				document.getElementById("busyblock").className = "busy";
+				var div = document.createElement("div");
+				div.setAttribute("class", "unittests");
+				div.setAttribute("id", "unittests");
+			}
 			var testResults = "";
 			var passCount = 0;
 			var testCount = 0;
@@ -31,10 +33,12 @@
 			if (passCount < testCount) {
 				testResults += "<b>" + (testCount - passCount) + " unit test(s) failed</b>";
 			}
-			div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
-			document.body.appendChild(div);
-			document.getElementById("busyblock").className = "";
-
+			if (showOutput) {
+				div.innerHTML = "<h3>Unit Tests</h3><div id=\"unittestresults\">" + testResults + "<br/><br/></div>";
+				document.body.appendChild(div);
+				document.getElementById("busyblock").className = "";
+			}
+			return { passCount: passCount, testCount: testCount };
 		},
 
 		runAsynchronousTests: function () {

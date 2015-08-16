@@ -28,6 +28,11 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2015-08-16: status ACTIVE
+bitaddress.org-v2.9.11-SHA256-40376eddc790a63d9afcfb72c0a45002827da965f3bfe6ba8c330e697bf188b2.html
+ - add status icons for checking the URI protocol used, support for window.crypto.getRandomValues
+   and run the synchronous unit tests after entropy collection.
+
 2015-07-18: status ACTIVE
 bitaddress.org-v2.9.10-SHA256-445e44cfd04c8f1ea8f732c3ae7277b0166fdb3e2109251c54e4b367983fe04d.html
  - add Portuguese. Thanks rhcastilhos.
