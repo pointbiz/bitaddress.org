@@ -133,7 +133,7 @@ janin.currencies = [
     janin.currency.createCurrency ("MagicInternetMoney", 0x30, 0xb0,"6", "T", "LPRqCTYEy53FkEzhRTCauLc7Qq23Z5mxZU"),
     janin.currency.createCurrency ("Magicoin",   0x14, 0x94, "5",    "[NP]" , "9H6ddyu9S9gyrEHxVrpMBTBZWrwAvdtehD"),
     janin.currency.createCurrency ("Marscoin",   0x32, 0xb2, "6",    "T"    , "M8caDttyKt2r7V7WHMMkRZ1jEzxj16fgCn"),
-    janin.currency.createCurrency ("MasterDoge",   0x33, 0x8b, "5",    "M"    , "Mm4Xqy9FYZ8N1NJzuXCaJLZcw8o2cmVC7c"),
+    janin.currency.createCurrency ("MasterDoge", 0x33, 0x8b, "5",    "M"    , "Mm4Xqy9FYZ8N1NJzuXCaJLZcw8o2cmVC7c"),
     janin.currency.createCurrency ("Mazacoin",   0x32, 0xe0, "8",    "a"    , "MLUXCv3GfNgmUSXc5Ek3ePaQ4cfsJwEXHa"),
     janin.currency.createCurrency ("Megacoin",   0x32, 0xb2, "6",    "T"    , "MPeVmJHvkXN3caneWCB5zGgtGHRRBSLmWd"),
     janin.currency.createCurrency ("MobiusCoin", 0x00, 0x80, "5",    "[LK]" , "1HKNrUR3BaFC8u4VMfnjCuXDPrYGh7jU8S"),
