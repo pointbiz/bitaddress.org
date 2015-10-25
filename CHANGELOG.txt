@@ -29,6 +29,10 @@ END USER NOTES:
 Here is a signed list of file names and version history.
 
 2015-10-25: status ACTIVE
+bitaddress.org-v3.0.1-SHA256-24d2d7f047a9aa217bf69f3ef344c972c151b1e3f6a8aa86ceb9a3be62884bc0.html
+ - fix for session log not keeping track of keys from "Wallet Details" tab before entropy is collected.
+
+2015-10-25: status ACTIVE
 bitaddress.org-v3.0.0-SHA256-4781574ca09c07f65d1966619f37a762aac6decd8732cacc85b2f2f972f82751.html
  - add session log icon that shows all the key pairs generated during the current session.
 

@@ -35,8 +35,6 @@
 				document.getElementById("statusunittests").innerHTML = "&times;"; //×
 				unitTestsCase = "bad";
 			}
-			// show session log icon
-			document.getElementById("statuskeypool").innerHTML = "&#8803;"; //≣
 		};
 
 		var showCrypto = function () {

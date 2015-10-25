@@ -7,6 +7,7 @@
 				div.setAttribute("class", "unittests");
 				div.setAttribute("id", "unittests");
 			}
+			var userKeyPool = Bitcoin.KeyPool.getArray(); // get the user key pool before test keys get added to it
 			var testResults = "";
 			var passCount = 0;
 			var testCount = 0;
@@ -38,7 +39,7 @@
 				document.body.appendChild(div);
 				document.getElementById("busyblock").className = "";
 			}
-			Bitcoin.KeyPool.reset(); // reset the key pool so users don't see the test keys
+			Bitcoin.KeyPool.setArray(userKeyPool); // set the key pool so users don't see the test keys
 			return { passCount: passCount, testCount: testCount };
 		},
 
@@ -54,7 +55,7 @@
 			var userKeyPool = Bitcoin.KeyPool.getArray();
 			// run the asynchronous tests one after another so we don't crash the browser
 			ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
-				Bitcoin.KeyPool.reset();
+				//Bitcoin.KeyPool.reset();
 				document.getElementById("busyblock").className = "busy";
 				ninja.unitTests.asynchronousTests[name](cb);
 			}, function () {

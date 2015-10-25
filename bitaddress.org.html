@@ -5643,7 +5643,8 @@ Bitcoin.KeyPool = (function () {
 		};
 
 		this.getArray = function () {
-			return this.keyArray;
+			// copy array
+			return this.keyArray.slice(0);
 		};
 
 		this.setArray = function (ka) {
@@ -7006,7 +7007,7 @@ body, html { height: 99%; }
 				<div class="tooltip" id="statusprotocolbad">
 					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
 					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
-					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.0.zip">download</a>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.1.zip">download</a>
 					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
 					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
 				</div>
@@ -7026,17 +7027,17 @@ body, html { height: 99%; }
 						<span class="statusicon" id="statusprotocol" onclick="ninja.status.showProtocol();">...</span>
 						<span class="statusicon" id="statuscrypto" onclick="ninja.status.showCrypto();">...</span>
 						<span class="statusicon" id="statusunittests" onclick="ninja.status.showUnitTests();">...</span>
-						<span class="statusicon" id="statuskeypool" onclick="ninja.status.showKeyPool();"></span>
+						<span class="statusicon" id="statuskeypool" onclick="ninja.status.showKeyPool();">&#8803;</span>
 					</span>
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.0.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.1.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.0.0)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.0.1)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7190,7 +7191,6 @@ ninja.privateKey = {
 				}
 				// remove this ECKey from the pool (because user does not see it)
 				var userKeyPool = Bitcoin.KeyPool.getArray();
-				Bitcoin.KeyPool.reset();
 				var kp = new Bitcoin.ECKey(passfactor);
 				var passpoint = kp.setCompressed(true).getPub();
 				Bitcoin.KeyPool.setArray(userKeyPool);
@@ -7657,8 +7657,6 @@ ninja.publicKey = {
 				document.getElementById("statusunittests").innerHTML = "&times;"; //×
 				unitTestsCase = "bad";
 			}
-			// show session log icon
-			document.getElementById("statuskeypool").innerHTML = "&#8803;"; //≣
 		};
 
 		var showCrypto = function () {
@@ -10559,6 +10557,7 @@ ninja.wallets.splitwallet = {
 				div.setAttribute("class", "unittests");
 				div.setAttribute("id", "unittests");
 			}
+			var userKeyPool = Bitcoin.KeyPool.getArray(); // get the user key pool before test keys get added to it
 			var testResults = "";
 			var passCount = 0;
 			var testCount = 0;
@@ -10590,7 +10589,7 @@ ninja.wallets.splitwallet = {
 				document.body.appendChild(div);
 				document.getElementById("busyblock").className = "";
 			}
-			Bitcoin.KeyPool.reset(); // reset the key pool so users don't see the test keys
+			Bitcoin.KeyPool.setArray(userKeyPool); // set the key pool so users don't see the test keys
 			return { passCount: passCount, testCount: testCount };
 		},
 
@@ -10606,7 +10605,7 @@ ninja.wallets.splitwallet = {
 			var userKeyPool = Bitcoin.KeyPool.getArray();
 			// run the asynchronous tests one after another so we don't crash the browser
 			ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
-				Bitcoin.KeyPool.reset();
+				//Bitcoin.KeyPool.reset();
 				document.getElementById("busyblock").className = "busy";
 				ninja.unitTests.asynchronousTests[name](cb);
 			}, function () {

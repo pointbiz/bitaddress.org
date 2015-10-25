@@ -21,7 +21,8 @@ Bitcoin.KeyPool = (function () {
 		};
 
 		this.getArray = function () {
-			return this.keyArray;
+			// copy array
+			return this.keyArray.slice(0);
 		};
 
 		this.setArray = function (ka) {

@@ -134,7 +134,6 @@ ninja.privateKey = {
 				}
 				// remove this ECKey from the pool (because user does not see it)
 				var userKeyPool = Bitcoin.KeyPool.getArray();
-				Bitcoin.KeyPool.reset();
 				var kp = new Bitcoin.ECKey(passfactor);
 				var passpoint = kp.setCompressed(true).getPub();
 				Bitcoin.KeyPool.setArray(userKeyPool);
