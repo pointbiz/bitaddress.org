@@ -5,7 +5,7 @@ if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["uni
 }
 // run async unit tests
 if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
-	ninja.unitTests.runAsynchronousTests();
+	ninja.unitTests.runAsynchronousTests(true);
 }
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {

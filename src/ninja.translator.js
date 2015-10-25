@@ -145,6 +145,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Generar dirección",
@@ -306,6 +309,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Générer Une Nouvelle Adresse",
@@ -467,6 +473,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Δημιουργία μιας νέας Διεύθυνσης",
@@ -628,6 +637,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Genera un Nuovo Indirizzo",
@@ -789,6 +801,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Neues Wallet erstellen",
@@ -950,6 +965,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Vytvořit novou adresu",
@@ -1111,6 +1129,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Új cím előállítása",
@@ -1278,6 +1299,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "新アドレス生成",
@@ -1446,6 +1470,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Gerar endereço",
@@ -1607,6 +1634,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "生成新地址",
@@ -1774,6 +1804,9 @@ ninja.translator = {
             "statuslabelprotocolbad2": "download", //TODO: please translate
             "statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
             "statusokprotocolbad": "OK", //TODO: please translate
+            "statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+            "statuskeypoolrefresh": "Refresh", //TODO: please translate
+            "statusokkeypool": "OK", //TODO: please translate
 
             // single wallet html
             "newaddress": "Сгенерировать новый адрес",

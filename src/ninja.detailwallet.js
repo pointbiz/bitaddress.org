@@ -95,7 +95,10 @@ ninja.wallets.detailwallet = {
 	},
 
 	populateKeyDetails: function (btcKey) {
+
 		if (btcKey.priv != null) {
+			// get the original compression value and set it back later in this function
+			var originalCompression = btcKey.compressed;
 			btcKey.setCompressed(false);
 			document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 			document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
@@ -106,10 +109,13 @@ ninja.wallets.detailwallet = {
 			document.getElementById("detailprivwif").innerHTML = wif;
 			btcKey.setCompressed(true);
 			var bitcoinAddressComp = btcKey.getBitcoinAddress();
-			var wifComp = btcKey.getBitcoinWalletImportFormat();
+			var wifComp = btcKey.getBitcoinWalletImportFormat();			
 			document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
 			document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
 			document.getElementById("detailprivwifcomp").innerHTML = wifComp;
+			btcKey.setCompressed(originalCompression); // to satisfy the key pool
+			var pool1 = new Bitcoin.ECKey(wif); // to satisfy the key pool
+			var pool2 = new Bitcoin.ECKey(wifComp); // to satisfy the key pool
 
 			ninja.qrCode.showQrCode({
 				"detailqrcodepublic": bitcoinAddress,

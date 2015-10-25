@@ -1,8 +1,80 @@
+Bitcoin.KeyPool = (function () {
+	var KeyPool = function () {
+		this.keyArray = [];
+
+		this.push = function (item) {
+			if (item == null || item.priv == null) return;
+			var doAdd = true;
+			// prevent duplicates from being added to the array
+			for (var index in this.keyArray) {
+				var currentItem = this.keyArray[index];
+				if (currentItem != null && currentItem.priv != null && item.getBitcoinAddress() == currentItem.getBitcoinAddress()) {
+					doAdd = false;
+					break;
+				}
+			}
+			if (doAdd) this.keyArray.push(item);
+		};
+
+		this.reset = function () {
+			this.keyArray = [];
+		};
+
+		this.getArray = function () {
+			return this.keyArray;
+		};
+
+		this.setArray = function (ka) {
+			this.keyArray = ka;
+		};
+
+		this.length = function () {
+			return this.keyArray.length;
+		};
+
+		this.toString = function () {
+			var keyPoolString = "# = " + this.length() + "\n";
+			var pool = this.getArray();
+			for (var index in pool) {
+				var item = pool[index];
+				if (Bitcoin.Util.hasMethods(item, 'getBitcoinAddress', 'toString')) {
+					if (item != null) {
+						keyPoolString += "\"" + item.getBitcoinAddress() + "\"" + ", \"" + item.toString("wif") + "\"\n";
+					}
+				}
+			}
+
+			return keyPoolString;
+		};
+
+		return this;
+	};
+
+	return new KeyPool();
+})();
+
+Bitcoin.Bip38Key = (function () {
+	var Bip38 = function (address, encryptedKey) {
+		this.address = address;
+		this.priv = encryptedKey;
+	};
+
+	Bip38.prototype.getBitcoinAddress = function () {
+		return this.address;
+	};
+
+	Bip38.prototype.toString = function () {
+		return this.priv;
+	};
+
+	return Bip38;
+})();
+
 //https://raw.github.com/pointbiz/bitcoinjs-lib/9b2f94a028a7bc9bed94e0722563e9ff1d8e8db8/src/eckey.js
 Bitcoin.ECKey = (function () {
 	var ECDSA = Bitcoin.ECDSA;
+	var KeyPool = Bitcoin.KeyPool;
 	var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
-	var rng = new SecureRandom();
 
 	var ECKey = function (input) {
 		if (!input) {
@@ -41,6 +113,7 @@ Bitcoin.ECKey = (function () {
 		}
 
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
+		KeyPool.push(this);
 	};
 
 	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
@@ -132,6 +205,7 @@ Bitcoin.ECKey = (function () {
 	// Sipa Private Key Wallet Import Format 
 	ECKey.prototype.getBitcoinWalletImportFormat = function () {
 		var bytes = this.getBitcoinPrivateKeyByteArray();
+		if (bytes == null) return "";
 		bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
 		if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 		var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
@@ -151,6 +225,7 @@ Bitcoin.ECKey = (function () {
 	};
 
 	ECKey.prototype.getBitcoinPrivateKeyByteArray = function () {
+		if (this.priv == null) return null;
 		// Get a copy of private key as a byte array
 		var bytes = this.priv.toByteArrayUnsigned();
 		// zero pad if private key is less than 32 bytes 

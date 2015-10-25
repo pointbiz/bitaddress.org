@@ -101,5 +101,15 @@ Bitcoin.Util = {
 	// double sha256
 	dsha256: function (data) {
 		return Crypto.SHA256(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
+	},
+	// duck typing method
+	hasMethods: function(obj /*, method list as strings */){
+		var i = 1, methodName;
+		while((methodName = arguments[i++])){
+			if(typeof obj[methodName] != 'function') {
+				return false;
+			}
+		}
+		return true;
 	}
 };

@@ -35,6 +35,8 @@
 				document.getElementById("statusunittests").innerHTML = "&times;"; //×
 				unitTestsCase = "bad";
 			}
+			// show session log icon
+			document.getElementById("statuskeypool").innerHTML = "&#8803;"; //≣
 		};
 
 		var showCrypto = function () {
@@ -49,7 +51,15 @@
 			if(unitTestsCase != "") document.getElementById('statusunittests' + unitTestsCase).style.display = 'block';
 		};
 
-		return { unitTests: unitTests, showCrypto: showCrypto, showProtocol: showProtocol, showUnitTests: showUnitTests };
+		var showKeyPool = function () {
+			document.getElementById('statuskeypoolgood').style.display = 'block';
+			document.getElementById("keypooltextarea").value = Bitcoin.KeyPool.toString();
+		};
+
+		return {
+			unitTests: unitTests, showCrypto: showCrypto, showProtocol: showProtocol,
+			showUnitTests: showUnitTests, showKeyPool: showKeyPool
+		};
 	}();
 })(ninja);
 

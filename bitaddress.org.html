@@ -5620,11 +5620,83 @@ Bitcoin.ECDSA = (function () {
 })();
 	</script>
 	<script type="text/javascript">
+Bitcoin.KeyPool = (function () {
+	var KeyPool = function () {
+		this.keyArray = [];
+
+		this.push = function (item) {
+			if (item == null || item.priv == null) return;
+			var doAdd = true;
+			// prevent duplicates from being added to the array
+			for (var index in this.keyArray) {
+				var currentItem = this.keyArray[index];
+				if (currentItem != null && currentItem.priv != null && item.getBitcoinAddress() == currentItem.getBitcoinAddress()) {
+					doAdd = false;
+					break;
+				}
+			}
+			if (doAdd) this.keyArray.push(item);
+		};
+
+		this.reset = function () {
+			this.keyArray = [];
+		};
+
+		this.getArray = function () {
+			return this.keyArray;
+		};
+
+		this.setArray = function (ka) {
+			this.keyArray = ka;
+		};
+
+		this.length = function () {
+			return this.keyArray.length;
+		};
+
+		this.toString = function () {
+			var keyPoolString = "# = " + this.length() + "\n";
+			var pool = this.getArray();
+			for (var index in pool) {
+				var item = pool[index];
+				if (Bitcoin.Util.hasMethods(item, 'getBitcoinAddress', 'toString')) {
+					if (item != null) {
+						keyPoolString += "\"" + item.getBitcoinAddress() + "\"" + ", \"" + item.toString("wif") + "\"\n";
+					}
+				}
+			}
+
+			return keyPoolString;
+		};
+
+		return this;
+	};
+
+	return new KeyPool();
+})();
+
+Bitcoin.Bip38Key = (function () {
+	var Bip38 = function (address, encryptedKey) {
+		this.address = address;
+		this.priv = encryptedKey;
+	};
+
+	Bip38.prototype.getBitcoinAddress = function () {
+		return this.address;
+	};
+
+	Bip38.prototype.toString = function () {
+		return this.priv;
+	};
+
+	return Bip38;
+})();
+
 //https://raw.github.com/pointbiz/bitcoinjs-lib/9b2f94a028a7bc9bed94e0722563e9ff1d8e8db8/src/eckey.js
 Bitcoin.ECKey = (function () {
 	var ECDSA = Bitcoin.ECDSA;
+	var KeyPool = Bitcoin.KeyPool;
 	var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
-	var rng = new SecureRandom();
 
 	var ECKey = function (input) {
 		if (!input) {
@@ -5663,6 +5735,7 @@ Bitcoin.ECKey = (function () {
 		}
 
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
+		KeyPool.push(this);
 	};
 
 	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
@@ -5754,6 +5827,7 @@ Bitcoin.ECKey = (function () {
 	// Sipa Private Key Wallet Import Format 
 	ECKey.prototype.getBitcoinWalletImportFormat = function () {
 		var bytes = this.getBitcoinPrivateKeyByteArray();
+		if (bytes == null) return "";
 		bytes.unshift(ECKey.privateKeyPrefix); // prepend 0x80 byte
 		if (this.compressed) bytes.push(0x01); // append 0x01 byte for compressed format
 		var checksum = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
@@ -5773,6 +5847,7 @@ Bitcoin.ECKey = (function () {
 	};
 
 	ECKey.prototype.getBitcoinPrivateKeyByteArray = function () {
+		if (this.priv == null) return null;
 		// Get a copy of private key as a byte array
 		var bytes = this.priv.toByteArrayUnsigned();
 		// zero pad if private key is less than 32 bytes 
@@ -5995,6 +6070,16 @@ Bitcoin.Util = {
 	// double sha256
 	dsha256: function (data) {
 		return Crypto.SHA256(Crypto.SHA256(data, { asBytes: true }), { asBytes: true });
+	},
+	// duck typing method
+	hasMethods: function(obj /*, method list as strings */){
+		var i = 1, methodName;
+		while((methodName = arguments[i++])){
+			if(typeof obj[methodName] != 'function') {
+				return false;
+			}
+		}
+		return true;
 	}
 };
 	</script>
@@ -6321,7 +6406,7 @@ body, html { height: 99%; }
 .question:hover, .expandable:hover { color: #77777A; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid #009900; }
-.button {}
+.button { margin-left: 5px; margin-right: 5px; }
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
@@ -6502,7 +6587,7 @@ body, html { height: 99%; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
 			
-	.footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
+	.footer { font-size: 90%; clear: both; width: 770px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
 	.footer div span.item { padding: 10px; }
 	.footer .authorbtc { float: left; width: 470px; }
 	.footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
@@ -6589,35 +6674,37 @@ body, html { height: 99%; }
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
 					</div>
 				</div>
-				<div id="keyarea" class="keyarea">
-					<div class="public">
-						<div class="pubaddress">
-							<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+				<div class="body">
+					<div id="keyarea" class="keyarea">
+						<div class="public">
+							<div class="pubaddress">
+								<span class="label" id="singlelabelbitcoinaddress">Bitcoin Address</span>
+							</div>
+							<div id="qrcode_public" class="qrcode_public"></div>
+							<div class="pubaddress">
+								<span class="output" id="btcaddress"></span>
+							</div>
+							<div id="singleshare">SHARE</div>
 						</div>
-						<div id="qrcode_public" class="qrcode_public"></div>
-						<div class="pubaddress">
-							<span class="output" id="btcaddress"></span>
+						<div class="private">
+							<div class="privwif">
+								<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
+							</div>
+							<div id="qrcode_private" class="qrcode_private"></div>
+							<div class="privwif">
+								<span class="output" id="btcprivwif"></span>
+							</div>
+							<div id="singlesecret">SECRET</div>
 						</div>
-						<div id="singleshare">SHARE</div>
 					</div>
-					<div class="private">
-						<div class="privwif">
-							<span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format)</span>
-						</div>
-						<div id="qrcode_private" class="qrcode_private"></div>
-						<div class="privwif">
-							<span class="output" id="btcprivwif"></span>
-						</div>
-						<div id="singlesecret">SECRET</div>
-					</div>				
-				</div>
-				
-				<div id="singlesafety">
-					<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with its corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
-					<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
-					<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
-					<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
-					<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+
+					<div id="singlesafety">
+						<p id="singletip1"><b>A Bitcoin wallet</b> is as simple as a single pairing of a Bitcoin address with its corresponding Bitcoin private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
+						<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the Bitcoin address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your Bitcoin private key should be kept a secret. Whomever you share the private key with has access to spend all the bitcoins associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
+						<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.</p>
+						<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.</p>
+						<p id="singletip5"><b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.</p>
+					</div>
 				</div>
 			</div>
 
@@ -6919,9 +7006,17 @@ body, html { height: 99%; }
 				<div class="tooltip" id="statusprotocolbad">
 					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
 					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
-					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.11.zip">download</a>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.0.zip">download</a>
 					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
 					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
+				</div>
+				<div class="tooltip" id="statuskeypoolgood">
+					<span id="statuslabelkeypool1">This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.</span>
+					<textarea rows="20" cols="102" id="keypooltextarea"></textarea>
+					
+					<br /><br />
+					<input type="button" value="Refresh" class="button" id="statuskeypoolrefresh" onclick="ninja.status.showKeyPool();" />
+					<input type="button" value="OK" class="button" id="statusokkeypool" onclick="document.getElementById('statuskeypoolgood').style.display = 'none';" />
 				</div>
 			</div>
 
@@ -6931,22 +7026,24 @@ body, html { height: 99%; }
 						<span class="statusicon" id="statusprotocol" onclick="ninja.status.showProtocol();">...</span>
 						<span class="statusicon" id="statuscrypto" onclick="ninja.status.showCrypto();">...</span>
 						<span class="statusicon" id="statusunittests" onclick="ninja.status.showUnitTests();">...</span>
+						<span class="statusicon" id="statuskeypool" onclick="ninja.status.showKeyPool();"></span>
 					</span>
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v2.9.11.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.0.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (2.9.11)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.0.0)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
 				<span class="item">
-					(<a href="ninja_bitaddress.org.txt" target="_blank" id="footerlabelpgp">PGP</a>)
+					(<a href="pointbiz_bitaddress.org.asc" target="_blank" id="footerlabelpgp">PGP</a>)
 					(<a href="javascript:window.location=window.location.pathname+'.sig';" target="_blank" id="footerlabelsig">sig</a>)
+				</span>
 			</div>
 			<div class="copyright">
 				<span id="footerlabelcopyright1">Copyright bitaddress.org.</span>
@@ -7091,9 +7188,12 @@ ninja.privateKey = {
 					var prefactorB = prefactorA.concat(ownerentropy); // ownerentropy using closure
 					passfactor = Bitcoin.Util.dsha256(prefactorB);
 				}
+				// remove this ECKey from the pool (because user does not see it)
+				var userKeyPool = Bitcoin.KeyPool.getArray();
+				Bitcoin.KeyPool.reset();
 				var kp = new Bitcoin.ECKey(passfactor);
 				var passpoint = kp.setCompressed(true).getPub();
-
+				Bitcoin.KeyPool.setArray(userKeyPool);
 				var encryptedpart2 = hex.slice(23, 23 + 16);
 
 				var addresshashplusownerentropy = hex.slice(3, 3 + 12);
@@ -7557,6 +7657,8 @@ ninja.publicKey = {
 				document.getElementById("statusunittests").innerHTML = "&times;"; //×
 				unitTestsCase = "bad";
 			}
+			// show session log icon
+			document.getElementById("statuskeypool").innerHTML = "&#8803;"; //≣
 		};
 
 		var showCrypto = function () {
@@ -7571,7 +7673,15 @@ ninja.publicKey = {
 			if(unitTestsCase != "") document.getElementById('statusunittests' + unitTestsCase).style.display = 'block';
 		};
 
-		return { unitTests: unitTests, showCrypto: showCrypto, showProtocol: showProtocol, showUnitTests: showUnitTests };
+		var showKeyPool = function () {
+			document.getElementById('statuskeypoolgood').style.display = 'block';
+			document.getElementById("keypooltextarea").value = Bitcoin.KeyPool.toString();
+		};
+
+		return {
+			unitTests: unitTests, showCrypto: showCrypto, showProtocol: showProtocol,
+			showUnitTests: showUnitTests, showKeyPool: showKeyPool
+		};
 	}();
 })(ninja);
 
@@ -7806,6 +7916,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Generar dirección",
@@ -7967,6 +8080,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Générer Une Nouvelle Adresse",
@@ -8128,6 +8244,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Δημιουργία μιας νέας Διεύθυνσης",
@@ -8289,6 +8408,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Genera un Nuovo Indirizzo",
@@ -8450,6 +8572,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Neues Wallet erstellen",
@@ -8611,6 +8736,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Vytvořit novou adresu",
@@ -8772,6 +8900,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Új cím előállítása",
@@ -8939,6 +9070,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "新アドレス生成",
@@ -9107,6 +9241,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "Gerar endereço",
@@ -9268,6 +9405,9 @@ ninja.translator = {
 			"statuslabelprotocolbad2": "download", //TODO: please translate
 			"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
 			"statusokprotocolbad": "OK", //TODO: please translate
+			"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+			"statuskeypoolrefresh": "Refresh", //TODO: please translate
+			"statusokkeypool": "OK", //TODO: please translate
 
 			// single wallet html
 			"newaddress": "生成新地址",
@@ -9435,6 +9575,9 @@ ninja.translator = {
             "statuslabelprotocolbad2": "download", //TODO: please translate
             "statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
             "statusokprotocolbad": "OK", //TODO: please translate
+            "statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+            "statuskeypoolrefresh": "Refresh", //TODO: please translate
+            "statusokkeypool": "OK", //TODO: please translate
 
             // single wallet html
             "newaddress": "Сгенерировать новый адрес",
@@ -9573,46 +9716,48 @@ ninja.translator.showEnglishJson = function () {
 
 	</script>
 	<script type="text/javascript">
-ninja.wallets.singlewallet = {
-    isOpen: function () {
-        return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
-    },
+(function (wallets) {
+	var single = wallets.singlewallet = {
+		isOpen: function () {
+			return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
+		},
 
-	open: function () {
-		if (document.getElementById("btcaddress").innerHTML == "") {
-			ninja.wallets.singlewallet.generateNewAddressAndKey();
-		}
-		document.getElementById("singlearea").style.display = "block";
-	},
+		open: function () {
+			if (document.getElementById("btcaddress").innerHTML == "") {
+				single.generateNewAddressAndKey();
+			}
+			document.getElementById("singlearea").style.display = "block";
+		},
 
-	close: function () {
-		document.getElementById("singlearea").style.display = "none";
-	},
+		close: function () {
+			document.getElementById("singlearea").style.display = "none";
+		},
 
-	// generate bitcoin address and private key and update information in the HTML
-	generateNewAddressAndKey: function () {
-		try {
-			var key = new Bitcoin.ECKey(false);
-			var bitcoinAddress = key.getBitcoinAddress();
-			var privateKeyWif = key.getBitcoinWalletImportFormat();
-			document.getElementById("btcaddress").innerHTML = bitcoinAddress;
-			document.getElementById("btcprivwif").innerHTML = privateKeyWif;
-			var keyValuePair = {
-				"qrcode_public": bitcoinAddress,
-				"qrcode_private": privateKeyWif
-			};
-			ninja.qrCode.showQrCode(keyValuePair, 4);
+		// generate bitcoin address and private key and update information in the HTML
+		generateNewAddressAndKey: function () {
+			try {
+				var key = new Bitcoin.ECKey(false);
+				var bitcoinAddress = key.getBitcoinAddress();
+				var privateKeyWif = key.getBitcoinWalletImportFormat();
+				document.getElementById("btcaddress").innerHTML = bitcoinAddress;
+				document.getElementById("btcprivwif").innerHTML = privateKeyWif;
+				var keyValuePair = {
+					"qrcode_public": bitcoinAddress,
+					"qrcode_private": privateKeyWif
+				};
+				ninja.qrCode.showQrCode(keyValuePair, 4);
+			}
+			catch (e) {
+				// browser does not have sufficient JavaScript support to generate a bitcoin address
+				alert(e);
+				document.getElementById("btcaddress").innerHTML = "error";
+				document.getElementById("btcprivwif").innerHTML = "error";
+				document.getElementById("qrcode_public").innerHTML = "";
+				document.getElementById("qrcode_private").innerHTML = "";
+			}
 		}
-		catch (e) {
-			// browser does not have sufficient JavaScript support to generate a bitcoin address
-			alert(e);
-			document.getElementById("btcaddress").innerHTML = "error";
-			document.getElementById("btcprivwif").innerHTML = "error";
-			document.getElementById("qrcode_public").innerHTML = "";
-			document.getElementById("qrcode_private").innerHTML = "";
-		}
-	}
-};
+	};
+})(ninja.wallets);
 	</script>
 	<script type="text/javascript">
 ninja.wallets.paperwallet = {
@@ -9718,6 +9863,7 @@ ninja.wallets.paperwallet = {
 	generateNewWallet: function (idPostFix) {
 		if (ninja.wallets.paperwallet.encrypt) {
 			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, false, function (address, encryptedKey) {
+				Bitcoin.KeyPool.push(new Bitcoin.Bip38Key(address, encryptedKey));
 				if (ninja.wallets.paperwallet.useArtisticWallet) {
 					ninja.wallets.paperwallet.showArtisticWallet(idPostFix, address, encryptedKey);
 				}
@@ -10229,7 +10375,10 @@ ninja.wallets.detailwallet = {
 	},
 
 	populateKeyDetails: function (btcKey) {
+
 		if (btcKey.priv != null) {
+			// get the original compression value and set it back later in this function
+			var originalCompression = btcKey.compressed;
 			btcKey.setCompressed(false);
 			document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
 			document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
@@ -10240,10 +10389,13 @@ ninja.wallets.detailwallet = {
 			document.getElementById("detailprivwif").innerHTML = wif;
 			btcKey.setCompressed(true);
 			var bitcoinAddressComp = btcKey.getBitcoinAddress();
-			var wifComp = btcKey.getBitcoinWalletImportFormat();
+			var wifComp = btcKey.getBitcoinWalletImportFormat();			
 			document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
 			document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
 			document.getElementById("detailprivwifcomp").innerHTML = wifComp;
+			btcKey.setCompressed(originalCompression); // to satisfy the key pool
+			var pool1 = new Bitcoin.ECKey(wif); // to satisfy the key pool
+			var pool2 = new Bitcoin.ECKey(wifComp); // to satisfy the key pool
 
 			ninja.qrCode.showQrCode({
 				"detailqrcodepublic": bitcoinAddress,
@@ -10438,22 +10590,31 @@ ninja.wallets.splitwallet = {
 				document.body.appendChild(div);
 				document.getElementById("busyblock").className = "";
 			}
+			Bitcoin.KeyPool.reset(); // reset the key pool so users don't see the test keys
 			return { passCount: passCount, testCount: testCount };
 		},
 
-		runAsynchronousTests: function () {
-			var div = document.createElement("div");
-			div.setAttribute("class", "unittests");
-			div.setAttribute("id", "asyncunittests");
-			div.innerHTML = "<h3>Async Unit Tests</h3><div id=\"asyncunittestresults\"></div><br/><br/><br/><br/>";
-			document.body.appendChild(div);
+		runAsynchronousTests: function (showOutput) {
+			if (showOutput) {
+				var div = document.createElement("div");
+				div.setAttribute("class", "unittests");
+				div.setAttribute("id", "asyncunittests");
+				div.innerHTML = "<h3>Async Unit Tests</h3><div id=\"asyncunittestresults\"></div><br/><br/><br/><br/>";
+				document.body.appendChild(div);
+			}
 
+			var userKeyPool = Bitcoin.KeyPool.getArray();
 			// run the asynchronous tests one after another so we don't crash the browser
 			ninja.foreachSerialized(ninja.unitTests.asynchronousTests, function (name, cb) {
+				Bitcoin.KeyPool.reset();
 				document.getElementById("busyblock").className = "busy";
 				ninja.unitTests.asynchronousTests[name](cb);
 			}, function () {
-				document.getElementById("asyncunittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
+				if (showOutput) {
+					document.getElementById("asyncunittestresults").innerHTML += "running of asynchronous unit tests complete!<br/>";
+				}
+				console.log("running of asynchronous unit tests complete!");
+				Bitcoin.KeyPool.setArray(userKeyPool);
 				document.getElementById("busyblock").className = "";
 			});
 		},
@@ -10697,7 +10858,8 @@ ninja.wallets.splitwallet = {
 				var key = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
 				var btcKey = new Bitcoin.ECKey(key);
 				if (btcKey.getBitcoinWalletImportFormat() != "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S"
-						|| btcKey.getPubPoint().compressed != true) {
+						|| btcKey.getPubPoint().compressed != true
+						|| btcKey.compressed != true) {
 					return false;
 				}
 				return true;
@@ -10705,7 +10867,8 @@ ninja.wallets.splitwallet = {
 			testWifToECKey: function () {
 				var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
 				var btcKey = new Bitcoin.ECKey(key);
-				if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb") {
+				if (btcKey.getBitcoinWalletImportFormat() != "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb"
+					|| btcKey.compressed == true) {
 					return false;
 				}
 				return true;
@@ -10969,6 +11132,46 @@ ninja.wallets.splitwallet = {
 					return false;
 				}
 				return true;
+			},
+
+			//Bitcoin.KeyPool tests
+			testKeyPoolStoresCompressedAndUncompressedKey: function () {
+				var keyUncompressed = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+				var keyCompressed = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+				Bitcoin.KeyPool.reset();
+
+				var btcKeyUncompressed = new Bitcoin.ECKey(keyUncompressed);
+				var btcKeyCompressed = new Bitcoin.ECKey(keyCompressed);
+				var pool = Bitcoin.KeyPool.getArray();
+				
+				if (pool.length != 2
+					|| pool[0].getBitcoinWalletImportFormat() != keyUncompressed
+					|| pool[1].getBitcoinWalletImportFormat() != keyCompressed
+				) {
+					return false;
+				}
+				return true;
+			},
+			testKeyPoolPreventDuplicatesWhenAdding: function () {
+				var keyUncompressed = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
+				var keyCompressed = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
+				var keyHex = "292665C3872418ADF1DA7FFA3A646F2F0602246DA6098A91D229C32150F2718B";
+
+				Bitcoin.KeyPool.reset();
+				var btcKeyUncompressed = new Bitcoin.ECKey(keyUncompressed);
+				var btcKeyCompressed = new Bitcoin.ECKey(keyCompressed);
+				var btcKeyCompressed2 = new Bitcoin.ECKey(keyCompressed);
+				var btcKeyUncompressed2 = new Bitcoin.ECKey(keyUncompressed);
+				var btcKeyHex = new Bitcoin.ECKey(keyHex);
+				var pool = Bitcoin.KeyPool.getArray();
+				
+				if (pool.length != 2
+					|| pool[0].getBitcoinWalletImportFormat() != keyUncompressed
+					|| pool[1].getBitcoinWalletImportFormat() != keyCompressed
+				) {
+					return false;
+				}
+				return true;
 			}
 		},
 
@@ -10989,43 +11192,50 @@ ninja.wallets.splitwallet = {
 					["6PgNBNNzDkKdhkT6uJntUXwwzQV8Rr2tZcbkDcuC9DZRsS6AtHts4Ypo1j", "MOLON LABE", "5JLdxTtcTHcfYcmJsNVy1v2PMDx432JPoYcBTVVRHpPaxUrdtf8"],
 					["6PgGWtx25kUg8QWvwuJAgorN6k9FbE25rv5dMRwu5SKMnfpfVe5mar2ngH", Crypto.charenc.UTF8.bytesToString([206, 156, 206, 159, 206, 155, 206, 169, 206, 157, 32, 206, 155, 206, 145, 206, 146, 206, 149])/*UTF-8 characters, encoded in source so they don't get corrupted*/, "5KMKKuUmAkiNbA3DazMQiLfDq47qs8MAEThm4yL8R2PhV1ov33D"]];
 
+				var waitTimeMs = 60000;
+
 				// running each test uses a lot of memory, which isn't freed
 				// immediately, so give the VM a little time to reclaim memory
 				function waitThenCall(callback) {
-					return function () { setTimeout(callback, 10000); }
+					return function () { setTimeout(callback, waitTimeMs); }
 				}
 
-				var decryptTest = function (test, i, onComplete) {
+				function log(str) {
+					if (document.getElementById("asyncunittestresults")) document.getElementById("asyncunittestresults").innerHTML += str + "<br/>";
+					console.log(str);
+				}
+
+				var decryptBip38Test = function (test, i, onComplete) {
 					ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(test[0], test[1], function (privBytes) {
 						if (privBytes.constructor == Error) {
-							document.getElementById("asyncunittestresults").innerHTML += "fail testDecryptBip38 #" + i + ", error: " + privBytes.message + "<br/>";
+							log("fail decryptBip38Test #" + i + ", error: " + privBytes.message);
 						} else {
 							var btcKey = new Bitcoin.ECKey(privBytes);
 							var wif = !test[2].substr(0, 1).match(/[LK]/) ? btcKey.setCompressed(false).getBitcoinWalletImportFormat() : btcKey.setCompressed(true).getBitcoinWalletImportFormat();
 							if (wif != test[2]) {
-								document.getElementById("asyncunittestresults").innerHTML += "fail testDecryptBip38 #" + i + "<br/>";
+								log("fail decryptBip38Test #" + i);
 							} else {
-								document.getElementById("asyncunittestresults").innerHTML += "pass testDecryptBip38 #" + i + "<br/>";
+								log("pass decryptBip38Test #" + i);
 							}
 						}
 						onComplete();
 					});
 				};
 
-				var encryptTest = function (test, compressed, i, onComplete) {
+				var encryptBip38Test = function (test, compressed, i, onComplete) {
 					ninja.privateKey.BIP38PrivateKeyToEncryptedKeyAsync(test[2], test[1], compressed, function (encryptedKey) {
 						if (encryptedKey === test[0]) {
-							document.getElementById("asyncunittestresults").innerHTML += "pass testBip38Encrypt #" + i + "<br/>";
+							log("pass encryptBip38Test #" + i);
 						} else {
-							document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Encrypt #" + i + "<br/>";
-							document.getElementById("asyncunittestresults").innerHTML += "expected " + test[0] + "<br/>received " + encryptedKey + "<br/>";
+							log("fail encryptBip38Test #" + i);
+							log("expected " + test[0] + "<br/>received " + encryptedKey);
 						}
 						onComplete();
 					});
 				};
 
 				// test randomly generated encryption-decryption cycle
-				var cycleTest = function (i, compress, onComplete) {
+				var cycleBip38Test = function (i, compress, onComplete) {
 					// create new private key
 					var privKey = (new Bitcoin.ECKey(false)).getBitcoinWalletImportFormat();
 
@@ -11036,11 +11246,11 @@ ninja.wallets.splitwallet = {
 							var decryptedKey = (new Bitcoin.ECKey(decryptedBytes)).getBitcoinWalletImportFormat();
 
 							if (decryptedKey === privKey) {
-								document.getElementById("asyncunittestresults").innerHTML += "pass cycleBip38 test #" + i + "<br/>";
+								log("pass cycleBip38Test #" + i);
 							}
 							else {
-								document.getElementById("asyncunittestresults").innerHTML += "fail cycleBip38 test #" + i + " " + privKey + "<br/>";
-								document.getElementById("asyncunittestresults").innerHTML += "encrypted key: " + encryptedKey + "<br/>decrypted key: " + decryptedKey;
+								log("fail cycleBip38Test #" + i + " " + privKey);
+								log("encrypted key: " + encryptedKey + "<br/>decrypted key: " + decryptedKey);
 							}
 							onComplete();
 						});
@@ -11049,20 +11259,20 @@ ninja.wallets.splitwallet = {
 
 				// intermediate test - create some encrypted keys from an intermediate
 				// then decrypt them to check that the private keys are recoverable
-				var intermediateTest = function (i, onComplete) {
+				var intermediateBip38Test = function (i, onComplete) {
 					var pass = Math.random().toString(36).substr(2);
 					ninja.privateKey.BIP38GenerateIntermediatePointAsync(pass, null, null, function (intermediatePoint) {
 						ninja.privateKey.BIP38GenerateECAddressAsync(intermediatePoint, false, function (address, encryptedKey) {
 							ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(encryptedKey, pass, function (privBytes) {
 								if (privBytes.constructor == Error) {
-									document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Intermediate #" + i + ", error: " + privBytes.message + "<br/>";
+									log("fail intermediateBip38Test #" + i + ", error: " + privBytes.message);
 								} else {
 									var btcKey = new Bitcoin.ECKey(privBytes);
 									var btcAddress = btcKey.getBitcoinAddress();
 									if (address !== btcKey.getBitcoinAddress()) {
-										document.getElementById("asyncunittestresults").innerHTML += "fail testBip38Intermediate #" + i + "<br/>";
+										log("fail intermediateBip38Test #" + i);
 									} else {
-										document.getElementById("asyncunittestresults").innerHTML += "pass testBip38Intermediate #" + i + "<br/>";
+										log("pass intermediateBip38Test #" + i);
 									}
 								}
 								onComplete();
@@ -11071,34 +11281,44 @@ ninja.wallets.splitwallet = {
 					});
 				}
 
-				document.getElementById("asyncunittestresults").innerHTML += "running " + tests.length + " tests named testDecryptBip38<br/>";
-				document.getElementById("asyncunittestresults").innerHTML += "running 4 tests named testBip38Encrypt<br/>";
-				document.getElementById("asyncunittestresults").innerHTML += "running 2 tests named cycleBip38<br/>";
-				document.getElementById("asyncunittestresults").innerHTML += "running 5 tests named testBip38Intermediate<br/>";
-				ninja.runSerialized([
+				var testArray = [
 					function (cb) {
+						log("running " + tests.length + " tests named decryptBip38Test");
 						ninja.forSerialized(0, tests.length, function (i, callback) {
-							decryptTest(tests[i], i, waitThenCall(callback));
+							console.log("running decryptBip38Test #" + i + " " + tests[i]);
+							decryptBip38Test(tests[i], i, waitThenCall(callback));
 						}, waitThenCall(cb));
-					},
+					}
+					,
 					function (cb) {
+						log("running 4 tests named encryptBip38Test");
 						ninja.forSerialized(0, 4, function (i, callback) {
+							console.log("running encryptBip38Test #" + i + " " + tests[i]);
 							// only first 4 test vectors are not EC-multiply,
 							// compression param false for i = 1,2 and true for i = 3,4
-							encryptTest(tests[i], i >= 2, i, waitThenCall(callback));
+							encryptBip38Test(tests[i], i >= 2, i, waitThenCall(callback));
 						}, waitThenCall(cb));
-					},
+					}
+					,
 					function (cb) {
+						log("running 2 tests named cycleBip38Test");
 						ninja.forSerialized(0, 2, function (i, callback) {
-							cycleTest(i, i % 2 ? true : false, waitThenCall(callback));
+							console.log("running cycleBip38Test #" + i);
+							cycleBip38Test(i, i % 2 ? true : false, waitThenCall(callback));
 						}, waitThenCall(cb));
-					},
+					}
+					,
 					function (cb) {
+						log("running 5 tests named intermediateBip38Test");
 						ninja.forSerialized(0, 5, function (i, callback) {
-							intermediateTest(i, waitThenCall(callback));
+							console.log("running intermediateBip38Test #" + i);
+							intermediateBip38Test(i, waitThenCall(callback));
 						}, cb);
 					}
-				], done);
+				];
+
+				ninja.runSerialized(testArray, done);
+				//TODO: ninja.runSerialized([		testArray[0],testArray[1]		], done);
 			}
 		}
 	};
@@ -11112,7 +11332,7 @@ if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["uni
 }
 // run async unit tests
 if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()["asyncunittests"] == "1") {
-	ninja.unitTests.runAsynchronousTests();
+	ninja.unitTests.runAsynchronousTests(true);
 }
 // change language
 if (ninja.getQueryString()["culture"] != undefined) {
