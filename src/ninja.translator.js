@@ -1768,45 +1768,45 @@ ninja.translator = {
             "bulkwallet": "Несколько кошельков",
             "brainwallet": "Умный кошелек",
             "vanitywallet": "Персональный кошелек",
-            "splitwallet": "Split Wallet", //TODO: please translate
+            "splitwallet": "Склеенный кошелек",
             "detailwallet": "Детали кошелька",
 
             // footer html
             "footerlabeldonations": "Пожертвования:",
-            "footerlabeltranslatedby": "Перевод: 1JGnkKH7gJhTyAz9r47nugFM8sdrUENpJi",
+            "footerlabeltranslatedby": "Перевод: 1C8DiC2YjExRUQuLGzz8Chce9yDenbuKbQ",
             "footerlabelpgp": "PGP ключ",
             "footerlabelversion": "История версий",
             "footerlabelgithub": "Проект на GitHub",
-			"footerlabelgithubzip": "zip",
-			"footerlabelsig": "sig",
+            "footerlabelgithubzip": "zip",
+            "footerlabelsig": "sig",
             "footerlabelcopyright1": "Копирайт bitaddress.org.",
             "footerlabelcopyright2": "Информация о копирайте на JavaScript в исходниках.",
             "footerlabelnowarranty": "Без гарантий.",
 
-        	// status html
-            "statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
-            "statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
-            "statusokcryptogood": "OK", //TODO: please translate
-            "statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
-            "statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
-            "statusokcryptobad": "OK", //TODO: please translate
-            "statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
-            "statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
-            "statusokunittestsgood": "OK", //TODO: please translate
-            "statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
-            "statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
-            "statusokunittestsbad": "OK", //TODO: please translate
-            "statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
-            "statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
-            "statusokprotocolgood": "OK", //TODO: please translate
-            "statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
-            "statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
-            "statuslabelprotocolbad2": "download", //TODO: please translate
-            "statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
-            "statusokprotocolbad": "OK", //TODO: please translate
-            "statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
-            "statuskeypoolrefresh": "Refresh", //TODO: please translate
-            "statusokkeypool": "OK", //TODO: please translate
+            // status html
+            "statuslabelcryptogood": "&#10004; Удачно!",
+            "statuslabelcryptogood1": "Ваш браузер может генерировать слуайные криптографические ключи через функцию window.crypto.getRandomValues",
+            "statusokcryptogood": "Удачно",
+            "statuslabelcryptobad": "&times; Не удачно!",
+            "statuslabelcryptobad1": "Ваш браузер не поддерживает функцию window.crypto.getRandomValues. Необходимо использовать современный браузер для работы с этим генератором, чтобы увеличить надежность сгенерированных ключей.",
+            "statusokcryptobad": "Удачно",
+            "statuslabelunittestsgood": "&#10004; Удачно!",
+            "statuslabelunittestsgood1": "Все тесты прошли успешно.",
+            "statusokunittestsgood": "Удачно",
+            "statuslabelunittestsbad": "&times; Не удачно!",
+            "statuslabelunittestsbad1": "Некоторые тесты завершились С ОШИБКОЙ. Попробуйте запустить генератор на другом браузере.",
+            "statusokunittestsbad": "Удачно",
+            "statuslabelprotocolgood": "&#10004; Удачно!",
+            "statuslabelprotocolgood1": "Вы запустили генератор с локального компьютера. <br />Совет: Проверьте, что вы находитесь в оффлайне ",
+            "statusokprotocolgood": "Удачно",
+            "statuslabelprotocolbad": "&#9888; Подумайте дважды!",
+            "statuslabelprotocolbad1": "Вы запускаете генератор с сайта. Для важных кошельков рекомендуется",
+            "statuslabelprotocolbad2": "загрузить",
+            "statuslabelprotocolbad3": "zip файл с сайта GitHub и запустить этот генератор локально из html файла.",
+            "statusokprotocolbad": "Удачно",
+            "statuslabelkeypool1": "Это лог всех биткоин адресов и приватных ключей, которые были сгенерированы за текущую сессию. Перезагрузка страницы приведет к созданию новой сессии.",
+            "statuskeypoolrefresh": "Обновить",
+            "statusokkeypool": "Скрыть",
 
             // single wallet html
             "newaddress": "Сгенерировать новый адрес",
