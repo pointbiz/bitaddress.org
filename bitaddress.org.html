@@ -6654,7 +6654,6 @@ body, html { height: 99%; }
 			<li class="tab" id="singlewallet" onclick="ninja.tab.select(this);">Single Wallet
 			<li class="tab" id="paperwallet" onclick="ninja.tab.select(this);">Paper Wallet
 			<li class="tab" id="bulkwallet" onclick="ninja.tab.select(this);">Bulk Wallet
-			<li class="tab" id="brainwallet" onclick="ninja.tab.select(this);">Brain Wallet
 			<li class="tab" id="vanitywallet" onclick="ninja.tab.select(this);">Vanity Wallet
 			<li class="tab" id="splitwallet" onclick="ninja.tab.select(this);">Split Wallet
 			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);">Wallet Details
@@ -6761,40 +6760,6 @@ body, html { height: 99%; }
 							<li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "bitcoin payment notification" and subscribe to at least one bitcoin payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the bitcoin address you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.<br />http://www.blockexplorer.com/address/THEADDRESSGOESHERE<br /><br />Unconfirmed transactions can be viewed at: http://blockchain.info/ <br />You should see the transaction there within 30 seconds.</li>
 							<li id="bulklabela2li5">Bitcoins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
 							</ol>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div id="brainarea" class="walletarea">
-				<div id="braincommands" class="commands">
-					<div class="row">
-						<span id="brainlabelenterpassphrase" class="label"><label for="brainpassphrase">Enter Passphrase: </label></span>
-						<input tabindex="1" type="password" id="brainpassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
-						<span><label id="brainlabelshow" for="brainpassphraseshow">Show?</label> <input type="checkbox" id="brainpassphraseshow" onchange="ninja.wallets.brainwallet.showToggle(this);" /></span>
-						<span class="print"><input type="button" name="print" id="brainprint" value="Print" onclick="window.print();" /></span>
-					</div>
-					<div class="row extra">
-						<span class="label" id="brainlabelconfirm"><label for="brainpassphraseconfirm">Confirm Passphrase: </label></span>
-						<input tabindex="2" type="password" id="brainpassphraseconfirm" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
-						<span><input tabindex="3" type="button" id="brainview" value="View" onclick="ninja.wallets.brainwallet.view();" /></span>
-						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
-					</div>
-					<div class="row extra"><span id="brainwarning"></span></div>
-				</div>
-				<div id="brainkeyarea" class="keyarea">
-					<div class="public">
-						<div id="brainqrcodepublic" class="qrcode_public"></div>
-						<div class="pubaddress">
-							<span class="label" id="brainlabelbitcoinaddress">Bitcoin Address:</span>
-							<span class="output" id="brainbtcaddress"></span>
-						</div>
-					</div>
-					<div class="private">
-						<div id="brainqrcodeprivate" class="qrcode_private"></div>
-						<div class="privwif">
-							<span class="label" id="brainlabelprivatekey">Private Key (Wallet Import Format):</span>
-							<span class="output" id="brainbtcprivwif"></span>
 						</div>
 					</div>
 				</div>
@@ -7699,13 +7664,13 @@ ninja.tab = {
             }
             
             // don't open tab if entropy still being collected
-            // exceptions: brainwallet detailwallet
-            if (ninja.seeder.isStillSeeding == false || walletType == "brainwallet" || walletType == "detailwallet") {
+            // exceptions: detailwallet
+            if (ninja.seeder.isStillSeeding == false || walletType == "detailwallet") {
             	walletTab.className += " selected";
             	document.getElementById("generate").style.display = "none";
                 ninja.wallets[walletTab.getAttribute("id")].open();
             }
-            else if (ninja.seeder.isStillSeeding == true && !(walletType == "brainwallet" || walletType == "detailwallet")) {
+            else if (ninja.seeder.isStillSeeding == true && !(walletType == "detailwallet")) {
                 document.getElementById("generate").style.display = "block";
             }
         }
@@ -7842,7 +7807,6 @@ ninja.translator = {
 			"singlewallet": "Single Wallet",
 			"paperwallet": "Paper Wallet",
 			"bulkwallet": "Bulk Wallet",
-			"brainwallet": "Brain Wallet",
 			"vanitywallet": "Vanity Wallet",
             "splitwallet": "Split Wallet",
 			"detailwallet": "Wallet Details"
@@ -7876,7 +7840,6 @@ ninja.translator = {
 			"singlewallet": "Una sola cartera",
 			"paperwallet": "Cartera en papel",
 			"bulkwallet": "Direcciones en masa",
-			"brainwallet": "Cartera mental",
 			"vanitywallet": "Cartera personalizada",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalles de la cartera",
@@ -8040,7 +8003,6 @@ ninja.translator = {
 			"singlewallet": "Porte-Monnaie Simple",
 			"paperwallet": "Porte-Monnaie Papier",
 			"bulkwallet": "Porte-Monnaie En Vrac",
-			"brainwallet": "Porte-Monnaie Cerveau",
 			"vanitywallet": "Porte-Monnaie Vanité",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Détails du Porte-Monnaie",
@@ -8204,7 +8166,6 @@ ninja.translator = {
 			"singlewallet": "Απλό Πορτοφόλι",
 			"paperwallet": "Χάρτινο Πορτοφόλι",
 			"bulkwallet": "Πολλαπλά Πορτοφόλια",
-			"brainwallet": "Μνημονικό Πορτοφόλι",
 			"vanitywallet": "Πορτοφόλι Vanity",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Λεπτομέρειες Πορτοφολιού",
@@ -8368,7 +8329,6 @@ ninja.translator = {
 			"singlewallet": "Singolo portafoglio",
 			"paperwallet": "Paper Wallet",
 			"bulkwallet": "Portafogli multipli",
-			"brainwallet": "Brain Wallet",
 			"vanitywallet": "Vanity Wallet",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Dettagli portafoglio",
@@ -8532,7 +8492,6 @@ ninja.translator = {
 			"singlewallet": "Einzelnes Wallet",
 			"paperwallet": "Papier-Wallet",
 			"bulkwallet": "Massen-Wallet",
-			"brainwallet": "Kopf-Wallet",
 			"vanitywallet": "Personalisiertes Wallet",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Walletdetails",
@@ -8696,7 +8655,6 @@ ninja.translator = {
 			"singlewallet": "Jedna peněženka",
 			"paperwallet": "Papírová peněženka",
 			"bulkwallet": "Hromadná peněženka",
-			"brainwallet": "Myšlenková peněženka",
 			"vanitywallet": "Peněženka Vanity",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detail peněženky",
@@ -8860,7 +8818,6 @@ ninja.translator = {
 			"singlewallet": "Egyszerű pénztárca",
 			"paperwallet": "Papír pénztárca",
 			"bulkwallet": "Tömeges pénztárca",
-			"brainwallet": "Fejben tartott pénztárca",
 			"vanitywallet": "Kérkedő pénztárca",
 			"splitwallet": "Részekre bontott ~",
 			"detailwallet": "A pénztárca részletei",
@@ -9030,7 +8987,6 @@ ninja.translator = {
 			"singlewallet": "シングルウォレット",
 			"paperwallet": "ペーパーウォレット",
 			"bulkwallet": "大量ウォレット",
-			"brainwallet": "暗記ウォレット",
 			"vanitywallet": "カスタムウォレット",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "ウォレットの詳細",
@@ -9201,7 +9157,6 @@ ninja.translator = {
 			"singlewallet": "Carteira única",
 			"paperwallet": "Carteira em papel",
 			"bulkwallet": "Múltiplos endereços",
-			"brainwallet": "Carteira mental",
 			"vanitywallet": "Carteira personalizada",
 			"splitwallet": "Split Wallet", //TODO: please translate
 			"detailwallet": "Detalhes da carteira",
@@ -9365,7 +9320,6 @@ ninja.translator = {
 			"singlewallet": "普通钱包",
 			"paperwallet": "纸钱包",
 			"bulkwallet": "批量钱包",
-			"brainwallet": "脑钱包",
 			"vanitywallet": "虚荣钱包",
 			"splitwallet": "分裂钱包",
 			"detailwallet": "钱包详情",
@@ -9535,7 +9489,6 @@ ninja.translator = {
             "singlewallet": "Один кошелек",
             "paperwallet": "Бумажный кошелек",
             "bulkwallet": "Несколько кошельков",
-            "brainwallet": "Умный кошелек",
             "vanitywallet": "Персональный кошелек",
             "splitwallet": "Split Wallet", //TODO: please translate
             "detailwallet": "Детали кошелька",
@@ -10088,74 +10041,6 @@ ninja.wallets.bulkwallet = {
 };
 	</script>
 	<script type="text/javascript">
-ninja.wallets.brainwallet = {
-    isOpen: function () {
-        return (document.getElementById("brainwallet").className.indexOf("selected") != -1);
-    },
-
-	open: function () {
-		document.getElementById("brainarea").style.display = "block";
-		document.getElementById("brainpassphrase").focus();
-		document.getElementById("brainwarning").innerHTML = ninja.translator.get("brainalertpassphrasewarning");
-	},
-
-	close: function () {
-		document.getElementById("brainarea").style.display = "none";
-	},
-
-	minPassphraseLength: 15,
-
-	view: function () {
-		var key = document.getElementById("brainpassphrase").value.toString()
-		document.getElementById("brainpassphrase").value = key;
-		var keyConfirm = document.getElementById("brainpassphraseconfirm").value.toString()
-		document.getElementById("brainpassphraseconfirm").value = keyConfirm;
-
-		if (key == keyConfirm || document.getElementById("brainpassphraseshow").checked) {
-			// enforce a minimum passphrase length
-			if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-				var bytes = Crypto.SHA256(key, { asBytes: true });
-				var btcKey = new Bitcoin.ECKey(bytes);
-				var bitcoinAddress = btcKey.getBitcoinAddress();
-				var privWif = btcKey.getBitcoinWalletImportFormat();
-				document.getElementById("brainbtcaddress").innerHTML = bitcoinAddress;
-				document.getElementById("brainbtcprivwif").innerHTML = privWif;
-				ninja.qrCode.showQrCode({
-					"brainqrcodepublic": bitcoinAddress,
-					"brainqrcodeprivate": privWif
-				});
-				document.getElementById("brainkeyarea").style.visibility = "visible";
-			}
-			else {
-				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
-				ninja.wallets.brainwallet.clear();
-			}
-		}
-		else {
-			alert(ninja.translator.get("brainalertpassphrasedoesnotmatch"));
-			ninja.wallets.brainwallet.clear();
-		}
-	},
-
-	clear: function () {
-		document.getElementById("brainkeyarea").style.visibility = "hidden";
-	},
-
-	showToggle: function (element) {
-		if (element.checked) {
-			document.getElementById("brainpassphrase").setAttribute("type", "text");
-			document.getElementById("brainpassphraseconfirm").style.visibility = "hidden";
-			document.getElementById("brainlabelconfirm").style.visibility = "hidden";
-		}
-		else {
-			document.getElementById("brainpassphrase").setAttribute("type", "password");
-			document.getElementById("brainpassphraseconfirm").style.visibility = "visible";
-			document.getElementById("brainlabelconfirm").style.visibility = "visible";
-		}
-	}
-};
-	</script>
-	<script type="text/javascript">
 ninja.wallets.vanitywallet = {
     isOpen: function () {
         return (document.getElementById("vanitywallet").className.indexOf("selected") != -1);
@@ -10352,7 +10237,7 @@ ninja.wallets.detailwallet = {
 			var btcKey = new Bitcoin.ECKey(key);
 			if (btcKey.priv == null) {
 				// enforce a minimum passphrase length
-				if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
+				if (key.length >= 15) {
 					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
 					var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
 					if (usePassphrase) {
