@@ -6891,7 +6891,10 @@ body, html { height: 99%; }
 				<div id="detailcommands" class="commands">
 					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
 					<input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
-					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span><br><br>
+                    <span><label id="detaillabeluploadfile">Upload Image or File</label></span>
+                    <input type="file" id="detailinputuploadfile"/>
+                    <span><input type="button" id="detailbuttonuploadfile" value="Upload File" onclick="ninja.wallets.detailwallet.readFile();" /></span>
 					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
 					<div class="row extra">
 						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
@@ -8006,6 +8009,8 @@ ninja.translator = {
 			"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
 			"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
 			"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
+            "detaillabeluploadfile": "Añadir imagen o archivo",
+            "detailbuttonuploadfile": "Subir Archivo",
 			"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
 			"detaildecrypt": "Decrypt BIP38", //TODO: please translate
 			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
@@ -10371,6 +10376,86 @@ ninja.wallets.detailwallet = {
 			ninja.wallets.detailwallet.populateKeyDetails(btcKey);
 		}
 	},
+
+    readFile: function() {
+        file = detailinputuploadfile.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            var key = reader.result;
+            ninja.wallets.detailwallet.viewUploadDetails( key );
+        };
+    },
+
+    viewUploadDetails: function (file) {
+        var bip38 = false;
+        file = Crypto.SHA256(file);
+        var key = file.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+        document.getElementById("detailprivkey").value = key;
+        var bip38CommandDisplay = document.getElementById("detailbip38commands").style.display;
+        ninja.wallets.detailwallet.clear();
+        if (key == "") {
+            return;
+        }
+        if (ninja.privateKey.isBIP38Format(key)) {
+            document.getElementById("detailbip38commands").style.display = bip38CommandDisplay;
+            if (bip38CommandDisplay != "block") {
+                document.getElementById("detailbip38commands").style.display = "block";
+                document.getElementById("detailprivkeypassphrase").focus();
+                return;
+            }
+            var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
+            if (passphrase == "") {
+                alert(ninja.translator.get("bip38alertpassphraserequired"));
+                return;
+            }
+            document.getElementById("busyblock").className = "busy";
+            // show Private Key BIP38 Format
+            document.getElementById("detailprivbip38").innerHTML = key;
+            document.getElementById("detailbip38").style.display = "block";
+            ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
+                document.getElementById("busyblock").className = "";
+                if (btcKeyOrError.message) {
+                    alert(btcKeyOrError.message);
+                    ninja.wallets.detailwallet.clear();
+                } else {
+                    ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
+                }
+            });
+        }
+        else {
+            if (Bitcoin.ECKey.isMiniFormat(key)) {
+                // show Private Key Mini Format
+                document.getElementById("detailprivmini").innerHTML = key;
+                document.getElementById("detailmini").style.display = "block";
+            }
+            else if (Bitcoin.ECKey.isBase6Format(key)) {
+                // show Private Key Base6 Format
+                document.getElementById("detailprivb6").innerHTML = key;
+                document.getElementById("detailb6").style.display = "block";
+            }
+            var btcKey = new Bitcoin.ECKey(key);
+            if (btcKey.priv == null) {
+                // enforce a minimum passphrase length
+                if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
+                    // Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
+                    var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
+                    if (usePassphrase) {
+                        var bytes = Crypto.SHA256(key, { asBytes: true });
+                        var btcKey = new Bitcoin.ECKey(bytes);
+                    }
+                    else {
+                        ninja.wallets.detailwallet.clear();
+                    }
+                }
+                else {
+                    alert(ninja.translator.get("detailalertnotvalidprivatekey"));
+                    ninja.wallets.detailwallet.clear();
+                }
+            }
+            ninja.wallets.detailwallet.populateKeyDetails(btcKey);
+        }
+    },
 
 	populateKeyDetails: function (btcKey) {
 
