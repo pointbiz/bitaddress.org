@@ -6408,6 +6408,7 @@ body, html { height: 99%; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid #009900; }
 .button { margin-left: 5px; margin-right: 5px; }
+input[type=checkbox] { position: relative; z-index: 20; }
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
@@ -6492,8 +6493,10 @@ body, html { height: 99%; }
 #detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
 #detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
 #detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
+#detailarea #detailqrcodeprivatebip38 { position: relative; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
 #detailpubkey { width: 590px; }
-#detailbip38commands { display: none; padding-top: 5px; }	
+#detailbip38commands { display: none; padding-top: 5px; }
+#detailbip38toggle { padding-top: 5px; }
 #vanityarea { text-align: left; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
@@ -6580,10 +6583,10 @@ body, html { height: 99%; }
 	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 250px; position: relative; z-index: 20; }
+	#detailprivkey { width: 460px; position: relative; z-index: 20; }
 	#detailprivkeypassphrase { width: 250px; position: relative; z-index: 20; }
-    #detailview { position: relative; z-index: 20; }
-    #detaildecrypt { position: relative; z-index: 20; }
+	#detailcommands .button { position: relative; z-index: 20; }
+	#detailbip38encryptspan { display: none; }
 	.paper .commands { border: 2px solid #009900; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }
@@ -6891,14 +6894,19 @@ body, html { height: 99%; }
 				<div id="detailcommands" class="commands">
 					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
 					<input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
-					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
-					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
-					<div class="row extra">
-						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
+					<span><input type="button" class="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+					
+					<div id="detailbip38toggle">
+						<span><label id="detaillabelencrypt" for="detailencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="detailbip38checkbox" onchange="ninja.wallets.detailwallet.toggleEncrypt(this);" /></span>
 					</div>
 					<div id="detailbip38commands">
-						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
-						<span><input type="button" id="detaildecrypt" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.enterOnPassphrase();" /></span>
+						<span id="detailbip38decryptspan"><input type="button" class="button" id="detailbip38decryptbutton" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.decryptBip38();" /></span>
+						<span id="detailbip38encryptspan"><input type="button" class="button" id="detailbip38encryptbutton" value="Encrypt BIP38" onclick="ninja.wallets.detailwallet.encryptBip38();" /></span>
+					</div>
+					<span class="print"><input type="button" class="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
+					<div class="row extra">
+						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
 					</div>
 				</div>
 				<div id="detailkeyarea">
@@ -6960,6 +6968,7 @@ body, html { height: 99%; }
 					</div>
 					<div class="item" style="display: none;" id="detailbip38">
 						<span class="label" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters base58, starts with '6P'):</span>
+						<div id="detailqrcodeprivatebip38" class="qrcode_private"></div>
 						<span class="output" id="detailprivbip38"></span>
 					</div>
 				</div>
@@ -7007,7 +7016,7 @@ body, html { height: 99%; }
 				<div class="tooltip" id="statusprotocolbad">
 					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
 					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
-					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.1.zip">download</a>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.1.0.zip">download</a>
 					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
 					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
 				</div>
@@ -7032,12 +7041,12 @@ body, html { height: 99%; }
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.0.1.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.1.0.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.0.1)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.1.0)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7830,6 +7839,8 @@ ninja.translator = {
 			"brainalertpassphrasedoesnotmatch": "The passphrase does not match the confirm passphrase.",
 			"detailalertnotvalidprivatekey": "The text you entered is not a valid Private Key",
 			"detailconfirmsha256": "The text you entered is not a valid Private Key!\n\nWould you like to use the entered text as a passphrase and create a Private Key using a SHA256 hash of the passphrase?\n\nWarning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.",
+			"detailbip38decryptbutton": "Decrypt BIP38", //TODO: please translate
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.",
 			"bip38alertpassphraserequired": "Passphrase required for BIP38 key",
 			"vanityinvalidinputcouldnotcombinekeys": "Invalid input. Could not combine keys.",
@@ -8007,7 +8018,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
 			"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
 			"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
-			"detaildecrypt": "Decrypt BIP38", //TODO: please translate
+			"detailbip38decryptbutton": "Decrypt BIP38", //TODO: please translate
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
 			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
@@ -8171,7 +8183,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Clé Privée Base64 (44 caractères):",
 			"detaillabelprivmini": "Clé Privée Format Mini (22, 26 ou 30 caractères, débute avec un 'S'):",
 			"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
-			"detaildecrypt": "Decrypt BIP38", //TODO: please translate
+			"detailbip38decryptbutton": "Decrypt BIP38", //TODO: please translate
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
 			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
@@ -8335,7 +8348,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Προσωπικό Κλειδί Base64 (44 χαρακτήρες):",
 			"detaillabelprivmini": "Προσωπικό Κλειδί Μορφή Mini (22, 26 ή 30 χαρακτήρες, ξεκινάει με 'S'):",
 			"detaillabelpassphrase": "BIP38 Κωδικός",
-			"detaildecrypt": "Αποκωδικοποίηση BIP38",
+			"detailbip38decryptbutton": "Αποκωδικοποίηση BIP38",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
 			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 		},
@@ -8499,7 +8513,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Chiave privata Base64 (44 caratteri):",
 			"detaillabelprivmini": "Chiave privata formato mini (22, 26 or 30 caratteri, inizia per 'S'):",
 			"detaillabelpassphrase": "Inserisci passphrase BIP38",
-			"detaildecrypt": "Decripta BIP38",
+			"detailbip38decryptbutton": "Decripta BIP38",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
 			"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 	    },
@@ -8663,7 +8678,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Privater Schl&uuml;ssel in base64 (44 Zeichen):",
 			"detaillabelprivmini": "Privater Schl&uuml;ssel in mini (22, 26 oder 30 Zeichen, beginnt mit 'S'):",
 			"detaillabelpassphrase": "Passwort f&uuml;r BIP38 eingeben",
-			"detaildecrypt": "Entschl&uuml;sseln",
+			"detailbip38decryptbutton": "Entschl&uuml;sseln",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "Wie erstelle ich ein Wallet mithilfe eines Würfels? Was versteht man unter B6?",
 			"detaila1": "Beim Erstellen eines Bitcoin-Wallets sollten die dafür genutzten Zufallszahlen auch tatsächlich zufällig sein. Ein echter Würfel liefert wesentlich zufälligere Zahlen als ein Computer. Um einen privaten Schlüssel zu erstellen, sind lediglich 99 Würfe mit einem normalen Würfel nötig. Nach jedem Wurf solltest du die Augenzahl nach folgendem Muster aufschreiben: 1-\>1, 2-\>2, 3-\>3, 4-\>4, 5-\>5, 6-\>0. Die so entstandene Zufallszahl stellt deinen privaten Schlüssel in B6 bzw. zur Basis 6 dar. Diesen 99 Zeichen langen Basis-6-Schlüssel kannst du im obigen Eingabefeld eingeben und dir dann die zugehörigen Details anzeigen lassen. U.a. wird dir die zu deinem privaten Schlüssel gehörende Bitcoin-Adresse angezeigt. Es wäre ratsam, sich die ebenfalls berechnete WIF-Version des privaten Schlüssels zu notieren, weil sie häufiger genutzt wird."		
 		},
@@ -8827,7 +8843,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Soukromý klíč v base64 (44 znaků):",
 			"detaillabelprivmini": "Soukromý klíč v mini formátů (22, 26 nebo 30 znaků, začíná 'S'):",
 			"detaillabelpassphrase": "Zadejte BIP38 heslo:",
-			"detaildecrypt": "Dešifrovat",
+			"detailbip38decryptbutton": "Dešifrovat",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "Jak si mohu vytvořit peněženku pomocí hrací kostky? Co je to B6?",
 			"detaila1": "Důležitá součást vytváření Bitcoin peněženky je jistota, že náhodná čísla použitá pro její tvorbu jsou opravdu náhodná. Fyzická náhoda je lepší než počítačem generovaná pseudonáhoda. Pomocí hrací kostky je možné jednoduše získat fyzicky náhodná čísla. Pro vytvoření soukromého klíče potřebujete pouze šestihrannou kostku, kterou 99x hodíte. Každý tento hod zaznamenejte. Při zapisování převeďte čísla takto: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Pomocí této techniky zapisujete velké, opravdu náhodné číslo, svůj soukromý klíč v B6 nebo také base 6 formátu. Těchto 99 čísel napište do pole výše a klikněte na Zobrazit detail. Poté se vám zobrazí Bitcoin adresa přidružená k tomuto soukromému klíči. Soukromý klíč byste si měli zaznamenat také ve WIF formátu, který je široce používán."
 		},
@@ -8997,7 +9014,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Base64 formátumú Privát Kulcs (44 karakter):",
 			"detaillabelprivmini": "Mini formátumú Privát Kulcs (22, 26 vagy 30 karakter, amely egy 'S'-sel kezdődik):",
 			"detaillabelpassphrase": "BIP38 jelmondat",
-			"detaildecrypt": "BIP38 dekódolás",
+			"detailbip38decryptbutton": "BIP38 dekódolás",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "Hogyan lehet dobókockával pénztárcát készíteni? Mit jelent a B6 formátum?",
 			"detaila1": "Egy Bitcoin pénztárca előállításakor nagyon fontos, hogy a felhasznált véletlen számok valóban véletlenek legyenek. A fizikai véletlen jobb, mint a számítógéppel előállított pszeudo-véletlen. Fizikai véletlen a legegyszerűbben egy dobókockával állítható elő. Ha szeretne egy Bitcoin privát címet előállítani, akkor csupán egy dobókockára van szüksége, mellyel 99-szer kell dobni. Jegyezze fel minden egyes dobása eredményét. Az eredmények feljegyzésekor a következő szabályokat kövesse: 1->1, 2->2, 3->3, 4->4, 5->5, 6->0. Ha így tesz, akkor a privát kulcshoz tartozó véletlen számot B6 formátumban, vagyis 6-os számrendszerben rögzíti. Írja be ezt a 99 karakterből álló 6-os számrendszerbeli privát kulcsot a fenti szövegmezőbe, majd nyomja meg a 'Részletek megjelenítése' gombot. Ekkor megjelenik az a Bitcoin cím, amely ehhez a privát kulcshoz tartozik. Érdemes felírni a WIF formátumú privát kulcsot is, mivel ezt szélesebb körben használják."
 		},
@@ -9168,7 +9186,8 @@ ninja.translator = {
 			"detaillabelprivhex": "プライベートキー(16進) (64文字[0-9A-F])",
 			"detaillabelprivb64": "プライベートキー(base64コード) (44文字)",
 			"detaillabelpassphrase": "BIP38パスワード",
-			"detaildecrypt": "BIP38暗号を解除",
+			"detailbip38decryptbutton": "BIP38暗号を解除",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "サイコロを使ってどうやってアドレス作るのか？「B6」とは何か？",
 			"detaila1": "ビットコインのアドレスの生成には一番大事なことが、アドレス生成に使われている乱数が本当にランダムなのかというところです。自然界に起きる物理的なランダムさはパソコンが生成する(似非)ランダムさよりは優れている。物理的なランダムさを作る一番簡単な方法はサイコロを振ることです。ビットコインのプライベートキーを生成するには、6面のサイコロを99回振って、毎回結果を記載していきます。規則として1⇒1, 2⇒2, 3⇒3, 4⇒4, 5⇒5, 6⇒0というように、6が出る度に「0」と記載して下さい。99桁の6進数字列ができたら、上記の入力欄に入れて、「詳細を表示」ボタンを押して下さい。これでWIF形式のプライベートキーやそれと紐づくビットコインアドレスが表示されます。これらを記載し、通常生成されたビットコインアドレスと同じように保管しておいて下さい。",
 		},
@@ -9332,7 +9351,8 @@ ninja.translator = {
 			"detaillabelprivb64": "Chave privada em base64 (44 caracteres):",
 			"detaillabelprivmini": "Chave privada en formato mini (22, 26 ou 30 caracteres, inicia com 'S'):",
 			"detaillabelpassphrase": "Senha BIP38",
-			"detaildecrypt": "Desencriptar BIP38",
+			"detailbip38decryptbutton": "Desencriptar BIP38",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "Como eu faço uma carteira usando um dado? O que é B6?",
 			"detaila1": "Uma parte importante ao criar um carteira Bitcoin é se assegurar que os números aleatórios usados para criar a carteira sejam realmente aleatórios. A aleatoriedade física é melhor do que a pseudo-aleatoriedade gerada por computador. A maneira mais fácil de gerar aleatoriedade física é com dados. Para criar um chave privada Bitcoin você precisa de apenas um dado de seis lados, o qual você jogará 99 vezes. A cada jogada, anote o valor do dado. Ao anotar os valores, siga as seguintes regras: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Ao fazer isso, você está anotando esse grande número aleatório, sua chave privada, no formato base 6 (B6). Você pode então digitar essa chave privada em base 6 contendo 99 caracteres no campo de texto acima e clicar em Ver Detalhes. Você então verá o endereço Bitcoin associado com sua chave privada. Você deve também anotar sua chave privada no formato WIF, já que ele é mais amplamente utilizado."
 		},
@@ -9502,7 +9522,8 @@ ninja.translator = {
 			"detaillabelprivhex": "私钥(16进制) (64位[0-9A-F]字符)",
 			"detaillabelprivb64": "私钥(base64) (44位)",
 			"detaillabelpassphrase": "输入BIP38的口令",
-			"detaildecrypt": "BIP38解码",
+			"detailbip38decryptbutton": "BIP38解码",
+			"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 			"detaillabelq1": "怎样用骰子生成私钥？B6是什么意思？",
 			"detaila1": "真正用随机数产生的钱包才是好钱包。物理产生的随机数可能会比计算机产生的随机数更优越（计算机的伪随机算法可能被识破，但是物理随机不太可能）。生成物理随机的最简单的办法是使用骰子，掷一枚六面骰99次，记录结果，将结果“6”记为“0”（或者将所有结果-1记录），这样你得到的记录将会是由0 1 2 3 4 5 组成的一串数字，称为“Base6格式”，简称“B6”。将它输入上面的文本框，点击“显示详情”按钮，得到你的私钥、地址。",
 		},
@@ -9665,7 +9686,8 @@ ninja.translator = {
             "detaillabelprivb64": "Приватный Ключ в Base64 формате (44 символа):",
             "detaillabelprivmini": "Приватный Ключ в формате мини (22, 26 или 30 символов, начинается с 'S'):",
             "detaillabelpassphrase": "Парольная фраза BIP38",
-            "detaildecrypt": "Расшифровать BIP38",
+            "detailbip38decryptbutton": "Расшифровать BIP38",
+            "detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
             "detaillabelq1": "Как сделать кошелек используя игральный кости? Что такое B6?",
             "detaila1": "Очень важно понимать, что при генерации биткоин кошелька используются действительно случайные числа. Физическая случайность лучше компьютерной псевдо-случайности. Самым простым способом генерации физической случайности является игральная кость. Для генерации Приватного Ключа Биткоин кошелька Вам нужна игральная кость с шестью сторонами, которую необходимо бросить 99 раз. Необходимо записать каждую цифру, выпавшую на игральной кости. Итоговый результат необходимо записать в таком виде: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Таким образом Вы запишите большое случайное число - Ваш Приватный Ключ, в формате B6 или Base6. После этого Вы можете ввести 99 символов приватного ключа в формате Base6 в текстовое поле вверху страницы и получить детальную информацию о кошельке. После этого Вы сможете увидеть адрес Биткоин кошелька соответствующий полученному приватному ключу. Вам потребуется сделать запись приватного ключа в формате для импорта, так как он наиболее часто используется."
         }
@@ -9714,7 +9736,7 @@ ninja.translator.showEnglishJson = function () {
 
 	</script>
 	<script type="text/javascript">
-(function (wallets) {
+(function (wallets, qrCode) {
 	var single = wallets.singlewallet = {
 		isOpen: function () {
 			return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
@@ -9743,7 +9765,7 @@ ninja.translator.showEnglishJson = function () {
 					"qrcode_public": bitcoinAddress,
 					"qrcode_private": privateKeyWif
 				};
-				ninja.qrCode.showQrCode(keyValuePair, 4);
+				qrCode.showQrCode(keyValuePair, 4);
 			}
 			catch (e) {
 				// browser does not have sufficient JavaScript support to generate a bitcoin address
@@ -9755,7 +9777,7 @@ ninja.translator.showEnglishJson = function () {
 			}
 		}
 	};
-})(ninja.wallets);
+})(ninja.wallets, ninja.qrCode);
 	</script>
 	<script type="text/javascript">
 ninja.wallets.paperwallet = {
@@ -10276,156 +10298,279 @@ ninja.wallets.vanitywallet = {
 };
 	</script>
 	<script type="text/javascript">
-ninja.wallets.detailwallet = {
-    isOpen: function () {
-        return (document.getElementById("detailwallet").className.indexOf("selected") != -1);
-    },
+(function (wallets, qrCode, privateKey, translator) {
+	var detail = wallets.detailwallet = {
+		isOpen: function () {
+			return (document.getElementById("detailwallet").className.indexOf("selected") != -1);
+		},
 
-	open: function () {
-		document.getElementById("detailarea").style.display = "block";
-		document.getElementById("detailprivkey").focus();
-	},
+		open: function () {
+			document.getElementById("detailarea").style.display = "block";
+			document.getElementById("detailprivkey").focus();
+		},
 
-	close: function () {
-		document.getElementById("detailarea").style.display = "none";
-	},
+		close: function () {
+			document.getElementById("detailarea").style.display = "none";
+		},
 
-	openCloseFaq: function (faqNum) {
-		// do close
-		if (document.getElementById("detaila" + faqNum).style.display == "block") {
-			document.getElementById("detaila" + faqNum).style.display = "none";
-			document.getElementById("detaile" + faqNum).setAttribute("class", "more");
-		}
-		// do open
-		else {
-			document.getElementById("detaila" + faqNum).style.display = "block";
-			document.getElementById("detaile" + faqNum).setAttribute("class", "less");
-		}
-	},
+		openCloseFaq: function (faqNum) {
+			// do close
+			if (document.getElementById("detaila" + faqNum).style.display == "block") {
+				document.getElementById("detaila" + faqNum).style.display = "none";
+				document.getElementById("detaile" + faqNum).setAttribute("class", "more");
+			}
+			// do open
+			else {
+				document.getElementById("detaila" + faqNum).style.display = "block";
+				document.getElementById("detaile" + faqNum).setAttribute("class", "less");
+			}
+		},
 
-	viewDetails: function () {
-		var bip38 = false;
-		var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
-		document.getElementById("detailprivkey").value = key;
-		var bip38CommandDisplay = document.getElementById("detailbip38commands").style.display;
-		ninja.wallets.detailwallet.clear();
-		if (key == "") {
-			return;
-		}
-		if (ninja.privateKey.isBIP38Format(key)) {
-			document.getElementById("detailbip38commands").style.display = bip38CommandDisplay;
-			if (bip38CommandDisplay != "block") {
-				document.getElementById("detailbip38commands").style.display = "block";
-				document.getElementById("detailprivkeypassphrase").focus();
+		getKeyFromInput: function () {
+			var key = document.getElementById("detailprivkey").value.toString().replace(/^\s+|\s+$/g, ""); // trim white space
+			document.getElementById("detailprivkey").value = key;
+			return key;
+		},
+
+		checkAndShowMini: function (key) {
+			if (Bitcoin.ECKey.isMiniFormat(key)) {
+				// show Private Key Mini Format
+				document.getElementById("detailprivmini").innerHTML = key;
+				document.getElementById("detailmini").style.display = "block";
+			}
+		},
+
+		checkAndShowBase6: function (key) {
+			if (Bitcoin.ECKey.isBase6Format(key)) {
+				// show Private Key Base6 Format
+				document.getElementById("detailprivb6").innerHTML = key;
+				document.getElementById("detailb6").style.display = "block";
+			}
+		},
+
+		keyToECKeyWithBrain: function (key) {
+			var btcKey = new Bitcoin.ECKey(key);
+			if (btcKey.priv == null) {
+				// enforce a minimum passphrase length
+				if (key.length >= wallets.brainwallet.minPassphraseLength) {
+					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
+					var usePassphrase = confirm(translator.get("detailconfirmsha256"));
+					if (usePassphrase) {
+						var bytes = Crypto.SHA256(key, { asBytes: true });
+						btcKey = new Bitcoin.ECKey(bytes);
+					}
+				}
+				else {
+					alert(translator.get("detailalertnotvalidprivatekey"));
+				}
+			}
+			return btcKey;
+		},
+
+		decryptBip38: function () {
+			detail.clear();
+			var key = detail.getKeyFromInput();
+			if (key == "") {
 				return;
 			}
+			if (privateKey.isBIP38Format(key) == false) {
+				return;
+			}
+			document.getElementById("detailbip38toggle").style.display = "none";
 			var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
 			if (passphrase == "") {
-				alert(ninja.translator.get("bip38alertpassphraserequired"));
+				alert(translator.get("bip38alertpassphraserequired"));
 				return;
 			}
 			document.getElementById("busyblock").className = "busy";
 			// show Private Key BIP38 Format
 			document.getElementById("detailprivbip38").innerHTML = key;
 			document.getElementById("detailbip38").style.display = "block";
-			ninja.privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
+			qrCode.showQrCode({
+				"detailqrcodeprivatebip38": key
+			}, 4);
+			privateKey.BIP38EncryptedKeyToByteArrayAsync(key, passphrase, function (btcKeyOrError) {
 				document.getElementById("busyblock").className = "";
 				if (btcKeyOrError.message) {
 					alert(btcKeyOrError.message);
-					ninja.wallets.detailwallet.clear();
+					detail.clear();
 				} else {
-					ninja.wallets.detailwallet.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
+					detail.populateKeyDetails(new Bitcoin.ECKey(btcKeyOrError));
 				}
 			});
-		}
-		else {
-			if (Bitcoin.ECKey.isMiniFormat(key)) {
-				// show Private Key Mini Format
-				document.getElementById("detailprivmini").innerHTML = key;
-				document.getElementById("detailmini").style.display = "block";
+		},
+
+		encryptBip38: function () {
+			detail.clear();
+			var key = detail.getKeyFromInput();
+			if (key == "") {
+				return;
 			}
-			else if (Bitcoin.ECKey.isBase6Format(key)) {
-				// show Private Key Base6 Format
-				document.getElementById("detailprivb6").innerHTML = key;
-				document.getElementById("detailb6").style.display = "block";
+			if (privateKey.isBIP38Format(key)) {
+				return;
 			}
-			var btcKey = new Bitcoin.ECKey(key);
+			detail.checkAndShowMini(key);
+			detail.checkAndShowBase6(key);
+			var btcKey = detail.keyToECKeyWithBrain(key);
 			if (btcKey.priv == null) {
-				// enforce a minimum passphrase length
-				if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
-					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
-					var usePassphrase = confirm(ninja.translator.get("detailconfirmsha256"));
-					if (usePassphrase) {
-						var bytes = Crypto.SHA256(key, { asBytes: true });
-						var btcKey = new Bitcoin.ECKey(bytes);
-					}
-					else {
-						ninja.wallets.detailwallet.clear();
-					}
+				return;
+			}
+			var detailEncryptCheckbox = document.getElementById("detailbip38checkbox");
+			if (detailEncryptCheckbox.checked == true) {
+				document.getElementById("detailbip38commands").style.display = "block";
+				var passphrase = document.getElementById("detailprivkeypassphrase").value.toString()
+				if (passphrase == "") {
+					alert(translator.get("bip38alertpassphraserequired"));
+					return;
+				}
+				document.getElementById("busyblock").className = "busy";
+				privateKey.BIP38PrivateKeyToEncryptedKeyAsync(btcKey.getBitcoinWalletImportFormat(), passphrase, btcKey.compressed, function (encryptedKey) {
+					qrCode.showQrCode({
+						"detailqrcodeprivatebip38": encryptedKey
+					}, 4);
+					// show Private Key BIP38 Format
+					document.getElementById("detailprivbip38").innerHTML = encryptedKey;
+					document.getElementById("detailbip38").style.display = "block";
+					document.getElementById("busyblock").className = "";
+				});
+				detail.populateKeyDetails(btcKey);
+			}
+		},
+
+		viewDetails: function () {
+			detail.clear();
+			document.getElementById("detailbip38checkbox").checked = false;
+			var key = detail.getKeyFromInput();
+			if (key == "") {
+				return;
+			}
+			if (privateKey.isBIP38Format(key)) {
+				document.getElementById("detailbip38commands").style.display = "block";
+				document.getElementById("detailprivkeypassphrase").focus();
+				return;
+			}
+			document.getElementById("detailbip38commands").style.display = "none";
+			detail.checkAndShowMini(key);
+			detail.checkAndShowBase6(key);
+			var btcKey = detail.keyToECKeyWithBrain(key);
+			if(btcKey.priv == null){
+				return;
+			}
+			detail.populateKeyDetails(btcKey);
+		},
+
+		populateKeyDetails: function (btcKey) {
+			if (btcKey.priv != null) {
+				// get the original compression value and set it back later in this function
+				var originalCompression = btcKey.compressed;
+				btcKey.setCompressed(false);
+				document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
+				document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
+				var bitcoinAddress = btcKey.getBitcoinAddress();
+				var wif = btcKey.getBitcoinWalletImportFormat();
+				document.getElementById("detailpubkey").innerHTML = btcKey.getPubKeyHex();
+				document.getElementById("detailaddress").innerHTML = bitcoinAddress;
+				document.getElementById("detailprivwif").innerHTML = wif;
+				btcKey.setCompressed(true);
+				var bitcoinAddressComp = btcKey.getBitcoinAddress();
+				var wifComp = btcKey.getBitcoinWalletImportFormat();			
+				document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
+				document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
+				document.getElementById("detailprivwifcomp").innerHTML = wifComp;
+				btcKey.setCompressed(originalCompression); // to satisfy the key pool
+				var pool1 = new Bitcoin.ECKey(wif); // to satisfy the key pool
+				var pool2 = new Bitcoin.ECKey(wifComp); // to satisfy the key pool
+
+				qrCode.showQrCode({
+					"detailqrcodepublic": bitcoinAddress,
+					"detailqrcodepubliccomp": bitcoinAddressComp,
+					"detailqrcodeprivate": wif,
+					"detailqrcodeprivatecomp": wifComp
+				}, 4);
+			}
+		},
+
+		clear: function () {
+			var key = detail.getKeyFromInput();
+			if (privateKey.isBIP38Format(key)) {
+				document.getElementById("detailbip38commands").style.display = "block";
+				document.getElementById("detailbip38toggle").style.display = "none";
+				document.getElementById("detailbip38decryptspan").style.display = "inline-block";
+				document.getElementById("detailbip38encryptspan").style.display = "none";
+				document.getElementById("detailbip38checkbox").checked = false;
+			}
+			else {
+				document.getElementById("detailbip38toggle").style.display = "block";
+				if (document.getElementById("detailbip38checkbox").checked) {
+					document.getElementById("detailbip38commands").style.display = "block";
+					document.getElementById("detailbip38decryptspan").style.display = "none";
+					document.getElementById("detailbip38encryptspan").style.display = "inline-block";
 				}
 				else {
-					alert(ninja.translator.get("detailalertnotvalidprivatekey"));
-					ninja.wallets.detailwallet.clear();
+					document.getElementById("detailbip38commands").style.display = "none";
+					document.getElementById("detailbip38decryptspan").style.display = "inline-block";
+					document.getElementById("detailbip38encryptspan").style.display = "none";
 				}
 			}
-			ninja.wallets.detailwallet.populateKeyDetails(btcKey);
+			document.getElementById("detailpubkey").innerHTML = "";
+			document.getElementById("detailpubkeycomp").innerHTML = "";
+			document.getElementById("detailaddress").innerHTML = "";
+			document.getElementById("detailaddresscomp").innerHTML = "";
+			document.getElementById("detailprivwif").innerHTML = "";
+			document.getElementById("detailprivwifcomp").innerHTML = "";
+			document.getElementById("detailprivhex").innerHTML = "";
+			document.getElementById("detailprivb64").innerHTML = "";
+			document.getElementById("detailprivb6").innerHTML = "";
+			document.getElementById("detailprivmini").innerHTML = "";
+			document.getElementById("detailprivbip38").innerHTML = "";
+			document.getElementById("detailqrcodepublic").innerHTML = "";
+			document.getElementById("detailqrcodepubliccomp").innerHTML = "";
+			document.getElementById("detailqrcodeprivate").innerHTML = "";
+			document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
+			document.getElementById("detailb6").style.display = "none";
+			document.getElementById("detailmini").style.display = "none";
+			document.getElementById("detailbip38").style.display = "none";
+		},
+
+		enterOnPassphrase: function () {
+			var detailEncryptCheckbox = document.getElementById("detailbip38checkbox");
+			if (detailEncryptCheckbox.checked) {
+				detail.encryptBip38();
+			}
+			else {
+				detail.decryptBip38();
+			}
+		},
+
+		toggleEncrypt: function (element) {
+			// enable/disable passphrase textbox
+			var bip38CommandDisplay = document.getElementById("detailbip38commands").style.display;
+			var key = detail.getKeyFromInput();
+
+			if (element.checked == true) {
+				if (privateKey.isBIP38Format(key)) {
+					document.getElementById("detailbip38toggle").style.display = "none";
+					document.getElementById("detailbip38commands").style.display = "block";
+					document.getElementById("detailprivkeypassphrase").focus();
+					return;
+				}
+				else {
+					// show encrypt button
+					document.getElementById("detailbip38commands").style.display = "block";
+					document.getElementById("detailprivkeypassphrase").focus();
+					document.getElementById("detailbip38decryptspan").style.display = "none";
+					document.getElementById("detailbip38encryptspan").style.display = "inline-block";
+				}
+			}
+			else {
+				// show decrypt button
+				document.getElementById("detailbip38decryptspan").style.display = "inline-block";
+				document.getElementById("detailbip38encryptspan").style.display = "none";
+				document.getElementById("detailbip38commands").style.display = "none";
+			}
 		}
-	},
-
-	populateKeyDetails: function (btcKey) {
-
-		if (btcKey.priv != null) {
-			// get the original compression value and set it back later in this function
-			var originalCompression = btcKey.compressed;
-			btcKey.setCompressed(false);
-			document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
-			document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");
-			var bitcoinAddress = btcKey.getBitcoinAddress();
-			var wif = btcKey.getBitcoinWalletImportFormat();
-			document.getElementById("detailpubkey").innerHTML = btcKey.getPubKeyHex();
-			document.getElementById("detailaddress").innerHTML = bitcoinAddress;
-			document.getElementById("detailprivwif").innerHTML = wif;
-			btcKey.setCompressed(true);
-			var bitcoinAddressComp = btcKey.getBitcoinAddress();
-			var wifComp = btcKey.getBitcoinWalletImportFormat();			
-			document.getElementById("detailpubkeycomp").innerHTML = btcKey.getPubKeyHex();
-			document.getElementById("detailaddresscomp").innerHTML = bitcoinAddressComp;
-			document.getElementById("detailprivwifcomp").innerHTML = wifComp;
-			btcKey.setCompressed(originalCompression); // to satisfy the key pool
-			var pool1 = new Bitcoin.ECKey(wif); // to satisfy the key pool
-			var pool2 = new Bitcoin.ECKey(wifComp); // to satisfy the key pool
-
-			ninja.qrCode.showQrCode({
-				"detailqrcodepublic": bitcoinAddress,
-				"detailqrcodepubliccomp": bitcoinAddressComp,
-				"detailqrcodeprivate": wif,
-				"detailqrcodeprivatecomp": wifComp
-			}, 4);
-		}
-	},
-
-	clear: function () {
-		document.getElementById("detailpubkey").innerHTML = "";
-		document.getElementById("detailpubkeycomp").innerHTML = "";
-		document.getElementById("detailaddress").innerHTML = "";
-		document.getElementById("detailaddresscomp").innerHTML = "";
-		document.getElementById("detailprivwif").innerHTML = "";
-		document.getElementById("detailprivwifcomp").innerHTML = "";
-		document.getElementById("detailprivhex").innerHTML = "";
-		document.getElementById("detailprivb64").innerHTML = "";
-		document.getElementById("detailprivb6").innerHTML = "";
-		document.getElementById("detailprivmini").innerHTML = "";
-		document.getElementById("detailprivbip38").innerHTML = "";
-		document.getElementById("detailqrcodepublic").innerHTML = "";
-		document.getElementById("detailqrcodepubliccomp").innerHTML = "";
-		document.getElementById("detailqrcodeprivate").innerHTML = "";
-		document.getElementById("detailqrcodeprivatecomp").innerHTML = "";
-		document.getElementById("detailb6").style.display = "none";
-		document.getElementById("detailmini").style.display = "none";
-		document.getElementById("detailbip38commands").style.display = "none";
-		document.getElementById("detailbip38").style.display = "none";
-	}
-};
+	};
+})(ninja.wallets, ninja.qrCode, ninja.privateKey, ninja.translator);
 	</script>
 	<script type="text/javascript">
 ninja.wallets.splitwallet = {

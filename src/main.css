@@ -24,6 +24,7 @@ body, html { height: 99%; }
 .answer { padding: 0 15px 10px 25px; text-align: left; display: none; font-size: 80%; }
 .faq { border: 0; border-top: 2px solid #009900; }
 .button { margin-left: 5px; margin-right: 5px; }
+input[type=checkbox] { position: relative; z-index: 20; }
 
 #wallets { clear: both; }
 #btcaddress, #btcprivwif, #detailaddress, #detailaddresscomp, #detailprivwif, #detailprivwifcomp { font-family: monospace; font-size: 1.25em; }
@@ -108,8 +109,10 @@ body, html { height: 99%; }
 #detailarea #detailqrcodepubliccomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
 #detailarea #detailqrcodeprivate { position: relative; float: left; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
 #detailarea #detailqrcodeprivatecomp { position: relative; float: right; margin: 0 0 0 10px; padding: 13px 11px 11px 11px; }
+#detailarea #detailqrcodeprivatebip38 { position: relative; margin: 0 10px 0 0; padding: 13px 11px 11px 11px; }
 #detailpubkey { width: 590px; }
-#detailbip38commands { display: none; padding-top: 5px; }	
+#detailbip38commands { display: none; padding-top: 5px; }
+#detailbip38toggle { padding-top: 5px; }
 #vanityarea { text-align: left; }
 #vanityarea .label { text-decoration: underline; }
 #vanityarea .output { font-family: monospace; font-size: 1.25em; display: block; }
@@ -196,10 +199,10 @@ body, html { height: 99%; }
 	#brainwarning {  }
 	#detailcommands { padding: 10px 0; }
 	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 250px; position: relative; z-index: 20; }
+	#detailprivkey { width: 460px; position: relative; z-index: 20; }
 	#detailprivkeypassphrase { width: 250px; position: relative; z-index: 20; }
-    #detailview { position: relative; z-index: 20; }
-    #detaildecrypt { position: relative; z-index: 20; }
+	#detailcommands .button { position: relative; z-index: 20; }
+	#detailbip38encryptspan { display: none; }
 	.paper .commands { border: 2px solid #009900; }
 	#bulkstartindex, #paperlimit, #paperlimitperpage { width: 35px; } 
 	#bulklimit { width: 45px; }

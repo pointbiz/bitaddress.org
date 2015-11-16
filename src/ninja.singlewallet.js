@@ -1,4 +1,4 @@
-(function (wallets) {
+(function (wallets, qrCode) {
 	var single = wallets.singlewallet = {
 		isOpen: function () {
 			return (document.getElementById("singlewallet").className.indexOf("selected") != -1);
@@ -27,7 +27,7 @@
 					"qrcode_public": bitcoinAddress,
 					"qrcode_private": privateKeyWif
 				};
-				ninja.qrCode.showQrCode(keyValuePair, 4);
+				qrCode.showQrCode(keyValuePair, 4);
 			}
 			catch (e) {
 				// browser does not have sufficient JavaScript support to generate a bitcoin address
@@ -39,4 +39,4 @@
 			}
 		}
 	};
-})(ninja.wallets);
+})(ninja.wallets, ninja.qrCode);

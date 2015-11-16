@@ -379,14 +379,19 @@
 				<div id="detailcommands" class="commands">
 					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
 					<input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
-					<span><input type="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
-					<span class="print"><input type="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
-					<div class="row extra">
-						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
+					<span><input type="button" class="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+					
+					<div id="detailbip38toggle">
+						<span><label id="detaillabelencrypt" for="detailencrypt">BIP38 Encrypt?</label> <input type="checkbox" id="detailbip38checkbox" onchange="ninja.wallets.detailwallet.toggleEncrypt(this);" /></span>
 					</div>
 					<div id="detailbip38commands">
-						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" /></span>
-						<span><input type="button" id="detaildecrypt" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
+						<span><label id="detaillabelpassphrase">Enter BIP38 Passphrase</label> <input type="text" id="detailprivkeypassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.enterOnPassphrase();" /></span>
+						<span id="detailbip38decryptspan"><input type="button" class="button" id="detailbip38decryptbutton" value="Decrypt BIP38" onclick="ninja.wallets.detailwallet.decryptBip38();" /></span>
+						<span id="detailbip38encryptspan"><input type="button" class="button" id="detailbip38encryptbutton" value="Encrypt BIP38" onclick="ninja.wallets.detailwallet.encryptBip38();" /></span>
+					</div>
+					<span class="print"><input type="button" class="button" name="print" id="detailprint" value="Print" onclick="window.print();" /></span>
+					<div class="row extra">
+						<span><label id="detailkeyformats">Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38</label></span>
 					</div>
 				</div>
 				<div id="detailkeyarea">
@@ -448,6 +453,7 @@
 					</div>
 					<div class="item" style="display: none;" id="detailbip38">
 						<span class="label" id="detaillabelprivbip38">Private Key BIP38 Format (58 characters base58, starts with '6P'):</span>
+						<div id="detailqrcodeprivatebip38" class="qrcode_private"></div>
 						<span class="output" id="detailprivbip38"></span>
 					</div>
 				</div>
