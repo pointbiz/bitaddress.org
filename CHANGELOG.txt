@@ -28,6 +28,10 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2015-11-22: status ACTIVE
+bitaddress.org-v3.1.0-SHA256-c3d4d8da8fc6980435a520dff562b7f831b2f6037ec2d4dd6bf76c5321873303.html
+ - add BIP38 encryption on Wallet Details tab.
+
 2015-10-25: status ACTIVE
 bitaddress.org-v3.0.1-SHA256-24d2d7f047a9aa217bf69f3ef344c972c151b1e3f6a8aa86ceb9a3be62884bc0.html
  - fix for session log not keeping track of keys from "Wallet Details" tab before entropy is collected.

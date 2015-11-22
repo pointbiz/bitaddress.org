@@ -767,7 +767,6 @@
 				];
 
 				ninja.runSerialized(testArray, done);
-				//TODO: ninja.runSerialized([		testArray[0],testArray[1]		], done);
 			}
 		}
 	};
