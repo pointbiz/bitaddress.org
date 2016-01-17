@@ -1,8 +1,8 @@
 {
   "name": "bitaddress.org",
   "version": "3.1.1",
-  "sha1sum": "",
-  "sha256sum": "",
+  "sha1sum": "b3759fb9ac0519e6a6f3fa46d4b9d2db7d494c8e",
+  "sha256sum": "8277de0a0c77761caa8f546c9885c36a3134a94823b14e24d364b86abb3a9ab3",
   "description": "Open Source JavaScript Client-Side Bitcoin Wallet Generator",
   "main": "Gruntfile.js",
   "dependencies": {
