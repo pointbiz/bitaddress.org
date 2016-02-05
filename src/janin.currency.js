@@ -122,7 +122,7 @@ janin.currencies = [
     janin.currency.createCurrency ("GlobalBoost",0x26, 0xa6, "6",    "R"    , "GeXdH1WhzA7ayYim9sdCCQKcVukUq1W8LJ"),
     janin.currency.createCurrency ("Goodcoin",   0x26, 0xa6, "6",    "R"    , "GM3kAbQGaMVAYk8U3CrVGhSwz1hZaF6gVM"),
     janin.currency.createCurrency ("GridcoinResearch",0x3e,0xbe,"7", "V"    , "SHs9ESzUL9VAEcq7kStfF1JUAMaNT1EYzJ"),
-    janin.currency.createCurrency ("Guldencoin", 0x26, 0xa6, "6",    "R"    , "GLD7BDBYyddx6Sr72zGfreRG21dJAe74j8"),
+    janin.currency.createCurrency ("Gulden", 0x26, 0xa6, "6",    "R"    , "GLD7BDBYyddx6Sr72zGfreRG21dJAe74j8"),
     janin.currency.createCurrency ("Guncoin",    0x27, 0xa7, "6",    "R"    , "GwVej6c3tF9GqEdSKmwJiUDWtQVK2wY9fP"),
     janin.currency.createCurrency ("HamRadioCoin",0x00,0x80, "5",    "LK"   , "1JQVWKT1NQJUJbbq4UdJUY8DbWmgqrrHWz"),
     janin.currency.createCurrency ("HTML5Coin",  0x28, 0xa8, "6",    "R"    , "HBUk5NzWyemrwLffC8pLFXabbJuMRKbkc7"),
