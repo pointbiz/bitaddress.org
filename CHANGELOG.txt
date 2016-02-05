@@ -28,6 +28,10 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2016-01-17: status ACTIVE
+bitaddress.org-v3.1.1-SHA256-8277de0a0c77761caa8f546c9885c36a3134a94823b14e24d364b86abb3a9ab3.html
+ - refactor translations into separate files per culture.
+
 2015-11-22: status ACTIVE
 bitaddress.org-v3.1.0-SHA256-c3d4d8da8fc6980435a520dff562b7f831b2f6037ec2d4dd6bf76c5321873303.html
  - add BIP38 encryption on Wallet Details tab.
