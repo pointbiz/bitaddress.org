@@ -54,7 +54,7 @@
 				// javascript alerts or messages
 				"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 				"paperlabelbitcoinaddress": "Bitcoin Address:",
-				"paperlabelprivatekey": "Private Key (Wallet Import Format):",
+				"paperlabelprivatekey": "Private Key:",
 				"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
 				"bulkgeneratingaddresses": "Generating addresses... ",
 				"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\n",
@@ -81,6 +81,31 @@
 				"splitwallet": "Split Wallet",
 				"detailwallet": "Wallet Details"
 			}
+		},
+
+		extractEnglishFromDomAndUpdateDictionary: function () {
+			var english = translator.translations["en"];
+			var spanish = translator.translations["es"];
+			var spanishClone = {};
+			for (var key in spanish) {
+				spanishClone[key] = spanish[key];
+			}
+			var newLang = {};
+			for (var key in english) {
+				newLang[key] = english[key];
+				delete spanishClone[key];
+			}
+			for (var key in spanishClone) {
+				if (document.getElementById(key)) {
+					if (document.getElementById(key).value) {
+						newLang[key] = document.getElementById(key).value;
+					}
+					else {
+						newLang[key] = document.getElementById(key).innerHTML;
+					}
+				}
+			}
+			translator.translations["en"] = newLang;
 		},
 
 		showEnglishJson: function () {

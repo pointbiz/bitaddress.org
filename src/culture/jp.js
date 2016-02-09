@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "テストネット版が有効になりました。",
 		"paperlabelbitcoinaddress": "ビットコインアドレス",
-		"paperlabelprivatekey": "プライベートキー(WIF形式)",
+		"paperlabelprivatekey": "プライベートキー",
 		"paperlabelencryptedkey": "暗号化されたプライベートキー(パスワード必須)",
 		"bulkgeneratingaddresses": "アドレス生成中...",
 		"brainalertpassphrasetooshort": "パスワードが短すぎます \n\n",

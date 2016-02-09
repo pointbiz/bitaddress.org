@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "Активирован режим TESTNET",
 		"paperlabelbitcoinaddress": "Адрес Bitcoin кошелька:",
-		"paperlabelprivatekey": "Приватный Ключ (в формате для импорта):",
+		"paperlabelprivatekey": "Приватный Ключ:",
 		"paperlabelencryptedkey": "Зашифрованный Приватный Ключ (требуется пароль)",
 		"bulkgeneratingaddresses": "Генерация адресов... ",
 		"brainalertpassphrasetooshort": "Введенная парольная фраза слишком коротка.\n\n",

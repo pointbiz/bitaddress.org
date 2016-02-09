@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET aktivován",
 		"paperlabelbitcoinaddress": "Bitcoin adresa:",
-		"paperlabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
+		"paperlabelprivatekey": "Soukromý klíč:",
 		"paperlabelencryptedkey": "Šifrovaný soukromý klíč (Vyžadováno heslo)",
 		"bulkgeneratingaddresses": "Generuji adresy... ",
 		"brainalertpassphrasetooshort": "Zadané heslo je příliš krátké.\n\n",

@@ -7836,7 +7836,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 				// javascript alerts or messages
 				"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 				"paperlabelbitcoinaddress": "Bitcoin Address:",
-				"paperlabelprivatekey": "Private Key (Wallet Import Format):",
+				"paperlabelprivatekey": "Private Key:",
 				"paperlabelencryptedkey": "Encrypted Private Key (Password required)",
 				"bulkgeneratingaddresses": "Generating addresses... ",
 				"brainalertpassphrasetooshort": "The passphrase you entered is too short.\n\n",
@@ -7863,6 +7863,31 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 				"splitwallet": "Split Wallet",
 				"detailwallet": "Wallet Details"
 			}
+		},
+
+		extractEnglishFromDomAndUpdateDictionary: function () {
+			var english = translator.translations["en"];
+			var spanish = translator.translations["es"];
+			var spanishClone = {};
+			for (var key in spanish) {
+				spanishClone[key] = spanish[key];
+			}
+			var newLang = {};
+			for (var key in english) {
+				newLang[key] = english[key];
+				delete spanishClone[key];
+			}
+			for (var key in spanishClone) {
+				if (document.getElementById(key)) {
+					if (document.getElementById(key).value) {
+						newLang[key] = document.getElementById(key).value;
+					}
+					else {
+						newLang[key] = document.getElementById(key).innerHTML;
+					}
+				}
+			}
+			translator.translations["en"] = newLang;
 		},
 
 		showEnglishJson: function () {
@@ -7912,7 +7937,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET aktivován",
 		"paperlabelbitcoinaddress": "Bitcoin adresa:",
-		"paperlabelprivatekey": "Soukromý klíč (WIF &ndash; Formát pro import do peněženky):",
+		"paperlabelprivatekey": "Soukromý klíč:",
 		"paperlabelencryptedkey": "Šifrovaný soukromý klíč (Vyžadováno heslo)",
 		"bulkgeneratingaddresses": "Generuji adresy... ",
 		"brainalertpassphrasetooshort": "Zadané heslo je příliš krátké.\n\n",
@@ -8078,7 +8103,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET AKTIVIERT",
 		"paperlabelbitcoinaddress": "Bitcoin-Adresse:",
-		"paperlabelprivatekey": "Privater Schl&uuml;ssel (Wallet Import Format):",
+		"paperlabelprivatekey": "Privater Schl&uuml;ssel:",
 		"paperlabelencryptedkey": "Verschl&uuml;sselter privater Schl&uuml;ssel (Passwort ben&ouml;tigt)",
 		"bulkgeneratingaddresses": "Adressen erstellen... ",
 		"brainalertpassphrasetooshort": "Die eingegebene Passphrase ist zu kurz.\n\n",
@@ -8244,7 +8269,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "ΕΝΕΡΓΗ ΕΚΔΟΣΗ TESTNET",
 		"paperlabelbitcoinaddress": "Διεύθυνση Bitcoin:",
-		"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
+		"paperlabelprivatekey": "Προσωπικό Κλειδί:",
 		"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 		"bulkgeneratingaddresses": "Δημιουργία διευθύνσεων... ",
 		"brainalertpassphrasetooshort": "Η φράση κωδικός που δώσατε είναι πολύ αδύναμη.\n\n",
@@ -8410,7 +8435,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "Testnet se activa",
 		"paperlabelbitcoinaddress": "Dirección Bitcoin:",
-		"paperlabelprivatekey": "Clave privada (formato para importar):",
+		"paperlabelprivatekey": "Clave privada:",
 		"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
 		"bulkgeneratingaddresses": "Generación de direcciones... ",
 		"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\n",
@@ -8576,7 +8601,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 		"paperlabelbitcoinaddress": "Adresse Bitcoin:",
-		"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+		"paperlabelprivatekey": "Clé Privée:",
 		"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 		"bulkgeneratingaddresses": "Création de l'adresse... ",
 		"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\n",
@@ -8743,7 +8768,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET KIADÁS AKTIVÁLVA",
 		"paperlabelbitcoinaddress": "Bitcoin cím:",
-		"paperlabelprivatekey": "Privát kulcs (WIF, tárca import formátumban):",
+		"paperlabelprivatekey": "Privát kulcs:",
 		"paperlabelencryptedkey": "Titkosított privát kulcs (Jelszó szükséges)",
 		"bulkgeneratingaddresses": "Cím generálás... ",
 		"brainalertpassphrasetooshort": "A megadott jelmondat túl rövid.\n\n",
@@ -8915,7 +8940,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET EDITION ATTIVATO",
 		"paperlabelbitcoinaddress": "Indirizzo Bitcoin:",
-		"paperlabelprivatekey": "Chiave privata (Wallet Import Format):",
+		"paperlabelprivatekey": "Chiave privata:",
 		"paperlabelencryptedkey": "Chiave privata criptata (password richiesta)",
 		"bulkgeneratingaddresses": "Generazione indirizzi... ",
 		"brainalertpassphrasetooshort": "La passphrase inserita è troppo corta.\n\n",
@@ -9081,7 +9106,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "テストネット版が有効になりました。",
 		"paperlabelbitcoinaddress": "ビットコインアドレス",
-		"paperlabelprivatekey": "プライベートキー(WIF形式)",
+		"paperlabelprivatekey": "プライベートキー",
 		"paperlabelencryptedkey": "暗号化されたプライベートキー(パスワード必須)",
 		"bulkgeneratingaddresses": "アドレス生成中...",
 		"brainalertpassphrasetooshort": "パスワードが短すぎます \n\n",
@@ -9254,7 +9279,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "EDIÇÃO DO TESTNET ATIVADA",
 		"paperlabelbitcoinaddress": "Endereço Bitcoin:",
-		"paperlabelprivatekey": "Chave privada (Wallet Import Format):",
+		"paperlabelprivatekey": "Chave privada:",
 		"paperlabelencryptedkey": "Chave privada criptografada (Senha necessária)",
 		"bulkgeneratingaddresses": "Generando endereços... ",
 		"brainalertpassphrasetooshort": "A senha introduzida é pequena demais.\n\n",
@@ -9420,7 +9445,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "Активирован режим TESTNET",
 		"paperlabelbitcoinaddress": "Адрес Bitcoin кошелька:",
-		"paperlabelprivatekey": "Приватный Ключ (в формате для импорта):",
+		"paperlabelprivatekey": "Приватный Ключ:",
 		"paperlabelencryptedkey": "Зашифрованный Приватный Ключ (требуется пароль)",
 		"bulkgeneratingaddresses": "Генерация адресов... ",
 		"brainalertpassphrasetooshort": "Введенная парольная фраза слишком коротка.\n\n",
@@ -9585,7 +9610,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 		"paperlabelbitcoinaddress": "比特币地址",
-		"paperlabelprivatekey": "私钥 (WIF格式)",
+		"paperlabelprivatekey": "私钥",
 		"paperlabelencryptedkey": "加密私钥(需要密码)",
 		"bulkgeneratingaddresses": "创建地址中...",
 		"brainalertpassphrasetooshort": "这个密码太短了 \n\n",
@@ -9901,7 +9926,8 @@ ninja.wallets.paperwallet = {
 	// idPostFix: 1, 2, 3, etc.
 	generateNewWallet: function (idPostFix) {
 		if (ninja.wallets.paperwallet.encrypt) {
-			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, false, function (address, encryptedKey) {
+			var compressed = true;
+			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, compressed, function (address, encryptedKey) {
 				Bitcoin.KeyPool.push(new Bitcoin.Bip38Key(address, encryptedKey));
 				if (ninja.wallets.paperwallet.useArtisticWallet) {
 					ninja.wallets.paperwallet.showArtisticWallet(idPostFix, address, encryptedKey);
@@ -9913,6 +9939,7 @@ ninja.wallets.paperwallet = {
 		}
 		else {
 			var key = new Bitcoin.ECKey(false);
+			key.setCompressed(true);
 			var bitcoinAddress = key.getBitcoinAddress();
 			var privateKeyWif = key.getBitcoinWalletImportFormat();
 			if (ninja.wallets.paperwallet.useArtisticWallet) {
@@ -11534,6 +11561,7 @@ if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()
 	ninja.unitTests.runAsynchronousTests(true);
 }
 // change language
+ninja.translator.extractEnglishFromDomAndUpdateDictionary();
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
 } else {

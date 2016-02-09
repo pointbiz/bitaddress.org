@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "Testnet se activa",
 		"paperlabelbitcoinaddress": "Dirección Bitcoin:",
-		"paperlabelprivatekey": "Clave privada (formato para importar):",
+		"paperlabelprivatekey": "Clave privada:",
 		"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
 		"bulkgeneratingaddresses": "Generación de direcciones... ",
 		"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\n",

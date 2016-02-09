@@ -4,7 +4,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET KIADÁS AKTIVÁLVA",
 		"paperlabelbitcoinaddress": "Bitcoin cím:",
-		"paperlabelprivatekey": "Privát kulcs (WIF, tárca import formátumban):",
+		"paperlabelprivatekey": "Privát kulcs:",
 		"paperlabelencryptedkey": "Titkosított privát kulcs (Jelszó szükséges)",
 		"bulkgeneratingaddresses": "Cím generálás... ",
 		"brainalertpassphrasetooshort": "A megadott jelmondat túl rövid.\n\n",

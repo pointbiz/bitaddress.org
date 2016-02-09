@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "ÉDITION TESTNET ACTIVÉE",
 		"paperlabelbitcoinaddress": "Adresse Bitcoin:",
-		"paperlabelprivatekey": "Clé Privée (Format d'importation de porte-monnaie):",
+		"paperlabelprivatekey": "Clé Privée:",
 		"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 		"bulkgeneratingaddresses": "Création de l'adresse... ",
 		"brainalertpassphrasetooshort": "Le mot de passe que vous avez entré est trop court.\n\n",

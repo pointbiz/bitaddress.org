@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "TESTNET EDITION ACTIVATED",
 		"paperlabelbitcoinaddress": "比特币地址",
-		"paperlabelprivatekey": "私钥 (WIF格式)",
+		"paperlabelprivatekey": "私钥",
 		"paperlabelencryptedkey": "加密私钥(需要密码)",
 		"bulkgeneratingaddresses": "创建地址中...",
 		"brainalertpassphrasetooshort": "这个密码太短了 \n\n",

@@ -3,7 +3,7 @@
 		// javascript alerts or messages
 		"testneteditionactivated": "ΕΝΕΡΓΗ ΕΚΔΟΣΗ TESTNET",
 		"paperlabelbitcoinaddress": "Διεύθυνση Bitcoin:",
-		"paperlabelprivatekey": "Προσωπικό Κλειδί (Μορφή εισαγωγής σε πορτοφόλι):",
+		"paperlabelprivatekey": "Προσωπικό Κλειδί:",
 		"paperlabelencryptedkey": "Encrypted Private Key (Password required)", //TODO: please translate
 		"bulkgeneratingaddresses": "Δημιουργία διευθύνσεων... ",
 		"brainalertpassphrasetooshort": "Η φράση κωδικός που δώσατε είναι πολύ αδύναμη.\n\n",
