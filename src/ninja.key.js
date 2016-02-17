@@ -132,9 +132,11 @@ ninja.privateKey = {
 					var prefactorB = prefactorA.concat(ownerentropy); // ownerentropy using closure
 					passfactor = Bitcoin.Util.dsha256(prefactorB);
 				}
+				// remove this ECKey from the pool (because user does not see it)
+				var userKeyPool = Bitcoin.KeyPool.getArray();
 				var kp = new Bitcoin.ECKey(passfactor);
 				var passpoint = kp.setCompressed(true).getPub();
-
+				Bitcoin.KeyPool.setArray(userKeyPool);
 				var encryptedpart2 = hex.slice(23, 23 + 16);
 
 				var addresshashplusownerentropy = hex.slice(3, 3 + 12);

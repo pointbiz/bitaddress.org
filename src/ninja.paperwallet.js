@@ -1,4 +1,8 @@
 ninja.wallets.paperwallet = {
+    isOpen: function () {
+        return (document.getElementById("paperwallet").className.indexOf("selected") != -1);
+    },
+
 	open: function () {
 		document.getElementById("main").setAttribute("class", "paper"); // add 'paper' class to main div
 		var paperArea = document.getElementById("paperarea");
@@ -97,6 +101,7 @@ ninja.wallets.paperwallet = {
 	generateNewWallet: function (idPostFix) {
 		if (ninja.wallets.paperwallet.encrypt) {
 			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, false, function (address, encryptedKey) {
+				Bitcoin.KeyPool.push(new Bitcoin.Bip38Key(address, encryptedKey));
 				if (ninja.wallets.paperwallet.useArtisticWallet) {
 					ninja.wallets.paperwallet.showArtisticWallet(idPostFix, address, encryptedKey);
 				}
