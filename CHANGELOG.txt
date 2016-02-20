@@ -28,6 +28,13 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2016-02-19: status ACTIVE
+bitaddress.org-v3.2.0-SHA256-ad4fd171c647772aa76d0ce828731b01ca586596275d43a94008766b758e8736.html
+ - switch languages without full page load
+ - add BIP38 encryption to Bulk Wallet
+ - use compressed addresses on Single/Paper/Bulk Wallet 
+ - add compressed address option on Brain Wallet
+
 2016-01-17: status ACTIVE
 bitaddress.org-v3.1.1-SHA256-8277de0a0c77761caa8f546c9885c36a3134a94823b14e24d364b86abb3a9ab3.html
  - refactor translations into separate files per culture.

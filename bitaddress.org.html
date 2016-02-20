@@ -10227,7 +10227,6 @@ ninja.wallets.brainwallet = {
 				var bytes = Crypto.SHA256(key, { asBytes: true });
 				var btcKey = new Bitcoin.ECKey(bytes);
 				var isCompressed = document.getElementById("braincompressed").checked;
-				console.log(isCompressed);
 				btcKey.setCompressed(isCompressed);
 				var bitcoinAddress = btcKey.getBitcoinAddress();
 				var privWif = btcKey.getBitcoinWalletImportFormat();
