@@ -19,7 +19,7 @@
     is copyrighted. As a courtesy, please do not modify this software in such a way that the
     links to purchase hologram stickers and wallet making supplies are removed or pointed elsewhere.
      
-    This software (HTML and JavaScript) is ©Copyright 2014 Canton Becker and bitaddress.org
+    This software (HTML and JavaScript) is ©Copyright 2016 Canton Becker and bitaddress.org
     and licensed under the MIT license.
     
     Special thanks to pointbiz/bitaddress.org, Artiom Chilaru/flexlabs.org, and Martin Ankerl
@@ -10410,7 +10410,7 @@ Bitcoin.Util = {
               <span><a href="?culture=fr" id="culturefr">Français</a></span> -->
               &nbsp;
           	</div>
-			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated Jan 31, 2015</span></div>
+			<div id="tagline">Open Source JavaScript <script type="text/javascript">document.write(window.currencyName);</script> Paper Wallet Generator <span>Updated Feb 23, 2016</span></div>
 			<div id="tagsite">For help, security tips, or wallet making supplies visit <a href="https://bitcoinpaperwallet.com">bitcoinpaperwallet.com</a></div>
             <div id="tagwarning"></div>
 			<div id="seedpoolarea"><textarea rows="16" cols="62" id="seedpool"></textarea></div>
@@ -10505,7 +10505,7 @@ Bitcoin.Util = {
 						  }
 						</script>
                         </li>
-                        <li><strong>?</strong> Are you using a secure operating system installation guaranteed to be free of spyware and viruses, for example, the <a href="#" onClick="window.open('https://bitcoinpaperwallet.com/ubuntu-linux-live-bootable-cd/', '_blank'); return false;">Ubuntu LiveCD?</a></li>
+                        <li><strong>?</strong> Are you using a secure operating system installation guaranteed to be free of spyware and viruses, for example, an <a href="#" onClick="window.open('https://bitcoinpaperwallet.com/ubuntu-linux-live-bootable-cd/', '_blank'); return false;">Ubuntu LiveCD?</a></li>
                         </ul>
                         
                         <p><a href="https://bitcoinpaperwallet.com/#security" target="_blank">More security tips and answers to frequently asked questions &raquo;</a></p>
@@ -10539,6 +10539,7 @@ Bitcoin.Util = {
                             <option value="hebrew">Hebrew</option>
                             <option value="italian">Italian</option>
                             <option value="japanese">Japanese</option>
+                            <option value="polish">Polish</option>
                             <option value="portuguese">Portuguese</option>
                             <option value="russian">Russian</option>
                             <option value="spanish">Spanish</option>
@@ -10632,7 +10633,7 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
                    <br />
                    You can make a so-called "brain wallet" by supplying a VERY secure passphrase like '1852 Adobe Cloud SMASH fuzzy steamzonk'. <em>Be extremely careful doing this because a wallet generated using an insecure passphrase is virtually guaranteed to have its balance stolen!</em>.
                    <br />
-                   <br />The resulting paper wallet will still have an ordinary crypto-looking private key and public address, but you will <em>also</em> be able to retrieve your wallet contents by entering your passphrase into the 'verify' tab of this service or a similar service such as <a href="https://brainwallet.org" target="_blank">brainwallet.org</a>.<br /><br />
+                   <br />The resulting paper wallet will still have an ordinary crypto-looking private key and public address, but you will <em>also</em> be able to retrieve your wallet contents by entering your passphrase into the 'verify' tab of this service or a similar service.<br /><br />
                     <strong>Note:</strong> supplying a brain wallet passphrase is different from BIP38-encrypting your wallet with a passphrase.
 				   <br />
                    <br />
@@ -10913,7 +10914,12 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
 							<div id="detailqrcodepublic" class="qrcode_public"></div>
 							<span class="output" id="detailaddress"></span>
 						</div>					
-						<div class="item right">
+
+						<div class="item right" style="display:block;" id="compressedpicker">
+						<a href="#" onClick="document.getElementById('compressed1').style.display='block'; document.getElementById('compressed2').style.display='block';  document.getElementById('compressedpicker').style.display='none'; return(false);">Display compressed format keys?</a>
+						</div>
+
+						<div class="item right" style="display: none;" id="compressed1">
 							<span class="label" id="detaillabelbitcoinaddresscomp"><script type="text/javascript">document.write(window.currencyName);</script> Address Compressed Format</span>
 							<div id="detailqrcodepubliccomp" class="qrcode_public"></div>
 							<span class="output" id="detailaddresscomp"></span>
@@ -10935,7 +10941,7 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
 							<div id="detailqrcodeprivate" class="qrcode_private"></div>
 							<span class="output" id="detailprivwif"></span>
 						</div>
-						<div class="item right">
+						<div class="item right" style="display:none;" id="compressed2">
 							<span class="label"><span id="detaillabelprivwifcomp">Private Key WIF Compressed<br />52 characters base58, starts with a</span> '<script type="text/javascript">document.write(window.compressedWIFPrefix);</script>'</span>
 							<div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
 							<span class="output" id="detailprivwifcomp"></span>
@@ -11015,7 +11021,7 @@ Find your scissors! The final step is to cut out your wallet, fold it, and seal 
                 
 			</div>
 			<div class="copyright">
-				<span id="footerlabelcopyright1">&copy; The folding wallet design and tamper-evident seals are Copyright 2014 by Canton Becker.</span>
+				<span id="footerlabelcopyright1">&copy; The folding wallet design and tamper-evident seals are Copyright 2016 by Canton Becker.</span>
 				<span id="footerlabelcopyright2">This software may be modified and redistributed as per the MIT/GPL/BSD/Apache licenses described in the HTML source code. However, the folding paper wallet design itself may not be modified or redistributed for commercial purposes without permission.</span><br />
 				<span id="footerlabelnowarranty"><strong>This software and service is provided with no warranty. Use at your own risk.</strong></span>
 
@@ -11702,7 +11708,7 @@ ninja.publicKey = {
 				"footerlabelpgp": "Clave pública PGP",
 				"footerlabelversion": "Histórico de versiones",
 				"footerlabelgithub": "Repositorio GitHub",
-				"footerlabelcopyright1": "&copy; Copyright 2014 Canton Becker and bitaddress.org.",
+				"footerlabelcopyright1": "&copy; Copyright 2016 Canton Becker and bitaddress.org.",
 				"footerlabelcopyright2": "Copyright del código JavaScript: en el fuente.",
 				"footerlabelnowarranty": "Sin garantía.",
 
@@ -11732,7 +11738,7 @@ ninja.publicKey = {
 				"footerlabelpgp": "Clé Publique PGP",
 				"footerlabelversion": "Historique De Version Signé",
 				"footerlabelgithub": "Dépôt GitHub",
-				"footerlabelcopyright1": "&copy; Copyright 2014 Canton Becker and bitaddress.org.",
+				"footerlabelcopyright1": "&copy; Copyright 2016 Canton Becker and bitaddress.org.",
 				"footerlabelcopyright2": "Les droits d'auteurs JavaScript sont inclus dans le code source.",
 				"footerlabelnowarranty": "Aucune garantie.",
 				"newaddress": "Générer Une Nouvelle Adresse",
@@ -13678,6 +13684,22 @@ function setDesign (whichDesign, isOnLoad, whichLanguage) {
 			backInst4: "このウォレットからビットコインを出金する際には、<strong>全ての残高</strong>を出金してください。一部を残して出金した場合、残ったビットコインが永遠に失われる恐れがあります。<br /><br />詳しい情報は、bitcoinpaperwallet.comを参照してください。",
 		},
 
+		'polish': {
+			publicAddress: "ADRES PUBLICZNY",
+			depositVerify: "WPŁATA / WERYFIKACJA",
+			privateKey: "KLUCZ PRYWATNY",
+			walletImportFormat: "WALLET IMPORT FORMAT",
+			withdraw: "KLUCZ PRYWATNY / WYPŁATA",
+			backPaperWallet: "PAPIEROWY PORTFEL BITCOIN",
+			backAmount: "Wpłacona kwota",
+			backDate: "Data",
+			backNotes: "Uwagi:",
+			backInst1: "Aby wpłacić dodatkowe fundusze do tego portfela, wyślij bitcoiny na publiczny adres.",
+			backInst2: "Sprawdź dostępne środki szukając publicznego adresu w usługach takich jak <u>blockchain.info</u>.",
+			backInst3: "<strong>Nie odsłaniaj prywatnego klucza</strong>, dopóki nie jesteś gotowy na wydanie wszystkich bitcoinów znajdujących się w tym portfelu.",
+			backInst4: "Podczas wypłacania środków, <strong>powinieneś wypłacić WSZYSTKO</strong>. Jeśli spróbujesz wydać tylko trochę, prawdopodobnie stracisz całą resztę. Na zawsze.<br />Instrukcje znajdziesz na <u>bitcoinpaperwallet.com</u>.",
+		},
+
 		'portuguese': {
 			publicAddress: "ENDEREÇO PÚBLICO",
 			depositVerify: "DEPOSITE / VERIFIQUE",
@@ -13832,6 +13854,8 @@ function setDenomination(valueAndUnit) {
 	}
 }
 
+// disable unit testing if we are not working with regular old bitcoin
+if (window.currencyName != 'Bitcoin') document.getElementById('footerlabeltests').style.display='none';
 </script>
 
 </body>
