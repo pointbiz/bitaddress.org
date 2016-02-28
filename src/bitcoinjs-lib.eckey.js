@@ -104,7 +104,7 @@ Bitcoin.ECKey = (function () {
 			}
 			
 			if (ECKey.isBase6Format(input)) {
-				this.priv = new BigInteger(input, 6);
+				this.priv = new BigInteger(input.replace(/6/g, '0'), 6).and(BigInteger.ONE.shiftLeft(256).subtract(BigInteger.ONE));
 			} else if (bytes == null || bytes.length != 32) {
 				this.priv = null;
 			} else {
@@ -325,10 +325,10 @@ Bitcoin.ECKey = (function () {
 		return (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+\/]{44}$/.test(key));
 	};
 
-	// 99 characters, 1=1, if using dice convert 6 to 0
+	// 99 or more characters, 1=1, if using dice convert 6 to 0
 	ECKey.isBase6Format = function (key) {
 		key = key.toString();
-		return (/^[012345]{99}$/.test(key));
+		return (/^[0-6]{99,}$/.test(key));
 	};
 
 	// 22, 26 or 30 characters, always starts with an 'S'
