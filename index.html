@@ -9348,10 +9348,10 @@ body { font-family: Arial; background-image: url('images/diamonds.png'); height:
 #generate #mousemovelimit { font-size: 16px; color: #FFF; }
 #rightArea { position: absolute; right: 66px; top: 62px; width: 170px; }
 #progress-bar { width: 170px; background:#80CF80; position: relative; margin-bottom: 20px;
-	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
  }
 #progress-bar-percentage { background:#FFA247; padding: 3px 0px; text-align: center; height: 18px;
-	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
  }
 #progress-bar-percentage span { display: inline-block; position: absolute; width: 100%; left: 0; }
 .nicerButton { font-size: 14px; }
@@ -9382,29 +9382,27 @@ h1 { margin: 0px; height: 91px; }
 #singlesafety p { font-size: 13px; }
 
 .firstHalfSingleSafety, .secondHalfSingleSafety {
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;         /* Opera/IE 8+ */
-	display: inline-block;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+  display: inline-block;
     vertical-align: top;
     position: relative;
 }
 
-.firstHalfSingleSafety { width: 50%; padding: 10px 30px 10px 30px; min-height: 930px; }
+.firstHalfSingleSafety { width: 50%; padding: 10px 30px 10px 30px; }
 
  .secondHalfSingleSafety {
-    position: absolute;
-    top: 0px;
-    right: 0px;
     width: 50%;
     padding: 20px;
     text-align: center;
+    float: right;
  }
 
 .frontPageImage, .seedFrontPageImage {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 .frontPageImage { width: 100%; }
 .seedFrontPageImage { max-height: 340px; }
@@ -9412,38 +9410,38 @@ h1 { margin: 0px; height: 91px; }
 .currencyNameColumn { min-width: 120px; }
 
 .securityChecklist {
-	background-color: #FFE6C9;
-	margin-top: 15px;
+  background-color: #FFE6C9;
+  margin-top: 15px;
     padding: 20px;
     -webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	text-align: left;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  text-align: left;
 }
 
 .supportedCurrenciesChecklist {
-	background-color: #C2F2C3;
-	margin-top: 10px;
-	margin-bottom: 10px;
+  background-color: #C2F2C3;
+  margin-top: 10px;
+  margin-bottom: 10px;
     padding: 20px;
     -webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	text-align: left;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  text-align: left;
 }
 
 .supportedCurrenciesChecklist ul {
-	list-style-type: none;
-	padding-left: 14px;
+  list-style-type: none;
+  padding-left: 14px;
 }
 
 #supportedcurrencies {
-	line-height: 20px;
+  line-height: 20px;
     padding: 12px 12px 0;
 }
 
 .frontPageInstructions {
-	padding: 5px;
+  padding: 5px;
 }
 
 .securityChecklist ul { padding: 5px 0 0 20px; }
@@ -9468,43 +9466,43 @@ h1 { margin: 0px; height: 91px; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0; }
 #paperarea .artwallet .papersvg { width: 1004px; height: 426px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public { top: 263px; left: 780px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF;
-		                                padding: 5px 5px 2px 5px; }
+                                    padding: 5px 5px 2px 5px; }
 #paperarea .artwallet .qrcode_private { top: 37px; right: 446px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF;
-		                                padding: 5px 5px 2px 5px;
-	                                	-ms-transform: rotate(180deg); /* IE 9 */
-										-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-										transform: rotate(180deg);
-		                                 }
+                                    padding: 5px 5px 2px 5px;
+                                    -ms-transform: rotate(180deg); /* IE 9 */
+                    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+                    transform: rotate(180deg);
+                                     }
 .supportWalletGenerator { margin: 30px; }
 .errorMsg { color: red; text-align: center !important; width: 100% !important; padding-top: 15px !important; }
 #paperarea .artwallet .btcaddress
 {
-	position: absolute; bottom: 88px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
-	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
+  position: absolute; bottom: 88px; left: 874px; z-index: 100; font-size: 11px; background-color: transparent;
+  font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word; font-family: Courier, monospace;
     -ms-transform: rotate(-90deg); /* IE 9 */
-	-webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
-	transform: rotate(-90deg); font-family: Courier, monospace;
+  -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+  transform: rotate(-90deg); font-family: Courier, monospace;
 }
 #paperarea .artwallet .btcprivwif
 {
-	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
-	font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
+  position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+  font-weight: 100; color: #000000; margin: 0; width: 124px; height: 32px; text-align: center;
     word-wrap: break-word;
-	-ms-transform: rotate(90deg); /* IE 9 */
-	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-	transform: rotate(90deg);
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
     font-family: Courier, monospace;
 }
 #paperarea .artwallet .btcencryptedkey
 {
-	position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
-	font-weight:100; color: #000000; margin: 0; width: 110px; height: 32px; text-align: center;
-	word-wrap: break-word;
-	-ms-transform: rotate(90deg); /* IE 9 */
-	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-	transform: rotate(90deg);
-	font-family: Courier, monospace;
+  position: absolute; top: 86px; right: 540px; z-index: 100; font-size: 11px; background-color: transparent;
+  font-weight:100; color: #000000; margin: 0; width: 110px; height: 32px; text-align: center;
+  word-wrap: break-word;
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+  font-family: Courier, monospace;
 }
 #suppliedPrivateKey { width: 420px; }
 #papergenerate { margin-left: 10px; margin-right: 0px;}
@@ -9581,72 +9579,72 @@ h1 { margin: 0px; height: 91px; }
 
 @media screen
 {
-	#tagline { margin: 0 0 15px 0; font-style: italic; text-align: left; }
-	.menu { text-align: left; }
-	.menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #F5F5F5;
-					border: 1px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 1px; z-index: 110; cursor: pointer; }
-	.menu .tab:hover { color: #d58424; }
-	.menu .tab.selected { background-color: #FFF; border-bottom: 1px solid #FFF; cursor: default; }
-	.menu .tab.selected:hover { color: #000; }
-	.pagebreak { height: 50px; }
-	.commands { border-bottom: 1px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
-	.commands .row { padding: 0 0; text-align: left; }
-	.commands .row.extra { padding-top: 6px; }
-	.commands span { padding: 0 10px; }
-	.commands span.print { float: right; }
-	.commands span.right { float: right; }
-	.expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
+  #tagline { margin: 0 0 15px 0; font-style: italic; text-align: left; }
+  .menu { text-align: left; }
+  .menu .tab { border-top-left-radius: 5px; border-top-right-radius: 5px; display: inline-block; background-color: #F5F5F5;
+          border: 1px solid #BFBFBF; padding: 5px; margin: 0 2px 0 0; position: relative; top: 1px; z-index: 110; cursor: pointer; }
+  .menu .tab:hover { color: #d58424; }
+  .menu .tab.selected { background-color: #FFF; border-bottom: 1px solid #FFF; cursor: default; }
+  .menu .tab.selected:hover { color: #000; }
+  .pagebreak { height: 50px; }
+  .commands { border-bottom: 1px solid #BFBFBF;  padding: 10px 2px; margin-bottom: 0; background-color: white; }
+  .commands .row { padding: 0 0; text-align: left; }
+  .commands .row.extra { padding-top: 6px; }
+  .commands span { padding: 0 10px; }
+  .commands span.print { float: right; }
+  .commands span.right { float: right; }
+  .expandable { padding: 10px 15px; text-align: left; cursor: pointer; }
 
     #menu { visibility: hidden; font-size: 90%; }
     #culturemenu { text-align: right; padding: 0 20px; font-size: 14px; margin-bottom: 35px; }
     #culturemenu span { padding: 3px; }
     #culturemenu .selected { text-decoration: none; color: #000000; }
 
-	#braincommands .row .label { width: 200px; display: inline-block; }
-	#braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
-	#brainpassphrase { width: 280px; }
-	#brainpassphraseconfirm { width: 280px; }
-	#brainwarning {  }
-	#detailcommands { padding: 10px 0; }
-	#detailcommands span { padding: 0 10px; }
-	#detailprivkey { width: 300px; }
-	#detailprivkeypassphrase { width: 250px; }
-	.paper .commands { border: 1px solid #BFBFBF; }
-	#bulkstartindex { width: 35px; }
-	#bulklimit { width: 45px; }
+  #braincommands .row .label { width: 200px; display: inline-block; }
+  #braincommands .notes { font-size: 80%; display: block; padding: 5px 10px; }
+  #brainpassphrase { width: 280px; }
+  #brainpassphraseconfirm { width: 280px; }
+  #brainwarning {  }
+  #detailcommands { padding: 10px 0; }
+  #detailcommands span { padding: 0 10px; }
+  #detailprivkey { width: 300px; }
+  #detailprivkeypassphrase { width: 250px; }
+  .paper .commands { border: 1px solid #BFBFBF; }
+  #bulkstartindex { width: 35px; }
+  #bulklimit { width: 45px; }
 
-	.footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
-	.footer div span.item { margin: 10px; }
-	.footer .authorbtc { float: left; width: 470px; }
-	.footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
-	.footer .authorbtc div { position: relative; z-index: 100; }
-	.footer .authorpgp { position: relative; }
-	.footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
-	.footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
-	.footer .copyright span { padding: 10px 2px; }
+  .footer { font-size: 90%; clear: both; width: 750px; padding: 10px 0 10px 0; margin: 50px auto auto auto; }
+  .footer div span.item { margin: 10px; }
+  .footer .authorbtc { float: left; width: 470px; }
+  .footer .authorbtc span.item { text-align: left; display: block; padding: 0 20px; }
+  .footer .authorbtc div { position: relative; z-index: 100; }
+  .footer .authorpgp { position: relative; }
+  .footer .authorpgp span.item { text-align: right; display: block; padding: 0 20px; }
+  .footer .copyright { font-size: 80%; clear: both; padding: 5px 0; }
+  .footer .copyright span { padding: 10px 2px; }
 }
 @media print
 {
-	body { -webkit-print-color-adjust: exact; width: 1000px; height: 450px;}
-	#main { width: auto; }
-	#singlearea { border: 0; }
-	#singlesafety { border: 0; }
-	#paperarea .keyarea:first-child { border-top: 1px solid #BFBFBF; }
-	#paperarea .keyarea.art:first-child { border: 0; }
-	.pagebreak { height: 1px; }
-	.paper #logo { display: none; }
-	.menu, .footer, .commands, #tagline, #faqs, #culturemenu { display: none; }
-	#detailprivwif { width: 285px; word-wrap: break-word; }
-	#detailprivwifcomp { width: 310px; word-wrap: break-word; text-align: right; }
-	#detailarea .privqr .item.right { width: 310px; }
-	#detailarea .privqr .item { width: 285px; }
-	#detailarea .notes { display: none; }
-	#seedpoolarea { display: none; }
-	.faq { display: none; }
-	.banner { display: none; }
-	#currency { display: none; }
-	#paperarea .artwallet .btcaddress, #paperarea .artwallet .btcprivwif { z-index: 999; }
-	.paperWalletText { z-index: 999;}
+  body { -webkit-print-color-adjust: exact; width: 1000px; height: 450px;}
+  #main { width: auto; }
+  #singlearea { border: 0; }
+  #singlesafety { border: 0; }
+  #paperarea .keyarea:first-child { border-top: 1px solid #BFBFBF; }
+  #paperarea .keyarea.art:first-child { border: 0; }
+  .pagebreak { height: 1px; }
+  .paper #logo { display: none; }
+  .menu, .footer, .commands, #tagline, #faqs, #culturemenu { display: none; }
+  #detailprivwif { width: 285px; word-wrap: break-word; }
+  #detailprivwifcomp { width: 310px; word-wrap: break-word; text-align: right; }
+  #detailarea .privqr .item.right { width: 310px; }
+  #detailarea .privqr .item { width: 285px; }
+  #detailarea .notes { display: none; }
+  #seedpoolarea { display: none; }
+  .faq { display: none; }
+  .banner { display: none; }
+  #currency { display: none; }
+  #paperarea .artwallet .btcaddress, #paperarea .artwallet .btcprivwif { z-index: 999; }
+  .paperWalletText { z-index: 999;}
     .dogeTag { display: none; }
 }
 
@@ -9800,9 +9798,11 @@ h1 { margin: 0px; height: 91px; }
         <div id="faqZone">
           <h2>Frequently asked questions :</h2>
 
-          <h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion1');">&#8226; Is it safe ?</a></h3>
+          <h3 class="faqQuestion"><a class="faqLink" onclick="ninja.toggleFaqQuestion('faqQuestion1');ninja.toggleFaqQuestion('faqQuestion1.1')">&#8226; Is it safe ?</a></h3>
           <p class="faqAnswer" id="faqQuestion1">
             We try to make it that way ! The core of the tool, that generate the keys is 99% the same as the well reviewed bitaddress.org. We only changed it to be able to generate addresses for different crypto-currencies.
+          </p>
+          <p class="faqAnswer" id="faqQuestion1.1">
 We think that having a unique generator for multiple currencies lead to a much better reviewed tool for all than having a myriad of half-backed generators.
 Changes made to this generator are available on Github in small and divided commits and those are easy to review and reuse.
 Walletgenerator.net use the same security measures as the original project. All-in-one html document, no ajax, no analytics, no external calls, no CDN that can inject anything they want. And trust us, we have seen some nasty things when reviewing some wallet generator.
