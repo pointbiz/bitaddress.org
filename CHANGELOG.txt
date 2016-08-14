@@ -28,6 +28,14 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2016-07-31: status ACTIVE
+bitaddress.org-v3.2.1-SHA256-.html
+ - BigInteger modInverse should be positive
+ - throw if modInverse 0
+ - improve BigInteger constructor so that it works if caller forgets 'new'
+ - add unit tests for BigInteger
+ - thanks to dooglus, jprichardson, dcousens
+
 2016-02-19: status ACTIVE
 bitaddress.org-v3.2.0-SHA256-ad4fd171c647772aa76d0ce828731b01ca586596275d43a94008766b758e8736.html
  - switch languages without full page load
