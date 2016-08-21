@@ -29,7 +29,7 @@ END USER NOTES:
 Here is a signed list of file names and version history.
 
 2016-07-31: status ACTIVE
-bitaddress.org-v3.2.1-SHA256-ca6a34d4ac6742dc8cebfbe0089e28392b6ee9b33b05eaa68c9e00b00e355f48.html
+bitaddress.org-v3.2.1-SHA256-42c3bcb643c451689e5bd1499ed4b516be2da06d2fe3886b0dd15b8fc2525ecd.html
  - BigInteger modInverse should be positive
  - throw if modInverse 0
  - improve BigInteger constructor so that it works if caller forgets 'new'
