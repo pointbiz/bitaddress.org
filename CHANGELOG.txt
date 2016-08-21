@@ -28,6 +28,10 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2016-08-21: status ACTIVE
+bitaddress.org-v3.2.2-SHA256-f4d047c264a2b71946de319482a9365e56d8d7289dd85a352da3b1448b7647df.html
+ - version bump for unix line endings
+
 2016-07-31: status ACTIVE
 bitaddress.org-v3.2.1-SHA256-42c3bcb643c451689e5bd1499ed4b516be2da06d2fe3886b0dd15b8fc2525ecd.html
  - BigInteger modInverse should be positive
