@@ -130,6 +130,7 @@ janin.currencies = [
     janin.currency.createCurrency ("HTML5Coin",  0x28, 0xa8, "6",    "R"    , "HBUk5NzWyemrwLffC8pLFXabbJuMRKbkc7"),
     janin.currency.createCurrency ("HyperStake", 0x75, 0xf5, "9",    "d"    , "p71G6VRVxTTxg3Hqa9CbENeJY1PumBjtvL"),
     janin.currency.createCurrency ("ImperiumCoin",0x30,0xb0, "6",    "T"    , "LKcNNWGDyKyedwL8QNsCkg2122fBQyiDat"),
+    janin.currency.createCurrency ("IncaKoin",	 0x35, 0xb5, "7",    "T"    , "NdEXATr2NSG1pkzC2kScnEnj6g3KYpLnT9"),
     janin.currency.createCurrency ("IncognitoCoin",0x00,0x80,"5",    "LK"   , "1BbRmhGKyKshFge9kBMdfJyQr3KZoh5K5t"),
     janin.currency.createCurrency ("Influxcoin", 0x66, 0xe6, "8",    "b"    , "i83eN9HxFvfsxSwjXiZQZaWf13cWF25K9Y"),
     janin.currency.createCurrency ("IridiumCoin",0x30, 0xb0, "6",    "T"    , "LKTu2strS8zV1mDJxJtgE3HLqChD2m54yN"),
