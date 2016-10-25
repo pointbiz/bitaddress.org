@@ -102,7 +102,7 @@
 			// Allow mode to override options
 			if (mode.fixOptions) mode.fixOptions(options);
 
-			var 
+			var
 
 			// Convert to bytes if message is a string
 		m = (
@@ -143,7 +143,7 @@
 			// Allow mode to override options
 			if (mode.fixOptions) mode.fixOptions(options);
 
-			var 
+			var
 
 			// Convert to bytes if ciphertext is a string
 		c = (

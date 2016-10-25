@@ -1,6 +1,6 @@
 /*!
 * Basic JavaScript BN library - subset useful for RSA encryption. v1.3
-* 
+*
 * Copyright (c) 2005  Tom Wu
 * All Rights Reserved.
 * BSD License

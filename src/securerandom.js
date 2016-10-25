@@ -1,10 +1,10 @@
 /*!
 * Random number generator with ArcFour PRNG
-* 
+*
 * NOTE: For best results, put code like
 * <body onclick='SecureRandom.seedTime();' onkeypress='SecureRandom.seedTime();'>
 * in your main HTML document.
-* 
+*
 * Copyright Tom Wu, bitaddress.org  BSD License.
 * http://www-cs-students.stanford.edu/~tjw/jsbn/LICENSE
 */
@@ -56,7 +56,7 @@
 			alert("Premature initialisation of the random generator. Something is really wrong, do not generate wallets.");
 			return NaN;
 		}
-		
+
 		if (sr.state == null) {
 			sr.seedTime();
 			sr.state = sr.ArcFour(); // Plug in your RNG constructor here

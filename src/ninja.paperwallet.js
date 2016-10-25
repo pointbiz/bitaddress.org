@@ -93,10 +93,10 @@ ninja.wallets.paperwallet = {
 			ninja.wallets.paperwallet.showArtisticWallet(idPostFix, bitcoinAddress, privateKeyWif);
 		}
 	},
-	
+
 	// Verify that a self-entered key is valid, and compute the corresponding
 	// public address, render the wallet.
-	testAndApplyVanityKey: function () { 
+	testAndApplyVanityKey: function () {
 		var suppliedKey = document.getElementById('suppliedPrivateKey').value;
 		suppliedKey = suppliedKey.trim(); // in case any spaces or whitespace got pasted in
 		document.getElementById('suppliedPrivateKey').value = suppliedKey;
@@ -139,11 +139,11 @@ ninja.wallets.paperwallet = {
 		var keyValuePair = {};
 		keyValuePair["qrcode_public" + idPostFix] = bitcoinAddress;
 		ninja.qrCode.showQrCode(keyValuePair, 3.5);
-		
+
         var keyValuePair = {};
         keyValuePair["qrcode_private" + idPostFix] = privateKey;
         ninja.qrCode.showQrCode(keyValuePair, 2.8);
-        
+
         document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
 	},

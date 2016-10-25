@@ -8,7 +8,7 @@
 // Licensed under the MIT license:
 //   http://www.opensource.org/licenses/mit-license.php
 //
-// The word "QR Code" is registered trademark of 
+// The word "QR Code" is registered trademark of
 // DENSO WAVE INCORPORATED
 //   http://www.denso-wave.com/qrcode/faqpatent-e.html
 //
@@ -222,7 +222,7 @@
 			var data = (this.errorCorrectLevel << 3) | maskPattern;
 			var bits = QRCode.Util.getBCHTypeInfo(data);
 
-			// vertical		
+			// vertical
 			for (var i = 0; i < 15; i++) {
 
 				var mod = (!test && ((bits >> i) & 1) == 1);
@@ -905,7 +905,7 @@
 	[2, 35, 17],
 	[2, 35, 13],
 
-	// 4		
+	// 4
 	[1, 100, 80],
 	[2, 50, 32],
 	[2, 50, 24],
@@ -923,7 +923,7 @@
 	[4, 43, 19],
 	[4, 43, 15],
 
-	// 7		
+	// 7
 	[2, 98, 78],
 	[4, 49, 31],
 	[2, 32, 14, 4, 33, 15],
@@ -941,7 +941,7 @@
 	[4, 36, 16, 4, 37, 17],
 	[4, 36, 12, 4, 37, 13],
 
-	// 10		
+	// 10
 	[2, 86, 68, 2, 87, 69],
 	[4, 69, 43, 1, 70, 44],
 	[6, 43, 19, 2, 44, 20],

@@ -38,7 +38,7 @@ ninja.wallets.detailwallet = {
 		document.getElementById("detailarea").style.display = "block";
 		document.getElementById("detailprivkey").focus();
 		if (!ninja.wallets.detailwallet.qrscanner.scanner) {
-			ninja.wallets.detailwallet.qrscanner.scanner = new QRCodeScanner(320, 240, 'paperqroutput', 
+			ninja.wallets.detailwallet.qrscanner.scanner = new QRCodeScanner(320, 240, 'paperqroutput',
 				function(data) {
 					document.getElementById('detailprivkey').value = data;
 					document.getElementById('paperqrscanner').className = '';

@@ -136,7 +136,7 @@ Bitcoin.ECDSA = (function () {
 		* Parses a byte array containing a DER-encoded signature.
 		*
 		* This function will return an object of the form:
-		* 
+		*
 		* {
 		*   r: BigInteger,
 		*   s: BigInteger

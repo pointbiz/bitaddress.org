@@ -16,7 +16,7 @@
 		isDone: function() {
 			return ninja.seeder.seedCount >= ninja.seeder.seedLimit;
 		},
-		
+
 		// seed function exists to wait for mouse movement to add more entropy before generating an address
 		seed: function (evt) {
 			if (!evt) var evt = window.event;
@@ -76,7 +76,7 @@
 			div.setAttribute("class", "seedpoint");
 			div.style.top = y + "px";
 			div.style.left = x + "px";
-			
+
 			// let's make the entropy 'points' grow and change color!
 			percentageComplete = ninja.seeder.seedCount / ninja.seeder.seedLimit;
 			document.getElementById("progress-bar-percentage").style.width=Math.ceil(percentageComplete*100)+"%";
@@ -145,7 +145,7 @@ ninja.qrCode = {
 		return canvas;
 	},
 
-	// generate a QRCode and return it's representation as an Html table 
+	// generate a QRCode and return it's representation as an Html table
 	createTableHtml: function (text) {
 		var typeNumber = ninja.qrCode.getTypeNumber(text);
 		var qr = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
@@ -168,7 +168,7 @@ ninja.qrCode = {
 	},
 
 	// show QRCodes with canvas OR table (IE8)
-	// parameter: keyValuePair 
+	// parameter: keyValuePair
 	// example: { "id1": "string1", "id2": "string2"}
 	//		"id1" is the id of a div element where you want a QRCode inserted.
 	//		"string1" is the string you want encoded into the QRCode.
@@ -212,7 +212,7 @@ ninja.envSecurityCheck = function() {
 			innerHTML = '<span style="color: #009900;">' + ninja.translator.get("securitychecklistofflineOK") + '</span>';
 			break;
 		default:
-	} 
+	}
 	document.getElementById('envSecurityCheck').innerHTML = innerHTML;
 };
 
@@ -222,7 +222,7 @@ ninja.browserSecurityCheck = function() {
 		innerHTML = '<span style="color: #009900;">' + ninja.translator.get("securitychecklistrandomOK") + '</span>';
 	} else {
 		innerHTML = '<span style="color: #990000;">' + ninja.translator.get("securitychecklistrandomNOK") + '</span>';
-	} 
+	}
 	document.getElementById('browserSecurityCheck').innerHTML = innerHTML;
 }
 
