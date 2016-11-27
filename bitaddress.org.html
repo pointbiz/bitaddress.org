@@ -5720,19 +5720,23 @@ Bitcoin.ECKey = (function () {
 			this.priv = BigInteger.fromByteArrayUnsigned(input);
 		} else if ("string" == typeof input) {
 			var bytes = null;
-			if (ECKey.isWalletImportFormat(input)) {
-				bytes = ECKey.decodeWalletImportFormat(input);
-			} else if (ECKey.isCompressedWalletImportFormat(input)) {
-				bytes = ECKey.decodeCompressedWalletImportFormat(input);
-				this.compressed = true;
-			} else if (ECKey.isMiniFormat(input)) {
-				bytes = Crypto.SHA256(input, { asBytes: true });
-			} else if (ECKey.isHexFormat(input)) {
-				bytes = Crypto.util.hexToBytes(input);
-			} else if (ECKey.isBase64Format(input)) {
-				bytes = Crypto.util.base64ToBytes(input);
+			try{
+				if (ECKey.isWalletImportFormat(input)) {
+					bytes = ECKey.decodeWalletImportFormat(input);
+				} else if (ECKey.isCompressedWalletImportFormat(input)) {
+					bytes = ECKey.decodeCompressedWalletImportFormat(input);
+					this.compressed = true;
+				} else if (ECKey.isMiniFormat(input)) {
+					bytes = Crypto.SHA256(input, { asBytes: true });
+				} else if (ECKey.isHexFormat(input)) {
+					bytes = Crypto.util.hexToBytes(input);
+				} else if (ECKey.isBase64Format(input)) {
+					bytes = Crypto.util.base64ToBytes(input);
+				}
+			} catch (exc1) {
+				this.setError(exc1);
 			}
-			
+
 			if (ECKey.isBase6Format(input)) {
 				this.priv = new BigInteger(input, 6);
 			} else if (bytes == null || bytes.length != 32) {
@@ -5744,7 +5748,21 @@ Bitcoin.ECKey = (function () {
 		}
 
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
-		KeyPool.push(this);
+		try {
+			// check not zero
+			if (this.priv != null && BigInteger.ZERO.compareTo(this.priv) == 0) this.setError("Error: BigInteger equal to zero.");
+			// valid range [0x1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140])
+			var hexKeyRangeLimit = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";
+			var rangeLimitBytes = Crypto.util.hexToBytes(hexKeyRangeLimit);
+			var limitBigInt = BigInteger.fromByteArrayUnsigned(rangeLimitBytes);
+			if (this.priv != null && limitBigInt.compareTo(this.priv) < 0) this.setError("Error: BigInteger outside of curve range.")
+
+			if (this.priv != null) {
+				KeyPool.push(this);
+			}
+		} catch (exc2) {
+			this.setError(exc2);
+		}
 	};
 
 	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
@@ -5753,6 +5771,15 @@ Bitcoin.ECKey = (function () {
 	* Whether public keys should be returned compressed by default.
 	*/
 	ECKey.compressByDefault = false;
+
+	/**
+	* Set whether the public key should be returned compressed or not.
+	*/
+	ECKey.prototype.setError = function (err) {
+		this.error = err;
+		this.priv = null;
+		return this;
+	};
 
 	/**
 	* Set whether the public key should be returned compressed or not.
@@ -7033,7 +7060,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 				<div class="tooltip" id="statusprotocolbad">
 					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
 					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
-					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.2.zip">download</a>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.3.zip">download</a>
 					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
 					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
 				</div>
@@ -7058,12 +7085,12 @@ input[type=checkbox] { position: relative; z-index: 20; }
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.2.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.3.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.2.2)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.2.3)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -10448,7 +10475,10 @@ ninja.wallets.vanitywallet = {
 
 		keyToECKeyWithBrain: function (key) {
 			var btcKey = new Bitcoin.ECKey(key);
-			if (btcKey.priv == null) {
+			if (btcKey.error != null) {
+				alert(translator.get("detailalertnotvalidprivatekey") + "\n" + btcKey.error);
+			}
+			else if (btcKey.priv == null) {
 				// enforce a minimum passphrase length
 				if (key.length >= wallets.brainwallet.minPassphraseLength) {
 					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
@@ -11630,7 +11660,64 @@ ninja.wallets.splitwallet = {
 					return false;
 				}
 				return true;
-			}		
+			},
+
+			// test checksum exceptions 
+			testUncompressedWifShouldFailChecksum: function () {
+				// original key: 5KjQAHniFiy18SU7eenyJ9EPYUkjrbiBPfDqw987QjT5vehVQZV   K->k
+				var key = "5kjQAHniFiy18SU7eenyJ9EPYUkjrbiBPfDqw987QjT5vehVQZV";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error.toString().indexOf("failed") == -1) { //Checksum validation failed!
+					return false;
+				}
+				return true;
+
+			},
+			testCompressedWifShouldFailChecksum: function () {
+				// 	original key: L5g9E16m5zEBZqQgMBouUfL6VwW49vCks1hgyxrPHkN8jNNdWTTk   g->G
+				var key = "L5G9E16m5zEBZqQgMBouUfL6VwW49vCks1hgyxrPHkN8jNNdWTTk";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error.toString().indexOf("failed") == -1) { //Checksum validation failed!
+					return false;
+				}
+				return true;
+
+			},
+			// test range of valid private key values for the secp256k1 curve, when specified in hex is 
+			// [0x1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140]
+			testBigIntegerZeroShouldSetError: function () {
+				var key = "0000000000000000000000000000000000000000000000000000000000000000";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) { 
+					return false;
+				}
+				return true;
+
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError1: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError2: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364142";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError3: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			}
 		},
 
 		asynchronousTests: {
