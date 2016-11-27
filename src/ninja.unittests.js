@@ -837,7 +837,64 @@
 					return false;
 				}
 				return true;
-			}		
+			},
+
+			// test checksum exceptions 
+			testUncompressedWifShouldFailChecksum: function () {
+				// original key: 5KjQAHniFiy18SU7eenyJ9EPYUkjrbiBPfDqw987QjT5vehVQZV   K->k
+				var key = "5kjQAHniFiy18SU7eenyJ9EPYUkjrbiBPfDqw987QjT5vehVQZV";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error.toString().indexOf("failed") == -1) { //Checksum validation failed!
+					return false;
+				}
+				return true;
+
+			},
+			testCompressedWifShouldFailChecksum: function () {
+				// 	original key: L5g9E16m5zEBZqQgMBouUfL6VwW49vCks1hgyxrPHkN8jNNdWTTk   g->G
+				var key = "L5G9E16m5zEBZqQgMBouUfL6VwW49vCks1hgyxrPHkN8jNNdWTTk";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error.toString().indexOf("failed") == -1) { //Checksum validation failed!
+					return false;
+				}
+				return true;
+
+			},
+			// test range of valid private key values for the secp256k1 curve, when specified in hex is 
+			// [0x1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140]
+			testBigIntegerZeroShouldSetError: function () {
+				var key = "0000000000000000000000000000000000000000000000000000000000000000";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) { 
+					return false;
+				}
+				return true;
+
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError1: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError2: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364142";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			},
+			testBigIntegerOutOfCurveRangeShouldSetError3: function () {
+				var key = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+				var btcKey = new Bitcoin.ECKey(key);
+				if (btcKey.error == null) {
+					return false;
+				}
+				return true;
+			}
 		},
 
 		asynchronousTests: {

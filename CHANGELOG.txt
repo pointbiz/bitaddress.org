@@ -28,8 +28,17 @@ END USER NOTES:
 
 Here is a signed list of file names and version history.
 
+2016-11-27: status ACTIVE
+bitaddress.org-v3.2.3-SHA256-c9a0bb3ed50aa75a5ae9c606d81e3fd41a4ff686ad38ad5379e2402f481e79a4.html
+ - wallet details: show error when checksum validation fails
+ - wallet details: show error when private key outside of curve range
+
+2016-08-21: status ACTIVE
+bitaddress.org-v3.2.2-SHA256-f4d047c264a2b71946de319482a9365e56d8d7289dd85a352da3b1448b7647df.html
+ - version bump for unix line endings
+
 2016-07-31: status ACTIVE
-bitaddress.org-v3.2.1-SHA256-.html
+bitaddress.org-v3.2.1-SHA256-42c3bcb643c451689e5bd1499ed4b516be2da06d2fe3886b0dd15b8fc2525ecd.html
  - BigInteger modInverse should be positive
  - throw if modInverse 0
  - improve BigInteger constructor so that it works if caller forgets 'new'
