@@ -20,20 +20,17 @@ Please send DONATIONS for this project to Bitcoin Address:
 
 END USER NOTES:
 
- 1) To print QRCode in IE8 you must enable the "Print Background Colors and 
-    Images" checkbox on the "Page Setup" screen.
+ 1) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
 
- 2) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
+ 2) Requires IE9+, Firefox, Chrome or sufficient JavaScript support.
 
- 3) Requires IE8+, Firefox, Chrome or sufficient JavaScript support.
-
- 4) Mobile Safari only works with iPhone4 or newer devices.
+ 3) Mobile Safari only works with iPhone4 or newer devices.
     Older devices timeout while executing JavaScript.
 
- 5) DO NOT use Opera Mini it renders JavaScript output server side, therefore
+ 4) DO NOT use Opera Mini it renders JavaScript output server side, therefore
     they might record the private key you generated.
 
- 6) Art Wallet does not work properly in IE8 due to CSS limitations.
+ 5) BIP38 most likely will not work on mobile devices due to hardware limitations.
 
 
 Notice of Copyrights and Licenses:

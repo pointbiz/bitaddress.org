@@ -16,7 +16,6 @@
 	Summary of JavaScript functions with a redistributable license:
 	JavaScript function		License
 	*******************		***************
-	Array.prototype.map		Public Domain
 	window.Crypto			BSD License
 	window.SecureRandom		BSD License
 	window.EllipticCurve		BSD License
@@ -26,7 +25,7 @@
 	window.Crypto_scrypt		MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
-	Copyright (c) 2011-2013 bitaddress.org (pointbiz)
+	Copyright (c) 2011-2016 bitaddress.org (pointbiz)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 	associated documentation files (the "Software"), to deal in the Software without restriction, including 
@@ -49,65 +48,6 @@
 	<title>bitaddress.org</title>
 	<meta charset="utf-8">
 
-	<script type="text/javascript">
-// Array.prototype.map function is in the public domain.
-// Production steps of ECMA-262, Edition 5, 15.4.4.19  
-// Reference: http://es5.github.com/#x15.4.4.19  
-if (!Array.prototype.map) {
-	Array.prototype.map = function (callback, thisArg) {
-		var T, A, k;
-		if (this == null) {
-			throw new TypeError(" this is null or not defined");
-		}
-		// 1. Let O be the result of calling ToObject passing the |this| value as the argument.  
-		var O = Object(this);
-		// 2. Let lenValue be the result of calling the Get internal method of O with the argument "length".  
-		// 3. Let len be ToUint32(lenValue).  
-		var len = O.length >>> 0;
-		// 4. If IsCallable(callback) is false, throw a TypeError exception.  
-		// See: http://es5.github.com/#x9.11  
-		if ({}.toString.call(callback) != "[object Function]") {
-			throw new TypeError(callback + " is not a function");
-		}
-		// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.  
-		if (thisArg) {
-			T = thisArg;
-		}
-		// 6. Let A be a new array created as if by the expression new Array(len) where Array is  
-		// the standard built-in constructor with that name and len is the value of len.  
-		A = new Array(len);
-		// 7. Let k be 0  
-		k = 0;
-		// 8. Repeat, while k < len  
-		while (k < len) {
-			var kValue, mappedValue;
-			// a. Let Pk be ToString(k).  
-			//   This is implicit for LHS operands of the in operator  
-			// b. Let kPresent be the result of calling the HasProperty internal method of O with argument Pk.  
-			//   This step can be combined with c  
-			// c. If kPresent is true, then  
-			if (k in O) {
-				// i. Let kValue be the result of calling the Get internal method of O with argument Pk.  
-				kValue = O[k];
-				// ii. Let mappedValue be the result of calling the Call internal method of callback  
-				// with T as the this value and argument list containing kValue, k, and O.  
-				mappedValue = callback.call(T, kValue, k, O);
-				// iii. Call the DefineOwnProperty internal method of A with arguments  
-				// Pk, Property Descriptor {Value: mappedValue, Writable: true, Enumerable: true, Configurable: true},  
-				// and false.  
-				// In browsers that support Object.defineProperty, use the following:  
-				// Object.defineProperty(A, Pk, { value: mappedValue, writable: true, enumerable: true, configurable: true });  
-				// For best browser support, use the following:  
-				A[k] = mappedValue;
-			}
-			// d. Increase k by 1.  
-			k++;
-		}
-		// 9. return A  
-		return A;
-	};
-}
-	</script>
 	<script type="text/javascript">
 /*!
 * Crypto-JS v2.5.4	Crypto.js
@@ -6563,11 +6503,6 @@ input[type=checkbox] { position: relative; z-index: 20; }
 #busyblock.busy { display: block; }
 .hide { display: none; }
 .show { display: block; }
-	
-/* IE8 */
-.qrcodetable { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; }
-.qrcodetddark { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #000000; }
-.qrcodetdlight { border-width: 0px; border-style: none; border-color: #0000ff; border-collapse: collapse; padding: 0; margin: 0; width: 2px; height: 2px; background-color: #ffffff; }
 		
 @media screen 	
 {
@@ -7060,7 +6995,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 				<div class="tooltip" id="statusprotocolbad">
 					<span class="statuswarn" id="statuslabelprotocolbad">&#9888; Think twice!</span>
 					<span id="statuslabelprotocolbad1">You appear to be running this generator online from a live website. For valuable wallets it is recommended to</span>
-					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.3.zip">download</a>
+					<a id="statuslabelprotocolbad2" href="https://github.com/pointbiz/bitaddress.org/archive/v3.3.0.zip">download</a>
 					<span id="statuslabelprotocolbad3">the zip file from GitHub and run this generator offline as a local html file.</span>
 					<br /><br /><input type="button" value="OK" class="button" id="statusokprotocolbad" onclick="document.getElementById('statusprotocolbad').style.display = 'none';" />
 				</div>
@@ -7085,12 +7020,12 @@ input[type=checkbox] { position: relative; z-index: 20; }
 					<span class="item"><span id="footerlabeldonations">Donations:</span> <b>1NiNja</b>1bUmhSoTXozBRBEtR8LeF9TGbZBN</span>
 					<span class="item" id="footerlabeltranslatedby"></span>
 					<span class="item"><a href="https://github.com/pointbiz/bitaddress.org" target="_blank" id="footerlabelgithub">GitHub Repository</a> 
-						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.2.3.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
+						(<a href="https://github.com/pointbiz/bitaddress.org/archive/v3.3.0.zip" target="_blank" id="footerlabelgithubzip">zip</a>)</span>
 				</div>
 			</div>
 			<div class="authorpgp">
 				<span class="item">
-					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.2.3)</a>
+					<a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.3.0)</a>
 					
 				</span>
 				<span class="item">527B 5C82 B1F6 B2DB 72A0<br />ECBF 8749 7B91 6397 4F5A</span>
@@ -7627,29 +7562,7 @@ ninja.publicKey = {
 			return canvas;
 		},
 
-		// generate a QRCode and return it's representation as an Html table 
-		createTableHtml: function (text) {
-			var typeNumber = qrC.getTypeNumber(text);
-			var qr = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
-			qr.addData(text);
-			qr.make();
-			var tableHtml = "<table class='qrcodetable'>";
-			for (var r = 0; r < qr.getModuleCount() ; r++) {
-				tableHtml += "<tr>";
-				for (var c = 0; c < qr.getModuleCount() ; c++) {
-					if (qr.isDark(r, c)) {
-						tableHtml += "<td class='qrcodetddark'/>";
-					} else {
-						tableHtml += "<td class='qrcodetdlight'/>";
-					}
-				}
-				tableHtml += "</tr>";
-			}
-			tableHtml += "</table>";
-			return tableHtml;
-		},
-
-		// show QRCodes with canvas OR table (IE8)
+		// show QRCodes with canvas
 		// parameter: keyValuePair 
 		// example: { "id1": "string1", "id2": "string2"}
 		//		"id1" is the id of a div element where you want a QRCode inserted.
@@ -7663,10 +7576,7 @@ ninja.publicKey = {
 						document.getElementById(key).appendChild(qrC.createCanvas(value, sizeMultiplier));
 					}
 				}
-				catch (e) {
-					// for browsers that do not support canvas (IE8)
-					document.getElementById(key).innerHTML = qrC.createTableHtml(value);
-				}
+				catch (e) {	}
 			}
 		}
 	};
@@ -9318,21 +9228,21 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 ﻿(function (translator) {
 	translator.translations["pt-br"] = {
 		// javascript alerts or messages
-		"testneteditionactivated": "EDIÇÃO DO TESTNET ATIVADA",
+		"testneteditionactivated": "EDIÇÃO DA TESTNET ATIVADA",
 		"paperlabelbitcoinaddress": "Endereço Bitcoin:",
 		"paperlabelprivatekey": "Chave privada:",
 		"paperlabelencryptedkey": "Chave privada criptografada (Senha necessária)",
-		"bulkgeneratingaddresses": "Generando endereços... ",
+		"bulkgeneratingaddresses": "Gerando endereços... ",
 		"brainalertpassphrasetooshort": "A senha introduzida é pequena demais.\n\n",
-		"brainalertpassphrasewarning": "Aviso: É importante que escolha uma senha forte, para evitar ataques de força bruta que tentem adivinhar sua senha e roubar seus bitcoins.",
+		"brainalertpassphrasewarning": "Aviso: É importante que você escolha uma senha forte, para evitar ataques de força bruta que tentem adivinhar sua senha e roubar seus bitcoins.",
 		"brainalertpassphrasedoesnotmatch": "As senhas digitadas não são iguais.",
 		"detailalertnotvalidprivatekey": "O texto que você digitou não é uma chave privada válida",
-		"detailconfirmsha256": "O texto que você digitou não é uma chave privada válida\n\nQuer usar esse texto como se fosse uma senha e gerar uma chave privada usando um hash SHA256 dessa senha?\n\nAviso: É importante escolher uma senha forte para evitar ataques de força bruta que tentem adivinhá-la e roubar seus bitcoins.",
+		"detailconfirmsha256": "O texto que você digitou não é uma chave privada válida\n\nDeseja usar esse texto como se fosse uma senha e gerar uma chave privada usando um hash SHA256 dessa senha?\n\nAviso: É importante escolher uma senha forte para evitar ataques de força bruta que tentem adivinhá-la e roubar seus bitcoins.",
 		"bip38alertincorrectpassphrase": "Senha incorreta para essa chave privada criptografada.",
 		"bip38alertpassphraserequired": "Senha necessária para a chave BIP38",
 		"vanityinvalidinputcouldnotcombinekeys": "Entrada inválida. Não foi possível combinar as chaves.",
-		"vanityalertinvalidinputpublickeysmatch": "Entrada inválida. As chaves públicas de ambas entradas são iguais. Você deve inserir duas chaves diferentes.",
-		"vanityalertinvalidinputcannotmultiple": "Entrada inválida. Não é possível multiplicar duas chaves públicas. Clique em 'Somar' para somar duas chaves públicas para adquirir um endereço bitcoin.",
+		"vanityalertinvalidinputpublickeysmatch": "Entrada inválida. As chaves públicas de ambas as entradas são iguais. Você deve inserir duas chaves diferentes.",
+		"vanityalertinvalidinputcannotmultiple": "Entrada inválida. Não é possível multiplicar duas chaves públicas. Clique em 'Somar' e some duas chaves públicas para adquirir um endereço bitcoin.",
 		"vanityprivatekeyonlyavailable": "Disponível apenas quando se combinam duas chaves privadas",
 		"vanityalertinvalidinputprivatekeysmatch": "Entrada inválida. As chaves privadas de ambas as entradas são iguais. Você deve inserir duas chaves diferentes.",
 
@@ -9346,7 +9256,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		"bulkwallet": "Múltiplos endereços",
 		"brainwallet": "Carteira mental",
 		"vanitywallet": "Carteira personalizada",
-		"splitwallet": "Split Wallet", //TODO: please translate
+		"splitwallet": "Carteira fracionada",
 		"detailwallet": "Detalhes da carteira",
 
 		// footer html
@@ -9362,42 +9272,42 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		"footerlabelnowarranty": "Sem garantia.",
 
 		// status html
-		"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+		"statuslabelcryptogood": "&#10004; Boa!",
 		"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
-		"statusokcryptogood": "OK", //TODO: please translate
-		"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+		"statusokcryptogood": "OK", 
+		"statuslabelcryptobad": "&times; Oh não!", 
 		"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
-		"statusokcryptobad": "OK", //TODO: please translate
-		"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+		"statusokcryptobad": "OK", 
+		"statuslabelunittestsgood": "&#10004; Boa!",
 		"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
-		"statusokunittestsgood": "OK", //TODO: please translate
-		"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+		"statusokunittestsgood": "OK",
+		"statuslabelunittestsbad": "&times; Oh não!", 
 		"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
-		"statusokunittestsbad": "OK", //TODO: please translate
-		"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+		"statusokunittestsbad": "OK", 
+		"statuslabelprotocolgood": "&#10004; Boa!", 
 		"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
-		"statusokprotocolgood": "OK", //TODO: please translate
-		"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+		"statusokprotocolgood": "OK", 
+		"statuslabelprotocolbad": "&#9888; Pense duas vezes!", 
 		"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
-		"statuslabelprotocolbad2": "download", //TODO: please translate
+		"statuslabelprotocolbad2": "download", 
 		"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
-		"statusokprotocolbad": "OK", //TODO: please translate
+		"statusokprotocolbad": "OK", 
 		"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
-		"statuskeypoolrefresh": "Refresh", //TODO: please translate
-		"statusokkeypool": "OK", //TODO: please translate
+		"statuskeypoolrefresh": "Atualizar", 
+		"statusokkeypool": "OK",
 
 		// single wallet html
 		"newaddress": "Gerar endereço",
 		"singleprint": "Imprimir",
 		"singlelabelbitcoinaddress": "Endereço Bitcoin",
 		"singlelabelprivatekey": "Chave privada (Wallet Import Format):",
-		"singletip1": "<b>Uma carteira Bitcoin</b> é tão simples quanto um simples pareamento de um endereço Bitcoin com a sua chave privada Bitcoin correspondente. Essa carteira foi gerada para você em seu navegador web e está sendo exibida acima.",
-		"singletip2": "<b>Para proteger essa carteira</b> você deve imprimir ou anotar/salvar o endereço Bitcoin e a chave privada. É importante que você faça uma cópia de segurança da sua chave privada e armazene-a em um local seguro. Esse site não toma conhecimento da sua chave privada. Se você for familiar com PGP, você pode baixar essa pagina HTML tudo-em-um e verificar se você tem uma versão autêntica do autor deste site ao fazer a correspondência do hash SHA256 deste HTML com o hash SHA256 disponível na versão assinada do documento linkado no rodapé deste site. Se você sair/atualizar essa página ou apertar o botão Gerar Novo Endereço, então uma nova chave privada será gerada e a chave exibida anteriormente não será recuperável.	A sua chave privada Bitcoin deve ser mantida como um segredo. Qualquer pessoa que tiver acesso a ela poderá gastar todos os seus bitcoins associados com aquele endereço. Se você imprimir sua carteira, armazene-a em um saco plástico selado para mantê-la longe da água. Trate uma carteira em papel como se fosse dinheiro.",
+		"singletip1": "<b>Uma carteira Bitcoin</b> nada mais é do que um endereço Bitcoin e a sua chave privada Bitcoin correspondente. Essa carteira foi gerada para você em seu navegador web e está sendo exibida acima.",
+		"singletip2": "<b>Para proteger essa carteira</b> você deve imprimir ou anotar/salvar o endereço Bitcoin e a sua chave privada correspondente. É importante que você faça uma cópia de segurança da sua chave privada e armazene-a em um local seguro. Esse site não toma conhecimento da sua chave privada. Se você for familiar com criptografia PGP, você pode baixar essa página HTML em um arquivo único e verificar se você tem uma versão autêntica do autor deste site ao fazer a correspondência do hash SHA256 deste HTML com o hash SHA256 disponível na versão assinada do arquivo contido no link no rodapé deste site. Se você sair/atualizar essa página ou apertar o botão Gerar Novo Endereço, então uma nova chave privada será gerada e a chave exibida anteriormente não será recuperável.	A sua chave privada Bitcoin deve ser mantida em um segredo. Qualquer pessoa que tiver acesso a ela poderá gastar todos os seus bitcoins associados com aquele endereço. Se você imprimir sua carteira, armazene-a em um saco plástico selado para mantê-la longe da água. Trate sua carteira em papel como se fosse dinheiro.",
 		"singletip3": "<b>Adicione fundos</b> para essa carteira ao indicar para outras pessoas enviarem bitcoins para o seu endereço Bitcoin.",
 		"singletip4": "<b>Verifique seu saldo</b> visitando os sites blockchain.info ou blockexplorer.com e digitando o seu endereço Bitcoin.",
-		"singletip5": "<b>Gaste seus bitcoins</b> visitando o site blockchain.info e esvaziando completamente o seu saldo de sua chave privada para sua conta no site. Você também pode gastar seus fundos ao baixar um cliente bitcoin p2p popular e importar sua chave privada para a carteira do aplicativo. Tenha em mjente que quando você importa uma chave única para um cliente bitcoin p2p e gasta seus fundos, sua chave será agrupada com outras chavfes privadas no aplicativo de carteira. Quando você realizar uma transação o seu troco será enviado para outro endereço bitcoin dentro do seu aplicativo de carteira. Você deve então fazer backup da sua carteira em seu aplicativo e mantê-la em segurança, visto que seus bitcoins remanescentes agora serão armazenados nela. Um conselho do Satoshi Nakamoto é de que uma carteira nunca deve ser apagada.",
-		"singleshare": "COMPARTILHE", //TODO: please translate
-		"singlesecret": "SECRETA", //TODO: please translate
+		"singletip5": "<b>Gaste seus bitcoins</b> visitando o site blockchain.info e esvaziando completamente o seu saldo de sua chave privada para sua conta no site. Você também pode gastar seus fundos ao baixar um cliente bitcoin p2p popular e importar sua chave privada para a carteira do aplicativo. Tenha em mente que quando você importa uma chave única para um cliente bitcoin p2p e gasta seus fundos, sua chave será agrupada com outras chavfes privadas no aplicativo de carteira. Quando você realizar uma transação o seu troco será enviado para outro endereço bitcoin dentro do seu aplicativo de carteira. Você deve então fazer backup da sua carteira em seu aplicativo e mantê-la em segurança, visto que seus bitcoins remanescentes agora serão armazenados nela. Um conselho do Satoshi Nakamoto é de que uma carteira nunca deve ser apagada.",
+		"singleshare": "COMPARTILHE", 
+		"singlesecret": "SECRETA", 
 
 		// paper wallet html
 		"paperlabelhideart": "Ocultar figura",
@@ -9415,7 +9325,7 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		"bulkgenerate": "Gerar",
 		"bulkprint": "Imprimir",
 		"bulklabelcsv": "Valores separados por vírgula:",
-		"bulklabelformat": "Índice,Dirección,Clave privada (formato para importar)",
+		"bulklabelformat": "Índice,Endereço,Chave privada (formato para importar)",
 		"bulklabelq1": "¿Por qué debo usar \"Direcciones en masa\" para aceptar Bitcoins en mi web?",
 		"bulka1": "La forma tradicional de aceptar bitcoins en tu web requiere tener instalado el cliente oficial de bitcoin (\"bitcoind\"). Sin embargo muchos servicios de hosting no permiten instalar dicho cliente. Además, ejecutar el cliente en tu servidor supone que las claves privadas están también en el servidor y podrían ser comprometidas en caso de intrusión. Al usar este mecanismo, puedes subir al servidor sólo las dirección de bitcoin y no las claves privadas. De esta forma no te tienes que preocupar de que alguien robe la cartera si se cuelan en el servidor.",
 		"bulklabelq2": "¿Cómo uso \"Direcciones en masa\" para aceptar bitcoins en mi web?",
@@ -9469,15 +9379,15 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		"detaillabelpublickey": "Chave pública (130 caracteres [0-9A-F]):",
 		"detaillabelpublickeycomp": "Chave pública (comprimida, 66 caracteres [0-9A-F]):",
 		"detaillabelprivwif": "Chave privada para importação (51 caracteres em base58, inicia com um",
-		"detaillabelprivwifcomp": "Chave privada para importação  (comprimida, 52 caracteres em base58, inicia com",
-		"detailcompwifprefix": "'K' o 'L'",
+		"detaillabelprivwifcomp": "Chave privada para importação (comprimida, 52 caracteres em base58, inicia com",
+		"detailcompwifprefix": "'K' ou 'L'",
 		"detaillabelprivhex": "Chave privada em formato hexadecimal (64 caracteres [0-9A-F]):",
 		"detaillabelprivb64": "Chave privada em base64 (44 caracteres):",
 		"detaillabelprivmini": "Chave privada en formato mini (22, 26 ou 30 caracteres, inicia com 'S'):",
 		"detaillabelpassphrase": "Senha BIP38",
-		"detailbip38decryptbutton": "Desencriptar BIP38",
-		"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
-		"detaillabelq1": "Como eu faço uma carteira usando um dado? O que é B6?",
+		"detailbip38decryptbutton": "Descriptografar BIP38",
+		"detailbip38encryptbutton": "Criptografar em BIP38", 
+		"detaillabelq1": "Como eu faço uma carteira usando um dado? O que é o formato B6?",
 		"detaila1": "Uma parte importante ao criar um carteira Bitcoin é se assegurar que os números aleatórios usados para criar a carteira sejam realmente aleatórios. A aleatoriedade física é melhor do que a pseudo-aleatoriedade gerada por computador. A maneira mais fácil de gerar aleatoriedade física é com dados. Para criar um chave privada Bitcoin você precisa de apenas um dado de seis lados, o qual você jogará 99 vezes. A cada jogada, anote o valor do dado. Ao anotar os valores, siga as seguintes regras: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Ao fazer isso, você está anotando esse grande número aleatório, sua chave privada, no formato base 6 (B6). Você pode então digitar essa chave privada em base 6 contendo 99 caracteres no campo de texto acima e clicar em Ver Detalhes. Você então verá o endereço Bitcoin associado com sua chave privada. Você deve também anotar sua chave privada no formato WIF, já que ele é mais amplamente utilizado."
 	};
 })(ninja.translator);
