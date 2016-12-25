@@ -6871,7 +6871,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 
 			<div id="detailarea" class="walletarea">	
 				<div id="detailcommands" class="commands">
-					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key</label></span>
+					<span><label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key. By doing so, no other randomness will be used to generate the Bitcoin Private Key: </label></span>
 					<input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
 					<span><input type="button" class="button" id="detailview" value="View Details" onclick="ninja.wallets.detailwallet.viewDetails();" /></span>
 					
