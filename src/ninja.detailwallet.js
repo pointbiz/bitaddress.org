@@ -43,7 +43,7 @@
 		checkAndShowBase6: function (key) {
 			if (Bitcoin.ECKey.isBase6Format(key)) {
 				// show Private Key Base6 Format
-				document.getElementById("detailprivb6").innerHTML = key;
+				document.getElementById("detailprivb6").innerHTML = key.replace(/6/g, '0');
 				document.getElementById("detailb6").style.display = "block";
 			}
 		},
