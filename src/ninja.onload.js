@@ -78,9 +78,9 @@ if (ninja.getQueryString()["i18nextract"]) {
     elem.setAttribute("rows", "30");
     elem.setAttribute("style", "width: 99%");
     elem.setAttribute("wrap", "off");
-
-    a=document.getElementsByClassName("i18n");
-
+    
+    a=document.getElementsByClassName("i18n");    
+    
     var i18n = "\"" + culture + "\": {\n";
     for(x=0; x<a.length; x++) {
         i18n += "\t";
@@ -100,9 +100,9 @@ if (ninja.getQueryString()["i18nextract"]) {
             i18n += "(ENGLISH)" + cleani18n(ninja.translator.translations["en"][ninja.translator.staticID[x]]);
         i18n += "\",\n";
     }
-
+    
     i18n += "},"
-
+    
     elem.innerHTML = i18n;
     div.appendChild(elem);
     document.body.appendChild(div);

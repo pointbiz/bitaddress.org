@@ -40,7 +40,7 @@ ninja.translator = {
 		var translation = ninja.translator.translations[ninja.translator.currentCulture][id];
 		return translation;
 	},
-
+    
     staticID: [
         "defaultTitle",
         "title",
