@@ -113,6 +113,7 @@ janin.currencies = [
     janin.currency.createCurrency ("DogecoinDark",        0x1e, 0x9e, "6",    "Q"    , "DLbjdRYsfiT62JZf5YxSAfNZJo1VKxDTNP"),
     janin.currency.createCurrency ("eGulden",             0x30, 0xb0, "6",    "T"    , "LhBsKs2GUb24KBAzZfua5AsqfQF5uPdWXQ"),
     janin.currency.createCurrency ("eKrona",              0x2d, 0xad, "6",    "S"    , "KLi8FnMZmSH8EfXYgJwi4R2ZyMscJykXT5"),
+    janin.currency.createCurrency ("Emerald",             0x22, 0xa2, "6",    "[QR]" , "EnJnzAQSpPp7RshMhNx9zhRnabxTLird6W"),
     janin.currency.createCurrency ("Emercoin",            0x21, 0xa1, "6",    "Q"    , "EN5nVyEbLrhYfcjoyGgQFtD3QHETyj1dy1"),
     janin.currency.createCurrency ("EnergyCoin",          0x5c, 0xdc, "8",    "Z"    , "eD2P3q5PdyHYNwT94Dg6Wt4pBz64k8gwGf"),
     janin.currency.createCurrency ("Espers",              0x21, 0xa1, "6",    "Q"    , "EbENTy3x9Mr4PcmnNyzfdSALfkPaFSW3dt"),
