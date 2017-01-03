@@ -1,6 +1,5 @@
 **** LOOKING FOR THE ZIP FILE TO DOWNLOAD ? ***********************************
-If you're on already at https://github.com/Taj-Coin/WalletGenerator.net
-Then just look for the button that says Clone or Download "Download ZIP". Look to your right --->
+It's here: https://github.com/MichaelMure/WalletGenerator.net/archive/master.zip
 *******************************************************************************
 
 WalletGenerator.net
@@ -8,14 +7,14 @@ Universal Client-Side Wallet Generator
 
 Now crypto-currency wallets addresses and their corresponding private key can be conveniently generated in a web browser.
 
-The WalletGenerator.net project provides an all-in-one HTML document with embedded JavaScript/Css/Images. The JavaScript is readable, not minified and contains no XMLHttpRequest's (no AJAX). The benefit of this technique is you can load the JavaScript locally and trust that the JavaScript did not change after being loaded. 
+The WalletGenerator.net project provides an all-in-one HTML document with embedded JavaScript/Css/Images. The JavaScript is readable, not minified and contains no XMLHttpRequest's (no AJAX). The benefit of this technique is you can load the JavaScript locally and trust that the JavaScript did not change after being loaded.
 
 
 Please send DONATIONS for this project using the crypto-currency addresses available on the 'Donate' tab of the website.
 
 You can help us support more currency by following this non-developer How-To: https://github.com/MichaelMure/WalletGenerator.net/wiki/How-to-add-a-new-currency
 
-END USER NOTES: 
+END USER NOTES:
  1) To print QRCode in IE8 you must enable the "Print Background Colors and Images" checkbox on the "Page Setup" screen.
  2) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
  3) Requires IE8+, Firefox, Chrome or sufficient JavaScript support.
@@ -26,22 +25,22 @@ END USER NOTES:
 
 Notice of Copyrights and Licenses:
 ---------------------------------------
-The WalletGenerator.net project, software and embedded resources are copyright WalletGenerator.net. 
+The WalletGenerator.net project, software and embedded resources are copyright WalletGenerator.net.
 The WalletGenerator.net name and logo are not part of the open source license.
 
 Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others. The individual copyrights are included throughout the document along with their licenses. Included JavaScript libraries are separated with HTML script tags.
 
 Summary of JavaScript functions with a redistributable license:
-JavaScript function 	License
-------------------- 	--------------
-Array.prototype.map 	Public Domain
-window.Crypto       	BSD License
-window.SecureRandom 	BSD License
-window.EllipticCurve	BSD License
-window.BigInteger   	BSD License
-window.QRCode       	MIT License
-window.Bitcoin      	MIT License
-jsqrcode            	Apache License, 2.0
+JavaScript function   License
+-------------------   --------------
+Array.prototype.map   Public Domain
+window.Crypto         BSD License
+window.SecureRandom   BSD License
+window.EllipticCurve  BSD License
+window.BigInteger     BSD License
+window.QRCode         MIT License
+window.Bitcoin        MIT License
+jsqrcode              Apache License, 2.0
 
 
 The WalletGenerator.net software is available under The MIT License (MIT)
