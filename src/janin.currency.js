@@ -108,6 +108,7 @@ janin.currencies = [
     janin.currency.createCurrency ("DeafDollars",         0x30, 0xb0, "6",    "T"    , "LNHYnoqySwoN5aMyEVavEBT3CxHA9WrTZs"),
     janin.currency.createCurrency ("Deutsche eMark",      0x35, 0xb5, "7",    "T"    , "Ni4112Tmv1ScZ9fkN76knJ4jRTxeHQieJM"),
     janin.currency.createCurrency ("Devcoin",             0x00, 0x80, "5",    "[LK]" , "1GUeBfpVhN7xySQej3HiSe5c8jQoVQPosv"),
+    janin.currency.createCurrency ("DigiByte",            0x1e, 0x9e, "6",    "Q"    , "D9s71nQPBCEbM2SvGwHQcrhay6KrJaVo3Z"),
     janin.currency.createCurrency ("Digitalcoin",         0x1e, 0x9e, "6",    "Q"    , "D7fJwPfW4dFSJNq4NHbMiYJhYnrZehMpqx"),
     janin.currency.createCurrency ("Dogecoin",            0x1e, 0x9e, "6",    "Q"    , "D74Npoqhwhjw9fShkm5wbj6DD2BJXpmzPj"),
     janin.currency.createCurrency ("DogecoinDark",        0x1e, 0x9e, "6",    "Q"    , "DLbjdRYsfiT62JZf5YxSAfNZJo1VKxDTNP"),
