@@ -29,9 +29,16 @@ ninja.wallets.vanitywallet = {
 		var privateKeyWif = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
 		var bitcoinAddress = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
 		var publicKeyHex = ninja.translator.get("vanityinvalidinputcouldnotcombinekeys");
+		var compressedOutput = false;
 		try {
 			var input1KeyString = document.getElementById("vanityinput1").value;
 			var input2KeyString = document.getElementById("vanityinput2").value;
+
+			// if any input is in a compressed format, compress the output
+			compressedOutput = compressedOutput || ninja.publicKey.isCompressedPublicKeyHexFormat(input1KeyString);
+			compressedOutput = compressedOutput || ninja.publicKey.isCompressedPublicKeyHexFormat(input2KeyString);
+			compressedOutput = compressedOutput || Bitcoin.ECKey.isCompressedWalletImportFormat(input1KeyString);
+			compressedOutput = compressedOutput || Bitcoin.ECKey.isCompressedWalletImportFormat(input2KeyString);
 
 			// both inputs are public keys
 			if (ninja.publicKey.isPublicKeyHexFormat(input1KeyString) && ninja.publicKey.isPublicKeyHexFormat(input2KeyString)) {
@@ -88,6 +95,7 @@ ninja.wallets.vanitywallet = {
 					alert(ninja.translator.get("vanityalertinvalidinputprivatekeysmatch"));
 				}
 				else {
+					combinedPrivateKey.compressed = compressedOutput;
 					bitcoinAddress = combinedPrivateKey.getBitcoinAddress();
 					privateKeyWif = combinedPrivateKey.getBitcoinWalletImportFormat();
 					publicKeyHex = combinedPrivateKey.getPubKeyHex();
