@@ -11,8 +11,8 @@
 		"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
 		"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
 		"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
-		"bip38alertincorrectpassphrase": "Frase incorrecta para esta llave privada encriptada.", 
-		"bip38alertpassphraserequired": "Se requiere Frase para la llave BIP38", 
+		"bip38alertincorrectpassphrase": "Contraseña incorrecta para esta llave privada encriptada.", 
+		"bip38alertpassphraserequired": "Se requiere Contraseña para la llave BIP38", 
 		"vanityinvalidinputcouldnotcombinekeys": "Entrada no válida. No se puede combinar llaves.",
 		"vanityalertinvalidinputpublickeysmatch": "Entrada no válida. La clave pública de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 		"vanityalertinvalidinputcannotmultiple": "Entrada no válida. No se puede multiplicar dos claves públicas. Seleccione 'Añadir' para agregar dos claves públicas para obtener una dirección bitcoin.",
@@ -88,7 +88,7 @@
 		"paperlabeladdressestogenerate": "Direcciones en total:",
 		"papergenerate": "Generar",
 		"paperprint": "Imprimir",
-		"paperlabelBIPpassphrase": "Frase de contraseña:",
+		"paperlabelBIPpassphrase": "Contraseña:",
 		"paperlabelencrypt": "¿Encriptar BIP38?", 
 
 		// bulk wallet html
@@ -157,7 +157,7 @@
 		"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
 		"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
 		"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
-		"detaillabelpassphrase": "Frase de contraseña BIP38", 
+		"detaillabelpassphrase": "Contraseña BIP38", 
 		"detailbip38decryptbutton": "Desencriptar BIP38", 
 		"detailbip38encryptbutton": "Encriptar BIP38", 
 		"detaillabelq1": "¿Cómo puedo hacer una cartera usando dados? ¿Qué es B6?", 
