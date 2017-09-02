@@ -1,0 +1,24 @@
+{
+  "name": "walletgenerator.net",
+  "version": "3.3.0",
+  "description": "Open Source JavaScript Client-Side Bitcoin Wallet Generator",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-combine": "~0.8.3",
+    "grunt-lineending": "~0.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MichaelMure/WalletGenerator.net.git"
+  },
+  "keywords": [
+    "bitcoin address wallet generator"
+  ],
+  "author": "MichaelMure",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/MichaelMure/WalletGenerator.net/issues"
+  }
+}
