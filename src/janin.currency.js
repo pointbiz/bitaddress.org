@@ -185,6 +185,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Pesetacoin",          0x2f, 0xaf, "6",    "[ST]" , "L6qoz2SQN6U9vGNoST35QP85PQbg4s5rDn"),
     janin.currency.createCurrency ("PHCoin",              0x37, 0xb7, "7",    "U"    , "P9e6c714JUHUfuBVHSS36eqaxGCN6X8nyU"),
     janin.currency.createCurrency ("PhoenixCoin",         0x38, 0xb8, "7",    "U"    , "PsaaD2mLfAPUJXhMYdC1DBavkJhZj14k6X"),
+    janin.currency.createCurrency ("Pinkcoin",            0x3,  0x83, "[RQP]","L"    , "2Xgy8K2n5cVmnm8Se2rDojQ1GdfHdktx8r"),
     janin.currency.createCurrency ("PIVX",                0x1e, 0xd4, "8",    "Y"    , "DSiCurCzgdzqSP1urFg3VZJfrpyhMWjEAp"),
     janin.currency.createCurrency ("Peercoin",            0x37, 0xb7, "7",    "U"    , "PSnwUwknbmqUU1GCcM1DNxcANqihpdt3tW"),
     janin.currency.createCurrency ("Potcoin",             0x37, 0xb7, "7",    "U"    , "PQcMNuCdeooMcS5H3DGwxXnSE2kmyVMU39"),
