@@ -6,3 +6,5 @@ Thumbs.db
 favicon.ico
 robots.txt
 sitemap.xml
+/.idea
+/node_modules
