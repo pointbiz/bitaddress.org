@@ -35,25 +35,26 @@ module.exports = function (grunt) {
 					{ token: "//ninja.bulkwallet.js", file: "./src/ninja.bulkwallet.js" },
 					{ token: "//ninja.brainwallet.js", file: "./src/ninja.brainwallet.js" },
 					{ token: "//ninja.detailwallet.js", file: "./src/ninja.detailwallet.js" },
-                    { token: "//ninja.donatetab.js", file: "./src/ninja.donatetab.js" },
+					{ token: "//ninja.donatetab.js", file: "./src/ninja.donatetab.js" },
 					{ token: "//qrcode.js", file: "./src/qrcode.js" },
 					{ token: "//securerandom.js", file: "./src/securerandom.js" },
 					{ token: "//janin.currency.js", file: "./src/janin.currency.js" },
 					{ token: "//main.css", file: "./src/main.css" }
 				]
 			},
-            i18n: {
-                input: "./index.html",
-                output: "./index.html",
-                tokens: [
-                    { token: "//en.js", file: "./l10n/en.js" },
-                    { token: "//fr.js", file: "./l10n/fr.js" },
-                    { token: "//ru.js", file: "./l10n/ru.js" },
-                    { token: "//es.js", file: "./l10n/es.js" }
-                ]
-            }
-        }
-        
+						i18n: {
+								input: "./index.html",
+								output: "./index.html",
+								tokens: [
+										{ token: "//en.js", file: "./l10n/en.js" },
+										{ token: "//fr.js", file: "./l10n/fr.js" },
+										{ token: "//ru.js", file: "./l10n/ru.js" },
+										{ token: "//es.js", file: "./l10n/es.js" },
+										{ token: "//ua.js", file: "./l10n/ua.js" }
+								]
+						}
+				}
+
 	});
 
 	grunt.file.defaultEncoding = 'utf-8';
