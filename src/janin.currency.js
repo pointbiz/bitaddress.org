@@ -124,6 +124,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Feathercoin",         0x0e, 0x8e, "5",    "N"    , "6dxAP6oacHsove5X2kZPpddcT1Am167YzC"),
     janin.currency.createCurrency ("Fedoracoin",          0x21, 0x80, "5",    "[KL]" , "ENRPj6iEh14Xky2hv4B7zTJGMe5Kchjeo8"),
     janin.currency.createCurrency ("Fibre",               0x23, 0xa3, "6",    "R"    , "F6qGSM29vJm2q3Q9uvozpym7WYqKXBrpqm"),
+    janin.currency.createCurrency ("Florincoin",          0x23, 0xb0, "6",    "T"    , "FLJ7vLPZDLMVr2KPEvZMgWvh8TCXj5Bn3m"),
     janin.currency.createCurrency ("Fluttercoin",         0x23, 0xa3, "6",    "R"    , "FJioRLt3gLtqk3tUdMhwjAVo1sdWjRuwqt"),
     janin.currency.createCurrency ("Freicoin",            0x00, 0x80, "5",    "[LK]" , "18kVnAk5Undi7CqEgGx63YDKBPFpxYJmT9"),
     janin.currency.createCurrency ("FUDcoin",             0x23, 0xa3, "6",    "R"    , "FEKsbaLJHjbEnuMiRDvtnyvxaJqehBtQ5V"),
