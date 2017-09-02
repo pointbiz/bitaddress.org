@@ -105,6 +105,7 @@ janin.currencies = [
     janin.currency.createCurrency ("CryptoBullion",       0xb,  0x8b, "5",    "M"    , "Cd9CgzTChm9yJQZ3SL3PUSsMkEEN8LGwCF"),
     janin.currency.createCurrency ("CryptoClub",          0x23, 0xa3, "6",    "R"    , "FKPFTw5LjoeGTZP1d3zHLfZNm91FktgPWY"),
     janin.currency.createCurrency ("Cryptoescudo",        0x1c, 0x9c, "6",    "Q"    , "Cd9CgzTChm9yJQZ3SL3PUSsMkEEN8LGwCF"),
+    janin.currency.createCurrency ("Cryptonite",          0x1c, 0x80, "5",    "[LK]" , "CP6uhgcDnXzdgQhnz2q1xhSFMFinmqkQkh"),
     janin.currency.createCurrency ("Dash",                0x4c, 0xcc, "7",    "X"    , "XdYX6AbDzjb3AVL1tAmWjuYMD28LD9fcWS"),
     janin.currency.createCurrency ("DeafDollars",         0x30, 0xb0, "6",    "T"    , "LNHYnoqySwoN5aMyEVavEBT3CxHA9WrTZs"),
     janin.currency.createCurrency ("Deutsche eMark",      0x35, 0xb5, "7",    "T"    , "Ni4112Tmv1ScZ9fkN76knJ4jRTxeHQieJM"),
