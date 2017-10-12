@@ -81,7 +81,7 @@ janin.currency = {
 };
 
 janin.currencies = [
-    //                    name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start, donate
+    //                              name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start, donate
     janin.currency.createCurrency ("2GIVE",               0x27, 0xa7, "6",    "R"    , "Givewmf4yv8uuHZG6Eb7sm17fJS2Trf6U8"),
     janin.currency.createCurrency ("42coin",              0x08, 0x88, "5",    "M"    , "4Fs42jYtLYrUMfKEXc6arojuhRsnYnerxN"),
     janin.currency.createCurrency ("Acoin",               0x17, 0xe6, "8",    "b"    , "AJvChtExuvLgAor9aw1Xz9bkvJY7JKD9uL"),
@@ -175,7 +175,7 @@ janin.currencies = [
     janin.currency.createCurrency ("Megacoin",            0x32, 0xb2, "6",    "T"    , "MPeVmJHvkXN3caneWCB5zGgtGHRRBSLmWd"),
     janin.currency.createCurrency ("MintCoin",            0x33, 0xb3, "[67]", "T"    , "MdT7t7MhbgQLSdMhHJCyoGHUuniqZDrj4h"),
     janin.currency.createCurrency ("MobiusCoin",          0x00, 0x80, "5",    "[LK]" , "1HKNrUR3BaFC8u4VMfnjCuXDPrYGh7jU8S"),
-    janin.currency.createCurrency ("MonetaryUnit",        0x0f, 0x8f, "5",    "N"    , "7R6jCc1h3frSuCrmY87B4iVPzLsZKmkwV5"),
+    janin.currency.createCurrency ("MonetaryUnit",        0x10, 0x7e, "5",    "K"    , "7gzstwRu4owvwk7Se5pPVG8A5pgdgsDzUV"),
     janin.currency.createCurrency ("Monocle",             0x32, 0xb2, "6",    "T"    , "M9CFHZjyCipuKqByD5K1sCHmt7etuCFGsc"),
     janin.currency.createCurrency ("MoonCoin",            0x03, 0x83, "5",    "L"    , "2P2V9npcK7apbUFsWN3zL7R6ARBMwTJ4hA"),
     janin.currency.createCurrency ("Myriadcoin",          0x32, 0xb2, "6",    "T"    , "MWGDtjDw9c8C6zicDQF22yZBWbEX53v4o9"),
@@ -236,8 +236,9 @@ janin.currencies = [
     janin.currency.createCurrency ("WorldCoin",           0x49, 0xc9, "7",    "W"    , "WNmGkn2WQZKS6xKHEsj5AqSbuE4sh9Upyb"),
     janin.currency.createCurrency ("Zetacoin",            0x50, 0xE0, "8",    "a"    , "ZRU6TP8NLzoyey4DPPaa3uCCgDNDc96PXJ"),
 
-    janin.currency.createCurrency ("Testnet Dogecoin",    0x71, 0xf1, "9",    "c"    , null),
     janin.currency.createCurrency ("Testnet Bitcoin",     0x6f, 0xef, "9",    "c"    , null),
+    janin.currency.createCurrency ("Testnet Dogecoin",    0x71, 0xf1, "9",    "c"    , null),
+    janin.currency.createCurrency ("Testnet MonetaryUnit",0x26, 0x40, "3",    "A"    , null),
     janin.currency.createCurrency ("Testnet PIVX",        0x8b, 0xef, "9",    "c"    , null),
-    janin.currency.createCurrency ("Testnet WACoins",     0x51, 0xd1, "8",    "[XY]"    , null)
+    janin.currency.createCurrency ("Testnet WACoins",     0x51, 0xd1, "8",    "[XY]" , null)
                    ];
