@@ -55,7 +55,8 @@ module.exports = function (grunt) {
 					{ token: "//jp.js", file: "./src/culture/jp.js" },
 					{ token: "//pt-br.js", file: "./src/culture/pt-br.js" },
 					{ token: "//ru.js", file: "./src/culture/ru.js" },
-					{ token: "//zh-cn.js", file: "./src/culture/zh-cn.js" }
+					{ token: "//zh-cn.js", file: "./src/culture/zh-cn.js" },
+					{ token: "//sv.js", file: "./src/culture/sv.js" }
 				]
 			}
 		},
