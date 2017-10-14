@@ -147,6 +147,14 @@
 		"vanitylabelprivatekey": "Personlig privat nyckel (WIF):",		// "Vanity Private Key (WIF):"
 		"vanitylabelnotesprivatekey": "Ovanstående är den privata nyckel som ska läsas in i din plånbok.",	// "The above is the Private Key to load into your wallet. " 
 
+		// split wallet html
+		"splitlabelthreshold": "Minimum share threshold needed to combine",	// "Minimum share threshold needed to combine"
+		"splitlabelshares": "Number of shares",								// "Number of shares"
+		"splitview": "Skapa",												// "Generate"
+		"combinelabelentershares": "Enter Available Shares (whitespace separated)",	// "Enter Available Shares (whitespace separated)"
+		"combineview": "Combine Shares",									// "Combine Shares"
+		"combinelabelprivatekey": "Combined Private Key",					// "Combined Private Key"
+
 		// detail wallet html
 		"detaillabelenterprivatekey": "Ange privat nyckel:",			// "Enter Private Key"
 		"detailkeyformats": "Nyckelformat: WIF, WIFC, HEX, B64, B6, MINI, BIP38",	// "Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38"
