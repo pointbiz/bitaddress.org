@@ -33,7 +33,7 @@
 		"bulkwallet": "Massplånbok",		// "Bulk Wallet"
 		"brainwallet": "Hjärnplånbok",		// "Brain Wallet"
 		"vanitywallet": "Personlig plånbok",	// "Vanity Wallet"
-		"splitwallet": "Delad plånbok",	// "Split Wallet"
+		"splitwallet": "Uppdelad plånbok",	// "Split Wallet"
 		"detailwallet": "Plånboksdetaljer",	// "Wallet Details"
 
 		// footer html
@@ -149,11 +149,11 @@
 
 		// split wallet html
 		"splitlabelthreshold": "Minimum share threshold needed to combine",	// "Minimum share threshold needed to combine"
-		"splitlabelshares": "Number of shares",								// "Number of shares"
+		"splitlabelshares": "Antal \"delningar/shares\"",								// "Number of shares"
 		"splitview": "Skapa",												// "Generate"
-		"combinelabelentershares": "Enter Available Shares (whitespace separated)",	// "Enter Available Shares (whitespace separated)"
-		"combineview": "Combine Shares",									// "Combine Shares"
-		"combinelabelprivatekey": "Combined Private Key",					// "Combined Private Key"
+		"combinelabelentershares": "Enter Available Shares (separerade av blanksteg)",	// "Enter Available Shares (whitespace separated)"
+		"combineview": "Kombinera \"delningar/shares\"",									// "Combine Shares"
+		"combinelabelprivatekey": "Kombinerad privat nyckel",					// "Combined Private Key"
 
 		// detail wallet html
 		"detaillabelenterprivatekey": "Ange privat nyckel:",			// "Enter Private Key"
@@ -173,8 +173,8 @@
 		"detaillabelprivb64": "Privat nyckel Base64 (44 tecken):",		// "Private Key Base64 (44 characters):"
 		"detaillabelprivmini": "Privat nyckel miniformat (22, 26 eller 30 tecken, börjar med ett 'S'):",	// "Private Key Mini Format (22, 26 or 30 characters, starts with an 'S'):"
 		"detaillabelpassphrase": "Ange BIP38-lösenfras",				// "Enter BIP38 Passphrase"
-		"detailbip38decryptbutton": "Decrypt BIP38", 					//TODO: please translate
-		"detailbip38encryptbutton": "Encrypt BIP38",					//TODO: please translate
+		"detailbip38decryptbutton": "Dekryptera BIP38", 				// "Decrypt BIP38"
+		"detailbip38encryptbutton": "Kryptera BIP38",					// ""Encrypt BIP38""
 		"detaillabelq1": "Hur skapar jag en plånbok med en tärning? Vad innebär B6?",	// "How do I make a wallet using dice? What is B6?"
 		"detaila1": "Beim Erstellen eines Bitcoin-Wallets sollten die dafür genutzten Zufallszahlen auch tatsächlich zufällig sein. Ein echter Würfel liefert wesentlich zufälligere Zahlen als ein Computer. Um einen privat nyckel zu erstellen, sind lediglich 99 Würfe mit einem normalen Würfel nötig. Nach jedem Wurf solltest du die Augenzahl nach folgendem Muster aufschreiben: 1-\>1, 2-\>2, 3-\>3, 4-\>4, 5-\>5, 6-\>0. Die so entstandene Zufallszahl stellt deinen privata nyckel in B6 bzw. zur Basis 6 dar. Diesen 99 Zeichen langen Basis-6-Schlüssel kannst du im obigen Eingabefeld eingeben und dir dann die zugehörigen Details anzeigen lassen. U.a. wird dir die zu deinem privat nyckel gehörende bitcoinadress angezeigt. Es wäre ratsam, sich die ebenfalls berechnete WIF-Version des privata nyckeln zu notieren, weil sie häufiger genutzt wird."	// "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used."
 	};
