@@ -88,6 +88,8 @@ input[type=checkbox] { position: relative; z-index: 20; }
 		-o-transform-origin:top left;      -o-transform:rotate(-90deg);
 		transform-origin:top left;         transform:rotate(-90deg);
 }
+#paperbulkarea { padding: 50px; 0 0 0; }
+#paperbulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
 #bulkarea .body { padding: 5px 0 0 0; }
 #bulkarea .format { font-style: italic; font-size: 90%; }
 #bulktextarea { font-size: 90%; width: 98%; margin: 4px 0 0 0; }
@@ -226,6 +228,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 	#singlesafety { border: 0; }
 	#paperarea .keyarea:first-child { border-top: 2px solid #009900; }
 	#paperarea .keyarea.art:first-child { border: 0; }
+	#paperbulkarea { display: none; }
 	.pagebreak { height: 1px; }
 	.paper #logo { display: none; }
 	.menu, .footer, .commands, #tagline, #faqs, #culturemenu { display: none; }

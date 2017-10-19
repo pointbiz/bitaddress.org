@@ -44,6 +44,7 @@ ninja.wallets.paperwallet = {
 		ninja.wallets.paperwallet.useArtisticWallet = useArtisticWallet;
 		ninja.wallets.paperwallet.pageBreakAt = pageBreakAt;
 		document.getElementById("paperkeyarea").innerHTML = "";
+		document.getElementById("paperbulktextarea").value = "";
 		if (ninja.wallets.paperwallet.encrypt) {
 			if (passphrase == "") {
 				alert(ninja.translator.get("bip38alertpassphraserequired"));
@@ -99,6 +100,7 @@ ninja.wallets.paperwallet = {
 	// generate bitcoin address, private key, QR Code and update information in the HTML
 	// idPostFix: 1, 2, 3, etc.
 	generateNewWallet: function (idPostFix) {
+		var paperBulkTextArea = document.getElementById("paperbulktextarea");
 		if (ninja.wallets.paperwallet.encrypt) {
 			var compressed = true;
 			ninja.privateKey.BIP38GenerateECAddressAsync(ninja.wallets.paperwallet.intermediatePoint, compressed, function (address, encryptedKey) {
@@ -109,6 +111,7 @@ ninja.wallets.paperwallet = {
 				else {
 					ninja.wallets.paperwallet.showWallet(idPostFix, address, encryptedKey);
 				}
+				paperBulkTextArea.value += address + "\n";
 			});
 		}
 		else {
@@ -122,6 +125,7 @@ ninja.wallets.paperwallet = {
 			else {
 				ninja.wallets.paperwallet.showWallet(idPostFix, bitcoinAddress, privateKeyWif);
 			}
+			paperBulkTextArea.value += bitcoinAddress + "\n";
 		}
 	},
 
