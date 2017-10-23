@@ -6370,6 +6370,7 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
 .keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
 .keyarea .label { font-weight: bold; }
+.keyarea .numlabel { position:absolute; left:50%; top:50%; font-weight: bold; }
 .keyarea .output { display: block; font-family: monospace; font-size: 1.25em; }
 .keyarea .qrcode_public { display: inline-block; float: left; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
@@ -9919,6 +9920,7 @@ ninja.wallets.paperwallet = {
 		}
 
 		var walletHtml =
+							"<div class='numlabel'>["+i+"]</div>" +
 							"<div class='public'>" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div class='pubaddress'>" +

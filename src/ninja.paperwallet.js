@@ -136,6 +136,7 @@ ninja.wallets.paperwallet = {
 		}
 
 		var walletHtml =
+							"<div class='numlabel'>["+i+"]</div>" +
 							"<div class='public'>" +
 								"<div id='qrcode_public" + i + "' class='qrcode_public'></div>" +
 								"<div class='pubaddress'>" +
