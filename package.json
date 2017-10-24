@@ -8,10 +8,10 @@
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-combine": "~0.8.3",
-	"grunt-lineending": "~0.2.4"
+    "grunt-lineending": "~0.2.4"
   },
   "devDependencies": {
-	"grunt": "~0.4.1",
+    "grunt": "~0.4.1",
     "grunt-combine": "~0.8.3",
     "grunt-lineending": "~0.2.4"
   },

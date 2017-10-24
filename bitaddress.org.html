@@ -6609,7 +6609,8 @@ input[type=checkbox] { position: relative; z-index: 20; }
                 <span><a href="?culture=fr" id="culturefr" onclick="ninja.translator.translate('fr'); return false;">Français</a></span> |
                 <span><a href="?culture=el" id="cultureel" onclick="ninja.translator.translate('el'); return false;">ελληνικά</a></span> |
                 <span><a href="?culture=it" id="cultureit" onclick="ninja.translator.translate('it'); return false;">italiano</a></span> |
-                <span><a href="?culture=de" id="culturede" onclick="ninja.translator.translate('de'); return false;">Deutsch</a></span>
+                <span><a href="?culture=de" id="culturede" onclick="ninja.translator.translate('de'); return false;">Deutsch</a></span> |
+                <span><a href="?culture=sv" id="culturesv" onclick="ninja.translator.translate('sv'); return false;">Svenska</a></span>
             </div>
             <div class="culturemenurow">
                 <span><a href="?culture=cs" id="culturecs" onclick="ninja.translator.translate('cs'); return false;">Česky</a></span> |
@@ -9728,6 +9729,189 @@ ninja.foreachSerialized = function (collection, whatToDo, onComplete) {
 		"detaila1": "真正用随机数产生的钱包才是好钱包。物理产生的随机数可能会比计算机产生的随机数更优越（计算机的伪随机算法可能被识破，但是物理随机不太可能）。生成物理随机的最简单的办法是使用骰子，掷一枚六面骰99次，记录结果，将结果“6”记为“0”（或者将所有结果-1记录），这样你得到的记录将会是由0 1 2 3 4 5 组成的一串数字，称为“Base6格式”，简称“B6”。将它输入上面的文本框，点击“显示详情”按钮，得到你的私钥、地址。",
 	};
 })(ninja.translator);
+﻿(function (translator) {
+	translator.translations["sv"] = {
+		// javascript alerts or messages
+		"testneteditionactivated": "TESTNETVERSION AKTIVERAD",
+		"paperlabelbitcoinaddress": "Bitcoinadress:",
+		"paperlabelprivatekey": "Privat nyckel:",
+		"paperlabelencryptedkey": "Krypterad privat nyckel (Lösenord krävs)",
+		"bulkgeneratingaddresses": "Skapar adresser ... ",
+		"brainalertpassphrasetooshort": "Den angivna lösenfrasen är för kort.\n\n",
+		"brainalertpassphrasewarning": "Varning: Det är viktigt att välja en stark lösenfras för att undgå brute force-försök att gissa lösenfrasen och stjäla dina bitcoin.",
+		"brainalertpassphrasedoesnotmatch": "Lösenfraserna matchar inte.",
+		"detailalertnotvalidprivatekey": "Den angivna texten är inte en giltig privat nyckel.",
+		"detailconfirmsha256": "Den angivna texten är inte en giltig privat nyckel!\n\nVill du använda den angivna texten som lösenfras och skapa en privat nyckel genom att skapa en SHA256-hash av lösenfrasen?\n\nVarning: Det är viktigt att välja en stark lösenfras för att undgå brute force-försök att gissa lösenfrasen och stjäla dina bitcoin.",
+		"detailbip38decryptbutton": "Dekryptera BIP38",
+		"detailbip38encryptbutton": "Kryptera BIP38",
+		"bip38alertincorrectpassphrase": "Fel lösenfras för denna krypterade privata nyckel.",
+		"bip38alertpassphraserequired": "Lösenfras krävs för BIP 38-nyckel",
+		"vanityinvalidinputcouldnotcombinekeys": "Ogiltig inmatning. Nycklarna kunde inte kombineras.",
+		"vanityalertinvalidinputpublickeysmatch": "Ogiltig inmatning. Den publika nyckeln i de båda inmatningsfälten är densamma. Du måste ange två olika nycklar.",
+		"vanityalertinvalidinputcannotmultiple": "Ogiltig inmatning. Det går inte att multiplicera två publika nycklar. Välj \"Addera\" för att lägga ihop två publika nycklar och skapa en bitcoinadress.",
+		"vanityprivatekeyonlyavailable": "Endast tillgänglig när två privata nycklar kombineras.",
+		"vanityalertinvalidinputprivatekeysmatch": "Ogiltig inmatning. Den privata nyckeln i de båda inmatningsfälten är densamma. Du måste ange två olika nycklar.",
+
+		// header and menu html
+		"tagline": "Bitcoinplånboksgenerator i JavaScript baserad på öppen källkod och som körs på klienten",
+		"generatelabelbitcoinaddress": "Skapar bitcoinadress ...",
+		"generatelabelmovemouse": "RÖR på musen för att skapa extra slumpmässighet ...",
+		"generatelabelkeypress": "ELLER skriv några slumpmässiga tecken i detta fält",
+		"singlewallet": "Enkel plånbok",
+		"paperwallet": "Pappersplånbok",
+		"bulkwallet": "Massplånbok",
+		"brainwallet": "Minnesplånbok",
+		"vanitywallet": "Personlig plånbok",
+		"splitwallet": "Uppdelad plånbok",
+		"detailwallet": "Plånboksdetaljer",
+
+		// footer html
+		"footerlabeldonations": "Donationer:",
+		"footerlabeltranslatedby": "Översättning: ordtrogen",
+		"footerlabelpgp": "PGP",
+		"footerlabelversion": "Versionshistorik",
+		"footerlabelgithub": "Kodförråd på GitHub",
+		"footerlabelgithubzip": "zip",
+		"footerlabelsig": "sig",
+		"footerlabelcopyright1": "Copyright bitaddress.org",
+		"footerlabelcopyright2": "Copyright för JavaScript finns angiven i källkoden.",
+		"footerlabelnowarranty": "Ingen garanti lämnas.",
+
+		// status html
+		"statuslabelcryptogood": "&#10004; Bra!",
+		"statuslabelcryptogood1": "Din webbläsare kan skapa kryptografiskt slumpmässiga nycklar genom att anropa funktionen window.crypto.getRandomValues",
+		"statusokcryptogood": "OK",
+		"statuslabelcryptobad": "&times; Åh nej!",
+		"statuslabelcryptobad1": "Din webbläsare stödjer INTE window.crypto.getRandomValues. Du måste använda en modernare webbläsare med denna generator för att öka säkerheten hos de nycklar som skapas.",
+		"statusokcryptobad": "OK",
+		"statuslabelunittestsgood": "&#10004; Bra!",
+		"statuslabelunittestsgood1": "Alla synkrona enhetstester lyckades.",
+		"statusokunittestsgood": "OK",
+		"statuslabelunittestsbad": "&times; Åh nej!",
+		"statuslabelunittestsbad1": "Några synkrona enhetstester LYCKADES INTE. Du måste hitta en annan webbläsare för att använda denna generator.",
+		"statusokunittestsbad": "OK",
+		"statuslabelprotocolgood": "&#10004; Bra!",
+		"statuslabelprotocolgood1": "Du kör denna generator från din lokala dator. <br \/>Tips: Kontrollera dessutom att du är offline genom att försöka nå  ",
+		"statusokprotocolgood": "OK",
+		"statuslabelprotocolbad": "&#9888; Tänk dig för!",
+		"statuslabelprotocolbad1": "Det verkar som om du kör denna generator online, uppkopplad till webbplatsen. För värdefulla plånböcker rekommenderas att du",
+		"statuslabelprotocolbad2": "laddar ner",
+		"statuslabelprotocolbad3": "zip-filen från GitHub och kör denna generator som en lokal html-fil, utan att vara uppkopplad mot nätet.",
+		"statusokprotocolbad": "OK",
+		"statuslabelkeypool1": "Detta är en logg över alla bitcoinadresser och privata nycklar du har skapat under den nuvarande sessionen. Att ladda om sidan kommer att skapa en ny session.",
+		"statuskeypoolrefresh": "Ladda om",
+		"statusokkeypool": "OK",
+
+		// single wallet html
+		"newaddress": "Skapa ny adress",
+		"singleprint": "Skriv ut",
+		"singlelabelbitcoinaddress": "Bitcoinadress",
+		"singlelabelprivatekey": "Privat nyckel",
+		"singletip1": "<b>En bitcoinplånbok<\/b> är helt enkelt ett par, bestående av en bitcoinadress och dess tillhörande privata nyckel. En sådan plånbok har skapats åt dig i din webbläsare och visas ovan.",
+		"singletip2": "<b>För att skydda denna plånbok<\/b> måste du skriva ut eller på annat spara bitcoinadressen och den privata nyckeln. Det är viktigt att skapa en backup-kopia av den privata nyckeln och spara den på en säker plats. Denna webbplats har ingen kännedom om din privata nyckel. Om du är van att använda PGP kan du ladda ner den kompletta HTML-sidan och verifiera att du har en autentisk version från webbplatsens upphovsmakare genom att matcha SHA256-hashen av sidans HTML med SHA256-hashen som finns tillgänglig i det signerade dokument med versionshistorik som finns länkat i sidfoten på webbplatsen. Om du lämnar\/laddar om webbsidan eller trycker på knappen \"Skapa ny adress\" så kommer en ny privat nyckel att skapas och den tidigare visade privata nyckeln går inte längre att komma åt. Du måste hålla din privata bitcoinnyckel hemlig. Om du delar den privata nyckeln med någon annan så kan denna person komma åt och spendera alla bitcoin som finns på adressen. Om du skriver ut plånboken så bör du förvara den i en plastpåse för att skydda den från väta. Behandla en pappersplånbok som om den var kontanter.",
+		"singletip3": "<b>För över pengar<\/b> till denna plånbok genom att be andra att skicka bitcoin till din bitcoinadress.",
+		"singletip4": "<b>Kolla ditt saldo<\/b> genom att gå till blockchain.info eller blockexplorer.com och ange din bitcoinadress.",
+		"singletip5": "<b>Spendera dina bitcoin<\/b> genom att gå till blockchain.info och svepa din privata nyckels hela saldo till ditt konto på deras webbplats. Alternativt kan du ladda ner något av de populära bitcoinklientprogrammen och importera din privata nyckel till klientens plånbok. Tänk på att när du importerar din nyckel till en bitcoinklient och spenderar pengar så kommer din nyckel att sparas ihop med andra privata nycklar i klientens plånbok. När du genomför en transaktion kommer din växel att skickas till en annan bitcoinadress inom klientens plånbok. Därför måste du ta en backup av klientplånboken och spara den på ett säkert eftersom dina återstående bitcoin kommer att sparas där. Satoshi förespråkade att man aldrig ska radera en plånbok.",
+		"singleshare": "PUBLIK",
+		"singlesecret": "HEMLIG",
+
+		// paper wallet html
+		"paperlabelhideart": "Dölj grafik?",
+		"paperlabeladdressesperpage": "Adresser per sida:",
+		"paperlabeladdressestogenerate": "Antal adresser att skapa:",
+		"papergenerate": "Skapa",
+		"paperprint": "Skriv ut",
+		"paperlabelBIPpassphrase": "Lösenfras:",
+		"paperlabelencrypt": "BIP38-kryptera?",
+
+		// bulk wallet html
+		"bulklabelstartindex": "Startindex:",
+		"bulklabelrowstogenerate": "Rader att skapa:",
+		"bulklabelcompressed": "Komprimerade adresser?",
+		"bulkgenerate": "Skapa",
+		"bulkprint": "Skriv ut",
+		"bulklabelencrypt": "BIP38-kryptera?",
+		"bulklabelBIPpassphrase": "Lösenfras:",
+		"bulklabelcsv": "Kommaseparerade värden (CSV):",
+		"bulklabelformat": "Index, Adress, Privat nyckel",
+		"bulklabelq1": "Varför ska jag använda en massplånbok för att acceptera betalning med bitcoin på min webbplats?",
+		"bulka1": "För att acceptera bitcoin på en webbplats har det hittills krävts att man installerar bitcoins officiella klient-demon (\"bitcoind\"). Många webbhotell tillåter inte installation av bitcoindemonen. Att köra bitcoindemonen på din webbserver innebär dessutom att dina privata nycklar lagras på servern och kan stjälas om din webbserver blir hackad. När du använder en massplånbok kan du ladda upp enbart bitcoinadresserna till din webbserver och alltså inte de privata nycklarna. Då behöver du inte oroa dig för att din bitcoinplånbok ska stjälas om din webbserver blir hackad.",
+		"bulklabelq2": "Hur använder jag en massplånbok för att acceptera bitcoin som betalning på min webbplats?",
+		"bulklabela2li1": "Använd fliken Massplånbok för att i förväg skapa ett stort antal bitcoinadresser (10.000+). Kopiera och klistra in den genererade listan med kommaseparerade (CSV) värden i en säker textfil på din dator. Gör en backup-kopia av filen du just skapade och spara den på en säker plats.",
+		"bulklabela2li2": "Importera bitcoinadresserna till en databastabell på din webbserver. (Spara inte plånboken\/de privata nycklarna på din webbserver, för då riskerar du att hackare stjäl dina bitcoin. Spara bara bitcoinadresserna på servern eftersom de ska visas för dina kunder.)",
+		"bulklabela2li3": "Erbjud möjligheten för dina kunder att betala i bitcoin i din webbplats shoppingvagn. När kunden väljer att betala i bitcoin ska du visa en av adresserna från din databas för kunden, som kundens \"betalningsadress\", och spara adressen ihop med kundens beställning .",
+		"bulklabela2li4": "Nu behöver du vänta på en avisering som meddelar att betalningen har kommit fram. Sök på Google efter \"bitcoin payment notification\" och anslut dig till åtminstone en aviseringstjänst för bitcoinbetalning. Det finns flera olika tjänster som kan meddela dig via Web Services, API, SMS, E-post och så vidare. Så fort du har mottagit denna avisering, vilket kan automatiseras programmatiskt, kan du ta hand om kundens beställning. För att själv kontrollera om en betalning har kommit fram kan du använda Block Explorer. Byt ut texten ADRESS nedan, mot den bitcoinadress du vill kolla. Det kan ta mellan 10 minuter och en timme för transaktionen att bekräftas.<br \/>http:\/\/www.blockexplorer.com\/address\/ADRESS<br \/><br \/>Obekräftade transaktioner kan ses på adressen: http:\/\/blockchain.info\/ <br \/>Du bör kunna se transaktionen där inom 30 sekunder.",
+		"bulklabela2li5": "Bitcoin kommer tryggt att samlas upp på blockkedjan. Använd den ursprungliga plånboksfilen du skapade i steg 1 för att spendera dem.",
+
+		// brain wallet html
+		"brainlabelenterpassphrase": "Ange lösenfras: ",
+		"brainlabelshow": "Visa?",
+		"brainprint": "Skriv ut",
+		"brainlabelconfirm": "Bekräfta lösenfras: ",
+		"brainview": "Visa",
+		"brainalgorithm": "Algoritm: SHA256(lösenfras)",
+		"brainlabelcompressed": "Komprimerad adress?",
+		"brainlabelbitcoinaddress": "Bitcoinadress:",
+		"brainlabelprivatekey": "Privat nyckel (importformat för plånbok, WIF):",
+
+		// vanity wallet html
+		"vanitylabelstep1": "Steg 1 - Skapa ett nyckelpar för Steg 1",
+		"vanitynewkeypair": "Skapa",
+		"vanitylabelstep1publickey": "Publik nyckel ur Steg 1:",
+		"vanitylabelstep1pubnotes": "Kopiera ovanstående och klistra in det i fältet \"Your public key\" på webbplatsen Vanity Pool.",
+		"vanitylabelstep1privatekey": "Privat nyckel ur Steg 1:",
+		"vanitylabelstep1privnotes": "Kopiera ovanstående privata nyckel och klistra in den i en textfil. Spara helst på en krypterad enhet. Du kommer att behöva den för att komma åt din privata bitcoinnyckel när poolen har hittat ditt prefix.",
+		"vanitylabelstep2calculateyourvanitywallet": "Steg 2 - Räkna fram din personliga plånbok",
+		"vanitylabelenteryourpart": "Ange den privata nyckeln från Steg 1 (skapades i Steg 1 ovan, och sparad sedan tidigare):",
+		"vanitylabelenteryourpoolpart": "Ange den privata nyckeln från poolen (från Vanity Pool):",
+		"vanitylabelnote1": "[OBS: detta inmatningsfält kan ta emot en publik nyckel eller en privat nyckel]",
+		"vanitylabelnote2": "[OBS: detta inmatningsfält kan ta emot en publik nyckel eller en privat nyckel]",
+		"vanitylabelradioadd": "Addera",
+		"vanitylabelradiomultiply": "Multiplicera",
+		"vanitycalc": "Räkna fram den personliga plånboken",
+		"vanitylabelbitcoinaddress": "Personlig bitcoinadress:",
+		"vanitylabelnotesbitcoinaddress": "Ovanstående är din nya adress och ska inbegripa ditt önskade prefix.",
+		"vanitylabelpublickeyhex": "Personlig publik nyckel (HEX):",
+		"vanitylabelnotespublickeyhex": "Ovanstående är den publika nyckeln i hexadecimalt format. ",
+		"vanitylabelprivatekey": "Personlig privat nyckel (WIF):",
+		"vanitylabelnotesprivatekey": "Ovanstående är den privata nyckel som ska läsas in i din plånbok. ",
+
+		// split wallet html
+		"splitlabelthreshold": "Minsta antal delar som krävs för kombinering",
+		"splitlabelshares": "Antal delar:",
+		"splitview": "Skapa",
+		"combinelabelentershares": "Skriv in tillgängliga delar (separerade av blanksteg)",
+		"combineview": "Kombinera delarna",
+		"combinelabelprivatekey": "Kombinerad privat nyckel",
+
+		// detail wallet html
+		"detaillabelenterprivatekey": "Ange privat nyckel",
+		"detaillabelencrypt": "BIP38-kryptera?",
+		"detaillabelpassphrase": "Ange BIP38-lösenfras",
+		"detailkeyformats": "Nyckelformat: WIF, WIFC, HEX, B64, B6, MINI, BIP38",
+		"detailview": "Visa detaljer",
+		"detailprint": "Skriv ut",
+		"detaillabelnote1": "Din privata bitcoinnyckel är ett unikt hemligt tal som bara du känner till. Den kan kodas i ett flertal olika format. Nedan visas den bitcoinadress och publika nyckel som hör ihop med din privata nyckel, tillsammans med den privata nyckeln, i de vanligaste kodningsformaten (WIF, WIFC, HEX, B64).",
+		"detaillabelnote2": "Bitcoin v0.6 och senare sparar publika nycklar i komprimerat format. Klienten stödjer numera också import och export av privata nycklar med kommandona 'importprivkey' och 'dumpprivkey'. Formatet hos den exporterade privata nyckeln bestäms av huruvida adressen skapades i en gammal eller ny plånbok.",
+		"detaillabelbitcoinaddress": "Bitcoinadress",
+		"detaillabelbitcoinaddresscomp": "Komprimerad bitcoinadress",
+		"detaillabelpublickey": "Publik nyckel (130 tecken [0-9A-F]):",
+		"detaillabelpublickeycomp": "Publik nyckel (komprimerad, 66 tecken [0-9A-F]):",
+		"detaillabelprivwif": "Privat nyckel (WIF)<br \/> 51 tecken i Base58, börjar med ett",
+		"detaillabelprivwifcomp": "Privat nyckel, WIF-komprimerad<br \/>52 tecken i Base58, börjar med ett",
+		"detailcompwifprefix": "'K' eller 'L'",
+		"detaillabelprivhex": "Privat nyckel i hexadecimalt format (64 tecken [0-9A-F]):",
+		"detaillabelprivb64": "Privat nyckel i Base64-format (44 tecken):",
+		"detaillabelprivmini": "Privat nyckel i miniformat (22, 26 eller 30 tecken, börjar med ett 'S'):",
+		"detaillabelprivb6": "Privat nyckel i Base6-format (99 tecken [0-5]):",
+		"detaillabelprivbip38": "Privat nyckel i BIP38-format (58 tecken i Base58, börjar med '6P'):",
+		"detailbip38decryptbutton": "Dekryptera BIP38",
+		"detailbip38encryptbutton": "Kryptera BIP38",
+		"detaillabelq1": "Hur skapar jag en plånbok med hjälp av tärningar? Vad innebär B6?",
+		"detaila1": "Ett viktigt steg när det gäller att skapa en bitcoinplånbok är att säkerställa att de slumptal som används för att skapa plånboken verkligen är slumpmässiga. Fysisk slumpmässighet är bättre än datorgenererad pseudo-slumpmässighet. Det lättaste sättet att skapa fysisk slumpmässighet är att använda tärningar. För att skapa en privat bitcoinnyckel behöver du bara en sexsidig tärning som du kastar 99 gånger. Pausa varje gång för att skriva ned utfallet för tärningen. När du skriva ned utfallen ska du följa dessa regler: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. Genom att göra detta skriver du ned det stora slumptal - din privata nyckel - i B6 eller Base6-format. Sedan kan du ange den 99 tecken långa privata nyckeln i Base6-format i textfältet ovan och klicka på Visa detaljer. Du kommer då att se den bitcoinadress som är associerad med din privata nyckel. Du ska också anteckna din privata nyckel i WIF-format eftersom detta används mer allmänt."
+	};
+})(ninja.translator);
+
 	</script>
 	<script type="text/javascript">
 (function (wallets, qrCode) {
