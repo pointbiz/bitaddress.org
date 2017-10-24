@@ -133,6 +133,7 @@ h1 { margin: 0px; height: 91px; }
 #supportedcurrencies {
   line-height: 20px;
     padding: 12px 12px 0;
+  text-align: justify;
 }
 
 .frontPageInstructions {
