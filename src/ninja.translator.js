@@ -65,5 +65,6 @@ ninja.translator = {
     //ru.js
     //es.js
 		//ua.js
+		//tr.js
 	}
 };

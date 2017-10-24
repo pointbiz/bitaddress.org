@@ -9660,6 +9660,7 @@ h1 { margin: 0px; height: 91px; }
       <span><a href="?culture=ru" id="cultureru">Русский</a></span> |
       <span><a href="?culture=es" id="culturees">Spanish</a></span> |
       <span><a href="?culture=ua" id="cultureua">Українська</a></span> |
+      <span><a href="?culture=tr" id="culturetr">Türk</a></span> |
     </div>
 
     <div class="banner">
@@ -10408,6 +10409,7 @@ janin.currency = {
         document.getElementById("cultureru").href = "?culture=ru&currency=" + janin.currency.name().toLowerCase();
         document.getElementById("culturees").href = "?culture=es&currency=" + janin.currency.name().toLowerCase();
         document.getElementById("cultureua").href = "?culture=ua&currency=" + janin.currency.name().toLowerCase();
+        document.getElementById("culturetr").href = "?culture=tr&currency=" + janin.currency.name().toLowerCase();
 
         if(ninja.seeder.isDone())
         {
@@ -11636,6 +11638,24 @@ ninja.translator = {
     "securitychecklistofflineNOK": "Здається, що ви запустили цей генератор із сайту, який не рекомендується для створення цінних гаманців. Замість цього, використовуйте посилання внизу цієї сторінки, щоб завантажити ZIP файл з GitHub та запустіть цей генератор із HTML файла на вашому комп'ютері, відключивши попередньо інтернет.",
     "securitychecklistofflineOK": "Ви запустили цей генератор із вашого власного завантаженого файла.",
     "paperwalletback": "<ul><li>Внести гроші на паперовий гаманець: відправте кошти на публічну адресу.</li><li>Перевірити стан рахунку: введіть публічну адресу гаманця в оглядач блокчейна (для біткойна це blockchain.info).</li><li><b>НІКОЛИ НІКОМУ НЕ ПОКАЗУЙТЕ ПРИВАТНИЙ КЛЮЧ</b>, аж поки ви не зберетесь імпортувати кошти з цього гаманця на інший будь-який гаманець.</li></ul><b>Кількість :</b> ___________      <b>Дата :</b> ____________<br /><b>Нотатки :</b> _______________________________",
+},
+
+		"tr": {
+    "defaultTitle" : "WalletGenerator.net - Bitcoin ve diger kripto para birimleri için Evrensel Kagit cüzdan üreticisi",
+    "title" : "Kagit Cüzdan Üreticisi",
+    "bulkgeneratingaddresses": "Cüzdan Yaratiliyor... ",
+    "brainalertpassphrasetooshort": "Girmis oldugunuz parola çok kisa.\n\n",
+    "brainalertpassphrasewarning": "Uyari: Tahmini çok zor parola seçmeniz, brute force gibi yöntemler ile paranizin çalinmamasi için çok önemlidir.",
+    "brainalertpassphrasedoesnotmatch": "Girdiginiz iki parola birbiri ile uyusmuyor.",
+    "detailalertnotvalidprivatekey": "Girdiginiz key geçerli bir key degildir.",
+    "detailconfirmsha256": "Girdiginiz metin geçerli bir Özel Anahtar degil!\n\nGirilen metni bir parola olarak kullanmak ve parolanın bir SHA256 karmasını kullanarak bir Özel Anahtar oluşturmak ister misiniz?\n\nUyari: Tahmini çok zor parola seçmeniz, brute force gibi yöntemler ile paranizin çalinmamasi için çok önemlidir.",
+    "bip38alertincorrectpassphrase": "Bu sifreli özel anahtar için, yanlis sifre girdiniz.",
+    "bip38alertpassphraserequired": "BIP38 anahtari için sifre gereklidir",
+	"securitychecklistrandomOK": "Tarayıcınız window.crypto.getRandomValues kullanarak kriptografik olarak rastgele anahtarlar üretebilir.",
+	"securitychecklistrandomNOK": "Tarayiciniz, mümkün olan en güvenli rasgele sayilari üretmek için önemli olan \'window.crypto.getRandomValues ()\' ögesini desteklemiyor!. Lütfen daha modern bir tarayici kullanin.",
+	"securitychecklistofflineNOK": "Bu Cüzdan üretecini canli bir web sitesinden calistirdiginiz gorülüyor; Bu yontem degerli bir cuzdan yaratmak icin onerilmiyor. Bunun yerine, Bu sistemin bir kopyasini GitHub'dan indirmeniz ve Cevrim Disi bir \'YEREL\' HTML dosyasi olarak calistirmaniz oneriliyor. Asagidaki indirme linkini kullanin.",
+	"securitychecklistofflineOK": "Bu Ureteci kendi yüklemenizden/bilgisayarinizdan çalistiriyorsunuz :).",
+	"paperwalletback": "<ul><li>Bu kağıt cüzdanına para yatırmak için her zaman ortak adresine kripto para birimi gönderin.</li><li>Blockchain.info gibi bir blok gezgini site araciligi ile yerel adresinizdeki bakiyeyi dogrulayin</li><li><b>PRIVATE KEY KESINLIKLE YAYINLAMAYIN</b>Ta ki bu cüzdan üzerindeki bakiyeyi, bir sifreleme sunucusu, Borsa veya çevrimiçi cüzdan'a aktarmaya hazir olana kadar.</li></ul><b>Miktar :</b> ___________ &nbsp; &nbsp; &nbsp; <b>Tarih :</b> ________________<br /><b>Notlar :</b> ______________________________________",
 },
 
 	}
