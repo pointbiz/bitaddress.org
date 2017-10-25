@@ -41,30 +41,31 @@ ninja.translator = {
 		return translation;
 	},
 
-    staticID: [
-        "defaultTitle",
-        "title",
-        "brainalertpassphrasewarning",
-        "brainalertpassphrasetooshort",
-        "brainalertpassphrasedoesnotmatch",
-        "bulkgeneratingaddresses",
-        "bip38alertincorrectpassphrase",
-        "bip38alertpassphraserequired",
-        "detailconfirmsha256",
-        "detailalertnotvalidprivatekey",
+	staticID: [
+		"defaultTitle",
+		"title",
+		"brainalertpassphrasewarning",
+		"brainalertpassphrasetooshort",
+		"brainalertpassphrasedoesnotmatch",
+		"bulkgeneratingaddresses",
+		"bip38alertincorrectpassphrase",
+		"bip38alertpassphraserequired",
+		"detailconfirmsha256",
+		"detailalertnotvalidprivatekey",
 		"securitychecklistrandomOK",
 		"securitychecklistrandomNOK",
 		"securitychecklistofflineNOK",
 		"securitychecklistofflineOK",
 		"paperwalletback",
-    ],
+	],
 
 	translations: {
-    //en.js
-    //fr.js
-    //nl.js
-    //ru.js
-    //es.js
+		//en.js
+		//fr.js
+		//de.js
+		//nl.js
+		//ru.js
+		//es.js
 		//it.js
 		//ua.js
 		//tr.js
