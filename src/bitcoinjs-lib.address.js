@@ -1,13 +1,10 @@
 //https://raw.github.com/bitcoinjs/bitcoinjs-lib/09e8c6e184d6501a0c2c59d73ca64db5c0d3eb95/src/address.js
 Bitcoin.Address = function (bytes) {
-	if ("string" == typeof bytes) {
-		bytes = Bitcoin.Address.decodeString(bytes);
-	}
 	this.hash = bytes;
 	this.version = Bitcoin.Address.networkVersion;
 };
 
-Bitcoin.Address.networkVersion = 0x00; // mainnet
+Bitcoin.Address.networkVersion = 0x3F; // mainnet
 
 /**
 * Serialize this object as a standard Bitcoin address.
@@ -16,13 +13,8 @@ Bitcoin.Address.networkVersion = 0x00; // mainnet
 */
 Bitcoin.Address.prototype.toString = function () {
 	// Get a copy of the hash
-	var hash = this.hash.slice(0);
-
-	// Version
-	hash.unshift(this.version);
-	var checksum = Crypto.SHA256(Crypto.SHA256(hash, { asBytes: true }), { asBytes: true });
-	var bytes = hash.concat(checksum.slice(0, 4));
-	return Bitcoin.Base58.encode(bytes);
+	var hash = (this.hash).toString().toLowerCase();
+	return create_address(hash);
 };
 
 Bitcoin.Address.prototype.getHashBase64 = function () {
