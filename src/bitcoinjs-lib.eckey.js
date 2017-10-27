@@ -328,16 +328,16 @@ Bitcoin.ECKey = (function () {
 	ECKey.isWalletImportFormat = function (key) {
 		key = key.toString();
 		return (ECKey.privateKeyPrefix == 0xBF) ?
-							(/^V[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
-							(/^T[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
+							(/^7[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key)) :
+							(/^6[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/.test(key));
 	};
 
 	// 52 characters base58
 	ECKey.isCompressedWalletImportFormat = function (key) {
 		key = key.toString();
-		return (ECKey.privateKeyPrefix == 0x80) ?
-							(/^7[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
-							(/^6[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
+		return (ECKey.privateKeyPrefix == 0xBF) ?
+							(/^V[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key)) :
+							(/^T[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/.test(key));
 	};
 
 	// 44 characters

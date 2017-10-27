@@ -204,7 +204,7 @@
 			<li class="tab" id="brainwallet" onclick="ninja.tab.select(this);">Brain Wallet
 			<li class="tab" id="vanitywallet" onclick="ninja.tab.select(this);">Vanity Wallet
 			<li class="tab" id="splitwallet" onclick="ninja.tab.select(this);" style="visibility: hidden;">Split Wallet
-			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);">Wallet Details
+			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);" style="visibility: hidden;">Wallet Details
 		</ul>
 		
 		<div id="generate">
@@ -223,6 +223,8 @@
 					</div>
 				</div>
 				<div class="body">
+					<div class="SingleWalletBackground">
+					<img src="./paper_wallet.png" alt="Single Walelt" class="imageSingle">
 					<div id="keyarea" class="keyarea">
 						<div class="public">
 							<div class="pubaddress">
@@ -245,13 +247,14 @@
 							<div id="singlesecret">SECRET</div>
 						</div>
 					</div>
+					</div>
 
 					<div id="singlesafety">
 						<p id="singletip1"><b>A SmartCash wallet</b> is as simple as a single pairing of a SmartCash address with its corresponding SmartCash private key. Such a wallet has been generated for you in your web browser and is displayed above.</p>
 						<p id="singletip2"><b>To safeguard this wallet</b> you must print or otherwise record the SmartCash address and private key. It is important to make a backup copy of the private key and store it in a safe location. This site does not have knowledge of your private key. If you are familiar with PGP you can download this all-in-one HTML page and check that you have an authentic version from the author of this site by matching the SHA256 hash of this HTML with the SHA256 hash available in the signed version history document linked on the footer of this site. If you leave/refresh the site or press the "Generate New Address" button then a new private key will be generated and the previously displayed private key will not be retrievable.	Your SmartCash private key should be kept a secret. Whomever you share the private key with has access to spend all the SmartCash associated with that address. If you print your wallet then store it in a zip lock bag to keep it safe from water. Treat a paper wallet like cash.</p>
 						<p id="singletip3"><b>Add funds</b> to this wallet by instructing others to send SmartCash to your SmartCash address.</p>
-						<p id="singletip4"><b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your SmartCash address.</p>
-						<p id="singletip5"><b>Spend your SmartCash</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular SmartCash p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a SmartCash p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another SmartCash address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining SmartCash will be stored there. Satoshi advised that one should never delete a wallet.</p>
+						<p id="singletip4"><b>Check your balance</b> by going to explorer.smartcash.cc and entering your SmartCash address.</p>
+						<p id="singletip5"><b>Spend your SmartCash</b> by going to wallet.smartcash.cc and import the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular SmartCash p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a SmartCash p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another SmartCash address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining SmartCash will be stored there. Satoshi advised that one should never delete a wallet.</p>
 					</div>
 				</div>
 			</div>

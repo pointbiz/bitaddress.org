@@ -6,7 +6,7 @@ a { position: relative; z-index: 20; }
 .right { text-align: right; }
 .walletarea { display: none; border: 2px solid #009900; }
 hr { margin: 20px 0; border-top: 2px dashed #008000; }
-.keyarea { height: 110px; text-align: left; position: relative; padding: 5px; }
+.keyarea { height: 10px; text-align: left; position: relative; padding: 5px; }
 .keyarea .public { float: left; }
 .keyarea .pubaddress { display: inline-block; height: 40px; padding: 0 0 0 10px; float: left; }
 .keyarea .privwif { margin: 0;  float: right; text-align: right; padding: 0 20px 0 0; position: relative; }
@@ -14,6 +14,27 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .keyarea .output { display: block; font-family: monospace; font-size: 1.25em; }
 .keyarea .qrcode_public { display: inline-block; float: left; }
 .keyarea .qrcode_private { display: inline-block; position: relative; top: 28px; float: right; }
+.imageSingle {
+	width: 806px;
+	height: 237px;
+	top: -2px;
+	left: 0px;
+	display: block;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    z-index: -1;
+}
+.SingleWalletBackground .keyarea {
+	height: 130px;
+	position: absolute;
+}
+.SingleWalletBackground {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	height: 262px;
+}
 .pubkeyhex { word-wrap: break-word; }
 body { font-family: Arial; }
 body, html { height: 99%; }
@@ -45,7 +66,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 #singlearea { font-size: 90%; }
 #singlesecret { position: relative; top: -130px; float: right; right: 200px; color: red; font-weight: bolder; font-size: 200%;  }
 #singleshare { position: relative; top: -110px; float: left; left: 160px; color: #009900; font-weight: bolder; font-size: 200%;  }
-#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #009900; top: -25px; position: relative; }
+#singlesafety { text-align: left; padding: 5px; border-top: 2px solid #009900; top: -30px; position: relative; }
 
 #main { position: relative; text-align: center; margin: 0px auto; width: 808px; }
 #logo { width: 578px; height: 80px; }
@@ -144,7 +165,6 @@ input[type=checkbox] { position: relative; z-index: 20; }
 #busyblock.busy { display: block; }
 .hide { display: none; }
 .show { display: block; }
-		
 @media screen 	
 {
 	#tagline { margin: 0 0 15px 0; font-style: italic; }
@@ -221,6 +241,10 @@ input[type=checkbox] { position: relative; z-index: 20; }
 }
 @media print
 {
+	* {
+		-webkit-print-color-adjust:exact;
+		color-adjust: exact;
+	}
 	#main { width: auto; }
 	#singlearea { border: 0; }
 	#singlesafety { border: 0; }
