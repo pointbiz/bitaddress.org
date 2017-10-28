@@ -386,9 +386,6 @@ b=a.words,c=8*a.sigBytes,e=32*this.blockSize;b[c>>>5]|=1<<24-c%32;b[(v.ceil((c+1
 p.SHA3=r._createHelper(d);p.HmacSHA3=r._createHmacHelper(d)})(Math);
 	</script>
 	<script type="text/javascript">
-//sha3.js
-	</script>
-	<script type="text/javascript">
 // Base58 encoding/decoding
 // Originally written by Mike Hearn for BitcoinJ
 // Copyright (c) 2011 Google Inc
@@ -6783,6 +6780,7 @@ hr { margin: 20px 0; border-top: 2px dashed #008000; }
 .SingleWalletBackground .keyarea .private .privwif .output { background-color: white; width: 75%; }
 .SingleWalletBackground .keyarea .private .privwif #btcprivwif { float: right; }
 .SingleWalletBackground .keyarea .public .qrcode_public canvas, .SingleWalletBackground .keyarea .private .qrcode_private canvas { background-color: white; padding: 2px; }
+.commands { background-color: #f4b517; }
 .pubkeyhex { word-wrap: break-word; }
 body { font-family: Arial; }
 body, html { height: 99%; }
@@ -6924,7 +6922,7 @@ input[type=checkbox] { position: relative; z-index: 20; }
 	{
 	    position: relative; display: inline-block; border: 0px solid red;
 	    margin: 0; list-style: none; z-index: 110; cursor: pointer; 
-	    top: 1px; padding: 10px 20px; width: 162px; text-align: center;
+	    top: 1px; padding: 10px 20px; width: 120px; /*162px*/ text-align: center;
 	}
 	.menu .tab.selected  
 	{
@@ -7038,10 +7036,10 @@ input[type=checkbox] { position: relative; z-index: 20; }
 			<li class="tab" id="singlewallet" onclick="ninja.tab.select(this);">Single Wallet
 			<li class="tab" id="paperwallet" onclick="ninja.tab.select(this);">Paper Wallet
 			<li class="tab" id="bulkwallet" onclick="ninja.tab.select(this);">Bulk Wallet
-			<li class="tab" id="brainwallet" onclick="ninja.tab.select(this);">Brain Wallet
 			<li class="tab" id="vanitywallet" onclick="ninja.tab.select(this);">Vanity Wallet
-			<li class="tab" id="splitwallet" onclick="ninja.tab.select(this);" style="visibility: hidden;">Split Wallet
-			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);" style="visibility: hidden;">Wallet Details
+			<li class="tab" id="brainwallet" onclick="ninja.tab.select(this);">Brain Wallet
+			<li class="tab" id="splitwallet" onclick="ninja.tab.select(this);" style="display: none;">Split Wallet
+			<li class="tab" id="detailwallet" onclick="ninja.tab.select(this);" style="display: none;">Wallet Details
 		</ul>
 		
 		<div id="generate">
