@@ -7,12 +7,12 @@
 		"paperlabelencryptedkey": "Clave privada cifrada (contraseña necesaria)",
 		"bulkgeneratingaddresses": "Generación de direcciones... ",
 		"brainalertpassphrasetooshort": "La contraseña introducida es demasiado corta.\n\n",
-		"brainalertpassphrasewarning": "Aviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
+		"brainalertpassphrasewarning": "Aviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta que traten de adivinarla para robar tus bitcoins.",
 		"brainalertpassphrasedoesnotmatch": "Las contraseñas no coinciden.",
 		"detailalertnotvalidprivatekey": "El texto que has introducido no es una clave privada válida",
 		"detailconfirmsha256": "El texto que has introducido no es una clave privada válida\n\n¿Quieres usar ese texto como si fuera una contraseña y generar una clave privada usando un hash SHA256 de tal contraseña?\n\nAviso: Es importante escoger una contraseña fuerte para evitar ataques de fuerza bruta a fin de adivinarla y robar tus bitcoins.",
-		"bip38alertincorrectpassphrase": "Incorrect passphrase for this encrypted private key.", //TODO: please translate
-		"bip38alertpassphraserequired": "Passphrase required for BIP38 key", //TODO: please translate
+		"bip38alertincorrectpassphrase": "Contraseña incorrecta para esta clave privada cifrada.",
+		"bip38alertpassphraserequired": "Contraseña requerida para BIP38",
 		"vanityinvalidinputcouldnotcombinekeys": "Entrada no válida. No se puede combinar llaves.",
 		"vanityalertinvalidinputpublickeysmatch": "Entrada no válida. La clave pública de ambos coincidan entradas. Debe introducir dos claves diferentes.",
 		"vanityalertinvalidinputcannotmultiple": "Entrada no válida. No se puede multiplicar dos claves públicas. Seleccione 'Añadir' para agregar dos claves públicas para obtener una dirección bitcoin.",
@@ -23,13 +23,13 @@
 		"tagline": "Generador de carteras Bitcoin de código abierto en lado de cliente con Javascript",
 		"generatelabelbitcoinaddress": "Generando dirección Bitcoin...",
 		"generatelabelmovemouse": "Mueve un poco el ratón para crear entropía...",
-		"generatelabelkeypress": "OR type some random characters into this textbox", //TODO: please translate
+		"generatelabelkeypress": "O teclea cualquier cosa en este campo",
 		"singlewallet": "Una sola cartera",
 		"paperwallet": "Cartera en papel",
 		"bulkwallet": "Direcciones en masa",
 		"brainwallet": "Cartera mental",
 		"vanitywallet": "Cartera personalizada",
-		"splitwallet": "Split Wallet", //TODO: please translate
+		"splitwallet": "Cartera Dividida",
 		"detailwallet": "Detalles de la cartera",
 
 		// footer html
@@ -45,13 +45,13 @@
 		"footerlabelnowarranty": "Sin garantía.",
 
 		// status html
-		"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+		"statuslabelcryptogood": "&#10004; ¡Bien!",
 		"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
-		"statusokcryptogood": "OK", //TODO: please translate
-		"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+		"statusokcryptogood": "OK", 
+		"statuslabelcryptobad": "&times; Oh no!",
 		"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
-		"statusokcryptobad": "OK", //TODO: please translate
-		"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+		"statusokcryptobad": "OK",
+		"statuslabelunittestsgood": "&#10004; ¡Bien!", 
 		"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
 		"statusokunittestsgood": "OK", //TODO: please translate
 		"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
@@ -64,10 +64,10 @@
 		"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
 		"statuslabelprotocolbad2": "download", //TODO: please translate
 		"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
-		"statusokprotocolbad": "OK", //TODO: please translate
+		"statusokprotocolbad": "OK",
 		"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
-		"statuskeypoolrefresh": "Refresh", //TODO: please translate
-		"statusokkeypool": "OK", //TODO: please translate
+		"statuskeypoolrefresh": "Refrescar", /
+		"statusokkeypool": "OK", 
 
 		// single wallet html
 		"newaddress": "Generar dirección",
@@ -79,8 +79,8 @@
 		"singletip3": "<b>Add funds</b> to this wallet by instructing others to send bitcoins to your Bitcoin address.", //TODO: please translate
 		"singletip4": "<b>Check your balance</b> by going to blockchain.info or blockexplorer.com and entering your Bitcoin address.", //TODO: please translate
 		"singletip5": "<b>Spend your bitcoins</b> by going to blockchain.info and sweep the full balance of your private key into your account at their website. You can also spend your funds by downloading one of the popular bitcoin p2p clients and importing your private key to the p2p client wallet. Keep in mind when you import your single key to a bitcoin p2p client and spend funds your key will be bundled with other private keys in the p2p client wallet. When you perform a transaction your change will be sent to another bitcoin address within the p2p client wallet. You must then backup the p2p client wallet and keep it safe as your remaining bitcoins will be stored there. Satoshi advised that one should never delete a wallet.", //TODO: please translate
-		"singleshare": "SHARE", //TODO: please translate
-		"singlesecret": "SECRET", //TODO: please translate
+		"singleshare": "COMPARTIR", 
+		"singlesecret": "SECRETO",
 
 		// paper wallet html
 		"paperlabelhideart": "Ocultar diseño",
@@ -88,13 +88,13 @@
 		"paperlabeladdressestogenerate": "Direcciones en total:",
 		"papergenerate": "Generar",
 		"paperprint": "Imprimir",
-		"paperlabelBIPpassphrase": "Passphrase:", //TODO: please translate
-		"paperlabelencrypt": "BIP38 Encrypt?", //TODO: please translate
+		"paperlabelBIPpassphrase": "Contraseña:",
+		"paperlabelencrypt": "¿Cifrar con BIP38?",
 
 		// bulk wallet html
 		"bulklabelstartindex": "Empezar en:",
 		"bulklabelrowstogenerate": "Filas a generar:",
-		"bulklabelcompressed": "Compressed addresses?", //TODO: please translate
+		"bulklabelcompressed": "¿Comprimir direcciones?",
 		"bulkgenerate": "Generar",
 		"bulkprint": "Imprimir",
 		"bulklabelcsv": "Valores separados por coma:",
@@ -157,10 +157,10 @@
 		"detaillabelprivhex": "Clave privada en formato hexadecimal (64 caracteres [0-9A-F]):",
 		"detaillabelprivb64": "Clave privada en base64 (44 caracteres):",
 		"detaillabelprivmini": "Clave privada en formato mini (22, 26 o 30 caracteres, empieza por 'S'):",
-		"detaillabelpassphrase": "BIP38 Passphrase", //TODO: please translate
-		"detailbip38decryptbutton": "Decrypt BIP38", //TODO: please translate
-		"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
-		"detaillabelq1": "How do I make a wallet using dice? What is B6?", //TODO: please translate
+		"detaillabelpassphrase": "Contraseña BIP38", //TODO: please translate
+		"detailbip38decryptbutton": "Descifrar BIP38", //TODO: please translate
+		"detailbip38encryptbutton": "Cifrar BIP38", //TODO: please translate
+		"detaillabelq1": "¿Cómo hago un monedero con un dado? ¿Qué es Base6?", //TODO: please translate
 		"detaila1": "An important part of creating a Bitcoin wallet is ensuring the random numbers used to create the wallet are truly random. Physical randomness is better than computer generated pseudo-randomness. The easiest way to generate physical randomness is with dice. To create a Bitcoin private key you only need one six sided die which you roll 99 times. Stopping each time to record the value of the die. When recording the values follow these rules: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0. By doing this you are recording the big random number, your private key, in B6 or base 6 format. You can then enter the 99 character base 6 private key into the text field above and click View Details. You will then see the Bitcoin address associated with your private key. You should also make note of your private key in WIF format since it is more widely used." //TODO: please translate
 	};
 })(ninja.translator);
