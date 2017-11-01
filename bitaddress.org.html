@@ -6849,6 +6849,9 @@ input[type=checkbox] { position: relative; z-index: 20; }
 					<br/>
 					<label id="splitlabelshares">Number of shares</label>
 					<input type="text" id="splitshares" value="3" size="4"/>
+					<br/>
+					<label id="splitlabeloptionalprivate">Use specific private key (optional)</label>
+					<input type="text" id="splitoptionalprivate" value="" />
 					<span><input type="button" id="splitview" value="Generate" onclick="ninja.wallets.splitwallet.splitKey();"></span>
 					<div id="splitstep1icon" class="more " onclick="ninja.wallets.splitwallet.openCloseStep(1);"></div>
 				</div>
@@ -10662,7 +10665,8 @@ ninja.wallets.splitwallet = {
 		try {
 			var numshares = parseInt(document.getElementById('splitshares').value);
 			var threshold = parseInt(document.getElementById('splitthreshold').value);
-			var key = new Bitcoin.ECKey(false);
+			var optionalprivate = document.getElementById('splitoptionalprivate').value;
+			var key = new Bitcoin.ECKey(optionalprivate || false);
 			var bitcoinAddress = key.getBitcoinAddress();
 			var shares = ninja.wallets.splitwallet.getFormattedShares(key.getBitcoinHexFormat(), numshares, threshold);
 
