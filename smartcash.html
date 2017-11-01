@@ -46,8 +46,10 @@
 	<title>smartcash.cc</title>
 	<link rel="icon" href="https://smartcash.cc/wp-content/uploads/2017/08/smartfavi.ico" type="image/x-icon">
 	<meta charset="utf-8">
-
 	<script type="text/javascript">
+	if((location.href).match("http://paperwallet.smartcash.cc")) {
+		location.href =  "https://paperwallet.smartcash.cc";
+	}
 	var hash_keccak = function(s) { return CryptoJS.SHA3(s, {  outputLength: 256, asBytes: true }); }
 	var hash_sha256 = function(s) { return CryptoJS.SHA256(s, { asBytes: true }); }
 	var hash_ripemd160 = function(s) { return CryptoJS.RIPEMD160(s, { asBytes: true }); }
