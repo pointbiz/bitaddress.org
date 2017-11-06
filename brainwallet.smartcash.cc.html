@@ -7109,7 +7109,7 @@ hr {
 						<span id="brainalgorithm" class="notes right">Algorithm: SHA256(passphrase)</span>
 					</div>
 					<div class ="row extra">
-						<span><label tabindex="3" id="brainlabelcompressed" for="braincompressed">Compressed address?</label> <input type="checkbox" id="braincompressed" /></span>
+						<span><label tabindex="3" id="brainlabelcompressed" for="braincompressed">Compressed address?</label> <input type="checkbox" id="braincompressed" checked/></span>
 						<span><input tabindex="4" type="button" id="brainview" value="View" onclick="ninja.wallets.brainwallet.view();" /></span>
 					</div>
 					<div class="row extra"><span id="brainwarning"></span></div>
@@ -7956,12 +7956,12 @@ ninja.wallets.brainwallet = {
 				document.getElementById("brainkeyarea").style.visibility = "visible";
 			}
 			else {
-				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
+				alert("The passphrase you entered is too short.\n\n" + "Warning: Choosing a strong passphrase is important to avoid brute force attempts to guess your passphrase and steal your bitcoins.");
 				ninja.wallets.brainwallet.clear();
 			}
 		}
 		else {
-			alert(ninja.translator.get("brainalertpassphrasedoesnotmatch"));
+			alert("The passphrase does not match the confirm passphrase.");
 			ninja.wallets.brainwallet.clear();
 		}
 	},
