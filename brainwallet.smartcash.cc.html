@@ -7231,14 +7231,14 @@ if (HasReadWarning !== "yes") {
 }
 span.onclick = function() {
 	toggleClass(modal, 'fade-out');
-    /*modal.style.display = "none";*/
+	setTimeout(function(){ modal.style.display = "none"; }, 1000);
     setCookie('read', 'yes', 365);
 
 }
 window.onclick = function(event) {
     if (event.target == modal) {
     	toggleClass(modal, 'fade-out');
-        /*modal.style.display = "none";*/
+    	setTimeout(function(){ modal.style.display = "none"; }, 1000);
         setCookie('read', 'yes', 365);
     }
 }
