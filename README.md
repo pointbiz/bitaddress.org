@@ -1,4 +1,4 @@
-bitaddress.org
+# bitaddress.org
 JavaScript Client-Side Bitcoin Wallet Generator
 
 Now Bitcoin addresses and their corresponding private key can be conveniently 
@@ -18,16 +18,19 @@ Please send DONATIONS for this project to Bitcoin Address:
 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
 
 
-END USER NOTES: 
- 1) To print QRCode in IE8 you must enable the "Print Background Colors and 
-    Images" checkbox on the "Page Setup" screen.
- 2) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
- 3) Requires IE8+, Firefox, Chrome or sufficient JavaScript support.
- 4) Mobile Safari only works with iPhone4 or newer devices.
+END USER NOTES:
+
+ 1) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
+
+ 2) Requires IE9+, Firefox, Chrome or sufficient JavaScript support.
+
+ 3) Mobile Safari only works with iPhone4 or newer devices.
     Older devices timeout while executing JavaScript.
- 5) DO NOT use Opera Mini it renders JavaScript output server side, therefore
+
+ 4) DO NOT use Opera Mini it renders JavaScript output server side, therefore
     they might record the private key you generated.
- 6) Art Wallet does not work properly in IE8 due to CSS limitations.
+
+ 5) BIP38 most likely will not work on mobile devices due to hardware limitations.
 
 
 Notice of Copyrights and Licenses:
@@ -44,15 +47,16 @@ throughout the document along with their licenses. Included JavaScript
 libraries are separated with HTML script tags.
 
 Summary of JavaScript functions with a redistributable license:
-JavaScript function		License
--------------------		--------------
-Array.prototype.map		Public Domain
-window.Crypto			BSD License
-window.SecureRandom		BSD License
-window.EllipticCurve		BSD License
-window.BigInteger		BSD License
-window.QRCode			MIT License
-window.Bitcoin			MIT License
+
+JavaScript function	|	License
+-------------------	|	--------------
+Array.prototype.map	|	Public Domain
+window.Crypto | BSD License
+window.SecureRandom	| BSD License
+window.EllipticCurve	|	BSD License
+window.BigInteger |	BSD License
+window.QRCode | MIT License
+window.Bitcoin | MIT License
 
 The bitaddress.org software is available under The MIT License (MIT)
 Copyright (c) 2011-2013 bitaddress.org

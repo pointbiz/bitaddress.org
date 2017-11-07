@@ -9,7 +9,6 @@ module.exports = function (grunt) {
 				input: "./src/bitaddress-ui.html",
 				output: "./bitaddress.org.html",
 				tokens: [
-					{ token: "//array.map.js", file: "./src/array.map.js" },
 					{ token: "//biginteger.js", file: "./src/biginteger.js" },
 					{ token: "//bitcoinjs-lib.js", file: "./src/bitcoinjs-lib.js" },
 					{ token: "//bitcoinjs-lib.address.js", file: "./src/bitcoinjs-lib.address.js" },
