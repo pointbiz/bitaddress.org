@@ -53,6 +53,7 @@ janin.currency = {
         document.getElementById("cultureua").href = "?culture=ua&currency=" + janin.currency.name().toLowerCase();
         document.getElementById("culturetr").href = "?culture=tr&currency=" + janin.currency.name().toLowerCase();
         document.getElementById("cultureit").href = "?culture=it&currency=" + janin.currency.name().toLowerCase();
+        document.getElementById("culturepl").href = "?culture=pl&currency=" + janin.currency.name().toLowerCase();
 
         if(ninja.seeder.isDone())
         {
