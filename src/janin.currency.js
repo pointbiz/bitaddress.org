@@ -101,6 +101,7 @@ janin.currencies = [
     janin.currency.createCurrency ("BitSynq",             0x3f, 0xbf, "7",    "V"    , "SRtKRZxSjjwb9BXujkmvLfRHiutk7s7VXh"),
     janin.currency.createCurrency ("Blackcoin",           0x19, 0x99, "6",    "P"    , "BFeJrZGyJ6bntd7RLXoNGvdn1HB5AQeiz4"),
     janin.currency.createCurrency ("BlackJack",           0x15, 0x95, "[56]", "P"    , "9pzHRZkJ4Df3EBiqXhDVgtB2A7FaAq6nnG"),
+    janin.currency.createCurrency ("BolivarCoin",         0x55, 0xd5, "8",    "Y"    , "1J1HqJd2CRyacjEkMXxGzWVUYq6XfRqJEP"),
     janin.currency.createCurrency ("BunnyCoin",           0x1a, 0x9a, "6",    "P"    , "BosRXiiSB6WmiSbvzVAdUjpezCWhqpJGyW"),
     janin.currency.createCurrency ("Cagecoin",            0x1f, 0x9f, "6",    "Q"    , "DjUXeu9pUYq5RsN7qpowb1C8LcvPNi9Bx3"),
     janin.currency.createCurrency ("CanadaeCoin",         0x1c, 0x9c, "6",    "Q"    , "CbaoyW9KYP8qQHb9Lu59crvjemryCD88Hv"),
