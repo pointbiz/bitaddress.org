@@ -15,7 +15,7 @@
 	"singlelabelprivatekey": "Prive Sleutel (Portomonee Import Formaat)",
 	"singlesecret": "GEHEIM",
 	"securitystep0title": "Stap 0. Volg de veiligheids controlelijst aanbevelingen",
-	"securitystep0": "De eerste stap is om deze website te <strong>downloaden</strong> van <a href=\"https://github.com/MichaelMure/PaperWallet/archive/master.zip\">Github</a> en vervolgens het bestand index.html direct vanaf je computer te openen. Het is voor hackers gewoon te makkelijk om kwaadaardige code tussen de 6000+ regels javascript toe te voegen en om je prive sleutel uit te lezen, en je wilt natuurlijk niet zien hoe je fondsen gestolen worden. Versiebeheer maakt het makkelijk om te controleren wat er daadwerkelijk gerunt wordt. Om er extra zeker van te zijn dat je veilig bezig bent kun je het beste connectie met het internet verbreken.",
+	"securitystep0": "De eerste stap is om deze website te <strong>downloaden</strong> van <a href=\"https://github.com/MichaelMure/WalletGenerator.net/archive/master.zip\">Github</a> en vervolgens het bestand index.html direct vanaf je computer te openen. Het is voor hackers gewoon te makkelijk om kwaadaardige code tussen de 6000+ regels javascript toe te voegen en om je prive sleutel uit te lezen, en je wilt natuurlijk niet zien hoe je fondsen gestolen worden. Versiebeheer maakt het makkelijk om te controleren wat er daadwerkelijk gerunt wordt. Om er extra zeker van te zijn dat je veilig bezig bent kun je het beste connectie met het internet verbreken.",
 	"securitystep1title": "Stap 1. Geneer een nieuw adres",
 	"securitystep1": "Kies een valuta en klik op de \"Generate new address\" knop.",
 	"securitystep2title": "Stap 2. Print de Papieren Portomonee",

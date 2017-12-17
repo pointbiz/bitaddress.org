@@ -22,7 +22,7 @@
 	"singlelabelprivatekey": "Chiave Privata (formato WIF)",
 	"singlesecret": "SEGRETO",
 	"securitystep0title": "Passo 0. Seguire le raccomandazioni dell'elenco di sicurezza",
-	"securitystep0": "Il primo passo è quello di <strong> scaricare </ strong> questo sito da <a href=\"https://github.com/MichaelMure/PaperWallet/archive/master.zip\">Github</a> ed aprire il file index.html direttamente nel computer.È troppo facile aggiungere codice dannoso alle oltre 6000 linee di script Java per intercettare la vostra chiave privata, e non vuoi vedere i tuoi fondi rubati, non è vero? La versione del codice sorgente rende molto più semplice verificare da parte di persone esterne il codice che viene eseguito. Per una maggiore sicurezza, <strong> scollegare l'accesso a Internet </ strong> durante la generazione del portafogli.",
+	"securitystep0": "Il primo passo è quello di <strong> scaricare </ strong> questo sito da <a href=\"https://github.com/MichaelMure/WalletGenerator.net/archive/master.zip\">Github</a> ed aprire il file index.html direttamente nel computer.È troppo facile aggiungere codice dannoso alle oltre 6000 linee di script Java per intercettare la vostra chiave privata, e non vuoi vedere i tuoi fondi rubati, non è vero? La versione del codice sorgente rende molto più semplice verificare da parte di persone esterne il codice che viene eseguito. Per una maggiore sicurezza, <strong> scollegare l'accesso a Internet </ strong> durante la generazione del portafogli.",
 	"securitystep1title": "Passo 1. Generare un nuovo indirizzo",
 	"securitystep1": "Scegli la tua valuta e fai clic sul pulsante \"Generazione nuovo indirizzo\".",
 	"securitystep2title": "Passo 2. Stampare il Vostro portafogli",

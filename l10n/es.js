@@ -15,7 +15,7 @@
     "singlelabelprivatekey": "Clave Privada (formato de importación de cartera, WIF)",
     "singlesecret": "SECRETO",
     "securitystep0title": "Paso 0. Sigue las recomendaciones de la lista de verificación de seguridad",
-    "securitystep0": "El primer paso es <strong>descargar</strong> este website de <a href=\"https://github.com/MichaelMure/PaperWallet/archive/master.zip\">Github</a> y abrir el archivo index.html directamente desde tu ordenador. Simplemente, es muy sencillo colar algo de código maligno en el javascript de 6000+ líneas para filtrar tu clave privada, y no querrás ver tus fondos siendo robados. El código de control de versiones facilita mucho saber qué ha funcionado realmente hasta la fecha. Para mayor seguridad, <strong>desconecta tu acceso a internet</strong> mientras estás generando tu cartera.",
+    "securitystep0": "El primer paso es <strong>descargar</strong> este website de <a href=\"https://github.com/MichaelMure/WalletGenerator.net/archive/master.zip\">Github</a> y abrir el archivo index.html directamente desde tu ordenador. Simplemente, es muy sencillo colar algo de código maligno en el javascript de 6000+ líneas para filtrar tu clave privada, y no querrás ver tus fondos siendo robados. El código de control de versiones facilita mucho saber qué ha funcionado realmente hasta la fecha. Para mayor seguridad, <strong>desconecta tu acceso a internet</strong> mientras estás generando tu cartera.",
     "securitystep1title": "Paso 1. Genera una nueva dirección",
     "securitystep1": "Elige tu criptodivisa y haz click en el botón \"Generar nueva dirección\".",
     "securitystep2title": "Paso 2. Imprime la cartera de papel",

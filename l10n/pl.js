@@ -15,7 +15,7 @@
     "singlelabelprivatekey": "Klucz prywatny (format WIF)",
     "singlesecret": "TAJNE",
     "securitystep0title": "Krok 0. Sprawdź listę zaleceń bezpieczeństwa.",
-    "securitystep0": "Po pierwsze - <strong>pobierz</strong> tę stronę z <a href=\"https://github.com/MichaelMure/PaperWallet/archive/master.zip\">Githuba</a> i otwórz plik index.html bezpośrednio ze swojego komputera. Wprowadzenie złośliwego kodu do strony, która zawiera ponad 6000 linijek kodu javascript jest dość proste i może skutkować wyciekiem Twojego klucza prywatnego, a co za tym idzie, utratą wszystkich środków z portfela. Aby zapewnić dodatkowe bezpieczeństwo, należy <strong>odłączyć się od Internetu</strong> podczas generowania portfela dla bezpieczeństwa.",
+    "securitystep0": "Po pierwsze - <strong>pobierz</strong> tę stronę z <a href=\"https://github.com/MichaelMure/WalletGenerator.net/archive/master.zip\">Githuba</a> i otwórz plik index.html bezpośrednio ze swojego komputera. Wprowadzenie złośliwego kodu do strony, która zawiera ponad 6000 linijek kodu javascript jest dość proste i może skutkować wyciekiem Twojego klucza prywatnego, a co za tym idzie, utratą wszystkich środków z portfela. Aby zapewnić dodatkowe bezpieczeństwo, należy <strong>odłączyć się od Internetu</strong> podczas generowania portfela dla bezpieczeństwa.",
     "securitystep1title": "Krok 1. Wygeneruj nowy adres",
     "securitystep1": "Wybierz swoją walutę i naciśnij przycisk \"Generate new address\".",
     "securitystep2title": "Krok 2. Wydrukuj papierowy portfel.",
