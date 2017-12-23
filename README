@@ -14,15 +14,6 @@ Please send DONATIONS for this project using the crypto-currency addresses avail
 
 You can help us support more currency by following this non-developer How-To: https://github.com/MichaelMure/WalletGenerator.net/wiki/How-to-add-a-new-currency
 
-END USER NOTES:
- 1) To print QRCode in IE8 you must enable the "Print Background Colors and Images" checkbox on the "Page Setup" screen.
- 2) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
- 3) Requires IE8+, Firefox, Chrome or sufficient JavaScript support.
- 4) Mobile Safari only works with iPhone4 or newer devices.Older devices timeout while executing JavaScript.
- 5) DO NOT use Opera Mini it renders JavaScript output server side, thereforethey might record the private key you generated.
- 6) Art Wallet does not work properly in IE8 due to CSS limitations.
-
-
 Notice of Copyrights and Licenses:
 ---------------------------------------
 The WalletGenerator.net project, software and embedded resources are copyright WalletGenerator.net.
