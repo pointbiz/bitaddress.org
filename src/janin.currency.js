@@ -179,6 +179,7 @@ janin.currencies = [
     janin.currency.createCurrency ("iXcoin",              0x8a, 0x80, "5",    "[LK]" , "xnF1nshqFLaVdDGBmQ4k2jBQkr8nbuCkLz"),
     janin.currency.createCurrency ("Judgecoin",           0x2b, 0xab, "6",    "S"    , "JbF9ZnvoFkBdasPEq21jCCTnTUDSiyWrAQ"),
     janin.currency.createCurrency ("Jumbucks",            0x2b, 0xab, "6",    "S"    , "JSzHiaoD6ewtymBMJHsHqkpFzCYKBzxJeC"),
+    janin.currency.createCurrency ("KHcoin",			        0x30, 0xb0, "6",    "T"    , "LZWM2nptWZpSDZna5k96Rk1uqN8NDTigvK"),
     janin.currency.createCurrency ("Lanacoin",            0x30, 0xb0, "6",    "T"    , "LhqrrTHtfNMn8rZi7QesFbbpJYeGWX7319"),
     janin.currency.createCurrency ("Latium",              0x17, 0x80, "5",    "[LK]" , "ASz2EgegeXfKyHaY1SbJ6nCDK6sxd7BpXg"),
     janin.currency.createCurrency ("Litecoin",            0x30, 0xb0, "6",    "T"    , "LiScnsyPcqsyxn1fx92BcFguryXcw4DgCy"),
