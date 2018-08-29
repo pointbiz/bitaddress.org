@@ -90,19 +90,23 @@ Bitcoin.ECKey = (function () {
 			this.priv = BigInteger.fromByteArrayUnsigned(input);
 		} else if ("string" == typeof input) {
 			var bytes = null;
-			if (ECKey.isWalletImportFormat(input)) {
-				bytes = ECKey.decodeWalletImportFormat(input);
-			} else if (ECKey.isCompressedWalletImportFormat(input)) {
-				bytes = ECKey.decodeCompressedWalletImportFormat(input);
-				this.compressed = true;
-			} else if (ECKey.isMiniFormat(input)) {
-				bytes = Crypto.SHA256(input, { asBytes: true });
-			} else if (ECKey.isHexFormat(input)) {
-				bytes = Crypto.util.hexToBytes(input);
-			} else if (ECKey.isBase64Format(input)) {
-				bytes = Crypto.util.base64ToBytes(input);
+			try{
+				if (ECKey.isWalletImportFormat(input)) {
+					bytes = ECKey.decodeWalletImportFormat(input);
+				} else if (ECKey.isCompressedWalletImportFormat(input)) {
+					bytes = ECKey.decodeCompressedWalletImportFormat(input);
+					this.compressed = true;
+				} else if (ECKey.isMiniFormat(input)) {
+					bytes = Crypto.SHA256(input, { asBytes: true });
+				} else if (ECKey.isHexFormat(input)) {
+					bytes = Crypto.util.hexToBytes(input);
+				} else if (ECKey.isBase64Format(input)) {
+					bytes = Crypto.util.base64ToBytes(input);
+				}
+			} catch (exc1) {
+				this.setError(exc1);
 			}
-			
+
 			if (ECKey.isBase6Format(input)) {
 				this.priv = new BigInteger(input, 6);
 			} else if (bytes == null || bytes.length != 32) {
@@ -114,7 +118,21 @@ Bitcoin.ECKey = (function () {
 		}
 
 		this.compressed = (this.compressed == undefined) ? !!ECKey.compressByDefault : this.compressed;
-		KeyPool.push(this);
+		try {
+			// check not zero
+			if (this.priv != null && BigInteger.ZERO.compareTo(this.priv) == 0) this.setError("Error: BigInteger equal to zero.");
+			// valid range [0x1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140])
+			var hexKeyRangeLimit = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";
+			var rangeLimitBytes = Crypto.util.hexToBytes(hexKeyRangeLimit);
+			var limitBigInt = BigInteger.fromByteArrayUnsigned(rangeLimitBytes);
+			if (this.priv != null && limitBigInt.compareTo(this.priv) < 0) this.setError("Error: BigInteger outside of curve range.")
+
+			if (this.priv != null) {
+				KeyPool.push(this);
+			}
+		} catch (exc2) {
+			this.setError(exc2);
+		}
 	};
 
 	ECKey.privateKeyPrefix = 0x80; // mainnet 0x80    testnet 0xEF
@@ -123,6 +141,15 @@ Bitcoin.ECKey = (function () {
 	* Whether public keys should be returned compressed by default.
 	*/
 	ECKey.compressByDefault = false;
+
+	/**
+	* Set whether the public key should be returned compressed or not.
+	*/
+	ECKey.prototype.setError = function (err) {
+		this.error = err;
+		this.priv = null;
+		return this;
+	};
 
 	/**
 	* Set whether the public key should be returned compressed or not.

@@ -48,29 +48,7 @@
 			return canvas;
 		},
 
-		// generate a QRCode and return it's representation as an Html table 
-		createTableHtml: function (text) {
-			var typeNumber = qrC.getTypeNumber(text);
-			var qr = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
-			qr.addData(text);
-			qr.make();
-			var tableHtml = "<table class='qrcodetable'>";
-			for (var r = 0; r < qr.getModuleCount() ; r++) {
-				tableHtml += "<tr>";
-				for (var c = 0; c < qr.getModuleCount() ; c++) {
-					if (qr.isDark(r, c)) {
-						tableHtml += "<td class='qrcodetddark'/>";
-					} else {
-						tableHtml += "<td class='qrcodetdlight'/>";
-					}
-				}
-				tableHtml += "</tr>";
-			}
-			tableHtml += "</table>";
-			return tableHtml;
-		},
-
-		// show QRCodes with canvas OR table (IE8)
+		// show QRCodes with canvas
 		// parameter: keyValuePair 
 		// example: { "id1": "string1", "id2": "string2"}
 		//		"id1" is the id of a div element where you want a QRCode inserted.
@@ -84,10 +62,7 @@
 						document.getElementById(key).appendChild(qrC.createCanvas(value, sizeMultiplier));
 					}
 				}
-				catch (e) {
-					// for browsers that do not support canvas (IE8)
-					document.getElementById(key).innerHTML = qrC.createTableHtml(value);
-				}
+				catch (e) {	}
 			}
 		}
 	};
