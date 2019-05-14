@@ -105,6 +105,9 @@
 	<script type="text/javascript">
 //crypto-scrypt.js
 	</script>
+	<script type="text/javascript">
+//bech32.js
+	</script>
 	<style type="text/css">
 //main.css
 	</style>
@@ -155,6 +158,7 @@
 			<div id="singlearea" class="walletarea">
 				<div class="commands">
 					<div id="singlecommands" class="row">
+						<span><label id="singlelabelbech32" for="bech32">Bech32 Address?</label> <input type="checkbox" id="bech32" /></span>
 						<span><input type="button" id="newaddress" value="Generate New Address" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();" /></span>
 						<span class="print"><input type="button" name="print" value="Print" id="singleprint" onclick="window.print();" /></span>
 					</div>
