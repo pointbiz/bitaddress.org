@@ -26,10 +26,11 @@
 				var bech32Address = bech32.encode('bc', bech32_words);
 				var bitcoinAddress = key.getBitcoinAddress();
 				var privateKeyWif = key.getBitcoinWalletImportFormat();
-				document.getElementById("btcaddress").innerHTML = opt_bech32 ? bech32Address : bitcoinAddress;
+				address = opt_bech32 ? bech32Address : bitcoinAddress
+				document.getElementById("btcaddress").innerHTML = address;
 				document.getElementById("btcprivwif").innerHTML = privateKeyWif;
 				var keyValuePair = {
-					"qrcode_public": bitcoinAddress,
+					"qrcode_public": address,
 					"qrcode_private": privateKeyWif
 				};
 				qrCode.showQrCode(keyValuePair, 4);
