@@ -17,15 +17,20 @@
 
 		// generate bitcoin address and private key and update information in the HTML
 		generateNewAddressAndKey: function () {
+			opt_bech32 = document.getElementById("bech32").checked
 			try {
 				var key = new Bitcoin.ECKey(false);
 				key.setCompressed(true);
+				bech32_words = bech32.toWords(Bitcoin.Util.sha256ripe160(key.getPub()))
+				bech32_words.unshift(0x00);
+				var bech32Address = bech32.encode('bc', bech32_words);
 				var bitcoinAddress = key.getBitcoinAddress();
 				var privateKeyWif = key.getBitcoinWalletImportFormat();
-				document.getElementById("btcaddress").innerHTML = bitcoinAddress;
+				address = opt_bech32 ? bech32Address : bitcoinAddress
+				document.getElementById("btcaddress").innerHTML = address;
 				document.getElementById("btcprivwif").innerHTML = privateKeyWif;
 				var keyValuePair = {
-					"qrcode_public": bitcoinAddress,
+					"qrcode_public": address,
 					"qrcode_private": privateKeyWif
 				};
 				qrCode.showQrCode(keyValuePair, 4);
