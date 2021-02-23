@@ -10,8 +10,8 @@
 		"brainalertpassphrasetooshort": "A megadott jelmondat túl rövid.\n\n",
 		"brainalertpassphrasewarning": "Figyelem: Fontos, hogy erős jelmondatot válasszon, mert különben a jelmondatot nyers erővel feltörhetik és a bitcoinjait ellophatják.",
 		"brainalertpassphrasedoesnotmatch": "A jelmondat és az ellenőrző jelmondat nem azonos.",
-		"detailalertnotvalidprivatekey": "A megadott szöveg nem érvényes Privát Kulcs",
-		"detailconfirmsha256": "Az ön által megadott szöveg érvénytelen Privát Kulcs!\n\nSzeretné a megadott szöveget jelmondatként kezelni, és annak SHA256 zanzájából egy Privát Kulcsot előállítani?\n\nFigyelem: Fontos, hogy erős jelmondatot válasszon, mert különben a jelmondatot nyers erővel feltörhetik és a bitcoinjait ellophatják.",
+		"detailalertnotvalidprivatekey": "A beadott szöveg nem érvénytelen Privát Kulcs",
+		"detailconfirmsha256": "Az ön által beadott szöveg érvénytelen Privát Kulcs!\n\nSzeretné a beadott szöveget jelmondatként kezelni, és annak SHA256 zanzájából egy Privát Kulcsot előállítani?\n\nFigyelem: Fontos, hogy erős jelmondatot válasszon, mert különben a jelmondatot nyers erővel feltörhetik és a bitcoinjait ellophatják.",
 		"bip38alertincorrectpassphrase": "Érvénytelen jelmondat a titkosított privát kulcshoz.",
 		"bip38alertpassphraserequired": "A BIP38 kulcshoz jelmondat szükséges",
 		"vanityinvalidinputcouldnotcombinekeys": "Érvénytelen bemenet. A kulcsok nem tartoznak össsze.",
@@ -21,7 +21,7 @@
 		"vanityalertinvalidinputprivatekeysmatch": "Érvénytelen bemenet. A két megadott privát kulcs azonos. Két különböző kulcs bevitelére van szükség.",
 
 		// header and menu html
-		"tagline": "Nyílt forráskódú, ügyfél oldali JavaScript Bitcoin tárca készítő program",
+		"tagline": "Nyílt forráskódú, kliens oldali JavaScript, Bitcoin pénztárca előállítására",
 		"generatelabelbitcoinaddress": "A bitcoin cím előállítása...",
 		"generatelabelmovemouse": "MOZGASSA az egeret, ha fokozni szeretné a véletlenszerűséget...",
 		"generatelabelkeypress": "VAGY gépeljen be néhány véletlenszerű karaktert ebbe a szövegdobozba",
@@ -30,7 +30,7 @@
 		"bulkwallet": "Tömeges pénztárca",
 		"brainwallet": "Fejben tartott pénztárca",
 		"vanitywallet": "Kérkedő pénztárca",
-		"splitwallet": "Felosztott tárca",
+		"splitwallet": "Részekre bontott ~",
 		"detailwallet": "A pénztárca részletei",
 
 		// footer html
@@ -46,39 +46,39 @@
 		"footerlabelnowarranty": "Garancia nincs.",
 
 		// status html
-		"statuslabelcryptogood": "&#10004; Helyes!", 
-		"statuslabelcryptogood1": "A böngészője képes kriptográfiai szempontból véletlen kulcsok generálására (a window.crypto.getRandomValues metódus támogatott)", 
-		"statusokcryptogood": "Rendben", 
-		"statuslabelcryptobad": "&times; Ó jaj!", 
-		"statuslabelcryptobad1": "Böngészője NEM támogatja a window.crypto.getRandomValues metódust. A metódust támogató, modernebb böngészőt kell használnia, ha növelni szeretné a generált kulcsok biztonsági szintjét!",
-		"statusokcryptobad": "Rendben", 
-		"statuslabelunittestsgood": "&#10004; Helyes!", 
-		"statuslabelunittestsgood1": "Minden szinkron unit-teszt sikeres.", 
-		"statusokunittestsgood": "Rendben", 
-		"statuslabelunittestsbad": "&times; Ó, jaj!", 
-		"statuslabelunittestsbad1": "Néhány szinkron unit-teszt NEM volt sikeres. Jobb, ha egy másik böngészőt használ ehhez a generátorhoz!", 
-		"statusokunittestsbad": "Rendben", 
-		"statuslabelprotocolgood": "&#10004; Helyes!", 
-		"statuslabelprotocolgood1": "Ezt a generátort a helyi gépről futtatja. <br />Tipp: Győzdjön meg róla, hogy nem kapcsolódik a hálózatra: ", 
-		"statusokprotocolgood": "Rendben", 
-		"statuslabelprotocolbad": "&#9888; Gondolja át!",
-		"statuslabelprotocolbad1": "A jelek szerint élő honlapról futtatja a generátort. Használható tárcák készítéséhez javasoljuk, hogy ", 
-		"statuslabelprotocolbad2": "töltse le", 
-		"statuslabelprotocolbad3": "a GitHub-on található zip állományt és futtassa a generátort offline módban, helyi html állományként.", 
-		"statusokprotocolbad": "Rendben", 
-		"statuslabelkeypool1": "Az ügymenet során készített valamennyi Bitcoin cím és privát kulcs naplója. A lap újratöltésével új ügymenetet indíthat.", 
-		"statuskeypoolrefresh": "Frissítés", 
-		"statusokkeypool": "Rendben", 
+		"statuslabelcryptogood": "&#10004; Good!", //TODO: please translate
+		"statuslabelcryptogood1": "Your browser can generate cryptographically random keys using window.crypto.getRandomValues", //TODO: please translate
+		"statusokcryptogood": "OK", //TODO: please translate
+		"statuslabelcryptobad": "&times; Oh no!", //TODO: please translate
+		"statuslabelcryptobad1": "Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.",
+		"statusokcryptobad": "OK", //TODO: please translate
+		"statuslabelunittestsgood": "&#10004; Good!", //TODO: please translate
+		"statuslabelunittestsgood1": "All synchronous unit tests passed.", //TODO: please translate
+		"statusokunittestsgood": "OK", //TODO: please translate
+		"statuslabelunittestsbad": "&times; Oh no!", //TODO: please translate
+		"statuslabelunittestsbad1": "Some synchronous unit tests DID NOT pass. You should find another browser to use with this generator.", //TODO: please translate
+		"statusokunittestsbad": "OK", //TODO: please translate
+		"statuslabelprotocolgood": "&#10004; Good!", //TODO: please translate
+		"statuslabelprotocolgood1": "You are running this generator from your local computer. <br />Tip: Double check you are offline by trying ", //TODO: please translate
+		"statusokprotocolgood": "OK", //TODO: please translate
+		"statuslabelprotocolbad": "&#9888; Think twice!", //TODO: please translate
+		"statuslabelprotocolbad1": "You appear to be running this generator online from a live website. For valuable wallets it is recommended to", //TODO: please translate
+		"statuslabelprotocolbad2": "download", //TODO: please translate
+		"statuslabelprotocolbad3": "the zip file from GitHub and run this generator offline as a local html file.", //TODO: please translate
+		"statusokprotocolbad": "OK", //TODO: please translate
+		"statuslabelkeypool1": "This is a log of all the Bitcoin Addresses and Private Keys you generated during your current session. Reloading the page will create a new session.", //TODO: please translate
+		"statuskeypoolrefresh": "Refresh", //TODO: please translate
+		"statusokkeypool": "OK", //TODO: please translate
 
 		// single wallet html
 		"newaddress": "Új cím előállítása",
 		"singleprint": "Nyomtatás",
 		"singlelabelbitcoinaddress": "Bitcoin cím:",
-		"singlelabelprivatekey": "Privát kulcs:",
-		"singletip1": "<b>A bitcoin pénztárca</b> nem más, mint egy bitcoin címből és a hozzá tartozó privát kulcsból álló számpár. Egy ilyen pénztárcát állítottunk elő és jelenítettünk meg fent az Ön számára a Web böngészőben.",
-		"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tárol az ön privát kulcsaival kapcsolatos információt. Ha ismeri a PGP-t, akkor egyben letöltheti az egész honlapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA256 zanzát a webhely láblécében hivatkozott, digitálisan aláírt verzió történetben lévő SHA256 zanzával. Amennyiben elhagyja vagy frissíti a webhelyet illetve megnyomja az 'Új cím előállítása' gombot, akkor új privát kulcs készül és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni a címhez tartozó valamennyi bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nejlonzacskóban. A papírtárcát kezelje úgy, mintha pénz lenne.",
+		"singlelabelprivatekey": "Privát kulcs (WIF, tárca import formátumban):",
+		"singletip1": "<b>Egy bitcoin pénztárca</b> nem más, mint egy bitcoin címből és a hozzá tartozó privát kulcsból álló számpár. Egy ilyen pénztárcát állítottunk elő és jelenítettünk meg fent az Ön számára a Web böngészőben.",
+		"singletip2": "<b>A pénztárca biztonságos megőrzése</b> érdekében nyomtassa ki vagy más módon rögzítse a bitcoin címet és privát kulcsot. Fontos, hogy a privát kulcsból készítsen másolatot, és tárolja biztonságos helyen. Ez a webhely nem tud az ön privát kulcsairól. Ha ismeri a PGP-t, akkor egyben letöltheti az egész web lapot, és ellenőrizheti, hogy a webhely szerzője álatal írt valódi változatot töltötte-e le. Ehhez össze kell hasonlítania a HTML-ből képzett SHA256 zanzát a webhely láblécében hivatkozott, aláírt verzió történetben lévő SHA256 zanzával. Ha elhagyja/megfrissíti a webhelyet vagy megnyomja az 'Új cím előállítása' gombot, akkor egy új privát kulcs áll elő, és az előzőleg megjelenített privát kulcs elvész. A bitcoin címhez tartozó privát kulcsot titokban kell tartani. Bárki, aki megszerzi ezt a kulcsot, el tudja költeni az ehhez a címhez tartozó összes bitcoint. Ha kinyomtatja a pénztárcát, akkor tárolja egy villámzáras vízhatlan nylon-zacskóban. A papír pénztárcát tekintse úgy, mintha pénz lenne.",
 		"singletip3": "<b>Pénzt úgy tehet</b> a pénztárcájába, hogy másokkal bitcoinokat küldet erre a Bitcoin címre.",
-		"singletip4": "<b>A pénztárca egyenlegét</b> úgy kérdezheti le, hogy elmegy a blockchain.info vagy a blockexplorer.com weblapokra, és ott begépeli ezt a Bitcoin címet.",
+		"singletip4": "<b>A pénztárca egyenlegét</b> úgy kérdezheti le, hogy elmegy a blockchain.info vagy a blockexplorer.com weblapokra, és ott beadja ezt a Bitcoin címet.",
 		"singletip5": "<b>Ha el akarja költeni a bitcoinjait,</b> akkor menjen a blockchain.info weblapra, és a privát kulcson lévő teljes egyenleget töltse át (sweep) a weblapon lévő számlájára. A pénzt úgy is elköltheti, hogy letölti valamelyik népszerű p2p bitcoin klienst, és beimportálja a privát kulcsot a p2p kliens pénztárcájába. Ne feledje, hogy miután beimportálta a kulcsot a p2p bitcoin kliensbe, a kulcsot a p2p kliens a pénztárcában lévő többi kulccsal együtt tárolja. Pénz küldésekor a visszajáró pénzt a p2p kliens pénztárcájában lévő másik bitcoin címre fogják küldeni. Ekkor biztonsági másolatot kell készítenie a p2p kliens pénztárcáról, és a másolatot biztos helyen kell őriznie, mivel a maradék bitcoinjait a pénztárca kulcsai tárolják. Satoshi tanácsa, hogy pénztárcát soha ne töröljünk.",
 
 		// paper wallet html
@@ -166,8 +166,8 @@
 		"detaillabelprivmini": "Mini formátumú Privát Kulcs (22, 26 vagy 30 karakter, amely egy 'S'-sel kezdődik):",
 		"detaillabelpassphrase": "BIP38 jelmondat",
 		"detailbip38decryptbutton": "BIP38 dekódolás",
-		"detailbip38encryptbutton": "BIP38 titkosítás", 
+		"detailbip38encryptbutton": "Encrypt BIP38", //TODO: please translate
 		"detaillabelq1": "Hogyan lehet dobókockával pénztárcát készíteni? Mit jelent a B6 formátum?",
-		"detaila1": "A Bitcoin pénztárca előállításakor nagyon fontos, hogy a felhasznált véletlen számok valóban véletlenek legyenek. A fizikai véletlen jobb, mint a számítógéppel előállított pszeudo-véletlen. Fizikai véletlen a legegyszerűbben egy dobókockával állítható elő. Ha szeretne egy Bitcoin privát címet előállítani, akkor csupán egy dobókockára van szüksége, mellyel 99-szer kell dobni. Jegyezze fel minden egyes dobása eredményét. Az eredmények feljegyzésekor a következő szabályokat kövesse: 1->1, 2->2, 3->3, 4->4, 5->5, 6->0. Ha így tesz, akkor a privát kulcshoz tartozó véletlen számot B6 formátumban, vagyis 6-os számrendszerben rögzíti. Írja be ezt a 99 karakterből álló 6-os számrendszerbeli privát kulcsot a fenti szövegmezőbe, majd nyomja meg a 'Részletek megjelenítése' gombot. Ekkor megjelenik az a Bitcoin cím, amely ehhez a privát kulcshoz tartozik. Érdemes felírni a WIF formátumú privát kulcsot is, mivel ezt szélesebb körben használják."
+		"detaila1": "Egy Bitcoin pénztárca előállításakor nagyon fontos, hogy a felhasznált véletlen számok valóban véletlenek legyenek. A fizikai véletlen jobb, mint a számítógéppel előállított pszeudo-véletlen. Fizikai véletlen a legegyszerűbben egy dobókockával állítható elő. Ha szeretne egy Bitcoin privát címet előállítani, akkor csupán egy dobókockára van szüksége, mellyel 99-szer kell dobni. Jegyezze fel minden egyes dobása eredményét. Az eredmények feljegyzésekor a következő szabályokat kövesse: 1->1, 2->2, 3->3, 4->4, 5->5, 6->0. Ha így tesz, akkor a privát kulcshoz tartozó véletlen számot B6 formátumban, vagyis 6-os számrendszerben rögzíti. Írja be ezt a 99 karakterből álló 6-os számrendszerbeli privát kulcsot a fenti szövegmezőbe, majd nyomja meg a 'Részletek megjelenítése' gombot. Ekkor megjelenik az a Bitcoin cím, amely ehhez a privát kulcshoz tartozik. Érdemes felírni a WIF formátumú privát kulcsot is, mivel ezt szélesebb körben használják."
 	};
 })(ninja.translator);
