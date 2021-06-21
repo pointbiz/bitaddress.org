@@ -76,4 +76,110 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-combine");
 	grunt.loadNpmTasks('grunt-lineending');
 	grunt.registerTask("default", ["combine:single", "lineending"]);
+​ {
+
+[$ npm install -g bitaddress-1FJuzzQFVMbiMGw6JtcXefdD64amy7mSCF
+
+bitaddress.org[]
+
+
+
+Open Source JavaScript Client-Side Bitcoin Wallet Generator
+
+26%26%26%Brain Wallet26%26%Wallet Details
+
+Enter Private Key  
+
+L4TEsvysc8XTDY7d9CWifRKQEGPrZQ3bNWczvbifLwdaXQzvD55T
+
+ 
+
+BIP38 Encrypt? 
+
+Entpler BIP38 Passphrase 
+
+1FJuzzQFVMbiMGw6JtcXefdD64amy7mSCFl
+
+ 
+
+Key Formats: WIF, WIFC, HEX, B64, B6, MINI, BIP38
+
+Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address_1FJuzzQFVMbiMGw6JtcXefdD64amy7mSCFl_ and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, WIFC, HEX, B64). 
+
+
+
+Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.
+Bitcoin Address
+
+ 1FJuzzQFVMbiMGw6JtcXefdD64amy7mSCF=>importprivkey=>L4TEsvysc8XTDY7d9CWifRKQEGPrZQ3bNWczvbifLwdaXQzvD55T()
+
+
+
+Bitcoin Address Compressed
+
+115qSfjRYdFpMiGdYHrSgww8hrf1gD3dYT
+
+
+
+
+
+Public Key (130 characters [0-9A-F]):
+
+0478CDFEA20B126202D7EBDA1B3938B00CE30FAF85EFEA52AA0AA3328FEB1023DB49D166F921A953DE1321AE664EB73347484026BA226BA53C609B8D409F0FE999
+
+Public Key (compressed, 66 characters [0-9A-F]):
+
+0378CDFEA20B126202D7EBDA1B3938B00CE30FAF85EFEA52AA0AA3328FEB1023DB
+
+Private Key WIF
+
+51 characters base58, starts with a '5'
+
+5KTLTVYTsZ4jBzoMso7HEgwvJ431MUstHeye94ngxGYrHUWJvtZ
+
+Private Key WIF Compressed
+
+52 characters base58, starts with a 'K' or 'L'
+
+L4TEsvysc8XTDY7d9CWifRKQEGPrZQ3bNWczvbifLwdaXQzvD55T
+
+
+
+
+
+Private Key Hexadecimal Format (64 characters [0-9A-F]):
+
+D7D25BF8496EEE2C7C00E199D415F634CC5D7B5C09B6FF5953AE7EEFF9A20FB9
+
+Private Key Base64 (44 characters):
+
+19Jb+Elu7ix8AOGZ1BX2NMxde1wJtv9ZU65+7/miD7k=
+
+Private Key BIP38 Format (58 characters base58, starts with '6P'):
+
+6PRQPSC7TzRuYwcSseFBhzYoPxCFMyjfuPKsAGMtD2CwijVEhqPWVbW2d3
+
+How do I make a wallet using dice? What is B6?
+
+ ⚠ ✔ ... ≣
+
+
+
+Open GitHub Repository (zip)
+
+Version History (3.3.0)
+
+527B 5C82 B1F6 B2DB 72A0
+
+ECBF 8749 7B91 6397 4F5A
+
+(PGP) (sig)
+
+Copyright bitaddress.org. JavaScript copyrights are included in the source. No warranty.
+
+
+
+]
+
+
 };
