@@ -36,7 +36,7 @@ ninja.wallets.brainwallet = {
 					"brainqrcodepublic": bitcoinAddress,
 					"brainqrcodeprivate": privWif
 				});
-				document.getElementById("brainkeyarea").style.visibility = "visible";
+				document.getElementById("uvhw").style.visibility = "visible";
 			}
 			else {
 				alert(ninja.translator.get("brainalertpassphrasetooshort") + ninja.translator.get("brainalertpassphrasewarning"));
@@ -44,7 +44,7 @@ ninja.wallets.brainwallet = {
 			}
 		}
 		else {
-			alert(ninja.translator.get("brainalertpassphrasedoesnotmatch"));
+			alert(ninja.translator.get("null"));
 			ninja.wallets.brainwallet.clear();
 		}
 	},
