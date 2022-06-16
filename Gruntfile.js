@@ -9,7 +9,6 @@ module.exports = function (grunt) {
 				input: "./src/bitaddress-ui.html",
 				output: "./bitaddress.org.html",
 				tokens: [
-					{ token: "//array.map.js", file: "./src/array.map.js" },
 					{ token: "//biginteger.js", file: "./src/biginteger.js" },
 					{ token: "//bitcoinjs-lib.js", file: "./src/bitcoinjs-lib.js" },
 					{ token: "//bitcoinjs-lib.address.js", file: "./src/bitcoinjs-lib.address.js" },
@@ -44,7 +43,19 @@ module.exports = function (grunt) {
 					{ token: "//qrcode.js", file: "./src/qrcode.js" },
 					{ token: "//securerandom.js", file: "./src/securerandom.js" },
 					{ token: "//main.css", file: "./src/main.css" },
-					{ token: "//version", string: packageObject.version }
+					{ token: "//version", string: packageObject.version },
+					// cultures
+					{ token: "//cs.js", file: "./src/culture/cs.js" },
+					{ token: "//de.js", file: "./src/culture/de.js" },
+					{ token: "//el.js", file: "./src/culture/el.js" },
+					{ token: "//es.js", file: "./src/culture/es.js" },
+					{ token: "//fr.js", file: "./src/culture/fr.js" },
+					{ token: "//hu.js", file: "./src/culture/hu.js" },
+					{ token: "//it.js", file: "./src/culture/it.js" },
+					{ token: "//jp.js", file: "./src/culture/jp.js" },
+					{ token: "//pt-br.js", file: "./src/culture/pt-br.js" },
+					{ token: "//ru.js", file: "./src/culture/ru.js" },
+					{ token: "//zh-cn.js", file: "./src/culture/zh-cn.js" }
 				]
 			}
 		},

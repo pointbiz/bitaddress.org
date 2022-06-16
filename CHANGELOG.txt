@@ -15,18 +15,52 @@ https://bitcointalk.org/index.php?topic=43496.0
 Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
 
 END USER NOTES: 
- 1) To print QRCode in IE8 you must enable the "Print Background Colors and 
-    Images" checkbox on the "Page Setup" screen.
- 2) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
- 3) Requires IE8+, Firefox, Chrome or sufficient JavaScript support.
- 4) Mobile Safari only works with iPhone4 or newer devices.
+ 1) For Bulk Wallet I recommended using Google Chrome, it's the fastest.
+ 2) Requires IE9+, Firefox, Chrome or sufficient JavaScript support.
+ 3) Mobile Safari only works with iPhone4 or newer devices.
     Older devices timeout while executing JavaScript.
- 5) DO NOT use Opera Mini it renders JavaScript output server side, therefore
+ 4) DO NOT use Opera Mini it renders JavaScript output server side, therefore
     they might record the private key you generated.
- 6) Art Wallet does not work properly in IE8 due to CSS limitations.
- 7) BIP38 most likely will not work on mobile devices due to hardware limitations.
+ 5) BIP38 most likely will not work on mobile devices due to hardware limitations.
 
 Here is a signed list of file names and version history.
+
+2016-12-23: status ACTIVE
+bitaddress.org-v3.3.0-SHA256-dec17c07685e1870960903d8f58090475b25af946fe95a734f88408cef4aa194.html
+ - remove support for IE8
+ - small translations updates for hu and pt-br
+
+2016-11-27: status ACTIVE
+bitaddress.org-v3.2.3-SHA256-c9a0bb3ed50aa75a5ae9c606d81e3fd41a4ff686ad38ad5379e2402f481e79a4.html
+ - wallet details: show error when checksum validation fails
+ - wallet details: show error when private key outside of curve range
+
+2016-08-21: status ACTIVE
+bitaddress.org-v3.2.2-SHA256-f4d047c264a2b71946de319482a9365e56d8d7289dd85a352da3b1448b7647df.html
+ - version bump for unix line endings
+
+2016-07-31: status ACTIVE
+bitaddress.org-v3.2.1-SHA256-42c3bcb643c451689e5bd1499ed4b516be2da06d2fe3886b0dd15b8fc2525ecd.html
+ - BigInteger modInverse should be positive
+ - throw if modInverse 0
+ - improve BigInteger constructor so that it works if caller forgets 'new'
+ - add unit tests for BigInteger
+ - thanks to dooglus, jprichardson, dcousens
+
+2016-02-19: status ACTIVE
+bitaddress.org-v3.2.0-SHA256-ad4fd171c647772aa76d0ce828731b01ca586596275d43a94008766b758e8736.html
+ - switch languages without full page load
+ - add BIP38 encryption to Bulk Wallet
+ - use compressed addresses on Single/Paper/Bulk Wallet 
+ - add compressed address option on Brain Wallet
+
+2016-01-17: status ACTIVE
+bitaddress.org-v3.1.1-SHA256-8277de0a0c77761caa8f546c9885c36a3134a94823b14e24d364b86abb3a9ab3.html
+ - refactor translations into separate files per culture.
+
+2015-11-22: status ACTIVE
+bitaddress.org-v3.1.0-SHA256-c3d4d8da8fc6980435a520dff562b7f831b2f6037ec2d4dd6bf76c5321873303.html
+ - add BIP38 encryption on Wallet Details tab.
 
 2015-10-25: status ACTIVE
 bitaddress.org-v3.0.1-SHA256-24d2d7f047a9aa217bf69f3ef344c972c151b1e3f6a8aa86ceb9a3be62884bc0.html

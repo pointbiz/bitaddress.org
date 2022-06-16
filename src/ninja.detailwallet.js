@@ -50,7 +50,10 @@
 
 		keyToECKeyWithBrain: function (key) {
 			var btcKey = new Bitcoin.ECKey(key);
-			if (btcKey.priv == null) {
+			if (btcKey.error != null) {
+				alert(translator.get("detailalertnotvalidprivatekey") + "\n" + btcKey.error);
+			}
+			else if (btcKey.priv == null) {
 				// enforce a minimum passphrase length
 				if (key.length >= wallets.brainwallet.minPassphraseLength) {
 					// Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key

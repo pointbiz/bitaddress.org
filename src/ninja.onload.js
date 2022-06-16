@@ -8,6 +8,7 @@ if (ninja.getQueryString()["asyncunittests"] == "true" || ninja.getQueryString()
 	ninja.unitTests.runAsynchronousTests(true);
 }
 // change language
+ninja.translator.extractEnglishFromDomAndUpdateDictionary();
 if (ninja.getQueryString()["culture"] != undefined) {
 	ninja.translator.translate(ninja.getQueryString()["culture"]);
 } else {
